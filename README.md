@@ -5,4 +5,4 @@ I shared one schematic with transistors, you can use this schematic or you can m
 I will share more information about K-Line protocols and communication later. Stay tuned 😉.
 
 # This is the schematic with Transistors
-![Transistor Schematic](https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/f6001ad9-0761-4f8e-93ce-c81bf50938e9)
+![Transistor Schematic](https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/Transistor%20Schematic.png)
