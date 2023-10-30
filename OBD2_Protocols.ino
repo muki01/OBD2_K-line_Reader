@@ -22,15 +22,16 @@ int result = 0;
 
 const byte init_obd[5] = { 0xC1, 0x33, 0xF1, 0x81, 0x66 };  // Init fast ISO14230
 
-// byte speed_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x0D, 0xF4 };
-// byte rpm_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x0C, 0xF3 };
-// byte throttle_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x11, 0xF8 };
-// byte coolant_temp_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x05, 0xEC };
-// byte intake_temp_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x0F, 0xF6 };
+// Request data bytes for fast init (ISO14230)
+// const byte speed_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x0D, 0xF4 };
+// const byte rpm_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x0C, 0xF3 };
+// const byte throttle_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x11, 0xF8 };
+// const byte coolant_temp_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x05, 0xEC };
+// const byte intake_temp_obd[6] = { 0xC2, 0x33, 0xF1, 0x01, 0x0F, 0xF6 };
 
 //byte gear_obd[6] = {0xC2, 0x33, 0xF1, 0x01, 0xA4, 0x8B};
 
-
+// Request data bytes for slow init (ISO9141 and KWP slow)
 const byte speed_obd[6] = { 0x68, 0x6A, 0xF1, 0x01, 0x0D, 0xD1 };
 const byte rpm_obd[6] = { 0x68, 0x6A, 0xF1, 0x01, 0x0C, 0xD0 };
 const byte throttle_obd[6] = { 0x68, 0x6A, 0xF1, 0x01, 0x11, 0xD5 };
@@ -45,6 +46,7 @@ void setup() {
 }
 
 void loop() {
+  Serial.println("Initialising...");
   bool init_success = init_ISO9141();
   // bool init_success = init_KWP();
   if (init_success) {
@@ -52,13 +54,14 @@ void loop() {
       read_K();
     }
   }
+
+  delay(1000);
 }
 
 void read_K() {
   Serial.flush();
 
   //------------------------------------------------------ get throttle
-
   writeData(throttle_obd, sizeof(throttle_obd));
   readData();
 
@@ -70,7 +73,6 @@ void read_K() {
   }
 
   //------------------------------------------------------ get voltage
-
   // writeData(voltage_obd, sizeof(voltage_obd));
   // readData();
 
@@ -79,7 +81,6 @@ void read_K() {
   //   Serial.print("Voltage: ");
   //   Serial.println(VOLTAGE);
   // }
-
 
   //------------------------------------------------------ get rpm
   writeData(rpm_obd, sizeof(rpm_obd));
@@ -90,7 +91,6 @@ void read_K() {
     Serial.print("RPM: ");
     Serial.println(RPM);
   }
-
 
   //------------------------------------------------------ get Coolant temp
   writeData(coolant_temp_obd, sizeof(coolant_temp_obd));
@@ -112,7 +112,6 @@ void read_K() {
     Serial.println(INTAKE_TEMP);
   }
 
-
   //------------------------------------------------------ get speed
   writeData(speed_obd, sizeof(speed_obd));
   readData();
@@ -129,20 +128,19 @@ void read_K() {
 bool init_KWP() {
   K_Serial.end();
   char buffer1[30];
+
   digitalWrite(K_line_TX, HIGH), delay(300);
   digitalWrite(K_line_TX, LOW), delay(25);
   digitalWrite(K_line_TX, HIGH), delay(25);
-  K_Serial.begin(10400);  // -------------- ISO 14230-4 KWP 10.4 Kbaud
-  for (int i = 0; i < 5; i++) {
-    K_Serial.write(init_obd[i]);
-    delay(WRITE_DELAY);
-  }
+
+  K_Serial.begin(10400);
+  writeData(init_obd, sizeof(init_obd));
   Serial.println("SEND: C1 33 F1 81 66");
   delay(REQUEST_DELAY);
 
-  int n = K_Serial.available();
-  if (n > 0) {
-    for (int i = 0; i < n; i++) {
+  result = K_Serial.available();
+  if (result > 0) {
+    for (int i = 0; i < result; i++) {
       buffer1[i] = K_Serial.read();
       Serial.print(buffer1[i], HEX);
       Serial.print(" ");
@@ -150,13 +148,13 @@ bool init_KWP() {
     Serial.println();
     return true;
   }
-  delay(1000);
   return false;
 }
 
 bool init_ISO9141() {
   K_Serial.end();
   char buffer2[30];
+
   digitalWrite(K_line_TX, HIGH), delay(300);
   digitalWrite(K_line_TX, LOW), delay(200);
   digitalWrite(K_line_TX, HIGH), delay(400);
@@ -164,20 +162,14 @@ bool init_ISO9141() {
   digitalWrite(K_line_TX, HIGH), delay(400);
   digitalWrite(K_line_TX, LOW), delay(400);
   digitalWrite(K_line_TX, HIGH), delay(200);
-  // K_Serial.begin(5);
-  // K_Serial.write(0x33);
-  // K_Serial.end();
-  // digitalWrite(K_line_TX, HIGH);
+
   K_Serial.begin(10400);
-  delay(300);  //103-105ms
-  // while (!K_Serial.available())
-  //   ;
-  int n = K_Serial.available();
-  Serial.print("size:");
-  Serial.println(n);
-  if (n > 0) {
+  delay(300);
+
+  result = K_Serial.available();
+  if (result > 0) {
     Serial.print("First 3 Bytes: ");
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < result; i++) {
       buffer2[i] = K_Serial.read();
       Serial.print(buffer2[i], HEX);
       Serial.print(" ");
@@ -185,12 +177,13 @@ bool init_ISO9141() {
     }
     Serial.println();
     delay(30);
-    K_Serial.write(~buffer2[2]); //0xF7
+    K_Serial.write(~buffer2[2]);  //0xF7
     delay(50);
-    n = K_Serial.available();
-    if (n > 0) {
+
+    result = K_Serial.available();
+    if (result > 0) {
       Serial.print("Other Bytes: ");
-      for (int i = 0; i < n; i++) {
+      for (int i = 0; i < result; i++) {
         buffer2[i] = K_Serial.read();
         Serial.print(buffer2[i], HEX);
         Serial.print(" ");
@@ -200,7 +193,6 @@ bool init_ISO9141() {
       return true;
     }
   }
-  delay(1000);
   return false;
 }
 
