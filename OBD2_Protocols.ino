@@ -7,7 +7,7 @@ AltSoftSerial K_Serial;
 //Speeds for KWP
 #define READ_DELAY 5
 #define WRITE_DELAY 5
-#define REQUEST_DELAY 500
+#define REQUEST_DELAY 50
 
 //Speeds for ISO9141
 // #define READ_DELAY 5
