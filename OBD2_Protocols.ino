@@ -7,7 +7,7 @@ AltSoftSerial K_Serial;
 //Speeds for KWP
 #define READ_DELAY 5
 #define WRITE_DELAY 5
-#define REQUEST_DELAY 50
+#define REQUEST_DELAY 500
 
 //Speeds for ISO9141
 // #define READ_DELAY 5
@@ -16,8 +16,8 @@ AltSoftSerial K_Serial;
 
 int SPEED, RPM, THROTTLE, COOLANT_TEMP, INTAKE_TEMP, VOLTAGE;
 
-char buffer[20];
-char initBuffer[20];
+uint8_t buffer[20];
+uint8_t initBuffer[20];
 int result = 0;
 
 const byte init_obd[4] = { 0xC1, 0x33, 0xF1, 0x81 };  // Init fast ISO14230
@@ -50,6 +50,7 @@ void loop() {
   // bool init_success = init_ISO9141();
   bool init_success = init_KWP();
   if (init_success) {
+    Serial.println("Init Success !!");
     while (1) {
       read_K();
     }
@@ -133,7 +134,6 @@ bool init_KWP() {
   digitalWrite(K_line_TX, HIGH), delay(25);
 
   K_Serial.begin(10400);
-  Serial.println("SEND: C1 33 F1 81 66");
   writeData(init_obd, sizeof(init_obd));
   delay(REQUEST_DELAY);
   result = K_Serial.available();
@@ -141,10 +141,10 @@ bool init_KWP() {
     for (int i = 0; i < result; i++) {
       initBuffer[i] = K_Serial.read();
       delay(READ_DELAY);
-      Serial.print(initBuffer[i], HEX);
-      Serial.print(" ");
     }
-    Serial.println();
+  }
+  
+  if (initBuffer[8] == 0xC1) {
     return true;
   }
   return false;
@@ -174,21 +174,23 @@ bool init_ISO9141() {
       Serial.print(" ");
     }
     Serial.println();
-    delay(30);
-    K_Serial.write(~initBuffer[2]);  //0xF7
-    delay(50);
+    if (initBuffer[0] == 0x55) {
+      delay(30);
+      K_Serial.write(~initBuffer[2]);  //0xF7
+      delay(50);
 
-    result = K_Serial.available();
-    if (result > 0) {
-      Serial.print("Other Bytes: ");
-      for (int i = 0; i < result; i++) {
-        initBuffer[i] = K_Serial.read();
-        delay(READ_DELAY);
-        Serial.print(initBuffer[i], HEX);
-        Serial.print(" ");
+      result = K_Serial.available();
+      if (result > 0) {
+        Serial.print("Other Bytes: ");
+        for (int i = 0; i < result; i++) {
+          initBuffer[i] = K_Serial.read();
+          delay(READ_DELAY);
+          Serial.print(initBuffer[i], HEX);
+          Serial.print(" ");
+        }
+        Serial.println();
+        return true;
       }
-      Serial.println();
-      return true;
     }
   }
   return false;
@@ -211,7 +213,10 @@ void readData() {
     for (int i = 0; i < result; i++) {
       buffer[i] = K_Serial.read();
       delay(READ_DELAY);
+      // Serial.print(buffer[i], HEX);
+      // Serial.print(" ");
     }
+    // Serial.println();
   }
 }
 
