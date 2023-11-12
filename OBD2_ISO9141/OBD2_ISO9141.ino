@@ -4,15 +4,10 @@ AltSoftSerial K_Serial;
 #define K_line_RX 8
 #define K_line_TX 9
 
-//Speeds for KWP
+//Speeds for ISO9141
 #define READ_DELAY 5
 #define WRITE_DELAY 5
-#define REQUEST_DELAY 50
-
-//Speeds for ISO9141
-// #define READ_DELAY 5
-// #define WRITE_DELAY 5
-// #define REQUEST_DELAY 500
+#define REQUEST_DELAY 500
 
 int SPEED, RPM, THROTTLE, COOLANT_TEMP, INTAKE_TEMP, VOLTAGE;
 
@@ -24,53 +19,39 @@ int dtcs = 0;
 char dtc_Byte_1, dtc_Byte_2;
 String dtcBuffer[20];
 
-const byte init_obd[4] = { 0xC1, 0x33, 0xF1, 0x81 };    // Init fast ISO14230
-const byte read_DTCs[4] = { 0xC1, 0x33, 0xF1, 0x03 };   // Read Troubleshoot Codes
-const byte clear_DTCs[4] = { 0xC1, 0x33, 0xF1, 0x04 };  // Clear Troubleshoot Codes
-
-// Request data bytes for fast init (ISO14230)
-const byte read_PIDs_20[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x00 };  // Read suported PIDs 0-20
-const byte read_PIDs_40[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x20 };  // Read suported PIDs 20-40
-const byte read_PIDs_60[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x40 };  // Read suported PIDs 40-60
-const byte read_PIDs_80[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x60 };  // Read suported PIDs 60-80
-const byte read_PIDs_A0[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x80 };  // Read suported PIDs 80-A0
-const byte read_PIDs_C0[5] = { 0xC2, 0x33, 0xF1, 0x01, 0xA0 };  // Read suported PIDs A0-C0
-const byte read_PIDs_E0[5] = { 0xC2, 0x33, 0xF1, 0x01, 0xC0 };  // Read suported PIDs A0-E0
-const byte speed_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0D };
-const byte rpm_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0C };
-const byte throttle_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x11 };
-const byte coolant_temp_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x05 };
-const byte intake_temp_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0F };
-
 // Request data bytes for slow init (ISO9141 and KWP slow)
-// const byte read_DTCs[4] = { 0x68, 0x6A, 0xF1, 0x03 };
-// const byte clear_DTCs[4] = { 0x68, 0x6A, 0xF1, 0x04 };
-// const byte speed_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x0D };
-// const byte rpm_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x0C };
-// const byte throttle_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x11 };
-// const byte coolant_temp_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x05 };
-// const byte intake_temp_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x0F };
-// const byte voltage_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x42 };
+const byte read_PIDs_20[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x00 };  // Read suported PIDs 0-20
+const byte read_PIDs_40[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x20 };  // Read suported PIDs 20-40
+const byte read_PIDs_60[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x40 };  // Read suported PIDs 40-60
+const byte read_PIDs_80[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x60 };  // Read suported PIDs 60-80
+const byte read_PIDs_A0[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x80 };  // Read suported PIDs 80-A0
+const byte read_PIDs_C0[5] = { 0x68, 0x6A, 0xF1, 0x01, 0xA0 };  // Read suported PIDs A0-C0
+const byte read_PIDs_E0[5] = { 0x68, 0x6A, 0xF1, 0x01, 0xC0 };  // Read suported PIDs A0-E0
+
+const byte read_DTCs[4] = { 0x68, 0x6A, 0xF1, 0x03 };
+const byte clear_DTCs[4] = { 0x68, 0x6A, 0xF1, 0x04 };
+const byte speed_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x0D };
+const byte rpm_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x0C };
+const byte throttle_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x11 };
+const byte coolant_temp_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x05 };
+const byte intake_temp_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x0F };
+const byte voltage_obd[5] = { 0x68, 0x6A, 0xF1, 0x01, 0x42 };
 
 void setup() {
   Serial.begin(9600);
   pinMode(K_line_RX, INPUT_PULLUP);
   pinMode(K_line_TX, OUTPUT);
-  // decodeDTC(0x01, 0x70);
-  // decodeDTC(0x01, 0x30);
-  // decodeDTC(0xC1, 0x58);
 }
 
 void loop() {
   Serial.println("Initialising...");
-  // bool init_success = init_ISO9141();
-  bool init_success = init_KWP();
+
+  bool init_success = init_ISO9141();
   if (init_success) {
     Serial.println("Init Success !!");
+    read_DTC();
     while (1) {
-      // read_K();
-      read_DTC();
-      delay(10000);
+      read_K();
     }
   }
 
@@ -166,7 +147,12 @@ void read_DTC() {
       delay(READ_DELAY);
 
       if (dtc_Byte_1 == 0 && dtc_Byte_2 == 0) {
-        Serial.println("Errors Ended");
+        if (i == 0) {
+          Serial.println("Not Found Errors !");
+        } else {
+          Serial.println("Errors ended !");
+        }
+        Serial.println();
         return;
       } else {
         // Serial.print("Errors: "), Serial.print(dtc_Byte_1, HEX), Serial.print(" "), Serial.println(dtc_Byte_2, HEX);
@@ -178,30 +164,6 @@ void read_DTC() {
 
 void clear_DTC() {
   writeData(clear_DTCs, sizeof(clear_DTCs));
-}
-
-bool init_KWP() {
-  K_Serial.end();
-
-  digitalWrite(K_line_TX, HIGH), delay(300);
-  digitalWrite(K_line_TX, LOW), delay(25);
-  digitalWrite(K_line_TX, HIGH), delay(25);
-
-  K_Serial.begin(10400);
-  writeData(init_obd, sizeof(init_obd));
-  delay(REQUEST_DELAY);
-  result = K_Serial.available();
-  if (result > 0) {
-    for (int i = 0; i < result; i++) {
-      initBuffer[i] = K_Serial.read();
-      delay(READ_DELAY);
-    }
-  }
-  if (initBuffer[8] == 0xC1) {
-    return true;
-  } else {
-    return false;
-  }
 }
 
 bool init_ISO9141() {
@@ -220,14 +182,14 @@ bool init_ISO9141() {
 
   result = K_Serial.available();
   if (result > 0) {
-    Serial.print("First 3 Bytes: ");
+    // Serial.print("First 3 Bytes: ");
     for (int i = 0; i < result; i++) {
       initBuffer[i] = K_Serial.read();
       delay(READ_DELAY);
-      Serial.print(initBuffer[i], HEX);
-      Serial.print(" ");
+      // Serial.print(initBuffer[i], HEX);
+      // Serial.print(" ");
     }
-    Serial.println();
+    // Serial.println();
     if (initBuffer[0] == 0x55) {
       delay(30);
       K_Serial.write(~initBuffer[2]);  //0xF7
@@ -235,14 +197,14 @@ bool init_ISO9141() {
 
       result = K_Serial.available();
       if (result > 0) {
-        Serial.print("Other Bytes: ");
+        // Serial.print("Other Bytes: ");
         for (int i = 0; i < result; i++) {
           initBuffer[i] = K_Serial.read();
           delay(READ_DELAY);
-          Serial.print(initBuffer[i], HEX);
-          Serial.print(" ");
+          // Serial.print(initBuffer[i], HEX);
+          // Serial.print(" ");
         }
-        Serial.println();
+        // Serial.println();
         return true;
       }
     }
