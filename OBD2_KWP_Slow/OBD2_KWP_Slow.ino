@@ -44,7 +44,7 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("Initialising...");
+  Serial.println("Initialising KWP_Slow...");
 
   bool init_success = init_KWP_slow();
   if (init_success) {

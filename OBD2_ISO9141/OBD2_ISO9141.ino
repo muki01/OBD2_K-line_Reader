@@ -44,7 +44,7 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("Initialising...");
+  Serial.println("Initialising ISO9141...");
 
   bool init_success = init_ISO9141();
   if (init_success) {
