@@ -4,7 +4,7 @@
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>
 #include "webpage.h"
-DynamicJsonDocument jsonDoc(1024);
+DynamicJsonDocument jsonDoc(512);
 
 AsyncWebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
@@ -15,9 +15,9 @@ String JSONtxt;
 #define K_line_TX 21
 #define Led 8
 
-#define READ_DELAY 5
-#define WRITE_DELAY 5
-#define REQUEST_DELAY 50
+#define READ_DELAY 10
+#define WRITE_DELAY 10
+#define REQUEST_DELAY 100
 
 int SPEED = 10, RPM = 920, THROTTLE = 0, COOLANT_TEMP = 0, INTAKE_TEMP = 0, VOLTAGE = 0;
 static unsigned long lastReqestTime = 0;
@@ -35,11 +35,8 @@ void setup() {
 }
 
 void loop() {
-  ws();
-
   if (KLineStatus == false) {
-    unsigned long reqestTime = millis() - lastReqestTime;
-    if (reqestTime > 5000) {
+    if (millis() - lastReqestTime >= 5000) {
       bool init_success = init_KWP();
       if (init_success) {
         KLineStatus = true;
@@ -51,4 +48,6 @@ void loop() {
   } else {
     read_K();
   }
+
+  ws();
 }
