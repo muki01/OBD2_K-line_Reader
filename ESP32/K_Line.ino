@@ -18,24 +18,26 @@ const byte intake_temp_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0F };
 const byte voltage_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x42 };
 
 void read_K() {
-  // Serial.flush();
+  // Serial.flush(); 
 
   //------------------------------------------------------ get throttle
-  // writeData(throttle_obd, sizeof(throttle_obd));
-  // readData();
+  writeData(throttle_obd, sizeof(throttle_obd));
+  readData();
 
-  // if (resultBuffer[10] == 0X11) {
-  //   THROTTLE = resultBuffer[11] * 100 / 255;
-  //   // THROTTLE = resultBuffer[11] * 100 / 180 - 14;
-  // }
+  if (resultBuffer[10] == 0X11) {
+    THROTTLE = resultBuffer[11] * 100 / 255;
+    // THROTTLE = resultBuffer[11] * 100 / 180 - 14;
+  }
+  ws();
 
   //------------------------------------------------------ get voltage
-  // writeData(voltage_obd, sizeof(voltage_obd));
-  // readData();
+  writeData(voltage_obd, sizeof(voltage_obd));
+  readData();
 
-  // if (resultBuffer[10] == 0X42) {
-  //   VOLTAGE = (resultBuffer[11] * 256 + resultBuffer[12]) / 1000;
-  // }
+  if (resultBuffer[10] == 0X42) {
+    VOLTAGE = (resultBuffer[11] * 256 + resultBuffer[12]) / 1000;
+  }
+  ws();
 
   //------------------------------------------------------ get rpm
   writeData(rpm_obd, sizeof(rpm_obd));
@@ -44,6 +46,7 @@ void read_K() {
   if (resultBuffer[10] == 0x0C) {
     RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
   }
+  ws();
 
   //------------------------------------------------------ get Coolant temp
   writeData(coolant_temp_obd, sizeof(coolant_temp_obd));
@@ -52,22 +55,25 @@ void read_K() {
   if (resultBuffer[10] == 0x05) {
     COOLANT_TEMP = resultBuffer[11] - 40;
   }
+  ws();
 
   //------------------------------------------------------ get Intake temp
-  // writeData(intake_temp_obd, sizeof(intake_temp_obd));
-  // readData();
+  writeData(intake_temp_obd, sizeof(intake_temp_obd));
+  readData();
 
-  // if (resultBuffer[10] == 0x0F) {
-  //   INTAKE_TEMP = resultBuffer[11] - 40;
-  // }
+  if (resultBuffer[10] == 0x0F) {
+    INTAKE_TEMP = resultBuffer[11] - 40;
+  }
+  ws();
 
   //------------------------------------------------------ get speed
-  // writeData(speed_obd, sizeof(speed_obd));
-  // readData();
+  writeData(speed_obd, sizeof(speed_obd));
+  readData();
 
-  // if (resultBuffer[10] == 0x0D) {
-  //   SPEED = resultBuffer[11];
-  // }
+  if (resultBuffer[10] == 0x0D) {
+    SPEED = resultBuffer[11];
+  }
+  ws();
 }
 
 void read_DTC() {
@@ -107,7 +113,7 @@ bool init_KWP() {
   digitalWrite(K_line_TX, LOW), delay(25);
   digitalWrite(K_line_TX, HIGH), delay(25);
 
-  K_Serial.begin(10400);
+  K_Serial.begin(10400, SERIAL_8N1);
   writeData(init_obd, sizeof(init_obd));
   delay(REQUEST_DELAY);
   result = K_Serial.available();

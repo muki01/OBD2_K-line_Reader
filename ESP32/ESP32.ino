@@ -1,5 +1,5 @@
 #include <WiFi.h>
-#include <AsyncTCP.h>
+// #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>
@@ -15,13 +15,15 @@ String JSONtxt;
 #define K_line_TX 21
 #define Led 8
 
-#define READ_DELAY 10
-#define WRITE_DELAY 10
-#define REQUEST_DELAY 100
+#define READ_DELAY 5
+#define WRITE_DELAY 5
+#define REQUEST_DELAY 50
 
-int SPEED = 10, RPM = 920, THROTTLE = 0, COOLANT_TEMP = 0, INTAKE_TEMP = 0, VOLTAGE = 0;
-static unsigned long lastReqestTime = 0;
+int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1;
 bool KLineStatus = false;
+
+static unsigned long lastReqestTime = 0;
+static unsigned long lastWsTime = 0;
 
 void setup() {
   pinMode(K_line_RX, INPUT_PULLUP);
@@ -49,5 +51,8 @@ void loop() {
     read_K();
   }
 
-  ws();
+  if (millis() - lastWsTime >= 100) {
+    ws();
+    lastWsTime = millis();
+  }
 }

@@ -1,8 +1,8 @@
 const char* AP_ssid = "OBD2 Master";
 const char* AP_password = "12345678";
 
-const char* STA_ssid = "AnOnYmOuS";
-const char* STA_password = "muki2004";
+// const char* STA_ssid = "AnOnYmOuS";
+// const char* STA_password = "muki2004";
 
 void initWiFi() {
   // WiFi.mode(WIFI_STA);
@@ -12,7 +12,7 @@ void initWiFi() {
   // }
   WiFi.mode(WIFI_AP);
   WiFi.softAP(AP_ssid, AP_password);
-  WiFi.setTxPower(WIFI_POWER_8_5dBm);
+  WiFi.setTxPower(WIFI_POWER_5dBm);
 }
 
 void initWebServer() {
