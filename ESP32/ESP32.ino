@@ -1,6 +1,6 @@
 #include <WiFi.h>
 // #include <AsyncTCP.h>
-#include <ESPAsyncWebServer.h>
+#include <ESPAsyncWebSrv.h>
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>
 #include "webpage.h"
@@ -16,7 +16,6 @@ String JSONtxt;
 #define Led 8
 
 #define READ_DELAY 5
-#define WRITE_DELAY 5
 #define REQUEST_DELAY 50
 
 int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1;

@@ -10,6 +10,14 @@ const byte init_obd[4] = { 0xC1, 0x33, 0xF1, 0x81 };    // Init fast ISO14230
 const byte read_DTCs[4] = { 0xC1, 0x33, 0xF1, 0x03 };   // Read Troubleshoot Codes
 const byte clear_DTCs[4] = { 0xC1, 0x33, 0xF1, 0x04 };  // Clear Troubleshoot Codes
 
+const byte read_PIDs_20[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x00 };  // Read suported PIDs 0-20
+const byte read_PIDs_40[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x20 };  // Read suported PIDs 20-40
+const byte read_PIDs_60[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x40 };  // Read suported PIDs 40-60
+const byte read_PIDs_80[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x60 };  // Read suported PIDs 60-80
+const byte read_PIDs_A0[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x80 };  // Read suported PIDs 80-A0
+const byte read_PIDs_C0[5] = { 0xC2, 0x33, 0xF1, 0x01, 0xA0 };  // Read suported PIDs A0-C0
+const byte read_PIDs_E0[5] = { 0xC2, 0x33, 0xF1, 0x01, 0xC0 };  // Read suported PIDs C0-E0
+
 const byte speed_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0D };
 const byte rpm_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0C };
 const byte throttle_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x11 };
@@ -18,24 +26,12 @@ const byte intake_temp_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0F };
 const byte voltage_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x42 };
 
 void read_K() {
-  // Serial.flush(); 
-
-  //------------------------------------------------------ get throttle
-  writeData(throttle_obd, sizeof(throttle_obd));
+  //------------------------------------------------------ get speed
+  writeData(speed_obd, sizeof(speed_obd));
   readData();
 
-  if (resultBuffer[10] == 0X11) {
-    THROTTLE = resultBuffer[11] * 100 / 255;
-    // THROTTLE = resultBuffer[11] * 100 / 180 - 14;
-  }
-  ws();
-
-  //------------------------------------------------------ get voltage
-  writeData(voltage_obd, sizeof(voltage_obd));
-  readData();
-
-  if (resultBuffer[10] == 0X42) {
-    VOLTAGE = (resultBuffer[11] * 256 + resultBuffer[12]) / 1000;
+  if (resultBuffer[10] == 0x0D) {
+    SPEED = resultBuffer[11];
   }
   ws();
 
@@ -45,6 +41,16 @@ void read_K() {
 
   if (resultBuffer[10] == 0x0C) {
     RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
+  }
+  ws();
+
+  //------------------------------------------------------ get throttle
+  writeData(throttle_obd, sizeof(throttle_obd));
+  readData();
+
+  if (resultBuffer[10] == 0X11) {
+    THROTTLE = resultBuffer[11] * 100 / 255;
+    // THROTTLE = resultBuffer[11] * 100 / 180 - 14;
   }
   ws();
 
@@ -66,14 +72,14 @@ void read_K() {
   }
   ws();
 
-  //------------------------------------------------------ get speed
-  writeData(speed_obd, sizeof(speed_obd));
-  readData();
+  //------------------------------------------------------ get voltage
+  // writeData(voltage_obd, sizeof(voltage_obd));
+  // readData();
 
-  if (resultBuffer[10] == 0x0D) {
-    SPEED = resultBuffer[11];
-  }
-  ws();
+  // if (resultBuffer[10] == 0X42) {
+  //   VOLTAGE = (resultBuffer[11] * 256 + resultBuffer[12]) / 1000;
+  // }
+  // ws();
 }
 
 void read_DTC() {
@@ -131,12 +137,8 @@ bool init_KWP() {
 }
 
 void writeData(const byte data[], int length) {
-  delay(WRITE_DELAY);
   byte checksum = calculateChecksum(data, length);
-  for (int i = 0; i < length; i++) {
-    K_Serial.write(data[i]);
-    delay(WRITE_DELAY);
-  }
+  K_Serial.write(data, length);
   K_Serial.write(checksum);
 }
 
