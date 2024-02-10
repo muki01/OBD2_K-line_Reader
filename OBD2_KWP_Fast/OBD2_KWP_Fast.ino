@@ -1,15 +1,18 @@
 #include <AltSoftSerial.h>
 AltSoftSerial K_Serial;
 
+// Define Pins
 #define K_line_RX 8
 #define K_line_TX 9
+#define Led 13
 
-//Speeds for KWP
+// Define Delays
 #define READ_DELAY 5
-#define WRITE_DELAY 5
 #define REQUEST_DELAY 50
 
 int SPEED, RPM, THROTTLE, COOLANT_TEMP, INTAKE_TEMP, VOLTAGE;
+bool KLineStatus = false;
+static unsigned long lastReqestTime = 0;
 
 uint8_t result = 0;
 uint8_t resultBuffer[20];
@@ -43,46 +46,37 @@ void setup() {
   Serial.begin(9600);
   pinMode(K_line_RX, INPUT_PULLUP);
   pinMode(K_line_TX, OUTPUT);
+  pinMode(Led, OUTPUT);
 }
 
 void loop() {
-  Serial.println("Initialising KWP_Fast...");
-
-  bool init_success = init_KWP();
-  if (init_success) {
-    Serial.println("Init Success !!");
-    read_DTC();
-    while (1) {
-      read_K();
+  if (KLineStatus == false) {
+    if (millis() - lastReqestTime >= 3000) {
+      Serial.println("Initialising KWP_Fast...");
+      bool init_success = init_KWP();
+      if (init_success) {
+        KLineStatus = true;
+        digitalWrite(Led, HIGH);
+        Serial.println("Init Success !!");
+        read_DTC();
+      }
+      lastReqestTime = millis();
     }
+  } else {
+    read_K();
   }
-
-  delay(1000);
 }
 
 void read_K() {
-  Serial.flush();
-
-  //------------------------------------------------------ get throttle
-  writeData(throttle_obd, sizeof(throttle_obd));
+  //------------------------------------------------------ get speed
+  writeData(speed_obd, sizeof(speed_obd));
   readData();
 
-  if (resultBuffer[10] == 0X11) {
-    THROTTLE = resultBuffer[11] * 100 / 255;
-    // THROTTLE = resultBuffer[11] * 100 / 180 - 14;
-    Serial.print("Throttle: ");
-    Serial.println(THROTTLE);
+  if (resultBuffer[10] == 0x0D) {
+    SPEED = resultBuffer[11];
+    Serial.print("Speed: ");
+    Serial.println(SPEED);
   }
-
-  //------------------------------------------------------ get voltage
-  // writeData(voltage_obd, sizeof(voltage_obd));
-  // readData();
-
-  // if (resultBuffer[10] == 0X42) {
-  //   VOLTAGE = (resultBuffer[11] * 256 + resultBuffer[12]) / 1000;
-  //   Serial.print("Voltage: ");
-  //   Serial.println(VOLTAGE);
-  // }
 
   //------------------------------------------------------ get rpm
   writeData(rpm_obd, sizeof(rpm_obd));
@@ -92,6 +86,16 @@ void read_K() {
     RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
     Serial.print("RPM: ");
     Serial.println(RPM);
+  }
+
+  //------------------------------------------------------ get throttle
+  writeData(throttle_obd, sizeof(throttle_obd));
+  readData();
+
+  if (resultBuffer[10] == 0X11) {
+    THROTTLE = resultBuffer[11] * 100 / 255;
+    Serial.print("Throttle: ");
+    Serial.println(THROTTLE);
   }
 
   //------------------------------------------------------ get Coolant temp
@@ -114,15 +118,15 @@ void read_K() {
     Serial.println(INTAKE_TEMP);
   }
 
-  //------------------------------------------------------ get speed
-  writeData(speed_obd, sizeof(speed_obd));
-  readData();
+  //------------------------------------------------------ get voltage
+  // writeData(voltage_obd, sizeof(voltage_obd));
+  // readData();
 
-  if (resultBuffer[10] == 0x0D) {
-    SPEED = resultBuffer[11];
-    Serial.print("Speed: ");
-    Serial.println(SPEED);
-  }
+  // if (resultBuffer[10] == 0X42) {
+  //   VOLTAGE = (resultBuffer[11] * 256 + resultBuffer[12]) / 1000;
+  //   Serial.print("Voltage: ");
+  //   Serial.println(VOLTAGE);
+  // }
 
   Serial.println();
 }
@@ -193,17 +197,14 @@ bool init_KWP() {
 }
 
 void writeData(const byte data[], int length) {
-  delay(WRITE_DELAY);
   byte checksum = calculateChecksum(data, length);
-  for (int i = 0; i < length; i++) {
-    K_Serial.write(data[i]);
-    delay(WRITE_DELAY);
-  }
+  K_Serial.write(data, length);
   K_Serial.write(checksum);
 }
 
 void readData() {
   delay(REQUEST_DELAY);
+  memset(resultBuffer, 0, sizeof(resultBuffer));
   result = K_Serial.available();
   if (result > 0) {
     for (int i = 0; i < result; i++) {
