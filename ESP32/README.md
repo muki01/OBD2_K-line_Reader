@@ -1,1 +1,1 @@
-This code is for esp32 boards. This code is currently not working, but I will fix it.
+This code is for esp32 boards. I used ESP32 C3 Mini with this code and it works fine. You can see the values of the car in the web server. Esp32 creates a WiFi AP (access point) and its name is OBD2 Master. When you connect to this WiFi, you should open 192.168.4.1 IP address in your browser. This is what the web page looks like.

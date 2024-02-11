@@ -1,5 +1,5 @@
 #include <WiFi.h>
-// #include <AsyncTCP.h>
+#include <AsyncTCP.h>
 #include <ESPAsyncWebSrv.h>
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>

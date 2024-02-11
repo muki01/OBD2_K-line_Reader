@@ -1,4 +1,4 @@
-uint8_t result = 0;
+int result = 0;
 uint8_t resultBuffer[20];
 uint8_t initBuffer[20];
 
@@ -87,6 +87,7 @@ void read_DTC() {
   delay(REQUEST_DELAY);
   result = K_Serial.available();
   if (result > 0) {
+    memset(resultBuffer, 0, sizeof(resultBuffer));
     for (int i = 0; i < result; i++) {
       resultBuffer[i] = K_Serial.read();
       delay(READ_DELAY);
@@ -124,7 +125,9 @@ bool init_KWP() {
   delay(REQUEST_DELAY);
   result = K_Serial.available();
   if (result > 0) {
-    for (int i = 0; i < result; i++) {
+    memset(initBuffer, 0, sizeof(initBuffer));
+    int bytesRead = min(result, 20);
+    for (int i = 0; i < bytesRead; i++) {
       initBuffer[i] = K_Serial.read();
       delay(READ_DELAY);
     }
@@ -144,6 +147,7 @@ void writeData(const byte data[], int length) {
 
 void readData() {
   delay(REQUEST_DELAY);
+  memset(resultBuffer, 0, sizeof(resultBuffer));
   result = K_Serial.available();
   if (result > 0) {
     for (int i = 0; i < result; i++) {
