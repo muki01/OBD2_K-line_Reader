@@ -6,3 +6,7 @@ I will share more information about K-Line protocols and communication later. St
 
 # This is the schematic with Transistors
 ![Transistor Schematic](https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/Transistor%20Schematic.png)
+
+# This is the schematic with L9637D
+![L9637D](https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/2531170a-ecee-40e7-a01b-a70913dff9c7)
+
