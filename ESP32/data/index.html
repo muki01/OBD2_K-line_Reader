@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBD2 Master</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>OBD2 Master</h1>
+    </header>
+    <main>
+        <div class="container">
+            <div class="status">
+                <div class="box">
+                    <h1>Websocket Connection: <span style="color:red" id="ws">Not Connected</span></h1>
+                </div>
+                <div class="box">
+                    <h1>K-Line Connection: <span style="color:red" id="kl">Not Connected</span></h1>
+                </div>
+            </div>
+            <div class="data">
+                <div class="box">
+                    <h1><span style="color:#0395d8" id="Speed">0</span> KM/h</h1>
+                    <div class="name">
+                        <h2>Speed</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span style="color:#0395d8" id="RPM">0</span> RPM</h1>
+                    <div class="name">
+                        <h2>RPM</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span style="color:#0395d8" id="CoolantTemp">0</span> °C</h1>
+                    <div class="name">
+                        <h2>Coolant Temp</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span style="color:#0395d8" id="IntakeTemp">0</span> °C</h1>
+                    <div class="name">
+                        <h2>Intake Temp</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span style="color:#d80303" id="Throttle">0</span> %</h1>
+                    <div class="name">
+                        <h2>Throttle</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <div class="textArea">
+                <h1>
+                    OBD2 Master <span class="red">|</span> Distributed by
+                    <a href="github.com/muki01"><span class="colored">Muksin</span></a>
+                </h1>
+            </div>
+        </div>
+    </footer>
+</body>
+<script src="script.js"></script>
+</html>

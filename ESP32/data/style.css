@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    text-decoration: none;
+    font-size: 16px;
+}
+body {
+    font-family: sans-serif;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #dddddd;
+}
+header {
+    width: 100%;
+    background-color: #0395d8;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.4);
+}
+header h1 {
+    font-size: 40px;
+    color: #fff;
+    text-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+main {
+    margin: 20px auto;
+    width: 100%;
+    max-width: 1280px;
+    color: #fff;
+}
+main .container{
+    width: 90%;
+    margin: auto;
+}
+main .status {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+main .status .box {
+    width: 400px;
+    background-color: #393939;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+main .status .box h1 {
+    margin: 10px 0;
+    font-size: 16px;
+}
+main .data {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+main .data .box {
+    width: 400px;
+    margin-bottom: 10px;
+    background-color: #393939;
+    border-radius: 10px;
+    text-align: center;
+
+}
+main .data .box h1 {
+    margin: 10px 0;
+    font-size: 26px;
+}
+main .data .box h1 span {
+    font-size: 26px;
+}
+main .data .box .name {
+    padding: 5px;
+    background-color: #2d2d2d;
+    border-radius: 0 0 10px 10px;
+}
+footer {
+    width: 100%;
+    height: auto;
+    background-color: #1f2024;
+    margin-top: auto;
+}
+footer .textArea {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 15px 0 20px;
+}
+footer .textArea h1 {
+    font-size: 18px;
+    color: white;
+    margin: 5px 15px;
+}
+footer .textArea .red {
+    color: red;
+}
+footer .textArea .colored {
+    color: #0395d8;
+}
