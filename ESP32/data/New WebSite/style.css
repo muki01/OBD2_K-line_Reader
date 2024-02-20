@@ -8,12 +8,13 @@
     font-size: 16px;
     font-family: "Montserrat", sans-serif;
 }
-body{
+
+body {
     min-height: 100vh;
     background-color: #232323;
 }
 
-body .container{
+body .container {
     max-width: 540px;
     display: flex;
     flex-direction: column;
@@ -21,69 +22,85 @@ body .container{
     background-color: #fff;
 }
 
-main .top{
+main .top {
+    width: 100%;
+    padding-bottom: 50px;
+    color: #fff;
+    background: linear-gradient(330deg, #0c43ff 0%, #19d7fb 100%);
+}
+
+main .top .container {
+    width: 90%;
+    margin: auto;
     display: flex;
     align-items: center;
-    width: 100%;
-    padding-bottom: 20px;
-    color: #fff;
-    background : linear-gradient(180deg, #0077ff 32%, #00aaff 67%);
+    flex-direction: row;
+    background: transparent;
 }
-main .top .logoArea{
-    width: 30%;
+
+main .top .logoArea {
+    width: 40%;
     padding: 0px 10px;
 }
-main .top .logoArea img{
+
+main .top .logoArea img {
     width: 100%;
 }
-main .top .textArea{
-    width: 70%;
+
+main .top .textArea {
+    width: 60%;
     text-align: center;
 }
-main .top .textArea h1{
+
+main .top .textArea h1 {
     font-size: 20px;
     text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
 }
-main .top .textArea h2{
+
+main .top .textArea h2 {
     font-size: 28px;
     text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
     color: #00ff00;
 }
 
-main .bottom{
+main .bottom {
     background-color: #fff;
     position: relative;
-    top: -20px;
-    border-radius: 20px;
+    top: -50px;
+    border-radius: 50px;
 }
-main .bottom .container{
+
+main .bottom .container {
     width: 80%;
     margin: auto;
+    background: transparent;
 }
-main .bottom nav{
+
+main .bottom nav {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-main .bottom nav a{
+main .bottom nav a {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
-    width: 120px;
+    width: 30%;
     background-color: #fff;
     color: #a5adb6;
     border-radius: 10px;
     box-shadow: 0px 2px 6px rgba(46, 46, 46, 0.5);
 }
 
-main .bottom nav a img{
-    width: 70px;
-    height: 70px;
+main .bottom nav a img {
+    width: 70%;
     margin-top: 10px;
 }
-main .bottom nav a h2{
-    margin:20px 0
+
+main .bottom nav a h2 {
+    margin: 20px 0;
+    text-align: center;
 }
