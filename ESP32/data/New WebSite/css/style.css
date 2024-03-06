@@ -22,68 +22,82 @@ body .container {
     background-color: #fff;
 }
 
-main .top {
+main .banner {
     width: 100%;
     padding-bottom: 50px;
     color: #fff;
     background: linear-gradient(330deg, #0c43ff 0%, #19d7fb 100%);
 }
 
-main .top .container {
+main .banner .container {
     width: 90%;
     margin: auto;
+    padding: 24px 0 10px;
     display: flex;
-    align-items: center;
     flex-direction: row;
     background: transparent;
 }
 
-main .top .logoArea {
+main .banner .logoArea {
     width: 40%;
     padding: 0px 10px;
 }
 
-main .top .logoArea img {
+main .banner .logoArea img {
     width: 100%;
 }
 
-main .top .textArea {
+main .banner .textArea {
     width: 60%;
     text-align: center;
 }
-
-main .top .textArea h1 {
-    font-size: 20px;
+main .banner .textArea hr{
+    margin: 5px 0;
+}
+main .banner .textArea h1 {
+    font-size: 54px;
+    text-shadow: 0px 1px 4px rgb(0, 0, 0);
+    margin-bottom: 30px;
+    line-height: 54px;
+}
+main .banner .textArea h1 .orange{
+    font-size: 54px;
+    text-shadow: 0px 1px 4px rgb(0, 0, 0);
+    margin-bottom: 40px;
+    color: #FFCE49;
+}
+main .banner .textArea h2 {
+    font-size: 19px;
     text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
-main .top .textArea h2 {
+main .banner .textArea h3 {
     font-size: 28px;
     text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
     color: #00ff00;
 }
 
-main .bottom {
+main section {
     background-color: #fff;
     position: relative;
     top: -50px;
-    border-radius: 50px;
+    border-radius: 40px;
 }
 
-main .bottom .container {
+main section .container {
     width: 80%;
     margin: auto;
     background: transparent;
 }
 
-main .bottom nav {
+main section nav {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-main .bottom nav a {
+main section nav a {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -93,14 +107,18 @@ main .bottom nav a {
     color: #a5adb6;
     border-radius: 10px;
     box-shadow: 0px 2px 6px rgba(46, 46, 46, 0.5);
+    transition: 0.1s ease-in-out;
+}
+main section nav a:hover{
+    opacity: 70%;
 }
 
-main .bottom nav a img {
+main section nav a img {
     width: 70%;
     margin-top: 10px;
 }
 
-main .bottom nav a h2 {
+main section nav a h2 {
     margin: 20px 0;
     text-align: center;
 }
