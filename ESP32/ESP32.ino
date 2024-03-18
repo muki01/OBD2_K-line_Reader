@@ -3,7 +3,7 @@
 #include <ESPAsyncWebSrv.h>
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>
-#include "webpage.h"
+#include "SPIFFS.h"
 DynamicJsonDocument jsonDoc(512);
 
 AsyncWebServer server(80);
@@ -29,6 +29,11 @@ void setup() {
   pinMode(K_line_TX, OUTPUT);
   pinMode(Led, OUTPUT);
   digitalWrite(Led, HIGH);
+
+  if (!SPIFFS.begin(true)) {
+    Serial.println("SPIFFS Mount Failed");
+    return;
+  }
 
   initWiFi();
   initWebServer();

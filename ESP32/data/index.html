@@ -4,66 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OBD2 Master</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <h1>OBD2 Master</h1>
-    </header>
-    <main>
-        <div class="container">
-            <div class="status">
-                <div class="box">
-                    <h1>Websocket Connection: <span style="color:red" id="ws">Not Connected</span></h1>
-                </div>
-                <div class="box">
-                    <h1>K-Line Connection: <span style="color:red" id="kl">Not Connected</span></h1>
-                </div>
-            </div>
-            <div class="data">
-                <div class="box">
-                    <h1><span style="color:#0395d8" id="Speed">0</span> KM/h</h1>
-                    <div class="name">
-                        <h2>Speed</h2>
+    <div class="container">
+        <main>
+            <div class="banner">
+                <div class="container">
+                    <div class="logoArea">
+                        <img src="img/car.png">
                     </div>
-                </div>
-                <div class="box">
-                    <h1><span style="color:#0395d8" id="RPM">0</span> RPM</h1>
-                    <div class="name">
-                        <h2>RPM</h2>
-                    </div>
-                </div>
-                <div class="box">
-                    <h1><span style="color:#0395d8" id="CoolantTemp">0</span> °C</h1>
-                    <div class="name">
-                        <h2>Coolant Temp</h2>
-                    </div>
-                </div>
-                <div class="box">
-                    <h1><span style="color:#0395d8" id="IntakeTemp">0</span> °C</h1>
-                    <div class="name">
-                        <h2>Intake Temp</h2>
-                    </div>
-                </div>
-                <div class="box">
-                    <h1><span style="color:#d80303" id="Throttle">0</span> %</h1>
-                    <div class="name">
-                        <h2>Throttle</h2>
+                    <div class="textArea">
+                        <h1><span class="orange">OBD2</span> Master</h1>
+                        <h2>Device Connection:</h2>
+                        <h3 style="color:#d80303" id="ws">Not Connected</h3>
+                        <hr>
+                        <h2>Vehicle Connection:</h2>
+                        <h3 style="color:#d80303" id="kl">Not Connected</h3>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
-    <footer>
-        <div class="container">
-            <div class="textArea">
-                <h1>
-                    OBD2 Master <span class="red">|</span> Distributed by
-                    <a href="github.com/muki01"><span class="colored">Muksin</span></a>
-                </h1>
-            </div>
-        </div>
-    </footer>
+            <section>
+                <div class="container">
+                    <nav>
+                        <a href="liveData.html">
+                            <img src="img/1.png">
+                            <h2>Live Data</h2>
+                        </a>
+                        <a href="">
+                            <img src="img/2.png">
+                            <h2>Error Codes</h2>
+                        </a>
+                        <a href="">
+                            <img src="img/3.png">
+                            <h2>Frozen Data</h2>
+                        </a>
+                        <a href="">
+                            <img src="img/4.png">
+                            <h2>Settings</h2>
+                        </a>
+                        <a href="">
+                            <img src="img/5.png">
+                            <h2>About</h2>
+                        </a>
+                    </nav>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
-<script src="script.js"></script>
+<script type="module" src="js/webSocket.js"></script>
+<script type="module" src="js/script.js"></script>
 </html>

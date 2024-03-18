@@ -1,14 +1,23 @@
 <!DOCTYPE HTML>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OBD2 Master</title>
     <link rel="stylesheet" href="css/liveData.css">
 </head>
+
 <body>
     <header>
-        <h1><span class="orange">Live</span> Data</h1>
+        <div class="container">
+            <div class="btnArea">
+                <a href="/"><span class="arrow"></span></a>
+            </div>
+            <div class="textArea">
+                <h1><span class="orange">Live</span> Data</h1>
+            </div>
+        </div>
     </header>
     <main>
         <div class="container">
@@ -55,5 +64,7 @@
         </div>
     </main>
 </body>
-<script src="js/liveData.js"></script>
+<script type="module" src="js/webSocket.js"></script>
+<script type="module" src="js/liveData.js"></script>
+
 </html>

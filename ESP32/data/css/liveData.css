@@ -1,47 +1,104 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); */
+
+@font-face {
+    font-family: Montserrat;
+    src: url(/fonts/Montserrat-Bold.woff2);
+}
+
 * {
     margin: 0;
     padding: 0;
     user-select: none;
     text-decoration: none;
     font-size: 16px;
+    font-family: Montserrat;
 }
+
 body {
     font-family: sans-serif;
     min-height: 100vh;
     width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: #dddddd;
 }
+
 header {
     width: 100%;
-    background-color: #0395d8;
+    background: linear-gradient(330deg, #0c43ff 0%, #19d7fb 100%);
+    box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.6);
+}
+
+header .container {
+    width: 95%;
+    margin: auto;
     padding: 10px 0;
     display: flex;
-    justify-content: center;
-    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.4);
+    justify-content: space-between;
+    align-items: center;
 }
-header h1 {
+
+header .btnArea a {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 3px solid white;
+    color: white;
+    background-color: #007aff;
+    transition: 0.2s ease-in-out;
+}
+
+header .btnArea a:hover {
+    opacity: 70%;
+}
+
+header .btnArea a .arrow {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-left: 3.5px solid #fff;
+    border-bottom: 3.5px solid #fff;
+    transform: rotate(45deg);
+    margin-top: 14px;
+    margin-left: 15px;
+    margin-bottom: 2px;
+}
+
+header .textArea {
+    flex: 9;
+}
+
+header .textArea h1 {
     font-size: 40px;
     color: #fff;
-    text-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 1px 4px rgb(0, 0, 0);
     text-align: center;
 }
+
+header .textArea h1 .orange {
+    font-size: 40px;
+    color: #FFCE49;
+    text-shadow: 0 1px 4px rgb(0, 0, 0);
+}
+
 main {
     margin: 20px auto;
     width: 100%;
     max-width: 1280px;
     color: #fff;
 }
-main .container{
+
+main .container {
     width: 90%;
     margin: auto;
 }
+
 main .status {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
+
 main .status .box {
     width: 400px;
     background-color: #393939;
@@ -49,15 +106,18 @@ main .status .box {
     text-align: center;
     margin-bottom: 10px;
 }
+
 main .status .box h1 {
     margin: 10px 0;
     font-size: 16px;
 }
+
 main .data {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
+
 main .data .box {
     width: 400px;
     margin-bottom: 10px;
@@ -66,38 +126,18 @@ main .data .box {
     text-align: center;
 
 }
+
 main .data .box h1 {
     margin: 10px 0;
     font-size: 26px;
 }
+
 main .data .box h1 span {
     font-size: 26px;
 }
+
 main .data .box .name {
     padding: 5px;
     background-color: #2d2d2d;
     border-radius: 0 0 10px 10px;
-}
-footer {
-    width: 100%;
-    height: auto;
-    background-color: #1f2024;
-    margin-top: auto;
-}
-footer .textArea {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    padding: 15px 0 20px;
-}
-footer .textArea h1 {
-    font-size: 18px;
-    color: white;
-    margin: 5px 15px;
-}
-footer .textArea .red {
-    color: red;
-}
-footer .textArea .colored {
-    color: #0395d8;
 }

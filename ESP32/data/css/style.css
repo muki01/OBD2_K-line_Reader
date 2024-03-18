@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:wght@400;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); */
+
+@font-face {
+    font-family: Montserrat;
+    src: url(/fonts/Montserrat-Bold.woff2);
+}
 
 * {
     margin: 0;
@@ -6,7 +11,7 @@
     user-select: none;
     text-decoration: none;
     font-size: 16px;
-    font-family: "Montserrat", sans-serif;
+    font-family: Montserrat;
 }
 
 body {
@@ -51,21 +56,25 @@ main .banner .textArea {
     width: 60%;
     text-align: center;
 }
-main .banner .textArea hr{
+
+main .banner .textArea hr {
     margin: 5px 0;
 }
+
 main .banner .textArea h1 {
     font-size: 54px;
     text-shadow: 0px 1px 4px rgb(0, 0, 0);
     margin-bottom: 30px;
     line-height: 54px;
 }
-main .banner .textArea h1 .orange{
+
+main .banner .textArea h1 .orange {
     font-size: 54px;
     text-shadow: 0px 1px 4px rgb(0, 0, 0);
     margin-bottom: 40px;
     color: #FFCE49;
 }
+
 main .banner .textArea h2 {
     font-size: 19px;
     text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
@@ -109,7 +118,8 @@ main section nav a {
     box-shadow: 0px 2px 6px rgba(46, 46, 46, 0.5);
     transition: 0.1s ease-in-out;
 }
-main section nav a:hover{
+
+main section nav a:hover {
     opacity: 70%;
 }
 
