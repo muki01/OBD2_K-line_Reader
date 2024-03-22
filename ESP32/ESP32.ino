@@ -8,7 +8,6 @@ DynamicJsonDocument jsonDoc(512);
 
 AsyncWebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
-String JSONtxt;
 
 #define K_Serial Serial
 #define K_line_RX 20
@@ -18,7 +17,7 @@ String JSONtxt;
 #define READ_DELAY 5
 #define REQUEST_DELAY 50
 
-int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1;
+int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1, TIMINGADVANCE = 1, ENGINELOAD = 1, MAF = 1;
 bool KLineStatus = false;
 
 static unsigned long lastReqestTime = 0;

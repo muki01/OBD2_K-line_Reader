@@ -15,15 +15,11 @@
 }
 
 body {
-    font-family: sans-serif;
     min-height: 100vh;
     width: 100%;
-    display: flex;
-    flex-direction: column;
 }
 
 header {
-    width: 100%;
     background: linear-gradient(330deg, #0c43ff 0%, #19d7fb 100%);
     box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.6);
 }
@@ -78,66 +74,82 @@ header .textArea h1 {
 header .textArea h1 .orange {
     font-size: 40px;
     color: #FFCE49;
-    text-shadow: 0 1px 4px rgb(0, 0, 0);
 }
 
 main {
-    margin: 20px auto;
-    width: 100%;
-    max-width: 1280px;
+    padding: 20px 0;
     color: #fff;
 }
 
 main .container {
     width: 90%;
+    max-width: 1280px;
     margin: auto;
 }
 
-main .status {
+main .box {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: #393939;
+    border-radius: 10px;
+    text-align: center;
 }
 
-main .status .box {
-    width: 400px;
-    background-color: #393939;
-    border-radius: 8px;
-    text-align: center;
+main .status {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 40px;
     margin-bottom: 10px;
 }
 
-main .status .box h1 {
-    margin: 10px 0;
+main .status h1 {
+    margin: 10px;
     font-size: 16px;
 }
 
 main .data {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px 40px;
+}
+
+main .data h1 {
+    margin: 14px 0;
+    font-size: 26px;
+}
+
+main .data h1 span {
+    font-size: 26px;
+}
+
+main .data .name {
+    flex: 1;
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-main .data .box {
-    width: 400px;
-    margin-bottom: 10px;
-    background-color: #393939;
-    border-radius: 10px;
-    text-align: center;
-
-}
-
-main .data .box h1 {
-    margin: 10px 0;
-    font-size: 26px;
-}
-
-main .data .box h1 span {
-    font-size: 26px;
-}
-
-main .data .box .name {
-    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5px;
     background-color: #2d2d2d;
     border-radius: 0 0 10px 10px;
+}
+
+@media screen and (max-width: 1400px) {
+    main .data {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    main .data {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    main .data {
+        column-gap: 10px;
+    }
+
+    main .status {
+        grid-template-columns: 1fr;
+    }
 }

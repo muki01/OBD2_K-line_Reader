@@ -25,7 +25,48 @@ const byte coolant_temp_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x05 };
 const byte intake_temp_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0F };
 const byte voltage_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x42 };
 
+const byte timingAdvance_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0E };
+const byte engineLoad_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x04 };
+const byte mafSensor_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x10 };
+
 void read_K() {
+  //------------------------------------------------------ get timingAdvance
+  writeData(timingAdvance_obd, sizeof(timingAdvance_obd));
+  readData();
+
+  if (resultBuffer[10] == 0x0E) {
+    TIMINGADVANCE = (resultBuffer[11] / 2) - 64;
+  }
+  ws();
+
+  //------------------------------------------------------ get engineLoad
+  writeData(engineLoad_obd, sizeof(engineLoad_obd));
+  readData();
+
+  if (resultBuffer[10] == 0x04) {
+    ENGINELOAD = resultBuffer[11] / 2.55;
+  }
+  ws();
+
+  //------------------------------------------------------ get mafSensor
+  writeData(mafSensor_obd, sizeof(mafSensor_obd));
+  readData();
+
+  if (resultBuffer[10] == 0x10) {
+    MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
+  }
+  ws();
+
+
+
+
+
+
+
+
+
+
+
   //------------------------------------------------------ get speed
   writeData(speed_obd, sizeof(speed_obd));
   readData();

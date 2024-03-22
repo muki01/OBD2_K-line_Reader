@@ -12,6 +12,9 @@ function handleWebSocketMessage(wsMessage) {
         document.getElementById("CoolantTemp").innerHTML = wsMessage.CoolantTemp;
         document.getElementById("IntakeTemp").innerHTML = wsMessage.IntakeTemp;
         document.getElementById("Throttle").innerHTML = wsMessage.Throttle;
+        document.getElementById("TimingAdvance").innerHTML = wsMessage.TimingAdvance;
+        document.getElementById("EngineLoad").innerHTML = wsMessage.EngineLoad;
+        document.getElementById("MAF").innerHTML = wsMessage.MAF;
 
         if (wsMessage.KLineStatus == true) {
             klStatus.style.color = "#00ff00";
