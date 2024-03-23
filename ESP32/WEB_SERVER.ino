@@ -1,8 +1,8 @@
 const char* AP_ssid = "OBD2 Master";
 const char* AP_password = "12345678";
 
-const char* STA_ssid = "AnOnYmOuS";
-const char* STA_password = "muki2004";
+const char* STA_ssid = "************";
+const char* STA_password = "************";
 
 void initWiFi() {
   WiFi.mode(WIFI_STA);
@@ -51,24 +51,6 @@ void initWebServer() {
   });
   server.on("/js/webSocket.js", HTTP_GET, [](AsyncWebServerRequest* request) {
     request->send(SPIFFS, "/js/webSocket.js", "text/javascript");
-  });
-  server.on("/img/1.png", HTTP_GET, [](AsyncWebServerRequest* request) {
-    request->send(SPIFFS, "/img/1.png", "image/png");
-  });
-  server.on("/img/2.png", HTTP_GET, [](AsyncWebServerRequest* request) {
-    request->send(SPIFFS, "/img/2.png", "image/png");
-  });
-  server.on("/img/3.png", HTTP_GET, [](AsyncWebServerRequest* request) {
-    request->send(SPIFFS, "/img/3.png", "image/png");
-  });
-  server.on("/img/4.png", HTTP_GET, [](AsyncWebServerRequest* request) {
-    request->send(SPIFFS, "/img/4.png", "image/png");
-  });
-  server.on("/img/5.png", HTTP_GET, [](AsyncWebServerRequest* request) {
-    request->send(SPIFFS, "/img/5.png", "image/png");
-  });
-  server.on("/img/car.png", HTTP_GET, [](AsyncWebServerRequest* request) {
-    request->send(SPIFFS, "/img/car.png", "image/png");
   });
   server.on("/fonts/Montserrat-Bold.woff2", HTTP_GET, [](AsyncWebServerRequest* request) {
     request->send(SPIFFS, "/fonts/Montserrat-Bold.woff2", "application/font-woff2");
