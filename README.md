@@ -1,4 +1,4 @@
-# 🚗OBD2_K-line_Reader
+# 🚗OBD2 K-line Reader
 This code is for reading the K-Linke in Cars. With this code you can read sensor values, troubleshoot codes and more. It is compatible with ISO9141 and ISO14230(KWP slow and fast) protocols.
 I shared one schematic with transistors, you can use this schematic or you can make another, if you want. I will share more schematic with octocuplors and chips ! I used Arduino nano as microcontroller, but you can use another microcontrollers like STM32, ESP32 and much more.
 
