@@ -1,0 +1,209 @@
+@font-face {
+    font-family: Montserrat;
+    src: url(/fonts/Montserrat-Bold.woff2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: Montserrat, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+}
+
+header {
+    background: linear-gradient(330deg, #0c43ff 0%, #19d7fb 100%);
+    box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.6);
+}
+
+header .container {
+    width: 95%;
+    margin: auto;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .btnArea a {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 3px solid white;
+    color: white;
+    background-color: #007aff;
+    transition: 0.2s ease-in-out;
+}
+
+header .btnArea a:hover {
+    opacity: 70%;
+}
+
+header .btnArea a .arrow {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-left: 3.5px solid #fff;
+    border-bottom: 3.5px solid #fff;
+    transform: rotate(45deg);
+    margin-top: 14px;
+    margin-left: 15px;
+    margin-bottom: 2px;
+}
+
+header .textArea {
+    flex: 9;
+}
+
+header .textArea h1 {
+    font-size: 40px;
+    color: #fff;
+    text-shadow: 0 1px 4px rgb(0, 0, 0);
+    text-align: center;
+}
+
+header .textArea h1 .orange {
+    font-size: 40px;
+    color: #FFCE49;
+}
+
+main {
+    padding: 30px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: #f8f7f9;
+    box-shadow: 2px 2px 12px 5px rgba(105, 105, 105, 0.6);
+    padding: 20px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+}
+
+
+.card h1 {
+    font-size: 1.6em;
+    border-bottom: 2px solid blue;
+    margin-bottom: 20px;
+}
+
+.row {
+    display: grid;
+    grid-template: auto/30% 70%;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.label {
+    font-family: sans-serif;
+    font-size: 1.2em;
+}
+
+.input {
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+
+.radioBtns {
+    text-align: start;
+}
+
+.radioBtn {
+    padding: 6px;
+    border-radius: 50px;
+    display: inline-flex;
+    transition: background 0.2s ease;
+    cursor: pointer;
+}
+
+.radioBtn:hover,
+.radioBtn:focus-within {
+    background-color: #9f9f9f40;
+}
+
+.radioBtn input {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 1.5px #9f9f9f;
+    appearance: none;
+    padding: 0;
+    margin: 0;
+    transition: box-shadow 150ms cubic-bezier(0.95, 0.15, 0.5, 1.25);
+    cursor: pointer;
+}
+
+.radioBtn input:checked {
+    box-shadow: inset 0 0 0 6px #007aff;
+}
+
+.radioBtn label {
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 20px;
+    padding: 0 8px;
+    cursor: pointer;
+}
+
+.submit-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 24px;
+    text-align: center;
+    outline: none;
+    border: none;
+    color: #fff;
+    background-color: #007aff;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.submit-btn:hover {
+    opacity: 80%;
+    transition: 0.3s ease;
+    scale: 1.1;
+}
+
+.submit-btn:active {
+    background-color: #0f8b8d;
+    box-shadow: 2 2px #cdcdcd;
+    transform: translateY(2px);
+    opacity: 100%;
+    transition: 0.3s ease;
+}
+
+.staticIP-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+}
+
+.staticIP-menu.show {
+    max-height: 200px;
+    transition: max-height 0.4s ease-in;
+}
+
+@media (max-width: 570px) {
+    .input {
+        font-size: 1em;
+    }
+
+    .label {
+        font-size: 1em;
+    }
+
+    .submit-btn {
+        font-size: 20px;
+        padding: 10px 30px;
+    }
+}

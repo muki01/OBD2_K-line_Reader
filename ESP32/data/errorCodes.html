@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBD2 Master</title>
+    <link rel="stylesheet" href="css/errorCodes.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="btnArea">
+                <a href="/"><span class="arrow"></span></a>
+            </div>
+            <div class="textArea">
+                <h1><span class="orange">Error</span> Codes</h1>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="status">
+                <div class="box">
+                    <h1>Device Connection: <span style="color:#d80303" id="ws">Not Connected</span></h1>
+                </div>
+                <div class="box">
+                    <h1>Vehicle Connection: <span style="color:#d80303" id="kl">Not Connected</span></h1>
+                </div>
+            </div>
+            <div class="data">
+                <div class="box">
+                    <h1><span style="color:#0395d8" id="errorCodes">0</span> Codes</h1>
+                    <div class="name">
+                        <h2>Error Codes</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="btnArea">
+                <a href="">Get Error Codes</a>
+                <a href="">Clear Error Codes</a>
+            </div>
+        </div>
+    </main>
+</body>
+<script type="module" src="js/webSocket.js"></script>
+<script type="module" src="js/settings.js"></script>
+
+</html>

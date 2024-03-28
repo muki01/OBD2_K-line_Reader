@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBD2 Master</title>
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="btnArea">
+                <a href="/"><span class="arrow"></span></a>
+            </div>
+            <div class="textArea">
+                <h1><span class="orange">Settings</span></h1>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="card">
+            <form action="/wifiOptions" method="post">
+                <h1>Wifi Info</h1>
+                <div class="row">
+                    <label class="label">Wifi Type:</label>
+                    <div class="radioBtns">
+                        <div class="radioBtn">
+                            <input type="radio" id="AP" name="wifiType" checked="checked">
+                            <label for="AP">AP</label>
+                        </div>
+                        <div class="radioBtn">
+                            <input type="radio" id="STA" name="wifiType">
+                            <label for="STA">STA</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="label" for="SSID">Wifi Name:</label>
+                    <input type="text" class="input" id="SSID" name="SSID" required
+                        placeholder="Enter customer wifi network name">
+                </div>
+                <div class="row">
+                    <label class="label" for="WifiPassword">Wifi Password:</label>
+                    <input type="password" class="input" id="WifiPassword" name="WifiPassword"
+                        placeholder="Enter customer wifi password" pattern=".{8,}" title="Minimum 8 characters required">
+                </div>
+                <div class="row">
+                    <label class="label">IP Address:</label>
+                    <div class="radioBtns">
+                        <div class="radioBtn">
+                            <input type="radio" id="dynamicIp" name="ipType" checked="checked">
+                            <label for="dynamicIp">Dynamic</label>
+                        </div>
+                        <div class="radioBtn">
+                            <input type="radio" id="staticIp" name="ipType">
+                            <label for="staticIp">Static</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="staticIP-menu"></div>
+                <button id="btnChangeWifi" class="submit-btn">Change Wifi Info</button>
+            </form>
+        </div>
+        <div class="card">
+            <div class="container">
+                <form action="/protocolOptions" method="post">
+                    <h1>Communication Protocol</h1>
+                    <div class="row">
+                        <label class="label" for="PS3Address">Protocol:</label>
+                        <select id="protocol" name="protocol">
+                            <option value="ISO9141">ISO9141</option>
+                            <option value="ISO14230S">ISO14230 Slow</option>
+                            <option value="ISO14230F">ISO14230 Fast</option>
+                        </select>
+                    </div>
+                    <button id="btnChangeProtocol" class="submit-btn">Change Protocol</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="js/settings.js"></script>
+
+</html>

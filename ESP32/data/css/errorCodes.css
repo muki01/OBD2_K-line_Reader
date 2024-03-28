@@ -109,12 +109,12 @@ main .status h1 {
 
 main .data {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr;
     gap: 10px 40px;
 }
 
 main .data h1 {
-    margin: 14px 0;
+    margin: 20px 0;
     font-size: 26px;
 }
 
@@ -132,20 +132,29 @@ main .data .name {
     border-radius: 0 0 10px 10px;
 }
 
+main .btnArea{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
 
-@media screen and (max-width: 1000px) {
-    main .data {
-        grid-template-columns: repeat(3, 1fr);
-        column-gap: 20px;
-    }
+main .btnArea a{
+    padding: 20px 40px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #007aff;
+    color: #fff;
+    border-radius: 10px;
+    transition: 0.12s ease-in-out;
+}
+
+main .btnArea a:hover{
+    scale: 1.05;
 }
 
 @media screen and (max-width: 700px) {
-    main .data {
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 10px;
-    }
-
     main .status {
         grid-template-columns: 1fr;
     }
