@@ -1,11 +1,14 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
-#include <ESPAsyncWebSrv.h>
+#include <ESPAsyncWebServer.h>
+#include <DNSServer.h>
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>
-#include "SPIFFS.h"
-DynamicJsonDocument jsonDoc(512);
+#include <SPIFFS.h>
+#include "PIDs.h"
+DynamicJsonDocument jsonDoc(1024);
 
+DNSServer dnsServer;
 AsyncWebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
 
@@ -17,11 +20,17 @@ WebSocketsServer webSocket = WebSocketsServer(81);
 #define READ_DELAY 5
 #define REQUEST_DELAY 50
 
+String STA_ssid = "";
+String STA_password = "";
+String IP_address = "";
+String SubnetMask = "";
+String Gateway = "";
+String protocol = "";
+
 int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1, TIMINGADVANCE = 1, ENGINELOAD = 1, MAF = 1;
 bool KLineStatus = false;
 
-static unsigned long lastReqestTime = 0;
-static unsigned long lastWsTime = 0;
+static unsigned long lastReqestTime = 0, lastWsTime = 0;
 
 void setup() {
   pinMode(K_line_RX, INPUT_PULLUP);
@@ -29,10 +38,7 @@ void setup() {
   pinMode(Led, OUTPUT);
   digitalWrite(Led, HIGH);
 
-  if (!SPIFFS.begin(true)) {
-    Serial.println("SPIFFS Mount Failed");
-    return;
-  }
+  readSettings();
 
   initWiFi();
   initWebServer();
@@ -40,6 +46,7 @@ void setup() {
 }
 
 void loop() {
+  dnsServer.processNextRequest();
   if (KLineStatus == false) {
     if (millis() - lastReqestTime >= 5000) {
       bool init_success = init_KWP();

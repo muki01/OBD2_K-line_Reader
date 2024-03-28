@@ -3,128 +3,95 @@ uint8_t resultBuffer[20];
 uint8_t initBuffer[20];
 
 int dtcs = 0;
-char dtc_Byte_1, dtc_Byte_2;
+char dtcBytes[2];
 String dtcBuffer[20];
-
-const byte init_obd[4] = { 0xC1, 0x33, 0xF1, 0x81 };    // Init fast ISO14230
-const byte read_DTCs[4] = { 0xC1, 0x33, 0xF1, 0x03 };   // Read Troubleshoot Codes
-const byte clear_DTCs[4] = { 0xC1, 0x33, 0xF1, 0x04 };  // Clear Troubleshoot Codes
-
-const byte read_PIDs_20[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x00 };  // Read suported PIDs 0-20
-const byte read_PIDs_40[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x20 };  // Read suported PIDs 20-40
-const byte read_PIDs_60[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x40 };  // Read suported PIDs 40-60
-const byte read_PIDs_80[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x60 };  // Read suported PIDs 60-80
-const byte read_PIDs_A0[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x80 };  // Read suported PIDs 80-A0
-const byte read_PIDs_C0[5] = { 0xC2, 0x33, 0xF1, 0x01, 0xA0 };  // Read suported PIDs A0-C0
-const byte read_PIDs_E0[5] = { 0xC2, 0x33, 0xF1, 0x01, 0xC0 };  // Read suported PIDs C0-E0
-
-const byte speed_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0D };
-const byte rpm_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0C };
-const byte throttle_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x11 };
-const byte coolant_temp_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x05 };
-const byte intake_temp_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0F };
-const byte voltage_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x42 };
-
-const byte timingAdvance_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x0E };
-const byte engineLoad_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x04 };
-const byte mafSensor_obd[5] = { 0xC2, 0x33, 0xF1, 0x01, 0x10 };
 
 void read_K() {
   //------------------------------------------------------ get timingAdvance
-  writeData(timingAdvance_obd, sizeof(timingAdvance_obd));
+  writeData(start_Bytes2, TIMING_ADVANCE);
   readData();
 
-  if (resultBuffer[10] == 0x0E) {
+  if (resultBuffer[10] == TIMING_ADVANCE) {
     TIMINGADVANCE = (resultBuffer[11] / 2) - 64;
   }
   ws();
 
   //------------------------------------------------------ get engineLoad
-  writeData(engineLoad_obd, sizeof(engineLoad_obd));
+  writeData(start_Bytes2, ENGINE_LOAD);
   readData();
 
-  if (resultBuffer[10] == 0x04) {
+  if (resultBuffer[10] == ENGINE_LOAD) {
     ENGINELOAD = resultBuffer[11] / 2.55;
   }
   ws();
 
   //------------------------------------------------------ get mafSensor
-  writeData(mafSensor_obd, sizeof(mafSensor_obd));
+  writeData(start_Bytes2, MAF_FLOW_RATE);
   readData();
 
-  if (resultBuffer[10] == 0x10) {
+  if (resultBuffer[10] == MAF_FLOW_RATE) {
     MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
   }
   ws();
 
-
-
-
-
-
-
-
-
-
-
   //------------------------------------------------------ get speed
-  writeData(speed_obd, sizeof(speed_obd));
+  writeData(start_Bytes2, VEHICLE_SPEED);
   readData();
 
-  if (resultBuffer[10] == 0x0D) {
+  if (resultBuffer[10] == VEHICLE_SPEED) {
     SPEED = resultBuffer[11];
   }
   ws();
 
   //------------------------------------------------------ get rpm
-  writeData(rpm_obd, sizeof(rpm_obd));
+  writeData(start_Bytes2, ENGINE_RPM);
   readData();
 
-  if (resultBuffer[10] == 0x0C) {
+  if (resultBuffer[10] == ENGINE_RPM) {
     RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
   }
   ws();
 
   //------------------------------------------------------ get throttle
-  writeData(throttle_obd, sizeof(throttle_obd));
+  writeData(start_Bytes2, THROTTLE_POSITION);
   readData();
 
-  if (resultBuffer[10] == 0X11) {
+  if (resultBuffer[10] == THROTTLE_POSITION) {
     THROTTLE = resultBuffer[11] * 100 / 255;
     // THROTTLE = resultBuffer[11] * 100 / 180 - 14;
   }
   ws();
 
   //------------------------------------------------------ get Coolant temp
-  writeData(coolant_temp_obd, sizeof(coolant_temp_obd));
+  writeData(start_Bytes2, ENGINE_COOLANT_TEMP);
   readData();
 
-  if (resultBuffer[10] == 0x05) {
+  if (resultBuffer[10] == ENGINE_COOLANT_TEMP) {
     COOLANT_TEMP = resultBuffer[11] - 40;
   }
   ws();
 
   //------------------------------------------------------ get Intake temp
-  writeData(intake_temp_obd, sizeof(intake_temp_obd));
+  writeData(start_Bytes2, INTAKE_AIR_TEMP);
   readData();
 
-  if (resultBuffer[10] == 0x0F) {
+  if (resultBuffer[10] == INTAKE_AIR_TEMP) {
     INTAKE_TEMP = resultBuffer[11] - 40;
   }
   ws();
 
   //------------------------------------------------------ get voltage
-  // writeData(voltage_obd, sizeof(voltage_obd));
+  // writeData(start_Bytes2, CONTROL_MODULE_VOLTAGE);
   // readData();
 
-  // if (resultBuffer[10] == 0X42) {
+  // if (resultBuffer[10] == CONTROL_MODULE_VOLTAGE) {
   //   VOLTAGE = (resultBuffer[11] * 256 + resultBuffer[12]) / 1000;
   // }
   // ws();
 }
 
 void read_DTC() {
-  writeData(read_DTCs, sizeof(read_DTCs));
+  writeData(start_Bytes1, read_DTCs);
   delay(REQUEST_DELAY);
   result = K_Serial.available();
   if (result > 0) {
@@ -137,21 +104,21 @@ void read_DTC() {
     for (int i = 0; i < length; i++) {
       int index1 = 9 + i * 2;
       int index2 = 9 + i * 2 + 1;
-      dtc_Byte_1 = resultBuffer[index1];
-      dtc_Byte_2 = resultBuffer[index2];
+      dtcBytes[0] = resultBuffer[index1];
+      dtcBytes[1] = resultBuffer[index2];
       delay(READ_DELAY);
 
-      if (dtc_Byte_1 == 0 && dtc_Byte_2 == 0) {
+      if (dtcBytes[0] == 0 && dtcBytes[1] == 0) {
         return;
       } else {
-        decodeDTC(dtc_Byte_1, dtc_Byte_2);
+        decodeDTC(dtcBytes[0], dtcBytes[1]);
       }
     }
   }
 }
 
 void clear_DTC() {
-  writeData(clear_DTCs, sizeof(clear_DTCs));
+  writeData(start_Bytes1, clear_DTCs);
 }
 
 bool init_KWP() {
@@ -162,7 +129,7 @@ bool init_KWP() {
   digitalWrite(K_line_TX, HIGH), delay(25);
 
   K_Serial.begin(10400, SERIAL_8N1);
-  writeData(init_obd, sizeof(init_obd));
+  writeData(start_Bytes1, init_OBD);
   delay(REQUEST_DELAY);
   result = K_Serial.available();
   if (result > 0) {
@@ -180,9 +147,12 @@ bool init_KWP() {
   }
 }
 
-void writeData(const byte data[], int length) {
+void writeData(const byte data[], const byte pid) {
+  int length = sizeof(data);
   byte checksum = calculateChecksum(data, length);
+
   K_Serial.write(data, length);
+  K_Serial.write(pid);
   K_Serial.write(checksum);
 }
 
