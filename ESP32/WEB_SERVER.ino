@@ -9,9 +9,6 @@ IPAddress STA_ip;
 IPAddress STA_gateway;
 IPAddress STA_subnet;
 
-// const char* STA_ssid = "AnOnYmOuS";
-// const char* STA_password = "muki2004";
-
 void initWiFi() {
   if (IP_address != "") {
     STA_ip.fromString(IP_address);
@@ -32,7 +29,6 @@ void initWiFi() {
     // if (WiFi.softAPConfig(AP_ip, AP_gateway, AP_subnet));
     WiFi.mode(WIFI_AP);
     WiFi.softAP(AP_ssid, AP_password);
-    dnsServer.start(53, "*", WiFi.softAPIP());
     BlinkLed(400, 1);
   }
 }

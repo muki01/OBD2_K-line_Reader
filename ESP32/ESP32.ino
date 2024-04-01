@@ -1,14 +1,11 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <DNSServer.h>
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>
 #include <SPIFFS.h>
-#include "PIDs.h"
 DynamicJsonDocument jsonDoc(1024);
 
-DNSServer dnsServer;
 AsyncWebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
 
@@ -46,7 +43,6 @@ void setup() {
 }
 
 void loop() {
-  dnsServer.processNextRequest();
   if (KLineStatus == false) {
     if (millis() - lastReqestTime >= 5000) {
       bool init_success = init_KWP();
