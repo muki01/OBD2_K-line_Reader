@@ -7,8 +7,6 @@ function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
         wsStatus.style.color = "#00ff00";
         wsStatus.innerHTML = "Connected";
-        document.getElementById("ErrorCodes").innerHTML = wsMessage.MAF;
-
         if (wsMessage.KLineStatus == true) {
             klStatus.style.color = "#00ff00";
             klStatus.innerHTML = "Connected";

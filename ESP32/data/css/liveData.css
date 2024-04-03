@@ -15,8 +15,17 @@
 }
 
 body {
+    max-width: 100vw;
     min-height: 100vh;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+}
+
+.mainContainer {
+    width: 90%;
+    max-width: 1920px;
+    margin: 0 auto;
 }
 
 header {
@@ -24,9 +33,7 @@ header {
     box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.6);
 }
 
-header .container {
-    width: 95%;
-    margin: auto;
+header .mainContainer {
     padding: 10px 0;
     display: flex;
     justify-content: space-between;
@@ -55,9 +62,7 @@ header .btnArea a .arrow {
     border-left: 3.5px solid #fff;
     border-bottom: 3.5px solid #fff;
     transform: rotate(45deg);
-    margin-top: 14px;
-    margin-left: 15px;
-    margin-bottom: 2px;
+    margin: 14px 0 2px 16px;
 }
 
 header .textArea {
@@ -65,9 +70,9 @@ header .textArea {
 }
 
 header .textArea h1 {
-    font-size: 40px;
     color: #fff;
-    text-shadow: 0 1px 4px rgb(0, 0, 0);
+    font-size: 40px;
+    text-shadow: 0 0 4px rgb(0, 0, 0);
     text-align: center;
 }
 
@@ -78,13 +83,6 @@ header .textArea h1 .orange {
 
 main {
     padding: 20px 0;
-    color: #fff;
-}
-
-main .container {
-    width: 90%;
-    max-width: 1280px;
-    margin: auto;
 }
 
 main .box {
@@ -105,6 +103,7 @@ main .status {
 main .status h1 {
     margin: 10px;
     font-size: 16px;
+    color: #fff;
 }
 
 main .data {
@@ -116,6 +115,7 @@ main .data {
 main .data h1 {
     margin: 14px 0;
     font-size: 26px;
+    color: #fff;
 }
 
 main .data h1 span {
@@ -128,7 +128,8 @@ main .data .name {
     justify-content: center;
     align-items: center;
     padding: 10px 5px;
-    background-color: #2d2d2d;
+    color: #fff;
+    background-color: #242424;
     border-radius: 0 0 10px 10px;
 }
 
