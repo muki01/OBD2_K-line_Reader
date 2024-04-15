@@ -154,3 +154,9 @@ main .btnArea a{
 main .btnArea a:hover{
     scale: 1.05;
 }
+
+@media screen and (max-width: 700px) {
+    main .status {
+        grid-template-columns: 1fr;
+    }
+}

@@ -11,7 +11,7 @@ function handleWebSocketMessage(wsMessage) {
         wsStatus.innerHTML = "Connected";
         let dtcArray = wsMessage.DTCs;
         if (dtcArray.length > 0) {
-            let errorsString = "";
+            let errorsString;
             for (let i = 0; i < dtcArray.length; i++) {
                 errorsString += dtcArray[i] + ", ";
             }

@@ -49,7 +49,7 @@ void loop() {
       if (init_success) {
         KLineStatus = true;
         digitalWrite(Led, LOW);
-        // read_DTC();
+        read_DTC();
       }
       lastReqestTime = millis();
     }
