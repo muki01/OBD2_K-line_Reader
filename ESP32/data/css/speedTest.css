@@ -1,0 +1,183 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); */
+
+@font-face {
+    font-family: Montserrat;
+    src: url(/fonts/Montserrat-Bold.woff2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: Montserrat, sans-serif;
+}
+
+body {
+    max-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+}
+
+.mainContainer {
+    width: 90%;
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+header {
+    background: linear-gradient(330deg, #0c43ff 0%, #19d7fb 100%);
+    box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.6);
+}
+
+header .mainContainer {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .btnArea a {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 3px solid white;
+    color: white;
+    background-color: #007aff;
+    transition: 0.2s ease-in-out;
+}
+
+header .btnArea a:hover {
+    opacity: 70%;
+}
+
+header .btnArea a .arrow {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-left: 3.5px solid #fff;
+    border-bottom: 3.5px solid #fff;
+    transform: rotate(45deg);
+    margin: 14px 0 2px 16px;
+}
+
+header .textArea {
+    flex: 9;
+}
+
+header .textArea h1 {
+    color: #fff;
+    font-size: 40px;
+    text-shadow: 0 0 4px rgb(0, 0, 0);
+    text-align: center;
+}
+
+header .textArea h1 .orange {
+    font-size: 40px;
+    color: #FFCE49;
+}
+
+main {
+    padding: 20px 0;
+}
+
+main .box {
+    display: flex;
+    flex-direction: column;
+    background-color: #393939;
+    border-radius: 10px;
+    text-align: center;
+}
+
+main .status {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 40px;
+    margin-bottom: 10px;
+}
+
+main .status h1 {
+    margin: 10px;
+    font-size: 16px;
+    color: #fff;
+}
+
+main .data {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px 40px;
+}
+
+main .data h1 {
+    margin: 14px 0;
+    font-size: 26px;
+    color: #fff;
+}
+
+main .data h1 span {
+    font-size: 26px;
+}
+
+main .data .name {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5px;
+    color: #fff;
+    background-color: #242424;
+    border-radius: 0 0 10px 10px;
+}
+
+main .timerArea{
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #393939;
+}
+
+.timerArea .timerDisplay{
+    text-align: center;
+    color: #fff;
+    font-size: 34px;
+}
+.timerArea .btnArea{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+.timerArea .btnArea button{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 40px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #007aff;
+    color: #fff;
+    border-radius: 10px;
+    transition: 0.12s ease-in-out;
+}
+
+.timerArea .btnArea button:hover{
+    scale: 1.05;
+}
+
+@media screen and (max-width: 700px) {
+    main .status {
+        grid-template-columns: 1fr;
+    }
+
+    .timerArea .btnArea{
+        gap: 10px;
+    }
+
+    .timerArea .btnArea button{
+        padding: 10px 20px;
+    }
+}

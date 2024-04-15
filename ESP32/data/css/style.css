@@ -122,7 +122,7 @@ main nav a h2 {
     text-align: center;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 500px) {
     main nav a {
         padding: 14px;
     }

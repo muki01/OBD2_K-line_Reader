@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBD2 Master</title>
+    <link rel="stylesheet" href="css/speedTest.css">
+</head>
+
+<body>
+    <header>
+        <div class="mainContainer">
+            <div class="btnArea">
+                <a href="/"><span class="arrow"></span></a>
+            </div>
+            <div class="textArea">
+                <h1><span class="orange">Speed</span> Test</h1>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="mainContainer">
+            <div class="status">
+                <div class="box">
+                    <h1>Device Connection: <span style="color:#d80303" id="ws">Not Connected</span></h1>
+                </div>
+                <div class="box">
+                    <h1>Vehicle Connection: <span style="color:#d80303" id="kl">Not Connected</span></h1>
+                </div>
+            </div>
+            <div class="data">
+                <div class="box">
+                    <h1><span style="color:#0395d8" id="speed">0</span> KM/h</h1>
+                    <div class="name">
+                        <h2>Speed</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="timerArea">
+                <div class="timerDisplay">
+                    00 : 00 : 00 : 000
+                </div>
+                <div class="btnArea">
+                    <button id="start-timer">Start</button>
+                    <button id="pause-timer">Pause</button>
+                    <button id="reset-timer">Reset</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script type="module" src="js/webSocket.js"></script>
+<script type="module" src="js/speedTest.js"></script>
+
+</html>

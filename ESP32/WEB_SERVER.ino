@@ -125,7 +125,6 @@ void initWebServer() {
   });
   server.onNotFound([](AsyncWebServerRequest* request) {
     request->send_P(404, "text/plain", "404 Not found");
-    request->redirect("/");
   });
   server.begin();
 }

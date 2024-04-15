@@ -44,7 +44,7 @@ void setup() {
 
 void loop() {
   if (KLineStatus == false) {
-    if (millis() - lastReqestTime >= 5000) {
+    if (millis() - lastReqestTime >= 3000) {
       bool init_success = init_KWP();
       if (init_success) {
         KLineStatus = true;
