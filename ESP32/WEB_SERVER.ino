@@ -58,6 +58,9 @@ void initWebServer() {
   server.on("/frozenData.html", HTTP_GET, [](AsyncWebServerRequest* request) {
     request->send(SPIFFS, "/frozenData.html", "text/html");
   });
+  server.on("/speedTest.html", HTTP_GET, [](AsyncWebServerRequest* request) {
+    request->send(SPIFFS, "/speedTest.html", "text/html");
+  });
   server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest* request) {
     request->send(SPIFFS, "/settings.html", "text/html");
   });
@@ -76,6 +79,9 @@ void initWebServer() {
   server.on("/css/frozenData.css", HTTP_GET, [](AsyncWebServerRequest* request) {
     request->send(SPIFFS, "/css/frozenData.css", "text/css");
   });
+  server.on("/css/speedTest.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+    request->send(SPIFFS, "/css/speedTest.css", "text/css");
+  });
   server.on("/css/settings.css", HTTP_GET, [](AsyncWebServerRequest* request) {
     request->send(SPIFFS, "/css/settings.css", "text/css");
   });
@@ -93,6 +99,9 @@ void initWebServer() {
   });
   server.on("/js/frozenData.js", HTTP_GET, [](AsyncWebServerRequest* request) {
     request->send(SPIFFS, "/js/frozenData.js", "text/javascript");
+  });
+  server.on("/js/speedTest.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+    request->send(SPIFFS, "/js/speedTest.js", "text/javascript");
   });
   server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest* request) {
     request->send(SPIFFS, "/js/settings.js", "text/javascript");
@@ -129,6 +138,11 @@ void initWebServer() {
   server.begin();
 }
 
+void initWebSocket(){
+  server.addHandler(&ws);
+  ws.onEvent(onEvent);
+}
+
 String JsonData() {
   String JSONtxt;
   jsonDoc["Speed"] = SPEED;
@@ -152,8 +166,15 @@ String JsonData() {
   return JSONtxt;
 }
 
-void ws() {
-  webSocket.loop();
+void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
+  String payloadString = (const char *)data;
+  if (type == WS_EVT_DATA){
+
+  }
+}
+
+void wsSend() {
+  ws.cleanupClients();
   String jsonDataString = JsonData();
-  webSocket.broadcastTXT(jsonDataString);
+  ws.textAll(jsonDataString);
 }

@@ -37,7 +37,7 @@ void read_K() {
   if (resultBuffer[10] == 0x0E) {
     TIMINGADVANCE = (resultBuffer[11] / 2) - 64;
   }
-  ws();
+  wsSend();
 
   //------------------------------------------------------ get engineLoad
   writeData(engineLoad_obd, sizeof(engineLoad_obd));
@@ -46,7 +46,7 @@ void read_K() {
   if (resultBuffer[10] == 0x04) {
     ENGINELOAD = resultBuffer[11] / 2.55;
   }
-  ws();
+  wsSend();
 
   //------------------------------------------------------ get mafSensor
   writeData(mafSensor_obd, sizeof(mafSensor_obd));
@@ -55,7 +55,7 @@ void read_K() {
   if (resultBuffer[10] == 0x10) {
     MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
   }
-  ws();
+  wsSend();
 
 
 
@@ -66,7 +66,7 @@ void read_K() {
   if (resultBuffer[10] == 0x0D) {
     SPEED = resultBuffer[11];
   }
-  ws();
+  wsSend();
 
   //------------------------------------------------------ get rpm
   writeData(rpm_obd, sizeof(rpm_obd));
@@ -75,7 +75,7 @@ void read_K() {
   if (resultBuffer[10] == 0x0C) {
     RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
   }
-  ws();
+  wsSend();
 
   //------------------------------------------------------ get throttle
   writeData(throttle_obd, sizeof(throttle_obd));
@@ -85,7 +85,7 @@ void read_K() {
     THROTTLE = resultBuffer[11] * 100 / 255;
     // THROTTLE = resultBuffer[11] * 100 / 180 - 14;
   }
-  ws();
+  wsSend();
 
   //------------------------------------------------------ get Coolant temp
   writeData(coolant_temp_obd, sizeof(coolant_temp_obd));
@@ -94,7 +94,7 @@ void read_K() {
   if (resultBuffer[10] == 0x05) {
     COOLANT_TEMP = resultBuffer[11] - 40;
   }
-  ws();
+  wsSend();
 
   //------------------------------------------------------ get Intake temp
   writeData(intake_temp_obd, sizeof(intake_temp_obd));
@@ -103,7 +103,7 @@ void read_K() {
   if (resultBuffer[10] == 0x0F) {
     INTAKE_TEMP = resultBuffer[11] - 40;
   }
-  ws();
+  wsSend();
 
   //------------------------------------------------------ get voltage
   // writeData(voltage_obd, sizeof(voltage_obd));
@@ -112,7 +112,7 @@ void read_K() {
   // if (resultBuffer[10] == 0X42) {
   //   VOLTAGE = (resultBuffer[11] * 256 + resultBuffer[12]) / 1000;
   // }
-  // ws();
+  // wsSend();
 }
 
 void read_DTC() {

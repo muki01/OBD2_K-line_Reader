@@ -1,13 +1,12 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <WebSocketsServer.h>
 #include <ArduinoJson.h>
 #include <SPIFFS.h>
-DynamicJsonDocument jsonDoc(1024);
+DynamicJsonDocument jsonDoc(512);
 
 AsyncWebServer server(80);
-WebSocketsServer webSocket = WebSocketsServer(81);
+AsyncWebSocket ws("/ws");
 
 #define K_Serial Serial
 #define K_line_RX 20
@@ -38,8 +37,8 @@ void setup() {
   readSettings();
 
   initWiFi();
+  initWebSocket();
   initWebServer();
-  webSocket.begin();
 }
 
 void loop() {
@@ -58,7 +57,7 @@ void loop() {
   }
 
   if (millis() - lastWsTime >= 100) {
-    ws();
+    wsSend();
     lastWsTime = millis();
   }
 }

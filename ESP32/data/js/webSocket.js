@@ -1,27 +1,37 @@
+var gateway = `ws://${window.location.hostname}/ws`;
 let ws = null;
 let messageHandler = null;
 
 export function InitWebSocket() {
-    ws = new WebSocket("ws://" + window.location.hostname + ":81/");
-    ws.onopen = function () {
-        console.log("WebSocket connected !");
-    };
-    ws.onmessage = function (event) {
-        let JSONobj = JSON.parse(event.data);
-        // console.log("Websocket message:", JSONobj);
-        if (messageHandler) {
-            messageHandler(JSONobj);
-        }
-    };
-    ws.onclose = function () {
-        console.log("WebSocket closed.");
-        InitWebSocket();
-    };
-    ws.onerror = function (error) {
-        console.error("WebSocket error:", error);
-    };
+    ws = new WebSocket(gateway);
+    ws.onopen = onOpen;
+    ws.onmessage = onMessage;
+    ws.onclose = onClose;
+    ws.onerror = onError;
 }
 
 export function setMessageHandler(handler) {
     messageHandler = handler;
+}
+
+
+function onOpen(event) {
+    console.log("WebSocket connected !");
+}
+
+function onMessage(event) {
+    let JSONobj = JSON.parse(event.data);
+    // console.log("Websocket message:", JSONobj);
+    if (messageHandler) {
+        messageHandler(JSONobj);
+    }
+}
+
+function onClose(event) {
+    console.log("WebSocket closed.");
+    InitWebSocket();
+}
+
+function onError(error) {
+    console.log("WebSocket error:", error);
 }

@@ -84,3 +84,31 @@ header .textArea h1 .orange {
 main {
     padding: 20px 0;
 }
+
+main .box {
+    display: flex;
+    flex-direction: column;
+    background-color: #393939;
+    border-radius: 10px;
+    text-align: center;
+}
+
+main .status {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 40px;
+    margin-bottom: 10px;
+}
+
+main .status h1 {
+    margin: 10px;
+    font-size: 16px;
+    color: #fff;
+}
+
+@media screen and (max-width: 700px) {
+
+    main .status {
+        grid-template-columns: 1fr;
+    }
+}
