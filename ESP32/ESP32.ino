@@ -23,6 +23,8 @@ String SubnetMask = "";
 String Gateway = "";
 String protocol = "";
 
+int page=-1;
+
 int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1, TIMINGADVANCE = 1, ENGINELOAD = 1, MAF = 1;
 bool KLineStatus = false;
 
@@ -39,6 +41,9 @@ void setup() {
   initWiFi();
   initWebSocket();
   initWebServer();
+  // if (protocol == "ISO14230_Fast"){
+  //    digitalWrite(Led, LOW);
+  // }
 }
 
 void loop() {

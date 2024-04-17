@@ -43,82 +43,90 @@ void BlinkLed(int time, int count) {
 }
 
 void initWebServer() {
-  server.on("/generate_204", HTTP_GET, [](AsyncWebServerRequest *request){
+  server.on("/generate_204", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->redirect("/");
   });
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/index.html", "text/html");
+    page = 0;
   });
-  server.on("/liveData.html", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/liveData.html", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/liveData.html", "text/html");
+    page = 1;
   });
-  server.on("/errorCodes.html", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/errorCodes.html", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/errorCodes.html", "text/html");
+    page = 2;
   });
-  server.on("/frozenData.html", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/frozenData.html", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/frozenData.html", "text/html");
+    page = 3;
   });
-  server.on("/speedTest.html", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/speedTest.html", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/speedTest.html", "text/html");
+    page = 4;
   });
-  server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/settings.html", "text/html");
+    page = 5;
   });
-  server.on("/about.html", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/about.html", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/about.html", "text/html");
+    page = 6;
   });
-  server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/css/style.css", "text/css");
   });
-  server.on("/css/liveData.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/css/liveData.css", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/css/liveData.css", "text/css");
   });
-  server.on("/css/errorCodes.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/css/errorCodes.css", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/css/errorCodes.css", "text/css");
   });
-  server.on("/css/frozenData.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/css/frozenData.css", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/css/frozenData.css", "text/css");
   });
-  server.on("/css/speedTest.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/css/speedTest.css", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/css/speedTest.css", "text/css");
   });
-  server.on("/css/settings.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/css/settings.css", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/css/settings.css", "text/css");
   });
-  server.on("/css/about.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/css/about.css", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/css/about.css", "text/css");
   });
-  server.on("/js/script.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/js/script.js", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/js/script.js", "text/javascript");
   });
-  server.on("/js/liveData.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/js/liveData.js", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/js/liveData.js", "text/javascript");
   });
-  server.on("/js/errorCodes.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/js/errorCodes.js", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/js/errorCodes.js", "text/javascript");
   });
-  server.on("/js/frozenData.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/js/frozenData.js", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/js/frozenData.js", "text/javascript");
   });
-  server.on("/js/speedTest.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/js/speedTest.js", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/js/speedTest.js", "text/javascript");
   });
-  server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/js/settings.js", "text/javascript");
   });
-  server.on("/js/about.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/js/about.js", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/js/about.js", "text/javascript");
   });
-  server.on("/js/webSocket.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/js/webSocket.js", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/js/webSocket.js", "text/javascript");
   });
-  server.on("/fonts/Montserrat-Bold.woff2", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/fonts/Montserrat-Bold.woff2", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/fonts/Montserrat-Bold.woff2", "application/font-woff2");
   });
-  server.on("/api", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/api", HTTP_GET, [](AsyncWebServerRequest * request) {
+    page = -1;
     request->send(200, "application/json", JsonData());
   });
-  server.on("/wifiOptions", HTTP_POST, [](AsyncWebServerRequest *request) {
+  server.on("/wifiOptions", HTTP_POST, [](AsyncWebServerRequest * request) {
     request->send(200, "text/plain", "Options succesfully saved. Restarting ESP!");
     String ssid = request->arg("SSID");
     String password = request->arg("WifiPassword");
@@ -127,39 +135,73 @@ void initWebServer() {
     String gateway = request->arg("gateway");
     changeWifiSettings(ssid, password, ipAddress, subnetMask, gateway);
   });
-  server.on("/protocolOptions", HTTP_POST, [](AsyncWebServerRequest *request) {
+  server.on("/protocolOptions", HTTP_POST, [](AsyncWebServerRequest * request) {
     request->send(200, "text/plain", "Options succesfully saved. Restarting ESP!");
-    String protocol = request->arg("cars");
+    String protocol = request->arg("protocol");
     changeCommunicationProtocol(protocol);
   });
-  server.onNotFound([](AsyncWebServerRequest* request) {
+  server.onNotFound([](AsyncWebServerRequest * request) {
     request->send_P(404, "text/plain", "404 Not found");
   });
   server.begin();
 }
 
-void initWebSocket(){
+void initWebSocket() {
   server.addHandler(&ws);
   ws.onEvent(onEvent);
 }
 
 String JsonData() {
   String JSONtxt;
-  jsonDoc["Speed"] = SPEED;
-  jsonDoc["RPM"] = RPM;
-  jsonDoc["CoolantTemp"] = COOLANT_TEMP;
-  jsonDoc["IntakeTemp"] = INTAKE_TEMP;
-  jsonDoc["Throttle"] = THROTTLE;
-  jsonDoc["TimingAdvance"] = TIMINGADVANCE;
-  jsonDoc["EngineLoad"] = ENGINELOAD;
-  jsonDoc["MAF"] = MAF;
-  jsonDoc["KLineStatus"] = KLineStatus;
-
-  JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
-  for (int i = 0; i < 20; i++) {
-    if (!dtcBuffer[i].isEmpty()) {
-      dtcArray.add(dtcBuffer[i]);
+  jsonDoc.clear();
+  if (page == -1) {                                                     //Add All Data
+    jsonDoc["Speed"] = SPEED;
+    jsonDoc["RPM"] = RPM;
+    jsonDoc["CoolantTemp"] = COOLANT_TEMP;
+    jsonDoc["IntakeTemp"] = INTAKE_TEMP;
+    jsonDoc["Throttle"] = THROTTLE;
+    jsonDoc["TimingAdvance"] = TIMINGADVANCE;
+    jsonDoc["EngineLoad"] = ENGINELOAD;
+    jsonDoc["MAF"] = MAF;
+    jsonDoc["KLineStatus"] = KLineStatus;
+    JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
+    for (int i = 0; i < 20; i++) {
+      if (!dtcBuffer[i].isEmpty()) {
+        dtcArray.add(dtcBuffer[i]);
+      }
     }
+  } else if (page == 0) {
+    jsonDoc["KLineStatus"] = KLineStatus;
+  } else if (page == 1) {
+    jsonDoc["Speed"] = SPEED;
+    jsonDoc["RPM"] = RPM;
+    jsonDoc["CoolantTemp"] = COOLANT_TEMP;
+    jsonDoc["IntakeTemp"] = INTAKE_TEMP;
+    jsonDoc["Throttle"] = THROTTLE;
+    jsonDoc["TimingAdvance"] = TIMINGADVANCE;
+    jsonDoc["EngineLoad"] = ENGINELOAD;
+    jsonDoc["MAF"] = MAF;
+    jsonDoc["KLineStatus"] = KLineStatus;
+  } else if (page == 2) {
+    JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
+    for (int i = 0; i < 20; i++) {
+      if (!dtcBuffer[i].isEmpty()) {
+        dtcArray.add(dtcBuffer[i]);
+      }
+    }
+  } else if (page == 3) {
+    JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
+    for (int i = 0; i < 20; i++) {
+      if (!dtcBuffer[i].isEmpty()) {
+        dtcArray.add(dtcBuffer[i]);
+      }
+    }
+  } else if (page == 4) {
+    jsonDoc["Speed"] = SPEED;
+  } else if (page == 5) {
+
+  } else if (page == 6) {
+
   }
 
   serializeJson(jsonDoc, JSONtxt);
@@ -168,8 +210,8 @@ String JsonData() {
 
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
   String payloadString = (const char *)data;
-  if (type == WS_EVT_DATA){
-
+  if (type == WS_EVT_DATA) {
+    //IMPORTANT
   }
 }
 
