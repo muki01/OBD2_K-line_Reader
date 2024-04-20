@@ -133,25 +133,27 @@ main .data .name {
     border-radius: 0 0 10px 10px;
 }
 
-main .timerArea{
+main .timerArea {
     margin-top: 20px;
     padding: 20px;
     border-radius: 10px;
     background-color: #393939;
 }
 
-.timerArea .timerDisplay{
+.timerArea .timerDisplay {
     text-align: center;
     color: #fff;
     font-size: 34px;
 }
-.timerArea .btnArea{
+
+.timerArea .btnArea {
     display: flex;
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
 }
-.timerArea .btnArea button{
+
+.timerArea .btnArea button {
     border: none;
     outline: none;
     cursor: pointer;
@@ -164,7 +166,7 @@ main .timerArea{
     transition: 0.12s ease-in-out;
 }
 
-.timerArea .btnArea button:hover{
+.timerArea .btnArea button:hover {
     scale: 1.05;
 }
 
@@ -173,11 +175,11 @@ main .timerArea{
         grid-template-columns: 1fr;
     }
 
-    .timerArea .btnArea{
+    .timerArea .btnArea {
         gap: 10px;
     }
 
-    .timerArea .btnArea button{
+    .timerArea .btnArea button {
         padding: 10px 20px;
     }
 }

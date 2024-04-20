@@ -3,7 +3,9 @@
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
 #include <SPIFFS.h>
-DynamicJsonDocument jsonDoc(512);
+#include "PIDs.h"
+//DynamicJsonDocument jsonDoc(512);
+JsonDocument jsonDoc;
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
@@ -16,14 +18,8 @@ AsyncWebSocket ws("/ws");
 #define READ_DELAY 5
 #define REQUEST_DELAY 50
 
-String STA_ssid = "";
-String STA_password = "";
-String IP_address = "";
-String SubnetMask = "";
-String Gateway = "";
-String protocol = "";
-
-int page=-1;
+String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol;
+int page = -1;
 
 int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1, TIMINGADVANCE = 1, ENGINELOAD = 1, MAF = 1;
 bool KLineStatus = false;
@@ -48,7 +44,7 @@ void setup() {
 
 void loop() {
   if (KLineStatus == false) {
-    if (millis() - lastReqestTime >= 3000) {
+    if (millis() - lastReqestTime >= 5000) {
       bool init_success = init_KWP();
       if (init_success) {
         KLineStatus = true;

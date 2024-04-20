@@ -17,7 +17,7 @@ void initWiFi() {
     if (WiFi.config(STA_ip, STA_gateway, STA_subnet));
   }
   WiFi.mode(WIFI_STA);
-  WiFi.setTxPower(WIFI_POWER_2dBm);
+  WiFi.setTxPower(WIFI_POWER_5dBm);
   WiFi.begin(STA_ssid.c_str(), STA_password.c_str());
   unsigned long previousMillis = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - previousMillis <= 3000) {
@@ -183,6 +183,7 @@ String JsonData() {
     jsonDoc["MAF"] = MAF;
     jsonDoc["KLineStatus"] = KLineStatus;
   } else if (page == 2) {
+    jsonDoc["KLineStatus"] = KLineStatus;
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {
       if (!dtcBuffer[i].isEmpty()) {
@@ -190,6 +191,7 @@ String JsonData() {
       }
     }
   } else if (page == 3) {
+    jsonDoc["KLineStatus"] = KLineStatus;
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {
       if (!dtcBuffer[i].isEmpty()) {
@@ -197,6 +199,7 @@ String JsonData() {
       }
     }
   } else if (page == 4) {
+    jsonDoc["KLineStatus"] = KLineStatus;
     jsonDoc["Speed"] = SPEED;
   } else if (page == 5) {
 

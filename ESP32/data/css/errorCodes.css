@@ -133,7 +133,7 @@ main .data .name {
     border-radius: 0 0 10px 10px;
 }
 
-main .btnArea{
+main .btnArea {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -141,7 +141,7 @@ main .btnArea{
     margin-top: 20px;
 }
 
-main .btnArea a{
+main .btnArea a {
     padding: 20px 40px;
     font-size: 20px;
     text-align: center;
@@ -151,7 +151,7 @@ main .btnArea a{
     transition: 0.12s ease-in-out;
 }
 
-main .btnArea a:hover{
+main .btnArea a:hover {
     scale: 1.05;
 }
 
