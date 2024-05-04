@@ -14,6 +14,7 @@ AsyncWebSocket ws("/ws");
 #define K_line_RX 20
 #define K_line_TX 21
 #define Led 8
+#define Buzzer 0
 
 #define READ_DELAY 5
 #define REQUEST_DELAY 50
@@ -30,6 +31,7 @@ void setup() {
   pinMode(K_line_RX, INPUT_PULLUP);
   pinMode(K_line_TX, OUTPUT);
   pinMode(Led, OUTPUT);
+  pinMode(Buzzer, OUTPUT);
   digitalWrite(Led, HIGH);
 
   readSettings();
@@ -46,7 +48,10 @@ void loop() {
   if (KLineStatus == false) {
     if (millis() - lastReqestTime >= 5000) {
       bool init_success = init_KWP();
+      tone(Buzzer, 500, 40);
+      tone(Buzzer, 600, 60);
       if (init_success) {
+        connection();
         KLineStatus = true;
         digitalWrite(Led, LOW);
         read_DTC();
@@ -62,3 +67,34 @@ void loop() {
     lastWsTime = millis();
   }
 }
+
+void connection() {
+  tone(Buzzer, 660, 50);
+  delay(80);
+  tone(Buzzer, 1320, 55);
+  delay(70);
+  tone(Buzzer, 1760, 100);
+}
+
+void disconnection() {
+  tone(Buzzer, 660, 50);
+  delay(80);
+  tone(Buzzer, 1760, 55);
+  delay(70);
+  tone(Buzzer, 1320, 100);
+}
+
+void mode1() {
+  tone(Buzzer, 1320, 50);
+  delay(150);
+  tone(Buzzer, 1570, 50);
+  delay(130);
+  tone(Buzzer, 2350, 300);
+}
+
+void mode2() {
+  tone(Buzzer, 1320, 50);
+  delay(10);
+  tone(Buzzer, 1570, 50);
+}
+
