@@ -85,11 +85,9 @@ void disconnection() {
 }
 
 void mode1() {
-  tone(Buzzer, 1320, 50);
-  delay(150);
-  tone(Buzzer, 1570, 50);
-  delay(130);
-  tone(Buzzer, 2350, 300);
+  tone(Buzzer, 1100, 50);
+  delay(10);
+  tone(Buzzer, 1300, 50);
 }
 
 void mode2() {

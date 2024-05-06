@@ -10,6 +10,11 @@ export function InitWebSocket() {
     ws.onerror = onError;
 }
 
+export function senData(data){
+    ws.send(data);
+    console.log("Sending Data: ", data);
+}
+
 export function setMessageHandler(handler) {
     messageHandler = handler;
 }
