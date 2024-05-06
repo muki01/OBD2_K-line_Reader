@@ -7,7 +7,7 @@ let startBtn = document.getElementById("start-timer");
 let pauseBtn = document.getElementById("pause-timer");
 let resetBtn = document.getElementById("reset-timer");
 
-let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+let [milliseconds, seconds, minutes] = [0, 0, 0];
 let interval = null;
 let starter = false;
 
@@ -29,8 +29,8 @@ function pauseTimer() {
 }
 function resetTimer() {
     clearInterval(interval);
-    [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
-    timeRef.innerHTML = "00 : 00 : 00 : 000 ";
+    [milliseconds, seconds, minutes] = [0, 0, 0];
+    timeRef.innerHTML = "00 : 00 : 000 ";
 }
 
 function displayTimer() {
@@ -41,14 +41,10 @@ function displayTimer() {
         if (seconds == 60) {
             seconds = 0;
             minutes++;
-            if (minutes == 60) {
-                minutes = 0;
-                hours++;
-            }
+            
         }
     }
 
-    let h = hours < 10 ? "0" + hours : hours;
     let m = minutes < 10 ? "0" + minutes : minutes;
     let s = seconds < 10 ? "0" + seconds : seconds;
     let ms =
@@ -58,7 +54,7 @@ function displayTimer() {
             ? "0" + milliseconds
             : milliseconds;
 
-    timeRef.innerHTML = `${h} : ${m} : ${s} : ${ms}`;
+    timeRef.innerHTML = `${m} : ${s} : ${ms}`;
 }
 
 function handleWebSocketMessage(wsMessage) {

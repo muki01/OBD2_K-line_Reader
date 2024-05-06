@@ -12,6 +12,7 @@
     text-decoration: none;
     font-size: 16px;
     font-family: Montserrat, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -119,7 +120,7 @@ main .data h1 {
 }
 
 main .data h1 span {
-    font-size: 56px;
+    font-size: 64px;
 }
 
 main .data .name {
@@ -135,7 +136,6 @@ main .data .name {
 
 main .timerArea {
     margin-top: 20px;
-    padding: 20px;
     border-radius: 10px;
     background-color: #393939;
 }
@@ -144,6 +144,7 @@ main .timerArea {
     text-align: center;
     color: #fff;
     font-size: 34px;
+    padding-top: 20px;
 }
 
 .timerArea .btnArea {
@@ -151,6 +152,9 @@ main .timerArea {
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
+    padding: 14px 0;
+    background-color: #242424;
+    border-radius: 0 0 10px 10px;
 }
 
 .timerArea .btnArea button {
@@ -160,14 +164,19 @@ main .timerArea {
     padding: 14px 40px;
     font-size: 20px;
     text-align: center;
-    background-color: #007aff;
+    background-color: #0077ff;
     color: #fff;
     border-radius: 10px;
     transition: 0.12s ease-in-out;
 }
 
 .timerArea .btnArea button:hover {
-    scale: 1.05;
+    scale: 1.03;
+}
+
+.timerArea .btnArea button:active{
+    scale: 0.98;
+    background-color: #004fa3;
 }
 
 @media screen and (max-width: 700px) {

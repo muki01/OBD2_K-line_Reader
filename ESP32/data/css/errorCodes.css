@@ -12,6 +12,7 @@
     text-decoration: none;
     font-size: 16px;
     font-family: Montserrat, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -142,6 +143,7 @@ main .btnArea {
 }
 
 main .btnArea a {
+    cursor: pointer;
     padding: 20px 40px;
     font-size: 20px;
     text-align: center;
@@ -152,7 +154,12 @@ main .btnArea a {
 }
 
 main .btnArea a:hover {
-    scale: 1.05;
+    scale: 1.03;
+}
+
+main .btnArea a:active{
+    scale: 0.98;
+    background-color: #004fa3;
 }
 
 @media screen and (max-width: 700px) {

@@ -10,6 +10,7 @@
     text-decoration: none;
     font-size: 16px;
     font-family: Montserrat, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -174,14 +175,12 @@ main .mainContainer {
 }
 
 .submit-btn:hover {
-    opacity: 80%;
-    scale: 1.1;
+    scale: 1.03;
 }
 
 .submit-btn:active {
     background-color: #004fa3;
-    transform: translateY(2px);
-    opacity: 100%;
+    scale: 0.98;
 }
 
 .staticIP-menu {
