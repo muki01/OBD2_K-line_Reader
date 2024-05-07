@@ -14,7 +14,8 @@ void initWiFi() {
     STA_ip.fromString(IP_address);
     STA_gateway.fromString(Gateway);
     STA_subnet.fromString(SubnetMask);
-    if (WiFi.config(STA_ip, STA_gateway, STA_subnet));
+    if (WiFi.config(STA_ip, STA_gateway, STA_subnet))
+      ;
   }
   WiFi.mode(WIFI_STA);
   WiFi.setTxPower(WIFI_POWER_5dBm);
@@ -126,6 +127,10 @@ void initWebServer() {
     page = -1;
     request->send(200, "application/json", JsonData());
   });
+  server.on("/api/clearDTCs", HTTP_GET, [](AsyncWebServerRequest *request) {
+    clear_DTC();
+    request->send(200, "text/plain", "Succesfully");
+  });
   server.on("/wifiOptions", HTTP_POST, [](AsyncWebServerRequest *request) {
     request->send(200, "text/plain", "Options succesfully saved. Restarting ESP!");
     String ssid = request->arg("SSID");
@@ -154,7 +159,7 @@ void initWebSocket() {
 String JsonData() {
   String JSONtxt;
   jsonDoc.clear();
-  if (page == -1) {                                                     //Add All Data
+  if (page == -1) {  //Add All Data
     jsonDoc["Speed"] = SPEED;
     jsonDoc["RPM"] = RPM;
     jsonDoc["CoolantTemp"] = COOLANT_TEMP;
@@ -204,7 +209,6 @@ String JsonData() {
   } else if (page == 5) {
 
   } else if (page == 6) {
-
   }
 
   serializeJson(jsonDoc, JSONtxt);
@@ -212,15 +216,23 @@ String JsonData() {
 }
 
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
-  if(type == WS_EVT_DATA) {
-    String message = String((char*)data);
-    if (message == "get_dtc") {
-      mode1();
-      get_DTCs();
-    }
-    if (message == "clear_dtc") {
-      mode2();
-      clear_DTC();
+  if (type == WS_EVT_DATA) {
+    AwsFrameInfo *info = (AwsFrameInfo *)arg;
+    if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
+      data[len] = 0;
+      const char *message = (const char *)data;
+      
+      if (strcmp(message, "get_dtc") == 0) {
+        mode1();
+        get_DTCs();
+      }
+      if (strcmp(message, "clear_dtc") == 0) {
+        mode2();
+        clear_DTC();
+      }
+      if (strcmp(message, "beep") == 0) {
+        mode2();
+      }
     }
   }
 }
