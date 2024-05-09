@@ -34,15 +34,6 @@ void initWiFi() {
   }
 }
 
-void BlinkLed(int time, int count) {
-  for (int i = 0; i < count; i++) {
-    digitalWrite(Led, LOW);
-    delay(time);
-    digitalWrite(Led, HIGH);
-    delay(time);
-  }
-}
-
 void initWebServer() {
   server.on("/generate_204", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->redirect("/");
@@ -237,7 +228,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
   }
 }
 
-void wsSend() {
+void sendDataToServer() {
   ws.cleanupClients();
   String jsonDataString = JsonData();
   ws.textAll(jsonDataString);

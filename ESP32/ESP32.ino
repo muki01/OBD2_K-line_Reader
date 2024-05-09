@@ -17,7 +17,9 @@ AsyncWebSocket ws("/ws");
 #define Buzzer 0
 
 #define READ_DELAY 5
-#define REQUEST_DELAY 50
+int REQUEST_DELAY = 500;
+//#define REQUEST_DELAY 50
+//#define REQUEST_DELAY_Slow 500
 
 String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol;
 int page = -1;
@@ -25,7 +27,7 @@ int page = -1;
 int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1, TIMINGADVANCE = 1, ENGINELOAD = 1, MAF = 1;
 bool KLineStatus = false;
 
-static unsigned long lastReqestTime = 0, lastWsTime = 0;
+static unsigned long lastReqestTime = 0, lastWsTime = 0, lastDTCTime = 0;
 
 void setup() {
   pinMode(K_line_RX, INPUT_PULLUP);
@@ -39,22 +41,29 @@ void setup() {
   initWiFi();
   initWebSocket();
   initWebServer();
-  // if (protocol == "ISO14230_Fast"){
-  //    digitalWrite(Led, LOW);
-  // }
+  if (protocol == "ISO14230_Fast") {
+    REQUEST_DELAY = 50;
+  }
 }
 
 void loop() {
   if (KLineStatus == false) {
     if (millis() - lastReqestTime >= 5000) {
-      bool init_success = init_KWP();
       tone(Buzzer, 500, 40);
       tone(Buzzer, 600, 60);
+      bool init_success;
+
+      if (protocol == "ISO14230_Fast") {
+        init_success = init_KWP();
+      } else if (protocol == "ISO14230_Slow" || protocol == "ISO9141") {
+        init_success = init_KWP_slow();
+      }
+
       if (init_success) {
         connection();
         KLineStatus = true;
         digitalWrite(Led, LOW);
-        read_DTC();
+        get_DTCs();
       }
       lastReqestTime = millis();
     }
@@ -63,7 +72,7 @@ void loop() {
   }
 
   if (millis() - lastWsTime >= 100) {
-    wsSend();
+    sendDataToServer();
     lastWsTime = millis();
   }
 }
@@ -96,3 +105,11 @@ void mode2() {
   tone(Buzzer, 1570, 50);
 }
 
+void BlinkLed(int time, int count) {
+  for (int i = 0; i < count; i++) {
+    digitalWrite(Led, LOW);
+    delay(time);
+    digitalWrite(Led, HIGH);
+    delay(time);
+  }
+}

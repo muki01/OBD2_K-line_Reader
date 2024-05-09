@@ -1,4 +1,4 @@
-import { InitWebSocket, setMessageHandler } from "./webSocket.js";
+import { InitWebSocket, setMessageHandler, senData } from "./webSocket.js";
 
 let wsStatus = document.getElementById("ws");
 let klStatus = document.getElementById("kl");
@@ -12,11 +12,18 @@ let interval = null;
 let starter = false;
 
 startBtn.addEventListener("click", () => {
+    senData("beep");
     starter = true;
 });
 
-pauseBtn.addEventListener("click", pauseTimer);
-resetBtn.addEventListener("click", resetTimer);
+pauseBtn.addEventListener("click", () => {
+    senData("beep");
+    pauseTimer();
+});
+resetBtn.addEventListener("click", () => {
+    senData("beep");
+    resetTimer();
+});
 
 function startTimer() {
     if (interval !== null) {
@@ -66,8 +73,10 @@ function handleWebSocketMessage(wsMessage) {
         if (starter == true && wsMessage.Speed > 0) {
             starter = false;
             startTimer();
+            senData("beep");
         } else if (wsMessage.Speed >= 100) {
             pauseTimer();
+            senData("beep");
         }
 
         if (wsMessage.KLineStatus == true) {
