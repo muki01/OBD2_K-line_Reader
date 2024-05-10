@@ -36,6 +36,7 @@ void setup() {
   pinMode(Buzzer, OUTPUT);
   digitalWrite(Led, HIGH);
 
+  initSpiffs();
   readSettings();
 
   initWiFi();

@@ -1,5 +1,13 @@
+void initSpiffs() {
+  if (!SPIFFS.begin()) {
+    while (1) {
+      BlinkLed(1000, 1);
+    }
+  }
+}
+
 void readSettings() {
-  if (SPIFFS.begin() && SPIFFS.exists("/settings.conf")) {
+  if (SPIFFS.exists("/settings.conf")) {
     File configFile = SPIFFS.open("/settings.conf", "r");
     while (configFile.available()) {
       String line = configFile.readStringUntil('\n');
@@ -15,7 +23,7 @@ void readSettings() {
 }
 
 void updateSetting(const String& key, const String& value) {
-  if (SPIFFS.begin() && SPIFFS.exists("/settings.conf")) {
+  if (SPIFFS.exists("/settings.conf")) {
     String updatedSettings = "";
     File configFile = SPIFFS.open("/settings.conf", "r");
     while (configFile.available()) {
