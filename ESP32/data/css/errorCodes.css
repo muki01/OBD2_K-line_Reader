@@ -82,6 +82,21 @@ header .textArea h1 .orange {
     color: #FFCE49;
 }
 
+header .connectionArea{
+    display: flex;
+    gap: 4px;
+}
+
+header #ws,
+header #kl {
+    width: 30px;
+    height: 30px;
+    fill: red;
+    stroke: black;
+    stroke-width: 16px;
+    filter: drop-shadow(0 0 1px rgb(0, 0, 0));
+}
+
 main {
     padding: 20px 0;
 }
@@ -92,19 +107,6 @@ main .box {
     background-color: #393939;
     border-radius: 10px;
     text-align: center;
-}
-
-main .status {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px 40px;
-    margin-bottom: 10px;
-}
-
-main .status h1 {
-    margin: 10px;
-    font-size: 16px;
-    color: #fff;
 }
 
 main .data {
@@ -121,6 +123,7 @@ main .data h1 {
 
 main .data h1 span {
     font-size: 26px;
+    color:#00a0eb;
 }
 
 main .data .name {
@@ -163,6 +166,11 @@ main .btnArea a:active{
 }
 
 @media screen and (max-width: 700px) {
+    header #ws,
+    header #kl {
+        width: 24px;
+        height: 24px;
+    }
     main .status {
         grid-template-columns: 1fr;
     }

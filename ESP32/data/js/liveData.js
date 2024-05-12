@@ -5,8 +5,7 @@ let klStatus = document.getElementById("kl");
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
-        wsStatus.style.color = "#00ff00";
-        wsStatus.innerHTML = "Connected";
+        wsStatus.style.fill = "#00ff00";
         document.getElementById("Speed").innerHTML = wsMessage.Speed;
         document.getElementById("RPM").innerHTML = wsMessage.RPM;
         document.getElementById("CoolantTemp").innerHTML = wsMessage.CoolantTemp;
@@ -17,15 +16,12 @@ function handleWebSocketMessage(wsMessage) {
         document.getElementById("MAF").innerHTML = wsMessage.MAF;
 
         if (wsMessage.KLineStatus == true) {
-            klStatus.style.color = "#00ff00";
-            klStatus.innerHTML = "Connected";
+            klStatus.style.fill = "#00ff00";
         } else {
-            klStatus.style.color = "red";
-            klStatus.innerHTML = "Not Connected";
+            klStatus.style.fill = "red";
         }
     } else {
-        wsStatus.style.color = "red";
-        wsStatus.innerHTML = "Not Connected";
+        wsStatus.style.fill = "red";
     }
 }
 

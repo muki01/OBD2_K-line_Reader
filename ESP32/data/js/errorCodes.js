@@ -17,8 +17,7 @@ let errorsField = document.getElementById("errorCodes");
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
-        wsStatus.style.color = "#00ff00";
-        wsStatus.innerHTML = "Connected";
+        wsStatus.style.fill = "#00ff00";
         let dtcArray = wsMessage.DTCs;
         if (dtcArray.length > 0) {
             let errorsString = "";
@@ -35,15 +34,12 @@ function handleWebSocketMessage(wsMessage) {
         }
 
         if (wsMessage.KLineStatus == true) {
-            klStatus.style.color = "#00ff00";
-            klStatus.innerHTML = "Connected";
+            klStatus.style.fill = "#00ff00";
         } else {
-            klStatus.style.color = "red";
-            klStatus.innerHTML = "Not Connected";
+            klStatus.style.fill = "red";
         }
     } else {
-        wsStatus.style.color = "red";
-        wsStatus.innerHTML = "Not Connected";
+        wsStatus.style.fill = "red";
     }
 }
 

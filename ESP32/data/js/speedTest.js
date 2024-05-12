@@ -9,11 +9,13 @@ let resetBtn = document.getElementById("reset-timer");
 
 let [milliseconds, seconds, minutes] = [0, 0, 0];
 let interval = null;
-let starter = false;
+let counterEnabled = false;
+let stoperEnabled = false;
 
 startBtn.addEventListener("click", () => {
     senData("beep");
-    starter = true;
+    counterEnabled = true;
+    stoperEnabled = false;
 });
 
 pauseBtn.addEventListener("click", () => {
@@ -66,29 +68,26 @@ function displayTimer() {
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
-        wsStatus.style.color = "#00ff00";
-        wsStatus.innerHTML = "Connected";
+        wsStatus.style.fill = "#00ff00";
         document.getElementById("Speed").innerHTML = wsMessage.Speed;
 
-        if (starter == true && wsMessage.Speed > 0) {
-            starter = false;
+        if (counterEnabled == true && wsMessage.Speed > 0) {
+            counterEnabled = false;
             startTimer();
             senData("beep");
-        } else if (wsMessage.Speed >= 100) {
+        } else if (stoperEnabled == false && wsMessage.Speed >= 100) {
+            stoperEnabled = true;
             pauseTimer();
             senData("beep");
         }
 
         if (wsMessage.KLineStatus == true) {
-            klStatus.style.color = "#00ff00";
-            klStatus.innerHTML = "Connected";
+            klStatus.style.fill = "#00ff00";
         } else {
-            klStatus.style.color = "red";
-            klStatus.innerHTML = "Not Connected";
+            klStatus.style.fill= "red";
         }
     } else {
-        wsStatus.style.color = "red";
-        wsStatus.innerHTML = "Not Connected";
+        wsStatus.style.fill = "red";
     }
 }
 
