@@ -17,7 +17,7 @@ AsyncWebSocket ws("/ws");
 #define Buzzer 0
 
 #define READ_DELAY 5
-int REQUEST_DELAY = 500;
+int REQUEST_DELAY;
 //#define REQUEST_DELAY 50
 //#define REQUEST_DELAY_Slow 500
 
@@ -44,6 +44,8 @@ void setup() {
   initWebServer();
   if (protocol == "ISO14230_Fast") {
     REQUEST_DELAY = 50;
+  } else {
+    REQUEST_DELAY = 500;
   }
 }
 
@@ -64,7 +66,6 @@ void loop() {
         connection();
         KLineStatus = true;
         digitalWrite(Led, LOW);
-        get_DTCs();
       }
       lastReqestTime = millis();
     }

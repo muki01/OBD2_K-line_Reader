@@ -22,6 +22,7 @@ void initWiFi() {
   WiFi.begin(STA_ssid.c_str(), STA_password.c_str());
   unsigned long previousMillis = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - previousMillis <= 3000) {
+    delay(500);
   }
 
   if (WiFi.status() == WL_CONNECTED) {
@@ -35,9 +36,6 @@ void initWiFi() {
 }
 
 void initWebServer() {
-  server.on("/generate_204", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->redirect("/");
-  });
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/index.html", "text/html");
     page = 0;
@@ -60,11 +58,9 @@ void initWebServer() {
   });
   server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/settings.html", "text/html");
-    page = 5;
   });
   server.on("/about.html", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/about.html", "text/html");
-    page = 6;
   });
   server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/css/style.css", "text/css");
@@ -114,11 +110,22 @@ void initWebServer() {
   server.on("/fonts/Montserrat-Bold.woff2", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/fonts/Montserrat-Bold.woff2", "application/font-woff2");
   });
-  server.on("/api", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/api/getData", HTTP_GET, [](AsyncWebServerRequest *request) {
     page = -1;
+    mode2();
+    getPID(VEHICLE_SPEED);
+    getPID(ENGINE_RPM);
+    getPID(ENGINE_COOLANT_TEMP);
+    getPID(INTAKE_AIR_TEMP);
+    getPID(THROTTLE_POSITION);
+    getPID(TIMING_ADVANCE);
+    getPID(ENGINE_LOAD);
+    getPID(MAF_FLOW_RATE);
+    get_DTCs();
     request->send(200, "application/json", JsonData());
   });
   server.on("/api/clearDTCs", HTTP_GET, [](AsyncWebServerRequest *request) {
+    mode2();
     clear_DTC();
     request->send(200, "text/plain", "Succesfully");
   });

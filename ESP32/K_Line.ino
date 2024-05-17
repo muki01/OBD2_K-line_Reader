@@ -2,8 +2,6 @@ uint8_t resultBuffer[30];
 String dtcBuffer[20];
 
 void read_K() {
-  K_Serial.flush();
-
   if (page == 1 || page == -1) {
     getPID(VEHICLE_SPEED);
     getPID(ENGINE_RPM);
@@ -13,14 +11,18 @@ void read_K() {
     getPID(TIMING_ADVANCE);
     getPID(ENGINE_LOAD);
     getPID(MAF_FLOW_RATE);
-  } else if (page == 2 || page == 3) {
-    if (millis() - lastDTCTime >= 5000) {
+  }
+  if (page == 0 || page == 2 || page == 3) {
+    if (millis() - lastDTCTime >= 1000) {
       get_DTCs();
       lastDTCTime = millis();
     }
-  } else if (page == 4) {
+  }
+  if (page == 4) {
     getPID(VEHICLE_SPEED);
   }
+
+  K_Serial.flush();
 }
 
 bool init_KWP() {
@@ -60,7 +62,7 @@ bool init_KWP_slow() {
 
     int result = K_Serial.available();
     if (result > 0) {
-      int bytesRead = min(result, 20);
+      int bytesRead = min(result, 30);
       for (int i = 0; i < bytesRead; i++) {
         resultBuffer[i] = K_Serial.read();
         delay(READ_DELAY);
@@ -74,20 +76,13 @@ bool init_KWP_slow() {
 }
 
 void writeData(const byte data[], int length, const byte pid) {
-  delay(5);
-
   byte extendedData[length + 2];
-  for (int i = 0; i < length; ++i) {
-    extendedData[i] = data[i];
-  }
+  memcpy(extendedData, data, length);
   extendedData[length] = pid;
   byte checksum = calculateChecksum(extendedData, length + 1);
   extendedData[length + 1] = checksum;
 
-  for (int i = 0; i < length + 2; i++) {
-    K_Serial.write(extendedData[i]);
-    delay(5);
-  }
+  K_Serial.write(extendedData, length + 2);
 }
 
 void readData() {
