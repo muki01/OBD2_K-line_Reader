@@ -213,11 +213,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
     if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
       data[len] = 0;
       const char *message = (const char *)data;
-      
-      if (strcmp(message, "get_dtc") == 0) {
-        mode1();
-        get_DTCs();
-      }
+
       if (strcmp(message, "clear_dtc") == 0) {
         mode2();
         clear_DTC();
