@@ -4,7 +4,7 @@
 #include <ArduinoJson.h>
 #include <SPIFFS.h>
 #include "PIDs.h"
-//DynamicJsonDocument jsonDoc(512);
+
 JsonDocument jsonDoc;
 
 AsyncWebServer server(80);
@@ -14,17 +14,17 @@ AsyncWebSocket ws("/ws");
 #define K_line_RX 20
 #define K_line_TX 21
 #define Led 8
-#define Buzzer 0
+#define Buzzer 1
+#define voltagePin 0
 
 #define READ_DELAY 5
 int REQUEST_DELAY;
-//#define REQUEST_DELAY 50
-//#define REQUEST_DELAY_Slow 500
 
 String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol;
 int page = -1;
 
 int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1, TIMINGADVANCE = 1, ENGINELOAD = 1, MAF = 1;
+double Voltage = 1;
 bool KLineStatus = false;
 
 static unsigned long lastReqestTime = 0, lastWsTime = 0, lastDTCTime = 0;
@@ -34,6 +34,7 @@ void setup() {
   pinMode(K_line_TX, OUTPUT);
   pinMode(Led, OUTPUT);
   pinMode(Buzzer, OUTPUT);
+  pinMode(voltagePin, INPUT);
   digitalWrite(Led, HIGH);
 
   initSpiffs();

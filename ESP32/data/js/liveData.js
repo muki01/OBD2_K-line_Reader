@@ -14,6 +14,7 @@ function handleWebSocketMessage(wsMessage) {
         document.getElementById("TimingAdvance").innerHTML = wsMessage.TimingAdvance;
         document.getElementById("EngineLoad").innerHTML = wsMessage.EngineLoad;
         document.getElementById("MAF").innerHTML = wsMessage.MAF;
+        document.getElementById("Voltage").innerHTML = wsMessage.Voltage;
 
         if (wsMessage.KLineStatus == true) {
             klStatus.style.fill = "#00ff00";

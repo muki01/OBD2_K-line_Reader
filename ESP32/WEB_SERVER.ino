@@ -157,7 +157,8 @@ void initWebSocket() {
 String JsonData() {
   String JSONtxt;
   jsonDoc.clear();
-  if (page == -1) {  //Add All Data
+
+  if (page == -1) {
     jsonDoc["Speed"] = SPEED;
     jsonDoc["RPM"] = RPM;
     jsonDoc["CoolantTemp"] = COOLANT_TEMP;
@@ -166,15 +167,13 @@ String JsonData() {
     jsonDoc["TimingAdvance"] = TIMINGADVANCE;
     jsonDoc["EngineLoad"] = ENGINELOAD;
     jsonDoc["MAF"] = MAF;
-    jsonDoc["KLineStatus"] = KLineStatus;
+    jsonDoc["Voltage"] = Voltage;
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {
       if (!dtcBuffer[i].isEmpty()) {
         dtcArray.add(dtcBuffer[i]);
       }
     }
-  } else if (page == 0) {
-    jsonDoc["KLineStatus"] = KLineStatus;
   } else if (page == 1) {
     jsonDoc["Speed"] = SPEED;
     jsonDoc["RPM"] = RPM;
@@ -184,9 +183,8 @@ String JsonData() {
     jsonDoc["TimingAdvance"] = TIMINGADVANCE;
     jsonDoc["EngineLoad"] = ENGINELOAD;
     jsonDoc["MAF"] = MAF;
-    jsonDoc["KLineStatus"] = KLineStatus;
+    jsonDoc["Voltage"] = Voltage;
   } else if (page == 2) {
-    jsonDoc["KLineStatus"] = KLineStatus;
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {
       if (!dtcBuffer[i].isEmpty()) {
@@ -194,7 +192,6 @@ String JsonData() {
       }
     }
   } else if (page == 3) {
-    jsonDoc["KLineStatus"] = KLineStatus;
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {
       if (!dtcBuffer[i].isEmpty()) {
@@ -202,13 +199,10 @@ String JsonData() {
       }
     }
   } else if (page == 4) {
-    jsonDoc["KLineStatus"] = KLineStatus;
     jsonDoc["Speed"] = SPEED;
-  } else if (page == 5) {
-
-  } else if (page == 6) {
   }
 
+  jsonDoc["KLineStatus"] = KLineStatus;
   serializeJson(jsonDoc, JSONtxt);
   return JSONtxt;
 }

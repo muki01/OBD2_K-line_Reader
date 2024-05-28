@@ -11,14 +11,14 @@ void read_K() {
     getPID(TIMING_ADVANCE);
     getPID(ENGINE_LOAD);
     getPID(MAF_FLOW_RATE);
-  }
-  if (page == 0 || page == 2 || page == 3) {
+    double voltage = (double)analogRead(voltagePin) / 4096 * 17.4;
+    Voltage = round(voltage * 10) / 10;
+  } else if (page == 0 || page == 2 || page == 3) {
     if (millis() - lastDTCTime >= 1000) {
       get_DTCs();
       lastDTCTime = millis();
     }
-  }
-  if (page == 4) {
+  } else if (page == 4) {
     getPID(VEHICLE_SPEED);
   }
 
@@ -26,6 +26,8 @@ void read_K() {
 }
 
 bool init_KWP() {
+  // Request: C1 33 F1 81 66
+  // Response: 83 F1 11 C1 8F EF C4
   K_Serial.end();
 
   digitalWrite(K_line_TX, HIGH), delay(300);
@@ -107,6 +109,8 @@ byte calculateChecksum(const byte data[], int length) {
 }
 
 void getPID(const byte pid) {
+  // example Request: C2 33 F1 01 0C F3
+  // example Response: 84 F1 11 41 0C 1F 40 32
   if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
     writeData(start_Bytes4, sizeof(start_Bytes4), pid);
   } else if (protocol == "ISO14230_Fast") {
@@ -136,6 +140,8 @@ void getPID(const byte pid) {
 }
 
 void get_DTCs() {
+  // Request: C2 33 F1 03 F3
+  // example Response: 87 F1 11 43 01 70 01 34 00 00 72
   int dtcs = 0;
   char dtcBytes[2];
 
