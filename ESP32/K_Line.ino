@@ -1,4 +1,4 @@
-uint8_t resultBuffer[30];
+byte resultBuffer[30];
 String dtcBuffer[20];
 
 void read_K() {
@@ -11,8 +11,10 @@ void read_K() {
     getPID(TIMING_ADVANCE);
     getPID(ENGINE_LOAD);
     getPID(MAF_FLOW_RATE);
+
     double voltage = (double)analogRead(voltagePin) / 4096 * 17.4;
-    Voltage = round(voltage * 10) / 10;
+    VOLTAGE = round(voltage * 10) / 10;
+
   } else if (page == 0 || page == 2 || page == 3) {
     if (millis() - lastDTCTime >= 1000) {
       get_DTCs();
@@ -60,15 +62,9 @@ bool init_KWP_slow() {
   if (resultBuffer[0] == 0x55) {
     delay(30);
     K_Serial.write(~resultBuffer[2]);  //0xF7
-    delay(50);
+    readData();
 
-    int result = K_Serial.available();
-    if (result > 0) {
-      int bytesRead = min(result, 30);
-      for (int i = 0; i < bytesRead; i++) {
-        resultBuffer[i] = K_Serial.read();
-        delay(READ_DELAY);
-      }
+    if (resultBuffer[1]) {
       return true;
     } else {
       return false;

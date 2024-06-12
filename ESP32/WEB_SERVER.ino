@@ -167,7 +167,7 @@ String JsonData() {
     jsonDoc["TimingAdvance"] = TIMINGADVANCE;
     jsonDoc["EngineLoad"] = ENGINELOAD;
     jsonDoc["MAF"] = MAF;
-    jsonDoc["Voltage"] = Voltage;
+    jsonDoc["Voltage"] = VOLTAGE;
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {
       if (!dtcBuffer[i].isEmpty()) {
@@ -183,7 +183,7 @@ String JsonData() {
     jsonDoc["TimingAdvance"] = TIMINGADVANCE;
     jsonDoc["EngineLoad"] = ENGINELOAD;
     jsonDoc["MAF"] = MAF;
-    jsonDoc["Voltage"] = Voltage;
+    jsonDoc["Voltage"] = VOLTAGE;
   } else if (page == 2) {
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {

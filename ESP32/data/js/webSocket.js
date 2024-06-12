@@ -1,4 +1,4 @@
-var gateway = `ws://${window.location.hostname}/ws`;
+let gateway = `ws://${window.location.hostname}/ws`;
 let ws = null;
 let messageHandler = null;
 

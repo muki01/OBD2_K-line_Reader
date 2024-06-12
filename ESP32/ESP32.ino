@@ -23,11 +23,11 @@ int REQUEST_DELAY;
 String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol;
 int page = -1;
 
-int SPEED = 1, RPM = 1, THROTTLE = 1, COOLANT_TEMP = 1, INTAKE_TEMP = 1, VOLTAGE = 1, TIMINGADVANCE = 1, ENGINELOAD = 1, MAF = 1;
-double Voltage = 1;
+int SPEED = 0, RPM = 0, THROTTLE = 0, COOLANT_TEMP = 0, INTAKE_TEMP = 0, TIMINGADVANCE = 0, ENGINELOAD = 0, MAF = 0;
+double VOLTAGE = 0;
 bool KLineStatus = false;
 
-static unsigned long lastReqestTime = 0, lastWsTime = 0, lastDTCTime = 0;
+static unsigned long lastReqestTime = 5000, lastWsTime = 100, lastDTCTime = 1000;
 
 void setup() {
   pinMode(K_line_RX, INPUT_PULLUP);
