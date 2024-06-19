@@ -31,7 +31,7 @@ void initWiFi() {
     // if (WiFi.softAPConfig(AP_ip, AP_gateway, AP_subnet));
     WiFi.mode(WIFI_AP);
     WiFi.softAP(AP_ssid, AP_password);
-    BlinkLed(400, 1);
+    BlinkLed(300, 1);
   }
 }
 

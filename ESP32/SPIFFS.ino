@@ -1,7 +1,7 @@
 void initSpiffs() {
   if (!SPIFFS.begin()) {
     while (1) {
-      BlinkLed(1000, 1);
+      BlinkLed(1000, 100);
     }
   }
 }

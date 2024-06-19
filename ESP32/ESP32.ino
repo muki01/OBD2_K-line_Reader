@@ -43,6 +43,7 @@ void setup() {
   initWiFi();
   initWebSocket();
   initWebServer();
+  K_Serial.begin(10400, SERIAL_8N1);
   if (protocol == "ISO14230_Fast") {
     REQUEST_DELAY = 50;
   } else {
@@ -109,10 +110,12 @@ void mode2() {
 }
 
 void BlinkLed(int time, int count) {
-  for (int i = 0; i < count; i++) {
+  for (int i = 1; i <= count; i++) {
     digitalWrite(Led, LOW);
     delay(time);
     digitalWrite(Led, HIGH);
-    delay(time);
+    if (i != count) {
+      delay(time);
+    }
   }
 }
