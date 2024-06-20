@@ -183,6 +183,11 @@ String decodeDTC(char input_byte1, char input_byte2) {
 void clear_DTC() {
   if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
     writeData(start_Bytes3, sizeof(start_Bytes3), clear_DTCs);
+  } else if (protocol == "ISO14230_Fast") {
+    writeData(start_Bytes1, sizeof(start_Bytes1), clear_DTCs);
+  }
+}
+
 void getVIN() {
   // Request: C2 33 F1 09 02 F1
   // example Response: 87 F1 11 49 02 01 00 00 00 31 06
@@ -212,10 +217,6 @@ void getVIN() {
   }
 
   Vehicle_VIN = convertHexToAscii(VIN_Array, sizeof(VIN_Array));
-}
-  } else if (protocol == "ISO14230_Fast") {
-    writeData(start_Bytes1, sizeof(start_Bytes1), clear_DTCs);
-  }
 }
 
 String convertHexToAscii(byte* hexBytes, size_t length) {
