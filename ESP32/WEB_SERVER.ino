@@ -201,6 +201,10 @@ String JsonData() {
     }
   } else if (page == 4) {
     jsonDoc["Speed"] = SPEED;
+  } else if (page == 5) {
+    jsonDoc["VIN"] = Vehicle_VIN;
+    jsonDoc["ID"] = Vehicle_ID;
+    jsonDoc["IDNum"] = Vehicle_ID_Num;
   }
 
   jsonDoc["KLineStatus"] = KLineStatus;

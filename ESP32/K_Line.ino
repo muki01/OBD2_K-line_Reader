@@ -1,5 +1,5 @@
-byte resultBuffer[30];
 String dtcBuffer[20];
+byte resultBuffer[70];
 
 void read_K() {
   if (page == 1 || page == -1) {
@@ -88,7 +88,7 @@ void readData() {
   int result = K_Serial.available();
   if (result > 0) {
     memset(resultBuffer, 0, sizeof(resultBuffer));
-    int bytesRead = min(result, 30);
+    int bytesRead = min(result, int(sizeof(resultBuffer)));
     for (int i = 0; i < bytesRead; i++) {
       resultBuffer[i] = K_Serial.read();
       delay(READ_DELAY);
@@ -183,11 +183,49 @@ String decodeDTC(char input_byte1, char input_byte2) {
 void clear_DTC() {
   if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
     writeData(start_Bytes3, sizeof(start_Bytes3), clear_DTCs);
+void getVIN() {
+  // Request: C2 33 F1 09 02 F1
+  // example Response: 87 F1 11 49 02 01 00 00 00 31 06
+  //                   87 F1 11 49 02 02 41 31 4A 43 D5
+  //                   87 F1 11 49 02 03 35 34 34 34 A8
+  //                   87 F1 11 49 02 04 52 37 32 35 C8
+
+  byte VIN_Array[17];
+  int arrayNum = 0;
+
+  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+    writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_VIN);
+  } else if (protocol == "ISO14230_Fast") {
+    writeData(vehicle_info, sizeof(vehicle_info), read_VIN);
+  }
+
+  delay(200);
+  readData();
+
+  if (resultBuffer[11] == 0x01) {
+    VIN_Array[arrayNum++] = resultBuffer[15];
+    for (int j = 0; j < 4; j++) {
+      for (int i = 1; i <= 4; i++) {
+        VIN_Array[arrayNum++] = resultBuffer[i + 22 + j * 11];
+      }
+    }
+  }
+
+  Vehicle_VIN = convertHexToAscii(VIN_Array, sizeof(VIN_Array));
+}
   } else if (protocol == "ISO14230_Fast") {
     writeData(start_Bytes1, sizeof(start_Bytes1), clear_DTCs);
   }
 }
 
+String convertHexToAscii(byte* hexBytes, size_t length) {
+  String asciiString = "";
+  for (int i = 0; i < length; i++) {
+    char asciiChar = (char)hexBytes[i];
+    asciiString += asciiChar;
+  }
+  return asciiString;
+}
 int getArrayLength(byte arr[]) {
   int count = 0;
   while (arr[count] != '\0') {

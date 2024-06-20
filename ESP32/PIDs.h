@@ -6,10 +6,14 @@ const byte start_Bytes1[3] = { 0xC1, 0x33, 0xF1 };
 const byte start_Bytes2[4] = { 0xC2, 0x33, 0xF1, 0x01 };  //Live Data Start Bytes
 const byte start_Bytes3[3] = { 0x68, 0x6A, 0xF1 };
 const byte start_Bytes4[4] = { 0x68, 0x6A, 0xF1, 0x01 };  //Live Data Start Bytes
+const byte vehicle_info[] = { 0xC2, 0x33, 0xF1, 0x09 };        //Live Data Start Bytes
+const byte vehicle_info_SLOW[] = { 0x68, 0x6A, 0xF1, 0x09 };   //Live Data Start Bytes
+
 const byte init_OBD = 0x81;    // Init fast ISO14230
 const byte read_DTCs = 0x03;   // Read Troubleshoot Codes
 const byte clear_DTCs = 0x04;  // Clear Troubleshoot Codes
 
+const byte read_VIN = 0x02;             // Read VIN
 const byte SUPPORTED_PIDS_1_20              = 0x00;  // bit encoded
 const byte MONITOR_STATUS_SINCE_DTC_CLEARED = 0x01;  // bit encoded          suported
 const byte FREEZE_DTC                       = 0x02;  //                      suported
