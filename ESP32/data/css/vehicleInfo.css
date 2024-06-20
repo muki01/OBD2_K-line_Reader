@@ -72,13 +72,13 @@ header .textArea {
 
 header .textArea h1 {
     color: #fff;
-    font-size: 40px;
+    font-size: 34px;
     text-shadow: 0 0 4px rgb(0, 0, 0);
     text-align: center;
 }
 
 header .textArea h1 .orange {
-    font-size: 40px;
+    font-size: 34px;
     color: #FFCE49;
 }
 
@@ -103,10 +103,28 @@ main {
 
 main .box {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 20px;
     background-color: #393939;
     border-radius: 10px;
-    text-align: center;
+}
+
+main .data {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+}
+
+main .data h1 {
+    font-size: 18px;
+    color: #fff;
+}
+
+main .data h2{
+    font-size: 18px;
+    color:#00a0eb;
 }
 
 @media screen and (max-width: 700px) {
@@ -115,7 +133,7 @@ main .box {
         width: 24px;
         height: 24px;
     }
-    main .status {
+    main .data {
         grid-template-columns: 1fr;
     }
 }

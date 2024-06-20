@@ -10,16 +10,6 @@ export function InitWebSocket() {
     ws.onerror = onError;
 }
 
-export function senData(data){
-    ws.send(data);
-    console.log("Sending Data: ", data);
-}
-
-export function setMessageHandler(handler) {
-    messageHandler = handler;
-}
-
-
 function onOpen(event) {
     console.log("WebSocket connected !");
 }
@@ -39,4 +29,16 @@ function onClose(event) {
 
 function onError(error) {
     console.log("WebSocket error:", error);
+}
+
+
+
+
+export function sendData(data){
+    ws.send(data);
+    //console.log("Sending Data: ", data);
+}
+
+export function setMessageHandler(handler) {
+    messageHandler = handler;
 }

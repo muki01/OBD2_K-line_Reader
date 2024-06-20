@@ -48,19 +48,20 @@ void initWebServer() {
     request->send(SPIFFS, "/errorCodes.html", "text/html");
     page = 2;
   });
-  server.on("/frozenData.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/frozenData.html", "text/html");
+  server.on("/freezeFrame.html", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/freezeFrame.html", "text/html");
     page = 3;
   });
   server.on("/speedTest.html", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/speedTest.html", "text/html");
     page = 4;
   });
+  server.on("/vehicleInfo.html", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/vehicleInfo.html", "text/html");
+    page = 5;
+  });
   server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/settings.html", "text/html");
-  });
-  server.on("/about.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/about.html", "text/html");
   });
   server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/css/style.css", "text/css");
@@ -71,17 +72,17 @@ void initWebServer() {
   server.on("/css/errorCodes.css", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/css/errorCodes.css", "text/css");
   });
-  server.on("/css/frozenData.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/css/frozenData.css", "text/css");
+  server.on("/css/freezeFrame.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/css/freezeFrame.css", "text/css");
   });
   server.on("/css/speedTest.css", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/css/speedTest.css", "text/css");
   });
+  server.on("/css/vehicleInfo.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/css/vehicleInfo.css", "text/css");
+  });
   server.on("/css/settings.css", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/css/settings.css", "text/css");
-  });
-  server.on("/css/about.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/css/about.css", "text/css");
   });
   server.on("/js/script.js", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/js/script.js", "text/javascript");
@@ -92,17 +93,17 @@ void initWebServer() {
   server.on("/js/errorCodes.js", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/js/errorCodes.js", "text/javascript");
   });
-  server.on("/js/frozenData.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/frozenData.js", "text/javascript");
+  server.on("/js/freezeFrame.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/js/freezeFrame.js", "text/javascript");
   });
   server.on("/js/speedTest.js", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/js/speedTest.js", "text/javascript");
   });
+  server.on("/js/vehicleInfo.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/js/vehicleInfo.js", "text/javascript");
+  });
   server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/js/settings.js", "text/javascript");
-  });
-  server.on("/js/about.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/about.js", "text/javascript");
   });
   server.on("/js/webSocket.js", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/js/webSocket.js", "text/javascript");

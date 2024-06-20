@@ -72,13 +72,13 @@ header .textArea {
 
 header .textArea h1 {
     color: #fff;
-    font-size: 40px;
+    font-size: 34px;
     text-shadow: 0 0 4px rgb(0, 0, 0);
     text-align: center;
 }
 
 header .textArea h1 .orange {
-    font-size: 40px;
+    font-size: 34px;
     color: #FFCE49;
 }
 
@@ -170,8 +170,5 @@ main .btnArea a:active{
     header #kl {
         width: 24px;
         height: 24px;
-    }
-    main .status {
-        grid-template-columns: 1fr;
     }
 }

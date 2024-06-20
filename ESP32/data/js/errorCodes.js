@@ -1,4 +1,4 @@
-import { InitWebSocket, setMessageHandler, senData } from "./webSocket.js";
+import { InitWebSocket, setMessageHandler, sendData } from "./webSocket.js";
 
 let wsStatus = document.getElementById("ws");
 let klStatus = document.getElementById("kl");
@@ -6,7 +6,7 @@ let klStatus = document.getElementById("kl");
 let clearDTC = document.getElementById("clearDTC");
 
 clearDTC.addEventListener("click", function () {
-    senData("clear_dtc");
+    sendData("clear_dtc");
 })
 
 let errorsField = document.getElementById("errorCodes");

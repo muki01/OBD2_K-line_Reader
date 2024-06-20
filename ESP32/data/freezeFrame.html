@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OBD2 Master</title>
-    <link rel="stylesheet" href="css/errorCodes.css">
+    <link rel="stylesheet" href="css/freezeFrame.css">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
                 <a href="/"><span class="arrow"></span></a>
             </div>
             <div class="textArea">
-                <h1><span class="orange">Error</span> Codes</h1>
+                <h1><span class="orange">Freeze</span> Frame</h1>
             </div>
             <div class="connectionArea">
                 <svg id="ws" viewBox="0 0 512 512">
@@ -33,18 +33,62 @@
         <div class="mainContainer">
             <div class="data">
                 <div class="box">
-                    <h1><span id="errorCodes">Waiting Error...</span></h1>
+                    <h1><span id="Speed">0</span> KM/h</h1>
                     <div class="name">
-                        <h2>Error Codes</h2>
+                        <h2>Speed</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span id="RPM">0</span> RPM</h1>
+                    <div class="name">
+                        <h2>RPM</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span id="CoolantTemp">0</span> °C</h1>
+                    <div class="name">
+                        <h2>Coolant Temp</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span id="IntakeTemp">0</span> °C</h1>
+                    <div class="name">
+                        <h2>Intake Temp</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span id="Throttle">0</span> %</h1>
+                    <div class="name">
+                        <h2>Throttle</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span id="TimingAdvance">0</span> °</h1>
+                    <div class="name">
+                        <h2>Timing Advance (before TDC)</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span id="EngineLoad">0</span> %</h1>
+                    <div class="name">
+                        <h2>Engine Load</h2>
+                    </div>
+                </div>
+                <div class="box">
+                    <h1><span id="MAF">0</span> g/s</h1>
+                    <div class="name">
+                        <h2>MAF</h2>
                     </div>
                 </div>
             </div>
-            <div class="btnArea">
-                <a id="clearDTC">Clear Error Codes</a>
+            <div class="info">
+                <h1>What is Freeze Frame</h1>
+                <p>Freeze Frame is a snapshot of sensor or component readings (parameter values) captured at the moment
+                    when the electronic control unit (ECU) detected a malfunction.</p>
             </div>
         </div>
     </main>
 </body>
-<script type="module" src="js/errorCodes.js"></script>
+<script type="module" src="js/freezeFrame.js"></script>
 
 </html>
