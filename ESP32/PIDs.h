@@ -14,6 +14,11 @@ const byte read_DTCs = 0x03;   // Read Troubleshoot Codes
 const byte clear_DTCs = 0x04;  // Clear Troubleshoot Codes
 
 const byte read_VIN = 0x02;             // Read VIN
+const byte read_ID_Length = 0x03;       // Read Calibration ID Length
+const byte read_ID = 0x04;              // Read Calibration ID
+
+
+
 const byte SUPPORTED_PIDS_1_20              = 0x00;  // bit encoded
 const byte MONITOR_STATUS_SINCE_DTC_CLEARED = 0x01;  // bit encoded          suported
 const byte FREEZE_DTC                       = 0x02;  //                      suported
