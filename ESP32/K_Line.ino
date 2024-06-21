@@ -219,6 +219,41 @@ void getVIN() {
   Vehicle_VIN = convertHexToAscii(VIN_Array, sizeof(VIN_Array));
 }
 
+void getCalibrationID() {
+  // Request: C2 33 F1 09 06 F1
+  // example Response: 87 F1 11 49 06 01 00 00 67 0C 4C
+
+  byte ID_Array[32];
+  int ID_messageCount;
+  int arrayNum = 0;
+
+  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+    writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID_Length);
+  } else if (protocol == "ISO14230_Fast") {
+    writeData(vehicle_info, sizeof(vehicle_info), read_ID_Length);
+  }
+  delay(200);
+  readData();
+  ID_messageCount = resultBuffer[11];
+
+  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+    writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID);
+  } else if (protocol == "ISO14230_Fast") {
+    writeData(vehicle_info, sizeof(vehicle_info), read_ID);
+  }
+  delay(200);
+  readData();
+
+  if (resultBuffer[11] == 0x01) {
+    for (int j = 0; j < ID_messageCount; j++) {
+      for (int i = 1; i <= 4; i++) {
+        ID_Array[arrayNum++] = resultBuffer[i + 11 + j * 11];
+      }
+    }
+  }
+  Vehicle_ID = convertHexToAscii(ID_Array, arrayNum);
+}
+
 String convertHexToAscii(byte* hexBytes, size_t length) {
   String asciiString = "";
   for (int i = 0; i < length; i++) {
