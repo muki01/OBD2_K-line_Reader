@@ -254,6 +254,43 @@ void getCalibrationID() {
   Vehicle_ID = convertHexToAscii(ID_Array, arrayNum);
 }
 
+void getCalibrationIDNum() {
+  // Request: C2 33 F1 09 06 F1
+  // example Response: 87 F1 11 49 06 01 00 00 67 0C 4C
+
+  byte IDNum_Array[16];
+  int ID_messageCount;
+  int arrayNum = 0;
+
+  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+    writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID_Num_Length);
+  } else if (protocol == "ISO14230_Fast") {
+    writeData(vehicle_info, sizeof(vehicle_info), read_ID_Num_Length);
+  }
+  delay(200);
+  readData();
+  ID_messageCount = resultBuffer[11];
+
+  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+    writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID_Num);
+  } else if (protocol == "ISO14230_Fast") {
+    writeData(vehicle_info, sizeof(vehicle_info), read_ID_Num);
+  }
+  delay(200);
+  readData();
+
+  if (resultBuffer[11] == 0x01) {
+    for (int j = 0; j < ID_messageCount; j++) {
+      for (int i = 1; i <= 4; i++) {
+        IDNum_Array[arrayNum++] = resultBuffer[i + 11 + j * 11];
+      }
+    }
+  }
+  Vehicle_ID_Num = convertBytesToHexString(IDNum_Array, arrayNum);
+}
+
+
+
 String convertHexToAscii(byte* hexBytes, size_t length) {
   String asciiString = "";
   for (int i = 0; i < length; i++) {
@@ -262,6 +299,20 @@ String convertHexToAscii(byte* hexBytes, size_t length) {
   }
   return asciiString;
 }
+
+String convertBytesToHexString(byte* buffer, int length) {
+  String hexString = "";
+  for (int i = 0; i < length; i++) {
+    if (buffer[i] < 0x10) {
+      hexString += "0";
+    }
+    hexString += String(buffer[i], HEX);
+  }
+  hexString.toUpperCase();
+  return hexString;
+}
+
+
 int getArrayLength(byte arr[]) {
   int count = 0;
   while (arr[count] != '\0') {

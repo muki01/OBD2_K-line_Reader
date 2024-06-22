@@ -16,6 +16,8 @@ const byte clear_DTCs = 0x04;  // Clear Troubleshoot Codes
 const byte read_VIN = 0x02;             // Read VIN
 const byte read_ID_Length = 0x03;       // Read Calibration ID Length
 const byte read_ID = 0x04;              // Read Calibration ID
+const byte read_ID_Num_Length = 0x05;   // Read Calibration ID Number Length
+const byte read_ID_Num = 0x06;          // Read Calibration ID Number
 
 
 

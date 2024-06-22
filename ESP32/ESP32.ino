@@ -72,6 +72,7 @@ void loop() {
         digitalWrite(Led, LOW);
         getVIN();
         getCalibrationID();
+        getCalibrationIDNum();
       }
       lastReqestTime = millis();
     }
