@@ -136,6 +136,28 @@ main .data .name {
     background-color: #242424;
     border-radius: 0 0 10px 10px;
 }
+main .info{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #393939;
+    border-radius: 10px;
+}
+
+main .info h1{
+    background-color: #242424;
+    border-radius: 10px 10px 0 0 ;
+    color: #00aeff;
+    padding: 15px 20px;
+    font-size: 22px;
+}
+
+main .info p{
+    color: #fff;
+    padding: 10px 20px 20px;
+    font-size: 16px;
+    line-height: 22px;
+}
 
 
 @media screen and (max-width: 1000px) {

@@ -4,7 +4,6 @@ let wsStatus = document.getElementById("ws");
 let klStatus = document.getElementById("kl");
 let timeRef = document.querySelector(".timerDisplay");
 let startBtn = document.getElementById("start-timer");
-let pauseBtn = document.getElementById("pause-timer");
 let resetBtn = document.getElementById("reset-timer");
 
 let [milliseconds, seconds, minutes] = [0, 0, 0];
@@ -18,10 +17,6 @@ startBtn.addEventListener("click", () => {
     stoperEnabled = false;
 });
 
-pauseBtn.addEventListener("click", () => {
-    sendData("beep");
-    pauseTimer();
-});
 resetBtn.addEventListener("click", () => {
     sendData("beep");
     resetTimer();
@@ -39,7 +34,7 @@ function pauseTimer() {
 function resetTimer() {
     clearInterval(interval);
     [milliseconds, seconds, minutes] = [0, 0, 0];
-    timeRef.innerHTML = "00 : 00 : 000 ";
+    timeRef.innerHTML = "00 : 00 : 000";
 }
 
 function displayTimer() {

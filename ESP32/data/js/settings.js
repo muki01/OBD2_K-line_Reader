@@ -1,3 +1,6 @@
+import { InitWebSocket, setMessageHandler } from "./webSocket.js";
+
+
 let staticIpRadio = document.getElementById("staticIp");
 let dynamicIpRadio = document.getElementById("dynamicIp");
 let staticIpMenu = document.querySelector(".staticIP-menu");
@@ -30,3 +33,24 @@ dynamicIpRadio.addEventListener("click", function () {
         }, 400);
     }
 });
+
+
+let wsStatus = document.getElementById("ws");
+let klStatus = document.getElementById("kl");
+
+function handleWebSocketMessage(wsMessage) {
+    if (wsMessage) {
+        wsStatus.style.fill = "#00ff00";
+        if (wsMessage.KLineStatus == true) {
+            klStatus.style.fill = "#00ff00";
+        } else {
+            klStatus.style.fill = "red";
+        }
+    } else {
+        wsStatus.style.fill = "red";
+    }
+}
+
+setMessageHandler(handleWebSocketMessage);
+InitWebSocket();
+

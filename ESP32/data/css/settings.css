@@ -80,6 +80,21 @@ header .textArea h1 .orange {
     color: #FFCE49;
 }
 
+header .connectionArea{
+    display: flex;
+    gap: 4px;
+}
+
+header #ws,
+header #kl {
+    width: 30px;
+    height: 30px;
+    fill: red;
+    stroke: black;
+    stroke-width: 16px;
+    filter: drop-shadow(0 0 1px rgb(0, 0, 0));
+}
+
 main {
     padding: 20px 0;
 }
