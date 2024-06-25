@@ -2,12 +2,17 @@
 // PIDs (https://en.wikipedia.org/wiki/OBD-II_PIDs)
 //-------------------------------------------------------------------------------------//
 
-const byte start_Bytes1[3] = { 0xC1, 0x33, 0xF1 };
-const byte start_Bytes2[4] = { 0xC2, 0x33, 0xF1, 0x01 };  //Live Data Start Bytes
-const byte start_Bytes3[3] = { 0x68, 0x6A, 0xF1 };
-const byte start_Bytes4[4] = { 0x68, 0x6A, 0xF1, 0x01 };  //Live Data Start Bytes
-const byte vehicle_info[] = { 0xC2, 0x33, 0xF1, 0x09 };        //Live Data Start Bytes
-const byte vehicle_info_SLOW[] = { 0x68, 0x6A, 0xF1, 0x09 };   //Live Data Start Bytes
+const byte start_Bytes[3] = { 0xC1, 0x33, 0xF1 };
+const byte start_Bytes_SLOW[3] = { 0x68, 0x6A, 0xF1 };
+
+const byte live_data[4] = { 0xC2, 0x33, 0xF1, 0x01 };           //Live Data Start Bytes
+const byte live_data_SLOW[4] = { 0x68, 0x6A, 0xF1, 0x01 };      //Live Data Start Bytes
+
+const byte freeze_frame[4] = { 0xC2, 0x33, 0xF1, 0x02 };        //Freeze Frame Start Bytes
+const byte freeze_frame_SLOW[4] = { 0x68, 0x6A, 0xF1, 0x02 };   //Freeze Frame Start Bytes
+
+const byte vehicle_info[4] = { 0xC2, 0x33, 0xF1, 0x09 };        //Live Data Start Bytes
+const byte vehicle_info_SLOW[4] = { 0x68, 0x6A, 0xF1, 0x09 };   //Live Data Start Bytes
 
 const byte init_OBD = 0x81;    // Init fast ISO14230
 const byte read_DTCs = 0x03;   // Read Troubleshoot Codes

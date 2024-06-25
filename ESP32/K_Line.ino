@@ -1,7 +1,10 @@
-String dtcBuffer[20];
 byte resultBuffer[70];
+String dtcBuffer[50];
 
 void read_K() {
+  VOLTAGE = (double)analogRead(voltagePin) / 4096 * 17.4;
+  VOLTAGE = round(VOLTAGE * 10) / 10;
+
   if (page == 1 || page == -1) {
     getPID(VEHICLE_SPEED);
     getPID(ENGINE_RPM);
@@ -11,10 +14,6 @@ void read_K() {
     getPID(TIMING_ADVANCE);
     getPID(ENGINE_LOAD);
     getPID(MAF_FLOW_RATE);
-
-    double voltage = (double)analogRead(voltagePin) / 4096 * 17.4;
-    VOLTAGE = round(voltage * 10) / 10;
-
   } else if (page == 0 || page == 2 || page == 3) {
     if (millis() - lastDTCTime >= 1000) {
       get_DTCs();
@@ -37,7 +36,7 @@ bool init_KWP() {
   digitalWrite(K_line_TX, HIGH), delay(25);
 
   K_Serial.begin(10400, SERIAL_8N1);
-  writeData(start_Bytes1, sizeof(start_Bytes1), init_OBD);
+  writeData(start_Bytes, sizeof(start_Bytes), init_OBD);
   readData();
   if (resultBuffer[8] == 0xC1) {
     return true;
@@ -107,10 +106,10 @@ byte calculateChecksum(const byte data[], int length) {
 void getPID(const byte pid) {
   // example Request: C2 33 F1 01 0C F3
   // example Response: 84 F1 11 41 0C 1F 40 32
-  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
-    writeData(start_Bytes4, sizeof(start_Bytes4), pid);
-  } else if (protocol == "ISO14230_Fast") {
-    writeData(start_Bytes2, sizeof(start_Bytes2), pid);
+  if (protocol == "ISO9141") {
+    writeData(live_data_SLOW, sizeof(live_data_SLOW), pid);
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+    writeData(live_data, sizeof(live_data), pid);
   }
   readData();
 
@@ -141,10 +140,10 @@ void get_DTCs() {
   int dtcs = 0;
   char dtcBytes[2];
 
-  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
-    writeData(start_Bytes3, sizeof(start_Bytes3), read_DTCs);
-  } else if (protocol == "ISO14230_Fast") {
-    writeData(start_Bytes1, sizeof(start_Bytes1), read_DTCs);
+  if (protocol == "ISO9141") {
+    writeData(start_Bytes_SLOW, sizeof(start_Bytes_SLOW), read_DTCs);
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+    writeData(start_Bytes, sizeof(start_Bytes), read_DTCs);
   }
   readData();
 
@@ -159,8 +158,7 @@ void get_DTCs() {
       break;
     } else {
       String ErrorCode = decodeDTC(dtcBytes[0], dtcBytes[1]);
-      dtcBuffer[dtcs] = ErrorCode;
-      dtcs++;
+      dtcBuffer[dtcs++] = ErrorCode;
     }
   }
   sendDataToServer();
@@ -181,10 +179,10 @@ String decodeDTC(char input_byte1, char input_byte2) {
 }
 
 void clear_DTC() {
-  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
-    writeData(start_Bytes3, sizeof(start_Bytes3), clear_DTCs);
-  } else if (protocol == "ISO14230_Fast") {
-    writeData(start_Bytes1, sizeof(start_Bytes1), clear_DTCs);
+  if (protocol == "ISO9141") {
+    writeData(start_Bytes_SLOW, sizeof(start_Bytes_SLOW), clear_DTCs);
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+    writeData(start_Bytes, sizeof(start_Bytes), clear_DTCs);
   }
 }
 
@@ -198,9 +196,9 @@ void getVIN() {
   byte VIN_Array[17];
   int arrayNum = 0;
 
-  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+  if (protocol == "ISO9141") {
     writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_VIN);
-  } else if (protocol == "ISO14230_Fast") {
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
     writeData(vehicle_info, sizeof(vehicle_info), read_VIN);
   }
 
@@ -227,18 +225,18 @@ void getCalibrationID() {
   int ID_messageCount;
   int arrayNum = 0;
 
-  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+  if (protocol == "ISO9141") {
     writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID_Length);
-  } else if (protocol == "ISO14230_Fast") {
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
     writeData(vehicle_info, sizeof(vehicle_info), read_ID_Length);
   }
   delay(200);
   readData();
   ID_messageCount = resultBuffer[11];
 
-  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+  if (protocol == "ISO9141") {
     writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID);
-  } else if (protocol == "ISO14230_Fast") {
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
     writeData(vehicle_info, sizeof(vehicle_info), read_ID);
   }
   delay(200);
@@ -262,18 +260,18 @@ void getCalibrationIDNum() {
   int ID_messageCount;
   int arrayNum = 0;
 
-  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+  if (protocol == "ISO9141") {
     writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID_Num_Length);
-  } else if (protocol == "ISO14230_Fast") {
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
     writeData(vehicle_info, sizeof(vehicle_info), read_ID_Num_Length);
   }
   delay(200);
   readData();
   ID_messageCount = resultBuffer[11];
 
-  if (protocol == "ISO9141" || protocol == "ISO14230_Slow") {
+  if (protocol == "ISO9141") {
     writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID_Num);
-  } else if (protocol == "ISO14230_Fast") {
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
     writeData(vehicle_info, sizeof(vehicle_info), read_ID_Num);
   }
   delay(200);
@@ -315,7 +313,7 @@ String convertBytesToHexString(byte* buffer, int length) {
 
 int getArrayLength(byte arr[]) {
   int count = 0;
-  while (arr[count] != '\0') {
+  while (arr[count] != 0) {
     count++;
   }
   return count;

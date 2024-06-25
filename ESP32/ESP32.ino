@@ -25,7 +25,7 @@ int page = -1;
 
 int SPEED = 0, RPM = 0, THROTTLE = 0, COOLANT_TEMP = 0, INTAKE_TEMP = 0, TIMINGADVANCE = 0, ENGINELOAD = 0, MAF = 0;
 double VOLTAGE = 0;
-String Vehicle_VIN, Vehicle_ID, Vehicle_ID_Num;
+String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
 bool KLineStatus = false;
 
