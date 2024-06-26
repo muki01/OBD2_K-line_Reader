@@ -26,49 +26,57 @@ void read_K() {
   K_Serial.flush();
 }
 
-bool init_KWP() {
+bool init_OBD2() {
   // Request: C1 33 F1 81 66
   // Response: 83 F1 11 C1 8F EF C4
-  K_Serial.end();
 
-  digitalWrite(K_line_TX, HIGH), delay(300);
-  digitalWrite(K_line_TX, LOW), delay(25);
-  digitalWrite(K_line_TX, HIGH), delay(25);
+  if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
+    REQUEST_DELAY = 500;
+    K_Serial.end();
+    digitalWrite(K_line_TX, HIGH), delay(300);
+    digitalWrite(K_line_TX, LOW), delay(200);
+    digitalWrite(K_line_TX, HIGH), delay(400);
+    digitalWrite(K_line_TX, LOW), delay(400);
+    digitalWrite(K_line_TX, HIGH), delay(400);
+    digitalWrite(K_line_TX, LOW), delay(400);
+    digitalWrite(K_line_TX, HIGH), delay(200);
 
-  K_Serial.begin(10400, SERIAL_8N1);
-  writeData(start_Bytes, sizeof(start_Bytes), init_OBD);
-  readData();
-  if (resultBuffer[8] == 0xC1) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-bool init_KWP_slow() {
-  K_Serial.end();
-
-  digitalWrite(K_line_TX, HIGH), delay(300);
-  digitalWrite(K_line_TX, LOW), delay(200);
-  digitalWrite(K_line_TX, HIGH), delay(400);
-  digitalWrite(K_line_TX, LOW), delay(400);
-  digitalWrite(K_line_TX, HIGH), delay(400);
-  digitalWrite(K_line_TX, LOW), delay(400);
-  digitalWrite(K_line_TX, HIGH), delay(227);
-
-  K_Serial.begin(10400, SERIAL_8N1);
-  readData();
-  if (resultBuffer[0] == 0x55) {
-    delay(30);
-    K_Serial.write(~resultBuffer[2]);  //0xF7
+    K_Serial.begin(10400, SERIAL_8N1);
     readData();
+    if (resultBuffer[0] == 0x55) {
+      if (resultBuffer[1] == resultBuffer[2]) {
+        protocol = "ISO9141";
+      } else {
+        protocol = "ISO14230_Slow";
+      }
+      delay(30);
+      K_Serial.write(~resultBuffer[2]);  //0xF7
+      REQUEST_DELAY = 50;
+      readData();
+      REQUEST_DELAY = 500;
 
-    if (resultBuffer[1]) {
-      return true;
-    } else {
-      return false;
+      if (resultBuffer[1]) {
+        return true;
+      }
     }
   }
+
+  if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
+    REQUEST_DELAY = 50;
+    K_Serial.end();
+    digitalWrite(K_line_TX, HIGH), delay(300);
+    digitalWrite(K_line_TX, LOW), delay(25);
+    digitalWrite(K_line_TX, HIGH), delay(25);
+
+    K_Serial.begin(10400, SERIAL_8N1);
+    writeData(start_Bytes, sizeof(start_Bytes), init_OBD);
+    readData();
+    if (resultBuffer[8] == 0xC1) {
+      protocol = "ISO14230_Fast";
+      return true;
+    }
+  }
+
   return false;
 }
 

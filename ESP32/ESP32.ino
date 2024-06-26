@@ -46,11 +46,6 @@ void setup() {
   initWebSocket();
   initWebServer();
   K_Serial.begin(10400, SERIAL_8N1);
-  if (protocol == "ISO14230_Fast") {
-    REQUEST_DELAY = 50;
-  } else {
-    REQUEST_DELAY = 500;
-  }
 }
 
 void loop() {
@@ -58,13 +53,7 @@ void loop() {
     if (millis() - lastReqestTime >= 5000) {
       tone(Buzzer, 500, 40);
       tone(Buzzer, 600, 60);
-      bool init_success;
-
-      if (protocol == "ISO14230_Fast") {
-        init_success = init_KWP();
-      } else if (protocol == "ISO14230_Slow" || protocol == "ISO9141") {
-        init_success = init_KWP_slow();
-      }
+      bool init_success = init_OBD2();
 
       if (init_success) {
         connection();
