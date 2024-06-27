@@ -226,10 +226,13 @@ void getVIN() {
 }
 
 void getCalibrationID() {
-  // Request: C2 33 F1 09 06 F1
-  // example Response: 87 F1 11 49 06 01 00 00 67 0C 4C
+  // Request: C2 33 F1 09 04 F3
+  // example Response: 87 F1 11 49 04 01 4F 32 43 44 DF
+  //                   87 F1 11 49 04 02 31 30 31 41 AB
+  //                   87 F1 11 49 04 03 00 00 00 00 D9
+  //                   87 F1 11 49 04 04 00 00 00 00 DA
 
-  byte ID_Array[32];
+  byte ID_Array[64];
   int ID_messageCount;
   int arrayNum = 0;
 
@@ -261,7 +264,7 @@ void getCalibrationID() {
 }
 
 void getCalibrationIDNum() {
-  // Request: C2 33 F1 09 06 F1
+  // Request: C2 33 F1 09 06 F5
   // example Response: 87 F1 11 49 06 01 00 00 67 0C 4C
 
   byte IDNum_Array[16];
@@ -300,8 +303,10 @@ void getCalibrationIDNum() {
 String convertHexToAscii(byte* hexBytes, size_t length) {
   String asciiString = "";
   for (int i = 0; i < length; i++) {
-    char asciiChar = (char)hexBytes[i];
-    asciiString += asciiChar;
+    if (hexBytes[i] >= 0x20 && hexBytes[i] <= 0x7E) {
+      char asciiChar = (char)hexBytes[i];
+      asciiString += asciiChar;
+    }
   }
   return asciiString;
 }
