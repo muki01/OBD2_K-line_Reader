@@ -24,6 +24,7 @@ String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol;
 int page = -1;
 
 int SPEED = 0, RPM = 0, THROTTLE = 0, COOLANT_TEMP = 0, INTAKE_TEMP = 0, TIMINGADVANCE = 0, ENGINELOAD = 0, MAF = 0;
+int freeze_SPEED = 0, freeze_RPM = 0, freeze_THROTTLE = 0, freeze_COOLANT_TEMP = 0, freeze_INTAKE_TEMP = 0, freeze_TIMINGADVANCE = 0, freeze_ENGINELOAD = 0, freeze_MAF = 0;
 double VOLTAGE = 0;
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 

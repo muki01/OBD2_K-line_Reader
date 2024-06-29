@@ -14,11 +14,21 @@ void read_K() {
     getPID(TIMING_ADVANCE);
     getPID(ENGINE_LOAD);
     getPID(MAF_FLOW_RATE);
-  } else if (page == 0 || page == 2 || page == 3) {
+  } else if (page == 0 || page == 2 || page == 5 || page == 6) {
     if (millis() - lastDTCTime >= 1000) {
       get_DTCs();
       lastDTCTime = millis();
     }
+  } else if (page == 3) {
+    get_DTCs();
+    getFreezeFrame(VEHICLE_SPEED);
+    getFreezeFrame(ENGINE_RPM);
+    getFreezeFrame(ENGINE_COOLANT_TEMP);
+    getFreezeFrame(INTAKE_AIR_TEMP);
+    getFreezeFrame(THROTTLE_POSITION);
+    getFreezeFrame(TIMING_ADVANCE);
+    getFreezeFrame(ENGINE_LOAD);
+    getFreezeFrame(MAF_FLOW_RATE);
   } else if (page == 4) {
     getPID(VEHICLE_SPEED);
   }
@@ -138,6 +148,37 @@ void getPID(const byte pid) {
       ENGINELOAD = resultBuffer[11] / 2.55;
     if (pid == MAF_FLOW_RATE)
       MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
+  }
+  sendDataToServer();
+}
+
+void getFreezeFrame(const byte pid) {
+  // example Request: C2 33 F1 01 0C F3
+  // example Response: 84 F1 11 41 0C 1F 40 32
+  if (protocol == "ISO9141") {
+    writeData(freeze_frame_SLOW, sizeof(freeze_frame_SLOW), pid);
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+    writeData(freeze_frame, sizeof(freeze_frame), pid);
+  }
+  readData();
+
+  if (resultBuffer[10] == pid) {
+    if (pid == VEHICLE_SPEED)
+      freeze_SPEED = resultBuffer[11];
+    if (pid == ENGINE_RPM)
+      freeze_RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
+    if (pid == ENGINE_COOLANT_TEMP)
+      freeze_COOLANT_TEMP = resultBuffer[11] - 40;
+    if (pid == INTAKE_AIR_TEMP)
+      freeze_INTAKE_TEMP = resultBuffer[11] - 40;
+    if (pid == THROTTLE_POSITION)
+      freeze_THROTTLE = resultBuffer[11] * 100 / 255;
+    if (pid == TIMING_ADVANCE)
+      freeze_TIMINGADVANCE = (resultBuffer[11] / 2) - 64;
+    if (pid == ENGINE_LOAD)
+      freeze_ENGINELOAD = resultBuffer[11] / 2.55;
+    if (pid == MAF_FLOW_RATE)
+      freeze_MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
   }
   sendDataToServer();
 }

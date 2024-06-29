@@ -110,7 +110,7 @@ main .box {
 }
 
 main .data {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px 40px;
 }
@@ -157,6 +157,25 @@ main .info p{
     padding: 10px 20px 20px;
     font-size: 16px;
     line-height: 22px;
+}
+
+main .dtcBox {
+    background-color: #393939;
+    border-radius: 10px;
+    text-align: center;
+    padding: 2px 0 ;
+    margin-bottom: 10px;
+}
+
+main .dtcBox h1 {
+    margin: 14px 0;
+    font-size: 26px;
+    color: #fff;
+}
+
+main .dtcBox h1 span {
+    font-size: 26px;
+    color:#00a0eb;
 }
 
 
