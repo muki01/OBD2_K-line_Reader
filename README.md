@@ -29,8 +29,13 @@ I will share more information about K-Line protocols and communication later. St
   [Here](https://randomnerdtutorials.com/install-esp32-filesystem-uploader-arduino-ide/) is documentation how to upload files to SPIFFS with Arduino IDE.
 
 ## 📱A picture of the application I made with the ESP32
-<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/3b923d34-b85f-424e-b796-b458d20b769e" width=28%>
-<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/318ee48f-2735-4091-ba23-e03e45f6ec02" width=31%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/ec4e65b2-c6a1-4438-9ee7-89229c2815b3" width=20%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/303f1157-73bc-4cd4-859d-7097c8e56081" width=22%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/c91f11dd-60d4-4439-baad-d5950f792eff" width=20%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/d29a42d3-9b9c-454f-990b-0f3fc4afb3cc" width=20%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/ae6cf20b-fa70-4343-80c3-f289de2fe90f" width=20%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/6b818d30-83c4-4db6-bd81-e07bac03cd8b" width=20%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/54613d4c-ea31-48cc-a426-a7199aa9eaff" width=20%>
 
 ## 🛠️Schematics for communication
 #### This is the schematic with Transistors
