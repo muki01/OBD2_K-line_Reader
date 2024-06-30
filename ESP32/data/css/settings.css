@@ -209,6 +209,14 @@ main .mainContainer {
     transition: max-height 0.4s ease-in;
 }
 
+@media screen and (max-width: 700px) {
+    header #ws,
+    header #kl {
+        width: 24px;
+        height: 24px;
+    }
+}
+
 @media (max-width: 570px) {
     .input {
         font-size: 1em;
