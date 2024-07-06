@@ -372,3 +372,56 @@ int getArrayLength(byte arr[]) {
   }
   return count;
 }
+
+void getSupportedPIDs() {
+  int pidIndex = 0;
+  int supportedCount = 0;
+
+  if (protocol == "ISO9141") {
+    writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_1_20);
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+    writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_1_20);
+  }
+  readData();
+
+  for (int i = 11; i < 15; i++) {
+    byte value = resultBuffer[i];
+    for (int bit = 7; bit >= 0; bit--) {
+      if ((value >> bit) & 1) {
+        String pidString = String(pidIndex + 1, HEX);
+        pidString.toUpperCase();
+
+        if (pidString.length() == 1) {
+          pidString = "0" + pidString;
+        }
+        supportedPIDs[supportedCount++] = pidString;
+      }
+      pidIndex++;
+    }
+  }
+
+  // if (contains(supportedPIDs, sizeof(supportedPIDs), 0x20)) {
+  //   if (protocol == "ISO9141") {
+  //     writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_21_40);
+  //   } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+  //     writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_21_40);
+  //   }
+  //   readData();
+
+  //   for (int i = 11; i < 15; i++) {
+  //     byte value = resultBuffer[i];
+  //     for (int bit = 7; bit >= 0; bit--) {
+  //       if ((value >> bit) & 1) {
+  //         String pidString = String(pidIndex + 1, HEX);
+  //         pidString.toUpperCase();
+
+  //         if (pidString.length() == 1) {
+  //           pidString = "0" + pidString;
+  //         }
+  //         supportedPIDs[supportedCount++] = pidString;
+  //       }
+  //       pidIndex++;
+  //     }
+  //   }
+  // }
+}
