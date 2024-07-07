@@ -1,5 +1,6 @@
 byte resultBuffer[70];
 String dtcBuffer[50];
+String supportedPIDs[32];
 
 void read_K() {
   VOLTAGE = (double)analogRead(voltagePin) / 4096 * 17.4;
@@ -339,40 +340,6 @@ void getCalibrationIDNum() {
   Vehicle_ID_Num = convertBytesToHexString(IDNum_Array, arrayNum);
 }
 
-
-
-String convertHexToAscii(byte* hexBytes, size_t length) {
-  String asciiString = "";
-  for (int i = 0; i < length; i++) {
-    if (hexBytes[i] >= 0x20 && hexBytes[i] <= 0x7E) {
-      char asciiChar = (char)hexBytes[i];
-      asciiString += asciiChar;
-    }
-  }
-  return asciiString;
-}
-
-String convertBytesToHexString(byte* buffer, int length) {
-  String hexString = "";
-  for (int i = 0; i < length; i++) {
-    if (buffer[i] < 0x10) {
-      hexString += "0";
-    }
-    hexString += String(buffer[i], HEX);
-  }
-  hexString.toUpperCase();
-  return hexString;
-}
-
-
-int getArrayLength(byte arr[]) {
-  int count = 0;
-  while (arr[count] != 0) {
-    count++;
-  }
-  return count;
-}
-
 void getSupportedPIDs() {
   int pidIndex = 0;
   int supportedCount = 0;
@@ -400,28 +367,69 @@ void getSupportedPIDs() {
     }
   }
 
-  // if (contains(supportedPIDs, sizeof(supportedPIDs), 0x20)) {
-  //   if (protocol == "ISO9141") {
-  //     writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_21_40);
-  //   } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-  //     writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_21_40);
-  //   }
-  //   readData();
+  if (isInArray(supportedPIDs, sizeof(supportedPIDs), "20")) {
+    if (protocol == "ISO9141") {
+      writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_21_40);
+    } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+      writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_21_40);
+    }
+    readData();
 
-  //   for (int i = 11; i < 15; i++) {
-  //     byte value = resultBuffer[i];
-  //     for (int bit = 7; bit >= 0; bit--) {
-  //       if ((value >> bit) & 1) {
-  //         String pidString = String(pidIndex + 1, HEX);
-  //         pidString.toUpperCase();
+    for (int i = 11; i < 15; i++) {
+      byte value = resultBuffer[i];
+      for (int bit = 7; bit >= 0; bit--) {
+        if ((value >> bit) & 1) {
+          String pidString = String(pidIndex + 1, HEX);
+          pidString.toUpperCase();
 
-  //         if (pidString.length() == 1) {
-  //           pidString = "0" + pidString;
-  //         }
-  //         supportedPIDs[supportedCount++] = pidString;
-  //       }
-  //       pidIndex++;
-  //     }
-  //   }
-  // }
+          if (pidString.length() == 1) {
+            pidString = "0" + pidString;
+          }
+          supportedPIDs[supportedCount++] = pidString;
+        }
+        pidIndex++;
+      }
+    }
+  }
+}
+
+
+bool isInArray(String array[], int arrayLength, String searchString) {
+  for (int i = 0; i < arrayLength; i++) {
+    if (array[i] == searchString) {
+      return true;
+    }
+  }
+  return false;
+}
+
+String convertHexToAscii(byte* hexBytes, size_t length) {
+  String asciiString = "";
+  for (int i = 0; i < length; i++) {
+    if (hexBytes[i] >= 0x20 && hexBytes[i] <= 0x7E) {
+      char asciiChar = (char)hexBytes[i];
+      asciiString += asciiChar;
+    }
+  }
+  return asciiString;
+}
+
+String convertBytesToHexString(byte* buffer, int length) {
+  String hexString = "";
+  for (int i = 0; i < length; i++) {
+    if (buffer[i] < 0x10) {
+      hexString += "0";
+    }
+    hexString += String(buffer[i], HEX);
+  }
+  hexString.toUpperCase();
+  return hexString;
+}
+
+int getArrayLength(byte arr[]) {
+  int count = 0;
+  while (arr[count] != 0) {
+    count++;
+  }
+  return count;
 }
