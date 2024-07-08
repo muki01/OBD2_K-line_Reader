@@ -113,7 +113,7 @@ void initWebServer() {
   });
   server.on("/api/getData", HTTP_GET, [](AsyncWebServerRequest *request) {
     page = -1;
-    mode2();
+    Melody2();
     getPID(VEHICLE_SPEED);
     getPID(ENGINE_RPM);
     getPID(ENGINE_COOLANT_TEMP);
@@ -126,7 +126,7 @@ void initWebServer() {
     request->send(200, "application/json", JsonData());
   });
   server.on("/api/clearDTCs", HTTP_GET, [](AsyncWebServerRequest *request) {
-    mode2();
+    Melody2();
     clear_DTC();
     request->send(200, "text/plain", "Succesfully");
   });
@@ -213,6 +213,12 @@ String JsonData() {
     jsonDoc["VIN"] = Vehicle_VIN;
     jsonDoc["ID"] = Vehicle_ID;
     jsonDoc["IDNum"] = Vehicle_ID_Num;
+    JsonArray suportedArray = jsonDoc.createNestedArray("SuportedPIDs");
+    for (int i = 0; i < 32; i++) {
+      if (!supportedPIDs[i].isEmpty()) {
+        suportedArray.add(supportedPIDs[i]);
+      }
+    }
   }
 
   jsonDoc["KLineStatus"] = KLineStatus;
@@ -228,11 +234,11 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       const char *message = (const char *)data;
 
       if (strcmp(message, "clear_dtc") == 0) {
-        mode2();
+        Melody2();
         clear_DTC();
       }
       if (strcmp(message, "beep") == 0) {
-        mode2();
+        Melody2();
       }
     }
   }
