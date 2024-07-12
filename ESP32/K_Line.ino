@@ -98,7 +98,10 @@ void writeData(const byte data[], int length, const byte pid) {
   byte checksum = calculateChecksum(extendedData, length + 1);
   extendedData[length + 1] = checksum;
 
-  K_Serial.write(extendedData, length + 2);
+  for (int i = 0; i < length + 2; i++) {
+    K_Serial.write(extendedData[i]);
+    delay(READ_DELAY);
+  }
 }
 
 void readData() {

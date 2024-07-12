@@ -62,6 +62,7 @@ void initWebServer() {
   });
   server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/settings.html", "text/html");
+    page = 6;
   });
   server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/css/style.css", "text/css");
@@ -239,6 +240,27 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       }
       if (strcmp(message, "beep") == 0) {
         Melody2();
+      }
+      if (strcmp(message, "page0") == 0) {
+        page = 0;
+      }
+      if (strcmp(message, "page1") == 0) {
+        page = 1;
+      }
+      if (strcmp(message, "page2") == 0) {
+        page = 2;
+      }
+      if (strcmp(message, "page3") == 0) {
+        page = 3;
+      }
+      if (strcmp(message, "page4") == 0) {
+        page = 4;
+      }
+      if (strcmp(message, "page5") == 0) {
+        page = 5;
+      }
+      if (strcmp(message, "page6") == 0) {
+        page = 6;
       }
     }
   }
