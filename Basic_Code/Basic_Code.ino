@@ -10,48 +10,37 @@ AltSoftSerial Alt_Serial;
 #define READ_DELAY 5
 int REQUEST_DELAY;
 
-// Protocol 1 = ISO9141
-// Protocol 2 = ISO14230 Slow
-// Protocol 3 = ISO14230 Fast
-int protocol = 3;
+String protocol = "Automatic";
+// String protocol = "ISO9141";
+// String protocol = "ISO14230_Slow";
+// String protocol = "ISO14230_Fast";
 
-int SPEED = 0, RPM = 0, THROTTLE = 0, COOLANT_TEMP = 0, INTAKE_TEMP = 0, TIMINGADVANCE = 0, ENGINELOAD = 0, MAF = 0;
+int SPEED = 0, RPM = 0, THROTTLE = 0, COOLANT_TEMP = 0, INTAKE_TEMP = 0, TIMINGADVANCE = 0, ENGINELOAD = 0, MAF = 0, DISTANCE_TRAVELED_WITH_MIL = 0;
+int freeze_SPEED = 0, freeze_RPM = 0, freeze_THROTTLE = 0, freeze_COOLANT_TEMP = 0, freeze_INTAKE_TEMP = 0, freeze_TIMINGADVANCE = 0, freeze_ENGINELOAD = 0, freeze_MAF = 0;
 double VOLTAGE = 0;
+String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
+
 bool KLineStatus = false;
 
-static unsigned long lastReqestTime = 5000, lastDTCTime = 1000;
+static unsigned long lastDTCTime = 1000;
 
 void setup() {
   Serial.begin(9600);
   pinMode(K_line_RX, INPUT_PULLUP);
   pinMode(K_line_TX, OUTPUT);
   pinMode(Led, OUTPUT);
-
-  if (protocol == 3) {
-    REQUEST_DELAY = 50;
-  } else {
-    REQUEST_DELAY = 500;
-  }
+  K_Serial.begin(10400);
 }
 
 void loop() {
   if (KLineStatus == false) {
-    if (millis() - lastReqestTime >= 5000) {
-      Serial.println("Initialising KWP_Fast...");
-      bool init_success;
+    Serial.println("Initialising KWP_Fast...");
+    bool init_success = init_OBD2();
 
-      if (protocol == 3) {
-        init_success = init_KWP();
-      } else if (protocol == 1 || protocol == 2) {
-        init_success = init_KWP_slow();
-      }
-
-      if (init_success) {
-        KLineStatus = true;
-        digitalWrite(Led, HIGH);
-        Serial.println("Init Success !!");
-      }
-      lastReqestTime = millis();
+    if (init_success) {
+      KLineStatus = true;
+      digitalWrite(Led, HIGH);
+      Serial.println("Init Success !!");
     }
   } else {
     read_K();
