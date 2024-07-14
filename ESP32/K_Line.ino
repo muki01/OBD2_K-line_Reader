@@ -117,14 +117,6 @@ void readData() {
   }
 }
 
-byte calculateChecksum(const byte data[], int length) {
-  byte checksum = 0;
-  for (int i = 0; i < length; i++) {
-    checksum += data[i];
-  }
-  return checksum % 256;
-}
-
 void getPID(const byte pid) {
   // example Request: C2 33 F1 01 0C F3
   // example Response: 84 F1 11 41 0C 1F 40 32

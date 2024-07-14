@@ -1,3 +1,11 @@
+byte calculateChecksum(const byte data[], int length) {
+  byte checksum = 0;
+  for (int i = 0; i < length; i++) {
+    checksum += data[i];
+  }
+  return checksum % 256;
+}
+
 bool isInArray(String array[], int arrayLength, String searchString) {
   for (int i = 0; i < arrayLength; i++) {
     if (array[i] == searchString) {
