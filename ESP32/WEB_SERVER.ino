@@ -132,7 +132,6 @@ void initWebServer() {
     request->send(200, "text/plain", "Succesfully");
   });
   server.on("/wifiOptions", HTTP_POST, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/redirect.html", "text/html");
     String ssid = request->arg("SSID");
     String password = request->arg("WifiPassword");
     String ipAddress = request->arg("ipAddr");
@@ -141,7 +140,6 @@ void initWebServer() {
     changeWifiSettings(ssid, password, ipAddress, subnetMask, gateway);
   });
   server.on("/protocolOptions", HTTP_POST, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/redirect.html", "text/html");
     String protocol = request->arg("protocol");
     changeCommunicationProtocol(protocol);
   });

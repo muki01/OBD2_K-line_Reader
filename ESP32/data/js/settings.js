@@ -35,6 +35,52 @@ dynamicIpRadio.addEventListener("click", function () {
 });
 
 
+
+
+
+
+
+
+function showOverlay() {
+    document.getElementById('overlay').style.display = 'flex';
+}
+
+function hideOverlay() {
+    document.getElementById('overlay').style.display = 'none';
+}
+
+function submitForm(event, formId, url) {
+    event.preventDefault();
+    const formData = new FormData(document.getElementById(formId));
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            showOverlay();
+        }
+    };
+    xhr.send(formData);
+}
+
+document.getElementById('hideOverlayBtn').addEventListener('click', function (event) {
+    hideOverlay();
+});
+
+document.getElementById('wifiForm').addEventListener('submit', function (event) {
+    submitForm(event, 'wifiForm', '/wifiOptions');
+});
+
+document.getElementById('protocolForm').addEventListener('submit', function (event) {
+    submitForm(event, 'protocolForm', '/protocolOptions');
+});
+
+
+
+
+
+
+
+
 let wsStatus = document.getElementById("ws");
 let klStatus = document.getElementById("kl");
 

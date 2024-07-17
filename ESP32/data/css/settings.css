@@ -80,7 +80,7 @@ header .textArea h1 .orange {
     color: #FFCE49;
 }
 
-header .connectionArea{
+header .connectionArea {
     display: flex;
     gap: 4px;
 }
@@ -209,7 +209,53 @@ main .mainContainer {
     transition: max-height 0.4s ease-in;
 }
 
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.savedBox {
+    margin: 20px;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 1001;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.savedBox h1 {
+    color: #34b171;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.savedBox p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.savedBox a {
+    cursor: pointer;
+    padding: 10px 60px;
+    font-size: 24px;
+    color: #fff;
+    background-color: #34b171;
+    border-radius: 20px;
+    transition: 0.12s ease-in-out;
+}
+
 @media screen and (max-width: 700px) {
+
     header #ws,
     header #kl {
         width: 24px;
