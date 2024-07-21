@@ -43,6 +43,7 @@ void setup() {
   initSpiffs();
   readSettings();
 
+  init_BLE();
   initWiFi();
   initWebSocket();
   initWebServer();
