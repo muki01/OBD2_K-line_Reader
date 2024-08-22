@@ -13,11 +13,7 @@ function handleWebSocketMessage(wsMessage) {
             document.getElementById("Speed").innerHTML = wsMessage.Speed;
             document.getElementById("RPM").innerHTML = wsMessage.RPM;
             document.getElementById("CoolantTemp").innerHTML = wsMessage.CoolantTemp;
-            document.getElementById("IntakeTemp").innerHTML = wsMessage.IntakeTemp;
-            document.getElementById("Throttle").innerHTML = wsMessage.Throttle;
-            document.getElementById("TimingAdvance").innerHTML = wsMessage.TimingAdvance;
             document.getElementById("EngineLoad").innerHTML = wsMessage.EngineLoad;
-            document.getElementById("MAF").innerHTML = wsMessage.MAF;
         } else {
             document.querySelector(".dtcBox").style.display = "block";
             document.querySelector(".data").style.display = "none";

@@ -25,11 +25,7 @@ void read_K() {
     getFreezeFrame(VEHICLE_SPEED);
     getFreezeFrame(ENGINE_RPM);
     getFreezeFrame(ENGINE_COOLANT_TEMP);
-    getFreezeFrame(INTAKE_AIR_TEMP);
-    getFreezeFrame(THROTTLE_POSITION);
-    getFreezeFrame(TIMING_ADVANCE);
     getFreezeFrame(ENGINE_LOAD);
-    getFreezeFrame(MAF_FLOW_RATE);
   } else if (page == 4) {
     getPID(VEHICLE_SPEED);
   }
@@ -104,6 +100,20 @@ void writeData(const byte data[], int length, const byte pid) {
   }
 }
 
+void writeDataFreezeFrame(const byte data[], int length, const byte pid) {
+  byte extendedData[length + 3];
+  memcpy(extendedData, data, length);
+  extendedData[length] = pid;
+  extendedData[length + 1] = 0x00;
+  byte checksum = calculateChecksum(extendedData, length + 2);
+  extendedData[length + 2] = checksum;
+
+  for (int i = 0; i < length + 3; i++) {
+    K_Serial.write(extendedData[i]);
+    delay(READ_DELAY);
+  }
+}
+
 void readData() {
   delay(REQUEST_DELAY);
   int result = K_Serial.available();
@@ -152,29 +162,21 @@ void getFreezeFrame(const byte pid) {
   // example Request: C2 33 F1 01 0C F3
   // example Response: 84 F1 11 41 0C 1F 40 32
   if (protocol == "ISO9141") {
-    writeData(freeze_frame_SLOW, sizeof(freeze_frame_SLOW), pid);
+    writeDataFreezeFrame(freeze_frame_SLOW, sizeof(freeze_frame_SLOW), pid);
   } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    writeData(freeze_frame, sizeof(freeze_frame), pid);
+    writeDataFreezeFrame(freeze_frame, sizeof(freeze_frame), pid);
   }
   readData();
 
-  if (resultBuffer[10] == pid) {
+  if (resultBuffer[11] == pid) {
     if (pid == VEHICLE_SPEED)
-      freeze_SPEED = resultBuffer[11];
+      freeze_SPEED = resultBuffer[13];
     if (pid == ENGINE_RPM)
-      freeze_RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
+      freeze_RPM = (resultBuffer[13] * 256 + resultBuffer[14]) / 4;
     if (pid == ENGINE_COOLANT_TEMP)
-      freeze_COOLANT_TEMP = resultBuffer[11] - 40;
-    if (pid == INTAKE_AIR_TEMP)
-      freeze_INTAKE_TEMP = resultBuffer[11] - 40;
-    if (pid == THROTTLE_POSITION)
-      freeze_THROTTLE = resultBuffer[11] * 100 / 255;
-    if (pid == TIMING_ADVANCE)
-      freeze_TIMINGADVANCE = (resultBuffer[11] / 2) - 64;
+      freeze_COOLANT_TEMP = resultBuffer[13] - 40;
     if (pid == ENGINE_LOAD)
-      freeze_ENGINELOAD = resultBuffer[11] / 2.55;
-    if (pid == MAF_FLOW_RATE)
-      freeze_MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
+      freeze_ENGINELOAD = resultBuffer[13] / 2.55;
   }
   sendDataToServer();
 }

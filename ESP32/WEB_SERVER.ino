@@ -203,11 +203,7 @@ String JsonData() {
     jsonDoc["Speed"] = freeze_SPEED;
     jsonDoc["RPM"] = freeze_RPM;
     jsonDoc["CoolantTemp"] = freeze_COOLANT_TEMP;
-    jsonDoc["IntakeTemp"] = freeze_INTAKE_TEMP;
-    jsonDoc["Throttle"] = freeze_THROTTLE;
-    jsonDoc["TimingAdvance"] = freeze_TIMINGADVANCE;
     jsonDoc["EngineLoad"] = freeze_ENGINELOAD;
-    jsonDoc["MAF"] = freeze_MAF;
   } else if (page == 4) {
     jsonDoc["Speed"] = SPEED;
   } else if (page == 5) {
