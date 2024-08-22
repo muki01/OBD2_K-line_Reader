@@ -15,13 +15,13 @@ bool isInArray(String array[], int arrayLength, String searchString) {
   return false;
 }
 
-int getArrayLength(byte arr[]) {
-  int count = 0;
-  while (arr[count] != 0) {
-    count++;
-  }
-  return count;
-}
+// int getArrayLength(byte arr[]) {
+//   int count = 0;
+//   while (arr[count] != 0) {
+//     count++;
+//   }
+//   return count;
+// }
 
 String convertHexToAscii(byte* hexBytes, size_t length) {
   String asciiString = "";

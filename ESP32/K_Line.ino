@@ -192,8 +192,7 @@ void get_DTCs() {
   }
   readData();
 
-  int count = getArrayLength(resultBuffer);
-  int length = count - 10;
+  int length = sizeof(resultBuffer) - 10;
   for (int i = 0; i < length; i++) {
     dtcBytes[0] = resultBuffer[9 + i * 2];
     dtcBytes[1] = resultBuffer[9 + i * 2 + 1];
