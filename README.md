@@ -37,13 +37,13 @@ I will share more information about K-Line protocols and communication later. St
 
 
 ## 📱A picture of the application I made with the ESP32
-<img height="400" src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/ec4e65b2-c6a1-4438-9ee7-89229c2815b3">
-<img height="400" src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/303f1157-73bc-4cd4-859d-7097c8e56081">
-<img height="400" src="https://github.com/user-attachments/assets/863cb9f6-7c27-48e2-b40a-7c3f9d069def">
-<img height="400" src="https://github.com/user-attachments/assets/bbb49c73-4edd-4ff9-b605-560be9446b55">
-<img height="400" src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/ae6cf20b-fa70-4343-80c3-f289de2fe90f">
-<img height="400" src="https://github.com/user-attachments/assets/9c1cf815-f33b-4e6f-8166-e37143766833">
-<img height="400" src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/54613d4c-ea31-48cc-a426-a7199aa9eaff">
+<img width=20% src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/ec4e65b2-c6a1-4438-9ee7-89229c2815b3">
+<img width=22.14% src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/303f1157-73bc-4cd4-859d-7097c8e56081">
+<img width=20% src="https://github.com/user-attachments/assets/863cb9f6-7c27-48e2-b40a-7c3f9d069def">
+<img width=20% src="https://github.com/user-attachments/assets/bbb49c73-4edd-4ff9-b605-560be9446b55">
+<img width=20% src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/ae6cf20b-fa70-4343-80c3-f289de2fe90f">
+<img width=20% src="https://github.com/user-attachments/assets/9c1cf815-f33b-4e6f-8166-e37143766833">
+<img width=20% src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/54613d4c-ea31-48cc-a426-a7199aa9eaff">
 
 
 ## 🛠️Schematics for communication
