@@ -169,6 +169,7 @@ String JsonData() {
     jsonDoc["TimingAdvance"] = TIMINGADVANCE;
     jsonDoc["EngineLoad"] = ENGINELOAD;
     jsonDoc["MAF"] = MAF;
+    jsonDoc["DistanceTraveledWithMIL"] = DISTANCE_TRAVELED_WITH_MIL;
     jsonDoc["Voltage"] = VOLTAGE;
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {
@@ -193,6 +194,7 @@ String JsonData() {
         dtcArray.add(dtcBuffer[i]);
       }
     }
+    jsonDoc["DistanceTraveledWithMIL"] = DISTANCE_TRAVELED_WITH_MIL;
   } else if (page == 3) {
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {

@@ -10,10 +10,12 @@ clearDTC.addEventListener("click", function () {
 })
 
 let errorsField = document.getElementById("errorCodes");
+let mil = document.getElementById("DistanceTraveledWithMIL");
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
         wsStatus.style.fill = "#00ff00";
+    
         let dtcArray = wsMessage.DTCs;
         if (dtcArray.length > 0) {
             let errorsString = "";
@@ -25,6 +27,8 @@ function handleWebSocketMessage(wsMessage) {
                 }
             }
             errorsField.innerHTML = errorsString;
+            mil.innerHTML = wsMessage.DistanceTraveledWithMIL;
+            document.querySelector(".MIL_Box").style.display = "flex";
         } else {
             errorsField.innerHTML = "Not Errors Found";
         }

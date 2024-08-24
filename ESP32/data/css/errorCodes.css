@@ -109,6 +109,10 @@ main .box {
     text-align: center;
 }
 
+main .MIL_Box{
+    display: none;
+}
+
 main .data {
     display: grid;
     grid-template-columns: 1fr;

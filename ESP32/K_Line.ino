@@ -18,6 +18,9 @@ void read_K() {
   } else if (page == 0 || page == 2 || page == 5 || page == 6) {
     if (millis() - lastDTCTime >= 1000) {
       get_DTCs();
+      if (page == 2) {
+        getPID(DISTANCE_TRAVELED_WITH_MIL_ON);
+      }
       lastDTCTime = millis();
     }
   } else if (page == 3) {
@@ -154,6 +157,8 @@ void getPID(const byte pid) {
       ENGINELOAD = resultBuffer[11] / 2.55;
     if (pid == MAF_FLOW_RATE)
       MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
+    if (pid == DISTANCE_TRAVELED_WITH_MIL_ON)
+      DISTANCE_TRAVELED_WITH_MIL = 256 * resultBuffer[11] + resultBuffer[12];
   }
   sendDataToServer();
 }
