@@ -212,10 +212,18 @@ String JsonData() {
     jsonDoc["VIN"] = Vehicle_VIN;
     jsonDoc["ID"] = Vehicle_ID;
     jsonDoc["IDNum"] = Vehicle_ID_Num;
-    JsonArray suportedArray = jsonDoc.createNestedArray("SuportedPIDs");
+    JsonArray supportedLiveDataArray = jsonDoc.createNestedArray("supportedLiveData");
+    JsonArray suportedFreezeFrameArray = jsonDoc.createNestedArray("supportedFreezeFrame");
+    JsonArray supportedVehicleInfoArray = jsonDoc.createNestedArray("supportedVehicleInfo");
     for (int i = 0; i < 32; i++) {
-      if (!supportedPIDs[i].isEmpty()) {
-        suportedArray.add(supportedPIDs[i]);
+      if (!supportedLiveData[i].isEmpty()) {
+        supportedLiveDataArray.add(supportedLiveData[i]);
+      }
+      if (!supportedFreezeFrame[i].isEmpty()) {
+        suportedFreezeFrameArray.add(supportedFreezeFrame[i]);
+      }
+      if (!supportedVehicleInfo[i].isEmpty()) {
+        supportedVehicleInfoArray.add(supportedVehicleInfo[i]);
       }
     }
   }

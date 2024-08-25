@@ -1,6 +1,8 @@
 byte resultBuffer[70];
 String dtcBuffer[50];
-String supportedPIDs[32];
+String supportedLiveData[32];
+String supportedFreezeFrame[32];
+String supportedVehicleInfo[32];
 
 void read_K() {
   VOLTAGE = (double)analogRead(voltagePin) / 4096 * 17.4;
@@ -341,38 +343,15 @@ void getCalibrationIDNum() {
   Vehicle_ID_Num = convertBytesToHexString(IDNum_Array, arrayNum);
 }
 
-void getSupportedPIDs() {
+void getSupportedPIDs(const byte option) {
   int pidIndex = 0;
   int supportedCount = 0;
 
-  if (protocol == "ISO9141") {
-    writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_1_20);
-  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_1_20);
-  }
-  readData();
-
-  for (int i = 11; i < 15; i++) {
-    byte value = resultBuffer[i];
-    for (int bit = 7; bit >= 0; bit--) {
-      if ((value >> bit) & 1) {
-        String pidString = String(pidIndex + 1, HEX);
-        pidString.toUpperCase();
-
-        if (pidString.length() == 1) {
-          pidString = "0" + pidString;
-        }
-        supportedPIDs[supportedCount++] = pidString;
-      }
-      pidIndex++;
-    }
-  }
-
-  if (isInArray(supportedPIDs, sizeof(supportedPIDs), "20")) {
+  if (option == 0x01) {
     if (protocol == "ISO9141") {
-      writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_21_40);
+      writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_1_20);
     } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-      writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_21_40);
+      writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_1_20);
     }
     readData();
 
@@ -386,7 +365,80 @@ void getSupportedPIDs() {
           if (pidString.length() == 1) {
             pidString = "0" + pidString;
           }
-          supportedPIDs[supportedCount++] = pidString;
+          supportedLiveData[supportedCount++] = pidString;
+        }
+        pidIndex++;
+      }
+    }
+
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), "20")) {
+      if (protocol == "ISO9141") {
+        writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_21_40);
+      } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+        writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_21_40);
+      }
+      readData();
+
+      for (int i = 11; i < 15; i++) {
+        byte value = resultBuffer[i];
+        for (int bit = 7; bit >= 0; bit--) {
+          if ((value >> bit) & 1) {
+            String pidString = String(pidIndex + 1, HEX);
+            pidString.toUpperCase();
+
+            if (pidString.length() == 1) {
+              pidString = "0" + pidString;
+            }
+            supportedLiveData[supportedCount++] = pidString;
+          }
+          pidIndex++;
+        }
+      }
+    }
+  }
+  if (option == 0x02) {
+    if (protocol == "ISO9141") {
+      writeDataFreezeFrame(freeze_frame_SLOW, sizeof(freeze_frame_SLOW), 0x00);
+    } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+      writeDataFreezeFrame(freeze_frame, sizeof(freeze_frame), 0x00);
+    }
+    readData();
+
+    for (int i = 13; i < 17; i++) {
+      byte value = resultBuffer[i];
+      for (int bit = 7; bit >= 0; bit--) {
+        if ((value >> bit) & 1) {
+          String pidString = String(pidIndex + 1, HEX);
+          pidString.toUpperCase();
+
+          if (pidString.length() == 1) {
+            pidString = "0" + pidString;
+          }
+          supportedFreezeFrame[supportedCount++] = pidString;
+        }
+        pidIndex++;
+      }
+    }
+  }
+  if (option == 0x09) {
+    if (protocol == "ISO9141") {
+      writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), 0x00);
+    } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+      writeData(vehicle_info, sizeof(vehicle_info), 0x00);
+    }
+    readData();
+
+    for (int i = 12; i < 16; i++) {
+      byte value = resultBuffer[i];
+      for (int bit = 7; bit >= 0; bit--) {
+        if ((value >> bit) & 1) {
+          String pidString = String(pidIndex + 1, HEX);
+          pidString.toUpperCase();
+
+          if (pidString.length() == 1) {
+            pidString = "0" + pidString;
+          }
+          supportedVehicleInfo[supportedCount++] = pidString;
         }
         pidIndex++;
       }
