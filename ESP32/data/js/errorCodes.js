@@ -18,26 +18,15 @@ function handleWebSocketMessage(wsMessage) {
     
         let dtcArray = wsMessage.DTCs;
         if (dtcArray.length > 0) {
-            let errorsString = "";
-            for (let i = 0; i < dtcArray.length; i++) {
-                if (i === dtcArray.length - 1) {
-                    errorsString += dtcArray[i];
-                } else {
-                    errorsString += dtcArray[i] + ", ";
-                }
-            }
-            errorsField.innerHTML = errorsString;
             mil.innerHTML = wsMessage.DistanceTraveledWithMIL;
             document.querySelector(".MIL_Box").style.display = "flex";
+            
+            errorsField.innerHTML = dtcArray.join(", ");
         } else {
-            errorsField.innerHTML = "Not Errors Found";
+            errorsField.innerHTML = "No errors detected.";
         }
-
-        if (wsMessage.KLineStatus == true) {
-            klStatus.style.fill = "#00ff00";
-        } else {
-            klStatus.style.fill = "red";
-        }
+    
+        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
     } else {
         wsStatus.style.fill = "red";
     }

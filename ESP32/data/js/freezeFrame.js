@@ -17,14 +17,10 @@ function handleWebSocketMessage(wsMessage) {
         } else {
             document.querySelector(".dtcBox").style.display = "block";
             document.querySelector(".data").style.display = "none";
-            document.getElementById("errors").innerHTML = "There are no errors.";
+            document.getElementById("errors").innerHTML = "No errors detected.";
         }
 
-        if (wsMessage.KLineStatus == true) {
-            klStatus.style.fill = "#00ff00";
-        } else {
-            klStatus.style.fill = "red";
-        }
+        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
     } else {
         wsStatus.style.fill = "red";
     }

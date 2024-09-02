@@ -87,11 +87,8 @@ let klStatus = document.getElementById("kl");
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
         wsStatus.style.fill = "#00ff00";
-        if (wsMessage.KLineStatus == true) {
-            klStatus.style.fill = "#00ff00";
-        } else {
-            klStatus.style.fill = "red";
-        }
+        
+        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
     } else {
         wsStatus.style.fill = "red";
     }

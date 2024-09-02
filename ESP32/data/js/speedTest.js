@@ -76,11 +76,7 @@ function handleWebSocketMessage(wsMessage) {
             sendData("beep");
         }
 
-        if (wsMessage.KLineStatus == true) {
-            klStatus.style.fill = "#00ff00";
-        } else {
-            klStatus.style.fill= "red";
-        }
+        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
     } else {
         wsStatus.style.fill = "red";
     }

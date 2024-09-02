@@ -14,10 +14,6 @@ function handleWebSocketMessage(wsMessage) {
         document.getElementById("ID").innerHTML = wsMessage.ID;
         document.getElementById("IDNum").innerHTML = wsMessage.IDNum;
 
-        if (wsMessage.KLineStatus == true) {
-            klStatus.style.fill = "#00ff00";
-        } else {
-            klStatus.style.fill = "red";
         function updateField(field, data) {
             field.innerHTML = data.length > 0 ? data.join(", ") : "";
         }
@@ -26,6 +22,7 @@ function handleWebSocketMessage(wsMessage) {
         updateField(freezeFrameField, wsMessage.supportedFreezeFrame);
         updateField(vehicleInfoField, wsMessage.supportedVehicleInfo);
 
+        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
     } else {
         wsStatus.style.fill = "red";
     }

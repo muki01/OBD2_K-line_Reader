@@ -109,7 +109,7 @@ main nav a {
     color: #a5adb6;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0px 0 6px rgba(46, 46, 46, 0.5);
+    box-shadow: 0 0 10px #a7adbb;
     transition: 0.12s ease-in-out;
 }
 
@@ -130,5 +130,6 @@ main nav a h2 {
 @media screen and (max-width: 500px) {
     main nav a {
         padding: 14px;
+        box-shadow: 0 0 6px #a7adbb;
     }
 }

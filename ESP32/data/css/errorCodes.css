@@ -114,9 +114,11 @@ main .MIL_Box{
 }
 
 main .data {
+    max-width: 600px;
+    margin: auto;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 10px 40px;
+    gap: 10px 0;
 }
 
 main .data h1 {
