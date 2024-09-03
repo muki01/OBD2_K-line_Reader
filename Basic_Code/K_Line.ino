@@ -1,18 +1,71 @@
 byte resultBuffer[70];
 String dtcBuffer[50];
-String supportedPIDs[32];
+String supportedLiveData[32];
+String supportedFreezeFrame[32];
+String supportedVehicleInfo[32];
 
 void read_K() {
-  getPID(VEHICLE_SPEED);
-  getPID(ENGINE_RPM);
-  getPID(ENGINE_COOLANT_TEMP);
-  getPID(INTAKE_AIR_TEMP);
-  getPID(THROTTLE_POSITION);
-  getPID(TIMING_ADVANCE);
-  getPID(ENGINE_LOAD);
-  getPID(MAF_FLOW_RATE);
+  getSupportedPIDs(0x01);
+  Serial.println("Suported LiveData: ");
+  for (int i = 0; i < 32; i++) {
+    Serial.print(supportedLiveData[i]);
+    Serial.print(", ");
+  }
+  Serial.println();
 
-  //K_Serial.flush();
+  getSupportedPIDs(0x02);
+  Serial.println("Suported FreezeFrame: ");
+  for (int i = 0; i < 32; i++) {
+    Serial.print(supportedFreezeFrame[i]);
+    Serial.print(", ");
+  }
+  Serial.println();
+
+  getSupportedPIDs(0x09);
+  Serial.println("Suported VehicleInfo: ");
+  for (int i = 0; i < 32; i++) {
+    Serial.print(supportedVehicleInfo[i]);
+    Serial.print(", ");
+  }
+  Serial.println();
+
+  Serial.println("Live Data: ");
+  getPID(VEHICLE_SPEED);
+  Serial.print("Speed: "), Serial.println(SPEED);
+  getPID(ENGINE_RPM);
+  Serial.print("Engine RPM: "), Serial.println(RPM);
+  getPID(ENGINE_COOLANT_TEMP);
+  Serial.print("Coolant Temp: "), Serial.println(COOLANT_TEMP);
+  getPID(INTAKE_AIR_TEMP);
+  Serial.print("Intake Air Temp: "), Serial.println(INTAKE_TEMP);
+  getPID(THROTTLE_POSITION);
+  Serial.print("Throttle: "), Serial.println(THROTTLE);
+  getPID(TIMING_ADVANCE);
+  Serial.print("Timing Advance: "), Serial.println(TIMINGADVANCE);
+  getPID(ENGINE_LOAD);
+  Serial.print("Engine Load: "), Serial.println(ENGINELOAD);
+  getPID(MAF_FLOW_RATE);
+  Serial.print("MAF Flow Rate: "), Serial.println(MAF);
+
+  get_DTCs();
+  Serial.println("DTCs: ");
+  for (int i = 0; i < 32; i++) {
+    Serial.print(dtcBuffer[i]);
+    Serial.print(", ");
+  }
+  Serial.println();
+
+  Serial.println("Freeze Frame: ");
+  getFreezeFrame(VEHICLE_SPEED);
+  Serial.print("Speed: "), Serial.println(freeze_SPEED);
+  getFreezeFrame(ENGINE_RPM);
+  Serial.print("Engine RPM: "), Serial.println(freeze_RPM);
+  getFreezeFrame(ENGINE_COOLANT_TEMP);
+  Serial.print("Coolant Temp: "), Serial.println(freeze_COOLANT_TEMP);
+  getFreezeFrame(ENGINE_LOAD);
+  Serial.print("Engine Load: "), Serial.println(freeze_ENGINELOAD);
+
+  K_Serial.flush();
 }
 
 
@@ -84,6 +137,20 @@ void writeData(const byte data[], int length, const byte pid) {
   }
 }
 
+void writeDataFreezeFrame(const byte data[], int length, const byte pid) {
+  byte extendedData[length + 3];
+  memcpy(extendedData, data, length);
+  extendedData[length] = pid;
+  extendedData[length + 1] = 0x00;
+  byte checksum = calculateChecksum(extendedData, length + 2);
+  extendedData[length + 2] = checksum;
+
+  for (int i = 0; i < length + 3; i++) {
+    K_Serial.write(extendedData[i]);
+    delay(READ_DELAY);
+  }
+}
+
 void readData() {
   delay(REQUEST_DELAY);
   int result = K_Serial.available();
@@ -112,46 +179,24 @@ void getPID(const byte pid) {
   readData();
 
   if (resultBuffer[10] == pid) {
-    if (pid == VEHICLE_SPEED) {
+    if (pid == VEHICLE_SPEED)
       SPEED = resultBuffer[11];
-      Serial.print("Speed: ");
-      Serial.println(SPEED);
-    }
-    if (pid == ENGINE_RPM) {
+    if (pid == ENGINE_RPM)
       RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
-      Serial.print("RPM: ");
-      Serial.println(RPM);
-    }
-    if (pid == ENGINE_COOLANT_TEMP) {
+    if (pid == ENGINE_COOLANT_TEMP)
       COOLANT_TEMP = resultBuffer[11] - 40;
-      Serial.print("Coolant Temp: ");
-      Serial.println(COOLANT_TEMP);
-    }
-    if (pid == INTAKE_AIR_TEMP) {
+    if (pid == INTAKE_AIR_TEMP)
       INTAKE_TEMP = resultBuffer[11] - 40;
-      Serial.print("Intake Temp: ");
-      Serial.println(INTAKE_TEMP);
-    }
-    if (pid == THROTTLE_POSITION) {
+    if (pid == THROTTLE_POSITION)
       THROTTLE = resultBuffer[11] * 100 / 255;
-      Serial.print("Throttle: ");
-      Serial.println(THROTTLE);
-    }
-    if (pid == TIMING_ADVANCE) {
+    if (pid == TIMING_ADVANCE)
       TIMINGADVANCE = (resultBuffer[11] / 2) - 64;
-      Serial.print("Timing Advance: ");
-      Serial.println(TIMINGADVANCE);
-    }
-    if (pid == ENGINE_LOAD) {
+    if (pid == ENGINE_LOAD)
       ENGINELOAD = resultBuffer[11] / 2.55;
-      Serial.print("Engine Load: ");
-      Serial.println(ENGINELOAD);
-    }
-    if (pid == MAF_FLOW_RATE) {
+    if (pid == MAF_FLOW_RATE)
       MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
-      Serial.print("MAF Flow Rate: ");
-      Serial.println(MAF);
-    }
+    if (pid == DISTANCE_TRAVELED_WITH_MIL_ON)
+      DISTANCE_TRAVELED_WITH_MIL = 256 * resultBuffer[11] + resultBuffer[12];
   }
 }
 
@@ -159,29 +204,21 @@ void getFreezeFrame(const byte pid) {
   // example Request: C2 33 F1 01 0C F3
   // example Response: 84 F1 11 41 0C 1F 40 32
   if (protocol == "ISO9141") {
-    writeData(freeze_frame_SLOW, sizeof(freeze_frame_SLOW), pid);
+    writeDataFreezeFrame(freeze_frame_SLOW, sizeof(freeze_frame_SLOW), pid);
   } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    writeData(freeze_frame, sizeof(freeze_frame), pid);
+    writeDataFreezeFrame(freeze_frame, sizeof(freeze_frame), pid);
   }
   readData();
 
-  if (resultBuffer[10] == pid) {
+  if (resultBuffer[11] == pid) {
     if (pid == VEHICLE_SPEED)
-      freeze_SPEED = resultBuffer[11];
+      freeze_SPEED = resultBuffer[13];
     if (pid == ENGINE_RPM)
-      freeze_RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
+      freeze_RPM = (resultBuffer[13] * 256 + resultBuffer[14]) / 4;
     if (pid == ENGINE_COOLANT_TEMP)
-      freeze_COOLANT_TEMP = resultBuffer[11] - 40;
-    if (pid == INTAKE_AIR_TEMP)
-      freeze_INTAKE_TEMP = resultBuffer[11] - 40;
-    if (pid == THROTTLE_POSITION)
-      freeze_THROTTLE = resultBuffer[11] * 100 / 255;
-    if (pid == TIMING_ADVANCE)
-      freeze_TIMINGADVANCE = (resultBuffer[11] / 2) - 64;
+      freeze_COOLANT_TEMP = resultBuffer[13] - 40;
     if (pid == ENGINE_LOAD)
-      freeze_ENGINELOAD = resultBuffer[11] / 2.55;
-    if (pid == MAF_FLOW_RATE)
-      freeze_MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
+      freeze_ENGINELOAD = resultBuffer[13] / 2.55;
   }
 }
 
@@ -199,7 +236,6 @@ void get_DTCs() {
   readData();
 
   int length = sizeof(resultBuffer) - 10;
-  Serial.print("Errors: ");
   for (int i = 0; i < length; i++) {
     dtcBytes[0] = resultBuffer[9 + i * 2];
     dtcBytes[1] = resultBuffer[9 + i * 2 + 1];
@@ -209,12 +245,9 @@ void get_DTCs() {
       break;
     } else {
       String ErrorCode = decodeDTC(dtcBytes[0], dtcBytes[1]);
-      Serial.print(ErrorCode);
-      Serial.print(" ");
       dtcBuffer[dtcs++] = ErrorCode;
     }
   }
-  Serial.println();
 }
 
 String decodeDTC(char input_byte1, char input_byte2) {
@@ -343,38 +376,15 @@ void getCalibrationIDNum() {
   Vehicle_ID_Num = convertBytesToHexString(IDNum_Array, arrayNum);
 }
 
-void getSupportedPIDs() {
+void getSupportedPIDs(const byte option) {
   int pidIndex = 0;
   int supportedCount = 0;
 
-  if (protocol == "ISO9141") {
-    writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_1_20);
-  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_1_20);
-  }
-  readData();
-
-  for (int i = 11; i < 15; i++) {
-    byte value = resultBuffer[i];
-    for (int bit = 7; bit >= 0; bit--) {
-      if ((value >> bit) & 1) {
-        String pidString = String(pidIndex + 1, HEX);
-        pidString.toUpperCase();
-
-        if (pidString.length() == 1) {
-          pidString = "0" + pidString;
-        }
-        supportedPIDs[supportedCount++] = pidString;
-      }
-      pidIndex++;
-    }
-  }
-
-  if (isInArray(supportedPIDs, sizeof(supportedPIDs), "20")) {
+  if (option == 0x01) {
     if (protocol == "ISO9141") {
-      writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_21_40);
+      writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_1_20);
     } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-      writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_21_40);
+      writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_1_20);
     }
     readData();
 
@@ -388,7 +398,80 @@ void getSupportedPIDs() {
           if (pidString.length() == 1) {
             pidString = "0" + pidString;
           }
-          supportedPIDs[supportedCount++] = pidString;
+          supportedLiveData[supportedCount++] = pidString;
+        }
+        pidIndex++;
+      }
+    }
+
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), "20")) {
+      if (protocol == "ISO9141") {
+        writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_21_40);
+      } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+        writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_21_40);
+      }
+      readData();
+
+      for (int i = 11; i < 15; i++) {
+        byte value = resultBuffer[i];
+        for (int bit = 7; bit >= 0; bit--) {
+          if ((value >> bit) & 1) {
+            String pidString = String(pidIndex + 1, HEX);
+            pidString.toUpperCase();
+
+            if (pidString.length() == 1) {
+              pidString = "0" + pidString;
+            }
+            supportedLiveData[supportedCount++] = pidString;
+          }
+          pidIndex++;
+        }
+      }
+    }
+  }
+  if (option == 0x02) {
+    if (protocol == "ISO9141") {
+      writeDataFreezeFrame(freeze_frame_SLOW, sizeof(freeze_frame_SLOW), 0x00);
+    } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+      writeDataFreezeFrame(freeze_frame, sizeof(freeze_frame), 0x00);
+    }
+    readData();
+
+    for (int i = 13; i < 17; i++) {
+      byte value = resultBuffer[i];
+      for (int bit = 7; bit >= 0; bit--) {
+        if ((value >> bit) & 1) {
+          String pidString = String(pidIndex + 1, HEX);
+          pidString.toUpperCase();
+
+          if (pidString.length() == 1) {
+            pidString = "0" + pidString;
+          }
+          supportedFreezeFrame[supportedCount++] = pidString;
+        }
+        pidIndex++;
+      }
+    }
+  }
+  if (option == 0x09) {
+    if (protocol == "ISO9141") {
+      writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), 0x00);
+    } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+      writeData(vehicle_info, sizeof(vehicle_info), 0x00);
+    }
+    readData();
+
+    for (int i = 12; i < 16; i++) {
+      byte value = resultBuffer[i];
+      for (int bit = 7; bit >= 0; bit--) {
+        if ((value >> bit) & 1) {
+          String pidString = String(pidIndex + 1, HEX);
+          pidString.toUpperCase();
+
+          if (pidString.length() == 1) {
+            pidString = "0" + pidString;
+          }
+          supportedVehicleInfo[supportedCount++] = pidString;
         }
         pidIndex++;
       }

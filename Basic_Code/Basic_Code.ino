@@ -16,7 +16,7 @@ String protocol = "Automatic";
 // String protocol = "ISO14230_Fast";
 
 int SPEED = 0, RPM = 0, THROTTLE = 0, COOLANT_TEMP = 0, INTAKE_TEMP = 0, TIMINGADVANCE = 0, ENGINELOAD = 0, MAF = 0, DISTANCE_TRAVELED_WITH_MIL = 0;
-int freeze_SPEED = 0, freeze_RPM = 0, freeze_THROTTLE = 0, freeze_COOLANT_TEMP = 0, freeze_INTAKE_TEMP = 0, freeze_TIMINGADVANCE = 0, freeze_ENGINELOAD = 0, freeze_MAF = 0;
+int freeze_SPEED = 0, freeze_RPM = 0, freeze_COOLANT_TEMP = 0, freeze_ENGINELOAD = 0;
 double VOLTAGE = 0;
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
@@ -34,7 +34,7 @@ void setup() {
 
 void loop() {
   if (KLineStatus == false) {
-    Serial.println("Initialising KWP_Fast...");
+    Serial.println("Initialising...");
     bool init_success = init_OBD2();
 
     if (init_success) {
