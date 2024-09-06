@@ -166,8 +166,8 @@ void getPID(const byte pid) {
 }
 
 void getFreezeFrame(const byte pid) {
-  // example Request: C2 33 F1 01 0C F3
-  // example Response: 84 F1 11 41 0C 1F 40 32
+  // example Request: C3 33 F1 02 05 00 EE
+  // example Response: 84 F1 11 42 05 00 8A 57
   if (protocol == "ISO9141") {
     writeDataFreezeFrame(freeze_frame_SLOW, sizeof(freeze_frame_SLOW), pid);
   } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
