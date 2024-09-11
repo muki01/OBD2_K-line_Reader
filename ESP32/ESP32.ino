@@ -58,7 +58,7 @@ void loop() {
       bool init_success = init_OBD2();
 
       if (init_success) {
-        connection();
+        connectMelody();
         KLineStatus = true;
         digitalWrite(Led, LOW);
         getVIN();
