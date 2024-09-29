@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBD2 Master</title>
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+
+<body>
+    <div id="overlay">
+        <div class="savedBox">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="120px" height="120px">
+                <linearGradient id="c0yjGprCnv9Gl20e9Vf6Cb" x1="32" x2="32" y1="6" y2="56"
+                    gradientUnits="userSpaceOnUse" spreadMethod="reflect">
+                    <stop offset="0" stop-color="#42d778" />
+                    <stop offset=".996" stop-color="#34b171" />
+                    <stop offset="1" stop-color="#34b171" />
+                </linearGradient>
+                <path fill="url(#c0yjGprCnv9Gl20e9Vf6Cb)"
+                    d="M57,31c0,13.805-11.195,25-25,25S7,44.805,7,31S18.195,6,32,6S57,17.195,57,31z" />
+                <path fill="#fff"
+                    d="M42.695,21.733L27.5,36.946l-5.235-5.22c-0.977-0.974-2.558-0.973-3.533,0.003l0,0 c-0.977,0.977-0.976,2.562,0.002,3.538l7.002,6.985c0.977,0.975,2.559,0.973,3.534-0.003l16.962-16.982 c0.975-0.977,0.975-2.559-0.001-3.535l0,0C45.254,20.756,43.671,20.756,42.695,21.733z" />
+            </svg>
+            <h1>Settings Saved Successfully</h1>
+            <p>Your device will reboot, please reconnect to the Wi-Fi connection of the device and click the OK button.
+            </p>
+            <a id="hideOverlayBtn">Ok</a>
+        </div>
+    </div>
+    <header>
+        <div class="mainContainer">
+            <div class="btnArea">
+                <a href="/"><span class="arrow"></span></a>
+            </div>
+            <div class="textArea">
+                <h1><span class="orange">Settings</span></h1>
+            </div>
+            <div class="connectionArea">
+                <svg id="ws" viewBox="0 0 512 512">
+                    <path
+                        d="M176 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64c-35.3 0-64 28.7-64 64H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64c0 35.3 28.7 64 64 64v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448c35.3 0 64-28.7 64-64h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448V280h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448V176h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448c0-35.3-28.7-64-64-64V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H280V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H176V24zM160 128H352c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H160c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32zm192 32H160V352H352V160z" />
+                </svg>
+                <svg id="kl" viewBox="0 0 512 512">
+                    <path
+                        d="M135.2 117.4L109.1 192H402.9l-26.1-74.6C372.3 104.6 360.2 96 346.6 96H165.4c-13.6 0-25.7 8.6-30.2 21.4zM39.6 196.8L74.8 96.3C88.3 57.8 124.6 32 165.4 32H346.6c40.8 0 77.1 25.8 90.6 64.3l35.2 100.5c23.2 9.6 39.6 32.5 39.6 59.2V400v48c0 17.7-14.3 32-32 32H448c-17.7 0-32-14.3-32-32V400H96v48c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V400 256c0-26.7 16.4-49.6 39.6-59.2zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm288 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z" />
+                </svg>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="mainContainer">
+            <div class="card">
+                <form id="wifiForm">
+                    <h1>Wifi Info</h1>
+                    <div class="row">
+                        <label class="label" for="SSID">Wifi Name:</label>
+                        <input type="text" class="input" id="SSID" name="SSID" required
+                            placeholder="Enter customer wifi network name">
+                    </div>
+                    <div class="row">
+                        <label class="label" for="WifiPassword">Wifi Password:</label>
+                        <input type="password" class="input" id="WifiPassword" name="WifiPassword"
+                            placeholder="Enter customer wifi password" pattern=".{8,}"
+                            title="Minimum 8 characters required">
+                    </div>
+                    <div class="row">
+                        <label class="label">IP Address:</label>
+                        <div class="radioBtns">
+                            <div class="radioBtn">
+                                <input type="radio" id="dynamicIp" name="ipType" checked="checked">
+                                <label for="dynamicIp">Dynamic</label>
+                            </div>
+                            <div class="radioBtn">
+                                <input type="radio" id="staticIp" name="ipType">
+                                <label for="staticIp">Static</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="staticIP-menu"></div>
+                    <button id="btnChangeWifi" class="submit-btn">Change Wifi Info</button>
+                </form>
+            </div>
+            <div class="card">
+                <form id="protocolForm">
+                    <h1>Communication Protocol</h1>
+                    <div class="row">
+                        <label class="label" for="PS3Address">Protocol:</label>
+                        <select id="protocol" name="protocol" required>
+                            <option disabled selected value="">Select Protocol</option>
+                            <option value="Automatic">Automatic</option>
+                            <option value="ISO9141">ISO9141</option>
+                            <option value="ISO14230_Slow">ISO14230 Slow</option>
+                            <option value="ISO14230_Fast">ISO14230 Fast</option>
+                        </select>
+                    </div>
+                    <button id="btnChangeProtocol" class="submit-btn">Change Protocol</button>
+                    <h2>Selected Protocol: </h2>
+                    <p id="selectedProtocol">Waiting...</p>
+                    <h2>Connected Protocol: </h2>
+                    <p id="connectedProtocol">Waiting...</p>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+<script type="module" src="js/settings.js"></script>
+
+</html>
