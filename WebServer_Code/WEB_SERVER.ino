@@ -18,6 +18,9 @@ void initWiFi() {
       ;
   }
   WiFi.mode(WIFI_STA);
+#ifdef ESP32
+  WiFi.setTxPower(WIFI_POWER_5dBm);
+#endif
   WiFi.begin(STA_ssid.c_str(), STA_password.c_str());
   unsigned long previousMillis = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - previousMillis <= 3000) {
