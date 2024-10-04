@@ -55,18 +55,16 @@
                 <form id="wifiForm">
                     <h1>Wifi Info</h1>
                     <div class="row">
-                        <label class="label" for="SSID">Wifi Name:</label>
-                        <input type="text" class="input" id="SSID" name="SSID" required
-                            placeholder="Enter customer wifi network name">
+                        <label for="SSID">Wifi Name:</label>
+                        <input type="text" name="SSID" required placeholder="Enter customer wifi network name">
                     </div>
                     <div class="row">
-                        <label class="label" for="WifiPassword">Wifi Password:</label>
-                        <input type="password" class="input" id="WifiPassword" name="WifiPassword"
-                            placeholder="Enter customer wifi password" pattern=".{8,}"
-                            title="Minimum 8 characters required">
+                        <label for="WifiPassword">Wifi Password:</label>
+                        <input type="password" name="WifiPassword" placeholder="Enter customer wifi password"
+                            pattern=".{8,}" title="Minimum 8 characters required">
                     </div>
                     <div class="row">
-                        <label class="label">IP Address:</label>
+                        <label>IP Address:</label>
                         <div class="radioBtns">
                             <div class="radioBtn">
                                 <input type="radio" id="dynamicIp" name="ipType" checked="checked">
@@ -79,15 +77,15 @@
                         </div>
                     </div>
                     <div class="staticIP-menu"></div>
-                    <button id="btnChangeWifi" class="submit-btn">Change Wifi Info</button>
+                    <button class="submit-btn">Change Wifi Info</button>
                 </form>
             </div>
             <div class="card">
                 <form id="protocolForm">
                     <h1>Communication Protocol</h1>
                     <div class="row">
-                        <label class="label" for="PS3Address">Protocol:</label>
-                        <select id="protocol" name="protocol" required>
+                        <label for="PS3Address">Protocol:</label>
+                        <select name="protocol" required>
                             <option disabled selected value="">Select Protocol</option>
                             <option value="Automatic">Automatic</option>
                             <option value="ISO9141">ISO9141</option>
@@ -95,11 +93,30 @@
                             <option value="ISO14230_Fast">ISO14230 Fast</option>
                         </select>
                     </div>
-                    <button id="btnChangeProtocol" class="submit-btn">Change Protocol</button>
+                    <button class="submit-btn">Change Protocol</button>
                     <h2>Selected Protocol: </h2>
                     <p id="selectedProtocol">Waiting...</p>
                     <h2>Connected Protocol: </h2>
                     <p id="connectedProtocol">Waiting...</p>
+                </form>
+            </div>
+            <div class="card">
+                <h1>OTA Update</h1>
+                <form id="firmwareUpdate">
+                    <h2>Firmware</h2>
+                    <div class="row">
+                        <label for='firmware'>Firmware: </label>
+                        <input type='file' name='firmware' required>
+                    </div>
+                    <button class="submit-btn">Update</button>
+                </form>
+                <form id="fileSystemUpdate">
+                    <h2>File System</h2>
+                    <div class="row">
+                        <label for='spiffs'>SPIFFS: </label>
+                        <input type='file' name='spiffs' required>
+                    </div>
+                    <button class="submit-btn">Update</button>
                 </form>
             </div>
         </div>

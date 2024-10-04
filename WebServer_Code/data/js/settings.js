@@ -74,6 +74,13 @@ document.getElementById('protocolForm').addEventListener('submit', function (eve
     submitForm(event, 'protocolForm', '/protocolOptions');
 });
 
+document.getElementById('firmwareUpdate').addEventListener('submit', function (event) {
+    submitForm(event, 'firmwareUpdate', '/firmwareUpdate');
+});
+document.getElementById('fileSystemUpdate').addEventListener('submit', function (event) {
+    submitForm(event, 'fileSystemUpdate', '/fileSystemUpdate');
+});
+
 
 
 

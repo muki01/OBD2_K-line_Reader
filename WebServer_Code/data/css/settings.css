@@ -125,12 +125,12 @@ main .mainContainer {
     margin: 10px 0;
 }
 
-.label {
+label {
     font-family: sans-serif;
     font-size: 1.2em;
 }
 
-.input {
+input {
     border-radius: 5px;
     padding: 2px 5px;
 }

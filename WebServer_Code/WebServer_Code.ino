@@ -8,6 +8,7 @@
 #include <FS.h>
 #endif
 #include <ESPAsyncWebServer.h>
+#include <Update.h>
 #include <ArduinoJson.h>
 #include "PIDs.h"
 
