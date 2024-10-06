@@ -5,65 +5,65 @@ String supportedFreezeFrame[32];
 String supportedVehicleInfo[32];
 
 void read_K() {
-  getSupportedPIDs(0x01);
-  Serial.println("Suported LiveData: ");
-  for (int i = 0; i < 32; i++) {
-    Serial.print(supportedLiveData[i]);
-    Serial.print(", ");
-  }
-  Serial.println();
+  // getSupportedPIDs(0x01);
+  // Serial.println("Suported LiveData: ");
+  // for (int i = 0; i < 32; i++) {
+  //   Serial.print(supportedLiveData[i]);
+  //   Serial.print(", ");
+  // }
+  // Serial.println();
 
-  getSupportedPIDs(0x02);
-  Serial.println("Suported FreezeFrame: ");
-  for (int i = 0; i < 32; i++) {
-    Serial.print(supportedFreezeFrame[i]);
-    Serial.print(", ");
-  }
-  Serial.println();
+  // getSupportedPIDs(0x02);
+  // Serial.println("Suported FreezeFrame: ");
+  // for (int i = 0; i < 32; i++) {
+  //   Serial.print(supportedFreezeFrame[i]);
+  //   Serial.print(", ");
+  // }
+  // Serial.println();
 
-  getSupportedPIDs(0x09);
-  Serial.println("Suported VehicleInfo: ");
-  for (int i = 0; i < 32; i++) {
-    Serial.print(supportedVehicleInfo[i]);
-    Serial.print(", ");
-  }
-  Serial.println();
+  // getSupportedPIDs(0x09);
+  // Serial.println("Suported VehicleInfo: ");
+  // for (int i = 0; i < 32; i++) {
+  //   Serial.print(supportedVehicleInfo[i]);
+  //   Serial.print(", ");
+  // }
+  // Serial.println();
 
-  Serial.println("Live Data: ");
+  //Serial.println("Live Data: ");
   getPID(VEHICLE_SPEED);
-  Serial.print("Speed: "), Serial.println(SPEED);
+  Serial.print("Speed: "), Serial.println(vehicleSpeedValue);
   getPID(ENGINE_RPM);
-  Serial.print("Engine RPM: "), Serial.println(RPM);
+  Serial.print("Engine RPM: "), Serial.println(engineRpmValue);
   getPID(ENGINE_COOLANT_TEMP);
-  Serial.print("Coolant Temp: "), Serial.println(COOLANT_TEMP);
+  Serial.print("Coolant Temp: "), Serial.println(engineCoolantTemp);
   getPID(INTAKE_AIR_TEMP);
-  Serial.print("Intake Air Temp: "), Serial.println(INTAKE_TEMP);
+  Serial.print("Intake Air Temp: "), Serial.println(intakeAirTempValue);
   getPID(THROTTLE_POSITION);
-  Serial.print("Throttle: "), Serial.println(THROTTLE);
+  Serial.print("Throttle: "), Serial.println(throttlePositionValue);
   getPID(TIMING_ADVANCE);
-  Serial.print("Timing Advance: "), Serial.println(TIMINGADVANCE);
+  Serial.print("Timing Advance: "), Serial.println(timingAdvanceValue);
   getPID(ENGINE_LOAD);
-  Serial.print("Engine Load: "), Serial.println(ENGINELOAD);
+  Serial.print("Engine Load: "), Serial.println(engineLoadValue);
   getPID(MAF_FLOW_RATE);
-  Serial.print("MAF Flow Rate: "), Serial.println(MAF);
+  Serial.print("MAF Flow Rate: "), Serial.println(mafAirFlowRate);
 
-  get_DTCs();
-  Serial.println("DTCs: ");
-  for (int i = 0; i < 32; i++) {
-    Serial.print(dtcBuffer[i]);
-    Serial.print(", ");
-  }
-  Serial.println();
+  // get_DTCs();
+  // Serial.println("DTCs: ");
+  // for (int i = 0; i < 32; i++) {
+  //   Serial.print(dtcBuffer[i]);
+  //   Serial.print(", ");
+  // }
+  // Serial.println();
 
-  Serial.println("Freeze Frame: ");
-  getFreezeFrame(VEHICLE_SPEED);
-  Serial.print("Speed: "), Serial.println(freeze_SPEED);
-  getFreezeFrame(ENGINE_RPM);
-  Serial.print("Engine RPM: "), Serial.println(freeze_RPM);
-  getFreezeFrame(ENGINE_COOLANT_TEMP);
-  Serial.print("Coolant Temp: "), Serial.println(freeze_COOLANT_TEMP);
-  getFreezeFrame(ENGINE_LOAD);
-  Serial.print("Engine Load: "), Serial.println(freeze_ENGINELOAD);
+  // Serial.println("Freeze Frame: ");
+  // getFreezeFrame(VEHICLE_SPEED);
+  // Serial.print("Speed: "), Serial.println(freeze_SPEED);
+  // getFreezeFrame(ENGINE_RPM);
+  // Serial.print("Engine RPM: "), Serial.println(freeze_RPM);
+  // getFreezeFrame(ENGINE_COOLANT_TEMP);
+  // Serial.print("Coolant Temp: "), Serial.println(freeze_COOLANT_TEMP);
+  // getFreezeFrame(ENGINE_LOAD);
+  // Serial.print("Engine Load: "), Serial.println(freeze_ENGINELOAD);
 
   K_Serial.flush();
 }
@@ -72,22 +72,6 @@ void read_K() {
 bool init_OBD2() {
   // Request: C1 33 F1 81 66
   // Response: 83 F1 11 C1 8F EF C4
-
-  if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
-    REQUEST_DELAY = 50;
-    K_Serial.end();
-    digitalWrite(K_line_TX, HIGH), delay(3000);
-    digitalWrite(K_line_TX, LOW), delay(25);
-    digitalWrite(K_line_TX, HIGH), delay(25);
-
-    K_Serial.begin(10400);
-    writeData(start_Bytes, sizeof(start_Bytes), init_OBD);
-    readData();
-    if (resultBuffer[8] == 0xC1) {
-      protocol = "ISO14230_Fast";
-      return true;
-    }
-  }
 
   if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
     REQUEST_DELAY = 500;
@@ -104,8 +88,10 @@ bool init_OBD2() {
     readData();
     if (resultBuffer[0] == 0x55) {
       if (resultBuffer[1] == resultBuffer[2]) {
+        Serial.println("Your Protocol is ISO9141");
         protocol = "ISO9141";
       } else {
+        Serial.println("Your Protocol is ISO14230_Slow");
         protocol = "ISO14230_Slow";
       }
       delay(30);
@@ -117,6 +103,23 @@ bool init_OBD2() {
       if (resultBuffer[1]) {
         return true;
       }
+    }
+  }
+
+  if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
+    REQUEST_DELAY = 50;
+    K_Serial.end();
+    digitalWrite(K_line_TX, HIGH), delay(3000);
+    digitalWrite(K_line_TX, LOW), delay(25);
+    digitalWrite(K_line_TX, HIGH), delay(25);
+
+    K_Serial.begin(10400);
+    writeData(start_Bytes, sizeof(start_Bytes), init_OBD);
+    readData();
+    if (resultBuffer[8] == 0xC1) {
+      Serial.println("Your Protocol is ISO14230_Fast");
+      protocol = "ISO14230_Fast";
+      return true;
     }
   }
 
@@ -179,24 +182,111 @@ void getPID(const byte pid) {
   readData();
 
   if (resultBuffer[10] == pid) {
-    if (pid == VEHICLE_SPEED)
-      SPEED = resultBuffer[11];
-    if (pid == ENGINE_RPM)
-      RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
-    if (pid == ENGINE_COOLANT_TEMP)
-      COOLANT_TEMP = resultBuffer[11] - 40;
-    if (pid == INTAKE_AIR_TEMP)
-      INTAKE_TEMP = resultBuffer[11] - 40;
-    if (pid == THROTTLE_POSITION)
-      THROTTLE = resultBuffer[11] * 100 / 255;
-    if (pid == TIMING_ADVANCE)
-      TIMINGADVANCE = (resultBuffer[11] / 2) - 64;
+    if (pid == FUEL_SYSTEM_STATUS)
+      fuelSystemStatus = resultBuffer[11];
+
     if (pid == ENGINE_LOAD)
-      ENGINELOAD = resultBuffer[11] / 2.55;
+      engineLoadValue = (100.0 / 255) * resultBuffer[11];
+
+    if (pid == ENGINE_COOLANT_TEMP)
+      engineCoolantTemp = resultBuffer[11] - 40;
+
+    if (pid == SHORT_TERM_FUEL_TRIM_BANK_1)
+      shortTermFuelTrimBank1 = (resultBuffer[11] / 1.28) - 100.0;
+
+    if (pid == LONG_TERM_FUEL_TRIM_BANK_1)
+      longTermFuelTrimBank1 = (resultBuffer[11] / 1.28) - 100.0;
+
+    if (pid == SHORT_TERM_FUEL_TRIM_BANK_2)
+      shortTermFuelTrimBank2 = (resultBuffer[11] / 1.28) - 100.0;
+
+    if (pid == LONG_TERM_FUEL_TRIM_BANK_2)
+      longTermFuelTrimBank2 = (resultBuffer[11] / 1.28) - 100.0;
+
+    if (pid == FUEL_PRESSURE)
+      fuelPressureValue = 3 * resultBuffer[11];
+
+    if (pid == INTAKE_MANIFOLD_ABS_PRESSURE)
+      intakeManifoldAbsPressure = resultBuffer[11];
+
+    if (pid == ENGINE_RPM)
+      engineRpmValue = (256 * resultBuffer[11] + resultBuffer[12]) / 4;
+
+    if (pid == VEHICLE_SPEED)
+      vehicleSpeedValue = resultBuffer[11];
+
+    if (pid == TIMING_ADVANCE)
+      timingAdvanceValue = (resultBuffer[11] / 2) - 64;
+
+    if (pid == INTAKE_AIR_TEMP)
+      intakeAirTempValue = resultBuffer[11] - 40;
+
     if (pid == MAF_FLOW_RATE)
-      MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
+      mafAirFlowRate = (256 * resultBuffer[11] + resultBuffer[12]) / 100.0;
+
+    if (pid == THROTTLE_POSITION)
+      throttlePositionValue = (100.0 / 255) * resultBuffer[11];
+
+    if (pid == COMMANDED_SECONDARY_AIR_STATUS)
+      secondaryAirStatus = resultBuffer[11];
+
+    if (pid == OXYGEN_SENSORS_PRESENT_2_BANKS)
+      oxygenSensorsPresent2Banks = resultBuffer[11];
+
+    if (pid == OXYGEN_SENSOR_1_A) {
+      oxygenSensor1Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim1 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_2_A) {
+      oxygenSensor2Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim2 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_3_A) {
+      oxygenSensor3Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim3 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_4_A) {
+      oxygenSensor4Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim4 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_5_A) {
+      oxygenSensor5Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim5 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_6_A) {
+      oxygenSensor6Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim6 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_7_A) {
+      oxygenSensor7Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim7 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_8_A) {
+      oxygenSensor8Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim8 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OBD_STANDARDS)
+      obdStandards = resultBuffer[11];
+
+    if (pid == OXYGEN_SENSORS_PRESENT_4_BANKS)
+      oxygenSensorsPresent4Banks = resultBuffer[11];
+
+    if (pid == AUX_INPUT_STATUS)
+      auxiliaryInputStatus = resultBuffer[11];
+
+    if (pid == RUN_TIME_SINCE_ENGINE_START)
+      runTimeSinceEngineStart = 256 * resultBuffer[11] + resultBuffer[12];
+
     if (pid == DISTANCE_TRAVELED_WITH_MIL_ON)
-      DISTANCE_TRAVELED_WITH_MIL = 256 * resultBuffer[11] + resultBuffer[12];
+      distanceWithMilOn = 256 * resultBuffer[11] + resultBuffer[12];
   }
 }
 

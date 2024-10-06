@@ -218,15 +218,15 @@ String JsonData() {
   jsonDoc.clear();
 
   if (page == -1) {
-    jsonDoc["Speed"] = SPEED;
-    jsonDoc["RPM"] = RPM;
-    jsonDoc["CoolantTemp"] = COOLANT_TEMP;
-    jsonDoc["IntakeTemp"] = INTAKE_TEMP;
-    jsonDoc["Throttle"] = THROTTLE;
-    jsonDoc["TimingAdvance"] = TIMINGADVANCE;
-    jsonDoc["EngineLoad"] = ENGINELOAD;
-    jsonDoc["MAF"] = MAF;
-    jsonDoc["DistanceTraveledWithMIL"] = DISTANCE_TRAVELED_WITH_MIL;
+    jsonDoc["Speed"] = vehicleSpeedValue;
+    jsonDoc["RPM"] = engineRpmValue;
+    jsonDoc["CoolantTemp"] = engineCoolantTemp;
+    jsonDoc["IntakeTemp"] = intakeAirTempValue;
+    jsonDoc["Throttle"] = throttlePositionValue;
+    jsonDoc["TimingAdvance"] = timingAdvanceValue;
+    jsonDoc["EngineLoad"] = engineLoadValue;
+    jsonDoc["MAF"] = mafAirFlowRate;
+    jsonDoc["DistanceTraveledWithMIL"] = distanceWithMilOn;
     jsonDoc["Voltage"] = VOLTAGE;
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {
@@ -235,14 +235,14 @@ String JsonData() {
       }
     }
   } else if (page == 1) {
-    jsonDoc["Speed"] = SPEED;
-    jsonDoc["RPM"] = RPM;
-    jsonDoc["CoolantTemp"] = COOLANT_TEMP;
-    jsonDoc["IntakeTemp"] = INTAKE_TEMP;
-    jsonDoc["Throttle"] = THROTTLE;
-    jsonDoc["TimingAdvance"] = TIMINGADVANCE;
-    jsonDoc["EngineLoad"] = ENGINELOAD;
-    jsonDoc["MAF"] = MAF;
+    jsonDoc["Speed"] = vehicleSpeedValue;
+    jsonDoc["RPM"] = engineRpmValue;
+    jsonDoc["CoolantTemp"] = engineCoolantTemp;
+    jsonDoc["IntakeTemp"] = intakeAirTempValue;
+    jsonDoc["Throttle"] = throttlePositionValue;
+    jsonDoc["TimingAdvance"] = timingAdvanceValue;
+    jsonDoc["EngineLoad"] = engineLoadValue;
+    jsonDoc["MAF"] = mafAirFlowRate;
     jsonDoc["Voltage"] = VOLTAGE;
   } else if (page == 2) {
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
@@ -251,7 +251,7 @@ String JsonData() {
         dtcArray.add(dtcBuffer[i]);
       }
     }
-    jsonDoc["DistanceTraveledWithMIL"] = DISTANCE_TRAVELED_WITH_MIL;
+    jsonDoc["DistanceTraveledWithMIL"] = distanceWithMilOn;
   } else if (page == 3) {
     JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
     for (int i = 0; i < 20; i++) {
@@ -264,7 +264,7 @@ String JsonData() {
     jsonDoc["CoolantTemp"] = freeze_COOLANT_TEMP;
     jsonDoc["EngineLoad"] = freeze_ENGINELOAD;
   } else if (page == 4) {
-    jsonDoc["Speed"] = SPEED;
+    jsonDoc["Speed"] = vehicleSpeedValue;
   } else if (page == 5) {
     jsonDoc["VIN"] = Vehicle_VIN;
     jsonDoc["ID"] = Vehicle_ID;

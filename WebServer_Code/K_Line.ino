@@ -143,24 +143,111 @@ void getPID(const byte pid) {
   readData();
 
   if (resultBuffer[10] == pid) {
-    if (pid == VEHICLE_SPEED)
-      SPEED = resultBuffer[11];
-    if (pid == ENGINE_RPM)
-      RPM = (resultBuffer[11] * 256 + resultBuffer[12]) / 4;
-    if (pid == ENGINE_COOLANT_TEMP)
-      COOLANT_TEMP = resultBuffer[11] - 40;
-    if (pid == INTAKE_AIR_TEMP)
-      INTAKE_TEMP = resultBuffer[11] - 40;
-    if (pid == THROTTLE_POSITION)
-      THROTTLE = resultBuffer[11] * 100 / 255;
-    if (pid == TIMING_ADVANCE)
-      TIMINGADVANCE = (resultBuffer[11] / 2) - 64;
+    if (pid == FUEL_SYSTEM_STATUS)
+      fuelSystemStatus = resultBuffer[11];
+
     if (pid == ENGINE_LOAD)
-      ENGINELOAD = resultBuffer[11] / 2.55;
+      engineLoadValue = (100.0 / 255) * resultBuffer[11];
+
+    if (pid == ENGINE_COOLANT_TEMP)
+      engineCoolantTemp = resultBuffer[11] - 40;
+
+    if (pid == SHORT_TERM_FUEL_TRIM_BANK_1)
+      shortTermFuelTrimBank1 = (resultBuffer[11] / 1.28) - 100.0;
+
+    if (pid == LONG_TERM_FUEL_TRIM_BANK_1)
+      longTermFuelTrimBank1 = (resultBuffer[11] / 1.28) - 100.0;
+
+    if (pid == SHORT_TERM_FUEL_TRIM_BANK_2)
+      shortTermFuelTrimBank2 = (resultBuffer[11] / 1.28) - 100.0;
+
+    if (pid == LONG_TERM_FUEL_TRIM_BANK_2)
+      longTermFuelTrimBank2 = (resultBuffer[11] / 1.28) - 100.0;
+
+    if (pid == FUEL_PRESSURE)
+      fuelPressureValue = 3 * resultBuffer[11];
+
+    if (pid == INTAKE_MANIFOLD_ABS_PRESSURE)
+      intakeManifoldAbsPressure = resultBuffer[11];
+
+    if (pid == ENGINE_RPM)
+      engineRpmValue = (256 * resultBuffer[11] + resultBuffer[12]) / 4;
+
+    if (pid == VEHICLE_SPEED)
+      vehicleSpeedValue = resultBuffer[11];
+
+    if (pid == TIMING_ADVANCE)
+      timingAdvanceValue = (resultBuffer[11] / 2) - 64;
+
+    if (pid == INTAKE_AIR_TEMP)
+      intakeAirTempValue = resultBuffer[11] - 40;
+
     if (pid == MAF_FLOW_RATE)
-      MAF = (256 * resultBuffer[11] + resultBuffer[12]) / 100;
+      mafAirFlowRate = (256 * resultBuffer[11] + resultBuffer[12]) / 100.0;
+
+    if (pid == THROTTLE_POSITION)
+      throttlePositionValue = (100.0 / 255) * resultBuffer[11];
+
+    if (pid == COMMANDED_SECONDARY_AIR_STATUS)
+      secondaryAirStatus = resultBuffer[11];
+
+    if (pid == OXYGEN_SENSORS_PRESENT_2_BANKS)
+      oxygenSensorsPresent2Banks = resultBuffer[11];
+
+    if (pid == OXYGEN_SENSOR_1_A) {
+      oxygenSensor1Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim1 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_2_A) {
+      oxygenSensor2Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim2 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_3_A) {
+      oxygenSensor3Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim3 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_4_A) {
+      oxygenSensor4Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim4 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_5_A) {
+      oxygenSensor5Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim5 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_6_A) {
+      oxygenSensor6Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim6 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_7_A) {
+      oxygenSensor7Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim7 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OXYGEN_SENSOR_8_A) {
+      oxygenSensor8Voltage = resultBuffer[11] / 200.0;
+      shortTermFuelTrim8 = (100.0 / 128) * resultBuffer[12] - 100.0;
+    }
+
+    if (pid == OBD_STANDARDS)
+      obdStandards = resultBuffer[11];
+
+    if (pid == OXYGEN_SENSORS_PRESENT_4_BANKS)
+      oxygenSensorsPresent4Banks = resultBuffer[11];
+
+    if (pid == AUX_INPUT_STATUS)
+      auxiliaryInputStatus = resultBuffer[11];
+
+    if (pid == RUN_TIME_SINCE_ENGINE_START)
+      runTimeSinceEngineStart = 256 * resultBuffer[11] + resultBuffer[12];
+
     if (pid == DISTANCE_TRAVELED_WITH_MIL_ON)
-      DISTANCE_TRAVELED_WITH_MIL = 256 * resultBuffer[11] + resultBuffer[12];
+      distanceWithMilOn = 256 * resultBuffer[11] + resultBuffer[12];
   }
   sendDataToServer();
 }
