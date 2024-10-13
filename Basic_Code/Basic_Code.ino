@@ -1,11 +1,18 @@
 #include "PIDs.h"
+
+#ifdef ESP32
+#define K_Serial Serial1
+#define K_line_RX 16
+#define K_line_TX 17
+#define Led 2
+#elif defined(ARDUINO)
 #include <AltSoftSerial.h>
 AltSoftSerial Alt_Serial;
-
 #define K_Serial Alt_Serial
 #define K_line_RX 8
 #define K_line_TX 9
 #define Led 13
+#endif
 
 #define READ_DELAY 5
 int REQUEST_DELAY;
@@ -36,7 +43,12 @@ void setup() {
   pinMode(K_line_RX, INPUT_PULLUP);
   pinMode(K_line_TX, OUTPUT);
   pinMode(Led, OUTPUT);
+
+#ifdef ESP32
+  K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#elif defined(ARDUINO)
   K_Serial.begin(10400);
+#endif
 }
 
 void loop() {

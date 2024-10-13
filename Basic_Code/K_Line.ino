@@ -84,7 +84,12 @@ bool init_OBD2() {
     digitalWrite(K_line_TX, LOW), delay(400);
     digitalWrite(K_line_TX, HIGH), delay(200);
 
+#ifdef ESP32
+    K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#elif defined(ARDUINO)
     K_Serial.begin(10400);
+#endif
+
     readData();
     if (resultBuffer[0] == 0x55) {
       if (resultBuffer[1] == resultBuffer[2]) {
@@ -113,7 +118,12 @@ bool init_OBD2() {
     digitalWrite(K_line_TX, LOW), delay(25);
     digitalWrite(K_line_TX, HIGH), delay(25);
 
+#ifdef ESP32
+    K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#elif defined(ARDUINO)
     K_Serial.begin(10400);
+#endif
+
     writeData(start_Bytes, sizeof(start_Bytes), init_OBD);
     readData();
     if (resultBuffer[8] == 0xC1) {
