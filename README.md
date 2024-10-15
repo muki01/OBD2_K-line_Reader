@@ -11,6 +11,8 @@ I have shared schematics to communicate with the car. You can use these schemati
 
 I will share more information about K-Line protocols and communication later. Stay tuned 😉.
 
+You can also see [this](https://github.com/muki01/I-K_Bus) project for I/K Bus for BMW cars
+
 ## ⚙️Instalation
 * Open .ino file
 * 📚Instal these Libraries
@@ -36,7 +38,7 @@ I will share more information about K-Line protocols and communication later. St
   [Here](https://randomnerdtutorials.com/install-esp32-filesystem-uploader-arduino-ide/) is documentation how to upload files to SPIFFS with Arduino IDE.
 
 
-## 📱A picture of the application I made with the ESP32
+## 📱Pictures of the application I made
 <img width=90% src="https://github.com/user-attachments/assets/766e178a-b956-4bdb-8f64-1919da479c65">
 <img width=90% src="https://github.com/user-attachments/assets/24f8f3cd-4056-44de-8414-635a4de0d60c">
 
