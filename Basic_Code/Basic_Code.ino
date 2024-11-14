@@ -2,8 +2,8 @@
 
 #ifdef ESP32
 #define K_Serial Serial1
-#define K_line_RX 16
-#define K_line_TX 17
+#define K_line_RX 25
+#define K_line_TX 26
 #define Led 2
 #elif defined(ARDUINO)
 #include <AltSoftSerial.h>
