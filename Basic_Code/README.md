@@ -15,8 +15,8 @@ For Arduino boards like Uno, Nano, and Pro Mini, the AltSoftSerial library is us
   - RX Pin: Pin 8 (connects to the RX pin as labeled in the schematics)
   - TX Pin: Pin 9 (connects to the TX pin as labeled in the schematics)
 * ESP32
-  - UART1 RX Pin: GPIO 16 (connects to the RX pin as labeled in the schematics)
-  - UART1 TX Pin: GPIO 17 (connects to the TX pin as labeled in the schematics)
+  - UART1 RX Pin: GPIO 25 (connects to the RX pin as labeled in the schematics)
+  - UART1 TX Pin: GPIO 26 (connects to the TX pin as labeled in the schematics)
 
 ## 🖼️ Example Screenshots of Serial Data
 <img width=30% src="https://github.com/user-attachments/assets/0ca043ea-6152-40a5-8b22-c516e84031bb">
