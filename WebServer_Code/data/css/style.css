@@ -8,11 +8,16 @@
 * {
     margin: 0;
     padding: 0;
-    user-select: none;
     text-decoration: none;
-    font-size: 16px;
-    font-family: Montserrat, sans-serif;
     -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    font: 16px Montserrat, sans-serif;
+    line-height: 1.2;
+}
+
+html {
+    scroll-behavior: smooth;
+    user-select: none;
 }
 
 body {
@@ -91,7 +96,7 @@ main {
     background-color: #fff;
     position: relative;
     top: -50px;
-    border-radius: 40px;
+    border-radius: 40px 40px 0 0;
 }
 
 main .mainContainer {

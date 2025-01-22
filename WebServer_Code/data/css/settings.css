@@ -6,11 +6,16 @@
 * {
     margin: 0;
     padding: 0;
-    user-select: none;
     text-decoration: none;
-    font-size: 16px;
-    font-family: Montserrat, sans-serif;
     -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    font: 16px Montserrat, sans-serif;
+    line-height: 1.2;
+}
+
+html {
+    scroll-behavior: smooth;
+    user-select: none;
 }
 
 body {
@@ -23,7 +28,7 @@ body {
 
 .mainContainer {
     width: 90%;
-    max-width: 1920px;
+    max-width: 1140px;
     margin: 0 auto;
 }
 
@@ -41,8 +46,8 @@ header .mainContainer {
 
 header .btnArea a {
     display: block;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 10px;
     border: 3px solid white;
     color: white;
@@ -56,12 +61,12 @@ header .btnArea a:hover {
 
 header .btnArea a .arrow {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     border-left: 3.5px solid #fff;
     border-bottom: 3.5px solid #fff;
     transform: rotate(45deg);
-    margin: 14px 0 2px 16px;
+    margin: 12px 0 0 15px;
 }
 
 header .textArea {

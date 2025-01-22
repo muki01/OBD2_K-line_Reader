@@ -1,5 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); */
-
 @font-face {
     font-family: Montserrat;
     src: url(/fonts/Montserrat-Bold.woff2);
@@ -8,11 +6,16 @@
 * {
     margin: 0;
     padding: 0;
-    user-select: none;
     text-decoration: none;
-    font-size: 16px;
-    font-family: Montserrat, sans-serif;
     -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    font: 16px Montserrat, sans-serif;
+    line-height: 1.2;
+}
+
+html {
+    scroll-behavior: smooth;
+    user-select: none;
 }
 
 body {
@@ -25,7 +28,7 @@ body {
 
 .mainContainer {
     width: 90%;
-    max-width: 1920px;
+    max-width: 1140px;
     margin: 0 auto;
 }
 
@@ -43,8 +46,8 @@ header .mainContainer {
 
 header .btnArea a {
     display: block;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 10px;
     border: 3px solid white;
     color: white;
@@ -58,12 +61,12 @@ header .btnArea a:hover {
 
 header .btnArea a .arrow {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     border-left: 3.5px solid #fff;
     border-bottom: 3.5px solid #fff;
     transform: rotate(45deg);
-    margin: 14px 0 2px 16px;
+    margin: 12px 0 0 15px;
 }
 
 header .textArea {
@@ -82,7 +85,7 @@ header .textArea h1 .orange {
     color: #FFCE49;
 }
 
-header .connectionArea{
+header .connectionArea {
     display: flex;
     gap: 4px;
 }
@@ -123,7 +126,7 @@ main .data h1 {
 
 main .data h1 span {
     font-size: 64px;
-    color:#00a0eb;
+    color: #00a0eb;
 }
 
 main .data .name {
@@ -182,7 +185,7 @@ main .timerArea {
     background-color: #004fa3;
 }
 
-main .info{
+main .info {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -190,15 +193,15 @@ main .info{
     border-radius: 10px;
 }
 
-main .info h1{
+main .info h1 {
     background-color: #242424;
-    border-radius: 10px 10px 0 0 ;
+    border-radius: 10px 10px 0 0;
     color: #00aeff;
     padding: 15px 20px;
     font-size: 22px;
 }
 
-main .info p{
+main .info p {
     color: #fff;
     padding: 10px 20px 20px;
     font-size: 16px;
@@ -206,6 +209,7 @@ main .info p{
 }
 
 @media screen and (max-width: 700px) {
+
     header #ws,
     header #kl {
         width: 24px;
