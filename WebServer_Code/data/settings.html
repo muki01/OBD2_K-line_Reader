@@ -51,73 +51,80 @@
     </header>
     <main>
         <div class="mainContainer">
-            <div class="card">
-                <form id="wifiForm">
+            <div class="settings">
+                <div class="card">
                     <h1>Wifi Info</h1>
-                    <div class="row">
-                        <label for="SSID">Wifi Name:</label>
-                        <input type="text" name="SSID" required placeholder="Enter customer wifi network name">
-                    </div>
-                    <div class="row">
-                        <label for="WifiPassword">Wifi Password:</label>
-                        <input type="password" name="WifiPassword" placeholder="Enter customer wifi password"
-                            pattern=".{8,}" title="Minimum 8 characters required">
-                    </div>
-                    <div class="row">
-                        <label>IP Address:</label>
-                        <div class="radioBtns">
-                            <div class="radioBtn">
-                                <input type="radio" id="dynamicIp" name="ipType" checked="checked">
-                                <label for="dynamicIp">Dynamic</label>
-                            </div>
-                            <div class="radioBtn">
-                                <input type="radio" id="staticIp" name="ipType">
-                                <label for="staticIp">Static</label>
+                    <form id="wifiForm">
+                        <div class="row">
+                            <label for="SSID">Wifi Name:</label>
+                            <input type="text" name="SSID" required placeholder="Enter customer wifi network name">
+                        </div>
+                        <div class="row">
+                            <label for="WifiPassword">Wifi Password:</label>
+                            <input type="password" name="WifiPassword" placeholder="Enter customer wifi password"
+                                pattern=".{8,}" title="Minimum 8 characters required">
+                        </div>
+                        <div class="row">
+                            <label>IP Address:</label>
+                            <div class="radioBtns">
+                                <div class="radioBtn">
+                                    <input type="radio" id="dynamicIp" name="ipType" checked="checked">
+                                    <label for="dynamicIp">Dynamic</label>
+                                </div>
+                                <div class="radioBtn">
+                                    <input type="radio" id="staticIp" name="ipType">
+                                    <label for="staticIp">Static</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="staticIP-menu"></div>
-                    <button class="submit-btn">Change Wifi Info</button>
-                </form>
-            </div>
-            <div class="card">
-                <form id="protocolForm">
+                        <div class="staticIP-menu"></div>
+                        <button class="submit-btn">Change Wifi Info</button>
+                    </form>
+                </div>
+                <div class="card">
                     <h1>Communication Protocol</h1>
-                    <div class="row">
-                        <label for="PS3Address">Protocol:</label>
-                        <select name="protocol" required>
-                            <option disabled selected value="">Select Protocol</option>
-                            <option value="Automatic">Automatic</option>
-                            <option value="ISO9141">ISO9141</option>
-                            <option value="ISO14230_Slow">ISO14230 Slow</option>
-                            <option value="ISO14230_Fast">ISO14230 Fast</option>
-                        </select>
-                    </div>
-                    <button class="submit-btn">Change Protocol</button>
-                    <h2>Selected Protocol: </h2>
-                    <p id="selectedProtocol">Waiting...</p>
-                    <h2>Connected Protocol: </h2>
-                    <p id="connectedProtocol">Waiting...</p>
-                </form>
-            </div>
-            <div class="card">
-                <h1>OTA Update</h1>
-                <form id="firmwareUpdate">
-                    <h2>Firmware</h2>
-                    <div class="row">
-                        <label for='firmware'>Firmware: </label>
-                        <input type='file' name='firmware' required>
-                    </div>
-                    <button class="submit-btn">Update</button>
-                </form>
-                <form id="fileSystemUpdate">
-                    <h2>File System</h2>
-                    <div class="row">
-                        <label for='spiffs'>SPIFFS: </label>
-                        <input type='file' name='spiffs' required>
-                    </div>
-                    <button class="submit-btn">Update</button>
-                </form>
+                    <form id="protocolForm">
+                        <div class="row">
+                            <label for="PS3Address">Protocol:</label>
+                            <select name="protocol" required>
+                                <option disabled selected value="">Select Protocol</option>
+                                <option value="Automatic">Automatic</option>
+                                <option value="ISO9141">ISO9141</option>
+                                <option value="ISO14230_Slow">ISO14230 Slow</option>
+                                <option value="ISO14230_Fast">ISO14230 Fast</option>
+                            </select>
+                        </div>
+                        <button class="submit-btn">Change Protocol</button>
+                        <div class="row">
+                            <h2>Selected Protocol: </h2>
+                            <p id="selectedProtocol">Waiting...</p>
+                        </div>
+                        <div class="row">
+                            <h2>Connected Protocol: </h2>
+                            <p id="connectedProtocol">Waiting...</p>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h1>OTA Update</h1>
+                    <form id="firmwareUpdate">
+                        <h2>Firmware</h2>
+                        <div class="row">
+                            <label for='firmware'>Firmware: </label>
+                            <input type='file' name='firmware' required>
+                        </div>
+                        <button class="submit-btn">Update</button>
+                    </form>
+                    <hr>
+                    <form id="fileSystemUpdate">
+                        <h2>File System</h2>
+                        <div class="row">
+                            <label for='spiffs'>SPIFFS: </label>
+                            <input type='file' name='spiffs' required>
+                        </div>
+                        <button class="submit-btn">Update</button>
+                    </form>
+                </div>
             </div>
         </div>
     </main>

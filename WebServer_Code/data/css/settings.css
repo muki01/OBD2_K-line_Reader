@@ -104,40 +104,47 @@ main {
     padding: 20px 0;
 }
 
-main .mainContainer {
-    max-width: 500px;
+main .settings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
 }
 
 .card {
     background-color: #f8f7f9;
     box-shadow: 2px 2px 12px 5px rgba(105, 105, 105, 0.6);
     padding: 20px;
-    margin-bottom: 40px;
     border-radius: 10px;
 }
 
 
 .card h1 {
-    font-size: 1.6em;
+    font-size: 26px;
     border-bottom: 2px solid #00a0eb;
     margin-bottom: 20px;
 }
 
 .row {
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 1fr 2fr;
     align-items: center;
     margin: 10px 0;
 }
 
 label {
     font-family: sans-serif;
-    font-size: 1.2em;
+    font-size: 19px;
 }
 
 input {
+    width: 100%;
     border-radius: 5px;
     padding: 2px 5px;
+}
+
+hr {
+    margin: 10px 0;
 }
 
 .radioBtns {
@@ -260,6 +267,9 @@ input {
 }
 
 @media screen and (max-width: 700px) {
+    main .settings {
+        grid-template-columns: 1fr;
+    }
 
     header #ws,
     header #kl {
@@ -270,11 +280,11 @@ input {
 
 @media (max-width: 570px) {
     .input {
-        font-size: 1em;
+        font-size: 16px;
     }
 
     .label {
-        font-size: 1em;
+        font-size: 16px;
     }
 
     .submit-btn {
