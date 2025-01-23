@@ -34,7 +34,7 @@ function onError(error) {
 
 
 
-export function sendData(data){
+export function sendData(data) {
     if (ws && ws.readyState === WebSocket.OPEN) {
         ws.send(data);
         //console.log("Sending Data: ", data);

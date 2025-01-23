@@ -45,7 +45,7 @@ function displayTimer() {
         if (seconds == 60) {
             seconds = 0;
             minutes++;
-            
+
         }
     }
 
@@ -55,8 +55,8 @@ function displayTimer() {
         milliseconds < 10
             ? "00" + milliseconds
             : milliseconds < 100
-            ? "0" + milliseconds
-            : milliseconds;
+                ? "0" + milliseconds
+                : milliseconds;
 
     timeRef.innerHTML = `${m} : ${s} : ${ms}`;
 }

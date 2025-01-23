@@ -29,7 +29,8 @@ body {
     background-color: #fff;
 }
 
-#car{
+#car,
+#battery {
     filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.4));
 }
 
@@ -65,7 +66,7 @@ body {
     margin: 5px 0;
 }
 
-.banner .textArea h1 {
+.banner .textArea .title h1 {
     color: #fff;
     font-size: 54px;
     line-height: 54px;
@@ -73,22 +74,35 @@ body {
     margin-bottom: 30px;
 }
 
-.banner .textArea h1 .orange {
+.banner .textArea .title h1 .orange {
     color: #FFCE49;
     font-size: 54px;
     text-shadow: 0 0 4px rgb(0, 0, 0);
-    margin-bottom: 40px;
 }
 
-.banner .textArea h2 {
+.banner .textArea .status h2 {
     color: #fff;
     font-size: 18px;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
 }
 
-.banner .textArea h3 {
+.banner .textArea .status h3 {
     color: #00ff00;
     font-size: 24px;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+.banner .textArea .data {
+    margin-top: 10px;
+}
+
+.banner .textArea .data svg {
+    fill: #fff;
+}
+
+.banner .textArea .data h1 {
+    font-size: 16px;
+    color: red;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
 }
 
