@@ -1,38 +1,40 @@
 byte resultBuffer[70];
-String dtcBuffer[50];
-String supportedLiveData[32];
-String supportedFreezeFrame[32];
-String supportedVehicleInfo[32];
+String dtcBuffer[32];
+byte supportedLiveData[32];
+byte supportedFreezeFrame[32];
+byte supportedVehicleInfo[32];
 
 void read_K() {
   VOLTAGE = (double)analogRead(voltagePin) / 4096 * 17.4;
   VOLTAGE = round(VOLTAGE * 10) / 10;
 
   if (page == 1 || page == -1) {
-    getPID(VEHICLE_SPEED);
-    getPID(ENGINE_RPM);
-    getPID(ENGINE_COOLANT_TEMP);
-    getPID(INTAKE_AIR_TEMP);
-    getPID(THROTTLE_POSITION);
-    getPID(TIMING_ADVANCE);
-    getPID(ENGINE_LOAD);
-    getPID(MAF_FLOW_RATE);
+    for (const auto& mapping : liveDataMappings) {
+      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+        getPID(mapping.pid);
+      }
+    }
   } else if (page == 0 || page == 2 || page == 5 || page == 6) {
     if (millis() - lastDTCTime >= 1000) {
       get_DTCs();
       if (page == 2) {
-        getPID(DISTANCE_TRAVELED_WITH_MIL_ON);
+        if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
+          getPID(DISTANCE_TRAVELED_WITH_MIL_ON);
+        }
       }
       lastDTCTime = millis();
     }
   } else if (page == 3) {
     get_DTCs();
-    getFreezeFrame(VEHICLE_SPEED);
-    getFreezeFrame(ENGINE_RPM);
-    getFreezeFrame(ENGINE_COOLANT_TEMP);
-    getFreezeFrame(ENGINE_LOAD);
+    for (const auto& mapping : freezeFrameMappings) {
+      if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
+        getPID(mapping.pid);
+      }
+    }
   } else if (page == 4) {
-    getPID(VEHICLE_SPEED);
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), VEHICLE_SPEED)) {
+      getPID(VEHICLE_SPEED);
+    }
   }
 
   K_Serial.flush();
@@ -143,112 +145,82 @@ void getPID(const byte pid) {
   readData();
 
   if (resultBuffer[10] == pid) {
-    if (pid == FUEL_SYSTEM_STATUS)
-      fuelSystemStatus = resultBuffer[11];
+    for (int i = 0; i < 64; i++) {
+      if (liveDataMappings[i].pid == pid) {
 
-    if (pid == ENGINE_LOAD)
-      engineLoadValue = (100.0 / 255) * resultBuffer[11];
-
-    if (pid == ENGINE_COOLANT_TEMP)
-      engineCoolantTemp = resultBuffer[11] - 40;
-
-    if (pid == SHORT_TERM_FUEL_TRIM_BANK_1)
-      shortTermFuelTrimBank1 = (resultBuffer[11] / 1.28) - 100.0;
-
-    if (pid == LONG_TERM_FUEL_TRIM_BANK_1)
-      longTermFuelTrimBank1 = (resultBuffer[11] / 1.28) - 100.0;
-
-    if (pid == SHORT_TERM_FUEL_TRIM_BANK_2)
-      shortTermFuelTrimBank2 = (resultBuffer[11] / 1.28) - 100.0;
-
-    if (pid == LONG_TERM_FUEL_TRIM_BANK_2)
-      longTermFuelTrimBank2 = (resultBuffer[11] / 1.28) - 100.0;
-
-    if (pid == FUEL_PRESSURE)
-      fuelPressureValue = 3 * resultBuffer[11];
-
-    if (pid == INTAKE_MANIFOLD_ABS_PRESSURE)
-      intakeManifoldAbsPressure = resultBuffer[11];
-
-    if (pid == ENGINE_RPM)
-      engineRpmValue = (256 * resultBuffer[11] + resultBuffer[12]) / 4;
-
-    if (pid == VEHICLE_SPEED)
-      vehicleSpeedValue = resultBuffer[11];
-
-    if (pid == TIMING_ADVANCE)
-      timingAdvanceValue = (resultBuffer[11] / 2) - 64;
-
-    if (pid == INTAKE_AIR_TEMP)
-      intakeAirTempValue = resultBuffer[11] - 40;
-
-    if (pid == MAF_FLOW_RATE)
-      mafAirFlowRate = (256 * resultBuffer[11] + resultBuffer[12]) / 100.0;
-
-    if (pid == THROTTLE_POSITION)
-      throttlePositionValue = (100.0 / 255) * resultBuffer[11];
-
-    if (pid == COMMANDED_SECONDARY_AIR_STATUS)
-      secondaryAirStatus = resultBuffer[11];
-
-    if (pid == OXYGEN_SENSORS_PRESENT_2_BANKS)
-      oxygenSensorsPresent2Banks = resultBuffer[11];
-
-    if (pid == OXYGEN_SENSOR_1_A) {
-      oxygenSensor1Voltage = resultBuffer[11] / 200.0;
-      shortTermFuelTrim1 = (100.0 / 128) * resultBuffer[12] - 100.0;
+        if (pid == FUEL_SYSTEM_STATUS) {
+          liveDataMappings[i].value = resultBuffer[11];
+        } else if (pid == ENGINE_LOAD) {
+          liveDataMappings[i].value = (100.0 / 255) * resultBuffer[11];
+        } else if (pid == ENGINE_COOLANT_TEMP) {
+          liveDataMappings[i].value = resultBuffer[11] - 40;
+        } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_1) {
+          liveDataMappings[i].value = (resultBuffer[11] / 1.28) - 100.0;
+        } else if (pid == LONG_TERM_FUEL_TRIM_BANK_1) {
+          liveDataMappings[i].value = (resultBuffer[11] / 1.28) - 100.0;
+        } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_2) {
+          liveDataMappings[i].value = (resultBuffer[11] / 1.28) - 100.0;
+        } else if (pid == LONG_TERM_FUEL_TRIM_BANK_2) {
+          liveDataMappings[i].value = (resultBuffer[11] / 1.28) - 100.0;
+        } else if (pid == FUEL_PRESSURE) {
+          liveDataMappings[i].value = 3 * resultBuffer[11];
+        } else if (pid == INTAKE_MANIFOLD_ABS_PRESSURE) {
+          liveDataMappings[i].value = resultBuffer[11];
+        } else if (pid == ENGINE_RPM) {
+          liveDataMappings[i].value = (256 * resultBuffer[11] + resultBuffer[12]) / 4;
+        } else if (pid == VEHICLE_SPEED) {
+          liveDataMappings[i].value = resultBuffer[11];
+        } else if (pid == TIMING_ADVANCE) {
+          liveDataMappings[i].value = (resultBuffer[11] / 2) - 64;
+        } else if (pid == INTAKE_AIR_TEMP) {
+          liveDataMappings[i].value = resultBuffer[11] - 40;
+        } else if (pid == MAF_FLOW_RATE) {
+          liveDataMappings[i].value = (256 * resultBuffer[11] + resultBuffer[12]) / 100.0;
+        } else if (pid == THROTTLE_POSITION) {
+          liveDataMappings[i].value = (100.0 / 255) * resultBuffer[11];
+        } else if (pid == COMMANDED_SECONDARY_AIR_STATUS) {
+          liveDataMappings[i].value = resultBuffer[11];
+        } else if (pid == OXYGEN_SENSORS_PRESENT_2_BANKS) {
+          liveDataMappings[i].value = resultBuffer[11];
+        } else if (pid == OXYGEN_SENSOR_1_A) {
+          liveDataMappings[i].value = resultBuffer[11] / 200.0;
+          shortTermFuelTrim1 = (100.0 / 128) * resultBuffer[12] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_2_A) {
+          liveDataMappings[i].value = resultBuffer[11] / 200.0;
+          shortTermFuelTrim2 = (100.0 / 128) * resultBuffer[12] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_3_A) {
+          liveDataMappings[i].value = resultBuffer[11] / 200.0;
+          shortTermFuelTrim3 = (100.0 / 128) * resultBuffer[12] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_4_A) {
+          liveDataMappings[i].value = resultBuffer[11] / 200.0;
+          shortTermFuelTrim4 = (100.0 / 128) * resultBuffer[12] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_5_A) {
+          liveDataMappings[i].value = resultBuffer[11] / 200.0;
+          shortTermFuelTrim5 = (100.0 / 128) * resultBuffer[12] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_6_A) {
+          liveDataMappings[i].value = resultBuffer[11] / 200.0;
+          shortTermFuelTrim6 = (100.0 / 128) * resultBuffer[12] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_7_A) {
+          liveDataMappings[i].value = resultBuffer[11] / 200.0;
+          shortTermFuelTrim7 = (100.0 / 128) * resultBuffer[12] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_8_A) {
+          liveDataMappings[i].value = resultBuffer[11] / 200.0;
+          shortTermFuelTrim8 = (100.0 / 128) * resultBuffer[12] - 100.0;
+        } else if (pid == OBD_STANDARDS) {
+          liveDataMappings[i].value = resultBuffer[11];
+        } else if (pid == OXYGEN_SENSORS_PRESENT_4_BANKS) {
+          liveDataMappings[i].value = resultBuffer[11];
+        } else if (pid == AUX_INPUT_STATUS) {
+          liveDataMappings[i].value = resultBuffer[11];
+        } else if (pid == RUN_TIME_SINCE_ENGINE_START) {
+          liveDataMappings[i].value = 256 * resultBuffer[11] + resultBuffer[12];
+        } else if (pid == DISTANCE_TRAVELED_WITH_MIL_ON) {
+          liveDataMappings[i].value = 256 * resultBuffer[11] + resultBuffer[12];
+        }
+      }
     }
-
-    if (pid == OXYGEN_SENSOR_2_A) {
-      oxygenSensor2Voltage = resultBuffer[11] / 200.0;
-      shortTermFuelTrim2 = (100.0 / 128) * resultBuffer[12] - 100.0;
-    }
-
-    if (pid == OXYGEN_SENSOR_3_A) {
-      oxygenSensor3Voltage = resultBuffer[11] / 200.0;
-      shortTermFuelTrim3 = (100.0 / 128) * resultBuffer[12] - 100.0;
-    }
-
-    if (pid == OXYGEN_SENSOR_4_A) {
-      oxygenSensor4Voltage = resultBuffer[11] / 200.0;
-      shortTermFuelTrim4 = (100.0 / 128) * resultBuffer[12] - 100.0;
-    }
-
-    if (pid == OXYGEN_SENSOR_5_A) {
-      oxygenSensor5Voltage = resultBuffer[11] / 200.0;
-      shortTermFuelTrim5 = (100.0 / 128) * resultBuffer[12] - 100.0;
-    }
-
-    if (pid == OXYGEN_SENSOR_6_A) {
-      oxygenSensor6Voltage = resultBuffer[11] / 200.0;
-      shortTermFuelTrim6 = (100.0 / 128) * resultBuffer[12] - 100.0;
-    }
-
-    if (pid == OXYGEN_SENSOR_7_A) {
-      oxygenSensor7Voltage = resultBuffer[11] / 200.0;
-      shortTermFuelTrim7 = (100.0 / 128) * resultBuffer[12] - 100.0;
-    }
-
-    if (pid == OXYGEN_SENSOR_8_A) {
-      oxygenSensor8Voltage = resultBuffer[11] / 200.0;
-      shortTermFuelTrim8 = (100.0 / 128) * resultBuffer[12] - 100.0;
-    }
-
-    if (pid == OBD_STANDARDS)
-      obdStandards = resultBuffer[11];
-
-    if (pid == OXYGEN_SENSORS_PRESENT_4_BANKS)
-      oxygenSensorsPresent4Banks = resultBuffer[11];
-
-    if (pid == AUX_INPUT_STATUS)
-      auxiliaryInputStatus = resultBuffer[11];
-
-    if (pid == RUN_TIME_SINCE_ENGINE_START)
-      runTimeSinceEngineStart = 256 * resultBuffer[11] + resultBuffer[12];
-
-    if (pid == DISTANCE_TRAVELED_WITH_MIL_ON)
-      distanceWithMilOn = 256 * resultBuffer[11] + resultBuffer[12];
   }
+
   sendDataToServer();
 }
 
@@ -262,15 +234,80 @@ void getFreezeFrame(const byte pid) {
   }
   readData();
 
-  if (resultBuffer[11] == pid) {
-    if (pid == VEHICLE_SPEED)
-      freeze_SPEED = resultBuffer[13];
-    if (pid == ENGINE_RPM)
-      freeze_RPM = (resultBuffer[13] * 256 + resultBuffer[14]) / 4;
-    if (pid == ENGINE_COOLANT_TEMP)
-      freeze_COOLANT_TEMP = resultBuffer[13] - 40;
-    if (pid == ENGINE_LOAD)
-      freeze_ENGINELOAD = resultBuffer[13] / 2.55;
+  if (resultBuffer[10] == pid) {
+    for (int i = 0; i < 64; i++) {
+      if (freezeFrameMappings[i].pid == pid) {
+        if (pid == FUEL_SYSTEM_STATUS) {
+          freezeFrameMappings[i].value = resultBuffer[13];
+        } else if (pid == ENGINE_LOAD) {
+          freezeFrameMappings[i].value = (100.0 / 255) * resultBuffer[13];
+        } else if (pid == ENGINE_COOLANT_TEMP) {
+          freezeFrameMappings[i].value = resultBuffer[13] - 40;
+        } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_1) {
+          freezeFrameMappings[i].value = (resultBuffer[13] / 1.28) - 100.0;
+        } else if (pid == LONG_TERM_FUEL_TRIM_BANK_1) {
+          freezeFrameMappings[i].value = (resultBuffer[13] / 1.28) - 100.0;
+        } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_2) {
+          freezeFrameMappings[i].value = (resultBuffer[13] / 1.28) - 100.0;
+        } else if (pid == LONG_TERM_FUEL_TRIM_BANK_2) {
+          freezeFrameMappings[i].value = (resultBuffer[13] / 1.28) - 100.0;
+        } else if (pid == FUEL_PRESSURE) {
+          freezeFrameMappings[i].value = 3 * resultBuffer[13];
+        } else if (pid == INTAKE_MANIFOLD_ABS_PRESSURE) {
+          freezeFrameMappings[i].value = resultBuffer[13];
+        } else if (pid == ENGINE_RPM) {
+          freezeFrameMappings[i].value = (256 * resultBuffer[13] + resultBuffer[14]) / 4;
+        } else if (pid == VEHICLE_SPEED) {
+          freezeFrameMappings[i].value = resultBuffer[13];
+        } else if (pid == TIMING_ADVANCE) {
+          freezeFrameMappings[i].value = (resultBuffer[13] / 2) - 64;
+        } else if (pid == INTAKE_AIR_TEMP) {
+          freezeFrameMappings[i].value = resultBuffer[13] - 40;
+        } else if (pid == MAF_FLOW_RATE) {
+          freezeFrameMappings[i].value = (256 * resultBuffer[13] + resultBuffer[14]) / 100.0;
+        } else if (pid == THROTTLE_POSITION) {
+          freezeFrameMappings[i].value = (100.0 / 255) * resultBuffer[13];
+        } else if (pid == COMMANDED_SECONDARY_AIR_STATUS) {
+          freezeFrameMappings[i].value = resultBuffer[13];
+        } else if (pid == OXYGEN_SENSORS_PRESENT_2_BANKS) {
+          freezeFrameMappings[i].value = resultBuffer[13];
+        } else if (pid == OXYGEN_SENSOR_1_A) {
+          freezeFrameMappings[i].value = resultBuffer[13] / 200.0;
+          shortTermFuelTrim1 = (100.0 / 128) * resultBuffer[14] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_2_A) {
+          freezeFrameMappings[i].value = resultBuffer[13] / 200.0;
+          shortTermFuelTrim2 = (100.0 / 128) * resultBuffer[14] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_3_A) {
+          freezeFrameMappings[i].value = resultBuffer[13] / 200.0;
+          shortTermFuelTrim3 = (100.0 / 128) * resultBuffer[14] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_4_A) {
+          freezeFrameMappings[i].value = resultBuffer[13] / 200.0;
+          shortTermFuelTrim4 = (100.0 / 128) * resultBuffer[14] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_5_A) {
+          freezeFrameMappings[i].value = resultBuffer[13] / 200.0;
+          shortTermFuelTrim5 = (100.0 / 128) * resultBuffer[14] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_6_A) {
+          freezeFrameMappings[i].value = resultBuffer[13] / 200.0;
+          shortTermFuelTrim6 = (100.0 / 128) * resultBuffer[14] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_7_A) {
+          freezeFrameMappings[i].value = resultBuffer[13] / 200.0;
+          shortTermFuelTrim7 = (100.0 / 128) * resultBuffer[14] - 100.0;
+        } else if (pid == OXYGEN_SENSOR_8_A) {
+          freezeFrameMappings[i].value = resultBuffer[13] / 200.0;
+          shortTermFuelTrim8 = (100.0 / 128) * resultBuffer[14] - 100.0;
+        } else if (pid == OBD_STANDARDS) {
+          freezeFrameMappings[i].value = resultBuffer[13];
+        } else if (pid == OXYGEN_SENSORS_PRESENT_4_BANKS) {
+          freezeFrameMappings[i].value = resultBuffer[13];
+        } else if (pid == AUX_INPUT_STATUS) {
+          freezeFrameMappings[i].value = resultBuffer[13];
+        } else if (pid == RUN_TIME_SINCE_ENGINE_START) {
+          freezeFrameMappings[i].value = 256 * resultBuffer[13] + resultBuffer[14];
+        } else if (pid == DISTANCE_TRAVELED_WITH_MIL_ON) {
+          freezeFrameMappings[i].value = 256 * resultBuffer[13] + resultBuffer[14];
+        }
+      }
+    }
   }
   sendDataToServer();
 }
@@ -446,19 +483,13 @@ void getSupportedPIDs(const byte option) {
       byte value = resultBuffer[i];
       for (int bit = 7; bit >= 0; bit--) {
         if ((value >> bit) & 1) {
-          String pidString = String(pidIndex + 1, HEX);
-          pidString.toUpperCase();
-
-          if (pidString.length() == 1) {
-            pidString = "0" + pidString;
-          }
-          supportedLiveData[supportedCount++] = pidString;
+          supportedLiveData[supportedCount++] = pidIndex + 1;
         }
         pidIndex++;
       }
     }
 
-    if (isInArray(supportedLiveData, sizeof(supportedLiveData), "20")) {
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), 0x20)) {
       if (protocol == "ISO9141") {
         writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_21_40);
       } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
@@ -470,13 +501,7 @@ void getSupportedPIDs(const byte option) {
         byte value = resultBuffer[i];
         for (int bit = 7; bit >= 0; bit--) {
           if ((value >> bit) & 1) {
-            String pidString = String(pidIndex + 1, HEX);
-            pidString.toUpperCase();
-
-            if (pidString.length() == 1) {
-              pidString = "0" + pidString;
-            }
-            supportedLiveData[supportedCount++] = pidString;
+            supportedLiveData[supportedCount++] = pidIndex + 1;
           }
           pidIndex++;
         }
@@ -495,13 +520,7 @@ void getSupportedPIDs(const byte option) {
       byte value = resultBuffer[i];
       for (int bit = 7; bit >= 0; bit--) {
         if ((value >> bit) & 1) {
-          String pidString = String(pidIndex + 1, HEX);
-          pidString.toUpperCase();
-
-          if (pidString.length() == 1) {
-            pidString = "0" + pidString;
-          }
-          supportedFreezeFrame[supportedCount++] = pidString;
+          supportedFreezeFrame[supportedCount++] = pidIndex + 1;
         }
         pidIndex++;
       }
@@ -519,13 +538,7 @@ void getSupportedPIDs(const byte option) {
       byte value = resultBuffer[i];
       for (int bit = 7; bit >= 0; bit--) {
         if ((value >> bit) & 1) {
-          String pidString = String(pidIndex + 1, HEX);
-          pidString.toUpperCase();
-
-          if (pidString.length() == 1) {
-            pidString = "0" + pidString;
-          }
-          supportedVehicleInfo[supportedCount++] = pidString;
+          supportedVehicleInfo[supportedCount++] = pidIndex + 1;
         }
         pidIndex++;
       }

@@ -3,19 +3,52 @@ import { InitWebSocket, setMessageHandler } from "./webSocket.js";
 let wsStatus = document.getElementById("ws");
 let klStatus = document.getElementById("kl");
 
+let dataBox = document.getElementById("dataBox");
+let status = document.getElementById("status");
+
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
         wsStatus.style.fill = "#00ff00";
-        document.getElementById("Speed").innerHTML = wsMessage.Speed;
-        document.getElementById("RPM").innerHTML = wsMessage.RPM;
-        document.getElementById("CoolantTemp").innerHTML = wsMessage.CoolantTemp;
-        document.getElementById("IntakeTemp").innerHTML = wsMessage.IntakeTemp;
-        document.getElementById("Throttle").innerHTML = wsMessage.Throttle;
-        document.getElementById("TimingAdvance").innerHTML = wsMessage.TimingAdvance;
-        document.getElementById("EngineLoad").innerHTML = wsMessage.EngineLoad;
-        document.getElementById("MAF").innerHTML = wsMessage.MAF;
-        document.getElementById("Voltage").innerHTML = wsMessage.Voltage;
-        
+
+        if (wsMessage.KLineStatus == false) {
+            status.innerHTML = "Not Connected to the Vehicle.";
+        } else {
+            const liveData = wsMessage.LiveData;
+            const voltageData = wsMessage.Voltage;
+            status.style.display = "none";
+            dataBox.innerHTML = "";
+            for (let key in liveData) {
+                if (liveData.hasOwnProperty(key)) {
+                    const data = liveData[key];
+
+                    const box = document.createElement("div");
+                    box.classList.add("box");
+
+                    box.innerHTML = `
+                        <h1><span>${data.value}</span> ${data.unit}</h1>
+                        <div class="name">
+                            <h2>${key}</h2>
+                        </div>
+                    `;
+
+                    dataBox.appendChild(box);
+                }
+            }
+            if (voltageData) {
+                const voltageBox = document.createElement("div");
+                voltageBox.classList.add("box");
+
+                voltageBox.innerHTML = `
+                    <h1><span>${voltageData}</span> V</h1>
+                    <div class="name">
+                        <h2>Battery Voltage</h2>
+                    </div>
+                `;
+
+                dataBox.appendChild(voltageBox);
+            }
+        }
+
         klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
     } else {
         wsStatus.style.fill = "red";
