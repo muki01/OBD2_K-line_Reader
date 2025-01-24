@@ -149,53 +149,66 @@ void initWebServer() {
   });
   server.on(
     "/firmwareUpdate", HTTP_POST, [](AsyncWebServerRequest *request) {
-      request->send(400, "text/plain", "No files uploaded.");  // Varsayılan yanıt
+      request->send(400, "text/plain", "No files uploaded.");
     },
     [](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final) {
-      connectMelody();
       if (!index) {
+        size_t freeSpace = ESP.getFlashChipSize() - ESP.getSketchSize();
+        if (request->contentLength() > freeSpace) {
+          request->send(413, "text/plain", "File too large for flash memory.");
+          return;
+        }
+
         if (!Update.begin(UPDATE_SIZE_UNKNOWN, U_FLASH)) {
           request->send(500, "text/plain", "Firmware update failed to begin.");
-          disconnectMelody();
           return;
         }
       }
+
       if (Update.write(data, len) != len) {
         request->send(500, "text/plain", "Firmware update failed during writing.");
-        disconnectMelody();
         return;
       }
+
       if (final) {
         if (Update.end(true)) {
           request->send(200, "text/plain", "Firmware updated successfully. Restarting...");
           connectMelody();
+          delay(1000);
+          ESP.restart();
         } else {
           request->send(500, "text/plain", "Firmware update failed to end.");
-          disconnectMelody();
         }
       }
     });
 
   server.on(
     "/fileSystemUpdate", HTTP_POST, [](AsyncWebServerRequest *request) {
-      request->send(400, "text/plain", "No files uploaded.");  // Varsayılan yanıt
+      request->send(400, "text/plain", "No files uploaded.");
     },
     [](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final) {
       if (!index) {
+        size_t freeSpace = ESP.getFlashChipSize() - ESP.getSketchSize() - SPIFFS.usedBytes();
+        if (request->contentLength() > freeSpace) {
+          request->send(413, "text/plain", "File too large for SPIFFS.");
+          return;
+        }
+
         if (!Update.begin(UPDATE_SIZE_UNKNOWN, U_SPIFFS)) {
           request->send(500, "text/plain", "SPIFFS update failed to begin.");
           return;
         }
       }
+
       if (Update.write(data, len) != len) {
         request->send(500, "text/plain", "SPIFFS update failed during writing.");
         return;
       }
+
       if (final) {
         if (Update.end(true)) {
           request->send(200, "text/plain", "SPIFFS updated successfully. Restarting...");
-          delay(1000);
-          ESP.restart();
+          connectMelody();
         } else {
           request->send(500, "text/plain", "SPIFFS update failed to end.");
         }

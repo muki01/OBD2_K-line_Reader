@@ -57,7 +57,12 @@ function submitForm(event, formId, url) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             showOverlay();
+        } else {
+            console.error(`Error: ${xhr.status} - ${xhr.statusText}`);
         }
+    };
+    xhr.onerror = function () {
+        console.error("A network error occurred.");
     };
     xhr.send(formData);
 }
