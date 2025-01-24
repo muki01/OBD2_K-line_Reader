@@ -191,7 +191,7 @@ hr {
     margin: 0 auto;
     padding: 12px 20px;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
     outline: none;
     border: none;
@@ -264,6 +264,20 @@ hr {
     background-color: #34b171;
     border-radius: 20px;
     transition: 0.12s ease-in-out;
+}
+
+input[type="file"]::file-selector-button {
+    background: #fff;
+    color: black;
+    border: 1px solid #5c5c5c;
+    border-radius: 6px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: 0.12s ease-in-out;
+}
+
+input[type="file"]::file-selector-button:hover{
+    background-color: #eae9e9;
 }
 
 @media screen and (max-width: 700px) {

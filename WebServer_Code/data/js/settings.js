@@ -96,12 +96,20 @@ document.getElementById('fileSystemUpdate').addEventListener('submit', function 
 let wsStatus = document.getElementById("ws");
 let klStatus = document.getElementById("kl");
 
+let selectedProtocol = document.getElementById("selectedProtocol");
+let connectedProtocol = document.getElementById("connectedProtocol");
+
+
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
         wsStatus.style.fill = "#00ff00";
-        document.getElementById("selectedProtocol").innerHTML = wsMessage.selectedProtocol;
-        document.getElementById("connectedProtocol").innerHTML = wsMessage.connectedProtocol;
-        
+        selectedProtocol.innerHTML = wsMessage.selectedProtocol;
+        if (wsMessage.connectedProtocol == "") {
+            connectedProtocol.innerHTML = "Not Connected to the Vehicle.";
+        } else {
+            connectedProtocol.innerHTML = wsMessage.connectedProtocol;
+        }
+
         klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
     } else {
         wsStatus.style.fill = "red";

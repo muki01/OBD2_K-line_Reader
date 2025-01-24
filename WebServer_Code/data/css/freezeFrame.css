@@ -174,11 +174,6 @@ main .dtcBox {
 main .dtcBox h1 {
     margin: 14px 0;
     font-size: 26px;
-    color: #fff;
-}
-
-main .dtcBox h1 span {
-    font-size: 26px;
     color: #00a0eb;
 }
 

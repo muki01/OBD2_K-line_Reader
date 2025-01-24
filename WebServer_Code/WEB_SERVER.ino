@@ -231,77 +231,51 @@ String JsonData() {
   jsonDoc.clear();
 
   if (page == -1) {
-    jsonDoc["Speed"] = vehicleSpeedValue;
-    jsonDoc["RPM"] = engineRpmValue;
-    jsonDoc["CoolantTemp"] = engineCoolantTemp;
-    jsonDoc["IntakeTemp"] = intakeAirTempValue;
-    jsonDoc["Throttle"] = throttlePositionValue;
-    jsonDoc["TimingAdvance"] = timingAdvanceValue;
-    jsonDoc["EngineLoad"] = engineLoadValue;
-    jsonDoc["MAF"] = mafAirFlowRate;
-    jsonDoc["DistanceTraveledWithMIL"] = distanceWithMilOn;
-    jsonDoc["Voltage"] = VOLTAGE;
-    JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
-    for (int i = 0; i < 20; i++) {
-      if (!dtcBuffer[i].isEmpty()) {
-        dtcArray.add(dtcBuffer[i]);
+    JsonObject liveData = jsonDoc.createNestedObject("LiveData");
+    for (const auto &mapping : liveDataMappings) {
+      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+        JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        pidObject["value"] = mapping.value;
+        pidObject["unit"] = mapping.unit;
       }
     }
+    jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
   } else if (page == 1) {
-    jsonDoc["Speed"] = vehicleSpeedValue;
-    jsonDoc["RPM"] = engineRpmValue;
-    jsonDoc["CoolantTemp"] = engineCoolantTemp;
-    jsonDoc["IntakeTemp"] = intakeAirTempValue;
-    jsonDoc["Throttle"] = throttlePositionValue;
-    jsonDoc["TimingAdvance"] = timingAdvanceValue;
-    jsonDoc["EngineLoad"] = engineLoadValue;
-    jsonDoc["MAF"] = mafAirFlowRate;
-    jsonDoc["Voltage"] = VOLTAGE;
+    JsonObject liveData = jsonDoc.createNestedObject("LiveData");
+    for (const auto &mapping : liveDataMappings) {
+      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+        JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        pidObject["value"] = mapping.value;
+        pidObject["unit"] = mapping.unit;
+      }
+    }
   } else if (page == 2) {
-    JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
-    for (int i = 0; i < 20; i++) {
-      if (!dtcBuffer[i].isEmpty()) {
-        dtcArray.add(dtcBuffer[i]);
-      }
-    }
-    jsonDoc["DistanceTraveledWithMIL"] = distanceWithMilOn;
+    jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
+    jsonDoc[liveDataMappings[32].jsonKey] = liveDataMappings[32].value;  //Distance Traveled With MIL On
   } else if (page == 3) {
-    JsonArray dtcArray = jsonDoc.createNestedArray("DTCs");
-    for (int i = 0; i < 20; i++) {
-      if (!dtcBuffer[i].isEmpty()) {
-        dtcArray.add(dtcBuffer[i]);
+    jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
+    JsonObject freezeFrame = jsonDoc.createNestedObject("FreezeFrame");
+    for (const auto &mapping : freezeFrameMappings) {
+      if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
+        JsonObject pidObject = freezeFrame.createNestedObject(mapping.jsonKey);
+        pidObject["value"] = mapping.value;
+        pidObject["unit"] = mapping.unit;
       }
     }
-    jsonDoc["Speed"] = freeze_SPEED;
-    jsonDoc["RPM"] = freeze_RPM;
-    jsonDoc["CoolantTemp"] = freeze_COOLANT_TEMP;
-    jsonDoc["EngineLoad"] = freeze_ENGINELOAD;
   } else if (page == 4) {
-    jsonDoc["Speed"] = vehicleSpeedValue;
+    jsonDoc[liveDataMappings[11].jsonKey] = liveDataMappings[11].value;  //Speed
   } else if (page == 5) {
     jsonDoc["VIN"] = Vehicle_VIN;
     jsonDoc["ID"] = Vehicle_ID;
     jsonDoc["IDNum"] = Vehicle_ID_Num;
-    JsonArray supportedLiveDataArray = jsonDoc.createNestedArray("supportedLiveData");
-    JsonArray suportedFreezeFrameArray = jsonDoc.createNestedArray("supportedFreezeFrame");
-    JsonArray supportedVehicleInfoArray = jsonDoc.createNestedArray("supportedVehicleInfo");
-    for (int i = 0; i < 32; i++) {
-      if (!supportedLiveData[i].isEmpty()) {
-        supportedLiveDataArray.add(supportedLiveData[i]);
-      }
-      if (!supportedFreezeFrame[i].isEmpty()) {
-        suportedFreezeFrameArray.add(supportedFreezeFrame[i]);
-      }
-      if (!supportedVehicleInfo[i].isEmpty()) {
-        supportedVehicleInfoArray.add(supportedVehicleInfo[i]);
-      }
-    }
-
-  } else if (page == 6) {
-    jsonDoc["selectedProtocol"] = selectedProtocol;
-    jsonDoc["connectedProtocol"] = connectedProtocol;
+    jsonDoc["supportedLiveData"] = convertBytesToHexStringWithComma(supportedLiveData, sizeof(supportedLiveData));
+    jsonDoc["supportedFreezeFrame"] = convertBytesToHexStringWithComma(supportedFreezeFrame, sizeof(supportedFreezeFrame));
+    jsonDoc["supportedVehicleInfo"] = convertBytesToHexStringWithComma(supportedVehicleInfo, sizeof(supportedVehicleInfo));
   }
 
+  jsonDoc["selectedProtocol"] = selectedProtocol;
+  jsonDoc["connectedProtocol"] = connectedProtocol;
+  jsonDoc["Voltage"] = VOLTAGE;
   jsonDoc["KLineStatus"] = KLineStatus;
   serializeJson(jsonDoc, JSONtxt);
   return JSONtxt;
