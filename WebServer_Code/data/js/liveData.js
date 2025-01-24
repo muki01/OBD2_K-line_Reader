@@ -4,6 +4,7 @@ let wsStatus = document.getElementById("ws");
 let klStatus = document.getElementById("kl");
 
 let dataBox = document.getElementById("dataBox");
+let statusBox = document.getElementById("statusBox");
 let status = document.getElementById("status");
 
 function handleWebSocketMessage(wsMessage) {
@@ -15,7 +16,7 @@ function handleWebSocketMessage(wsMessage) {
         } else {
             const liveData = wsMessage.LiveData;
             const voltageData = wsMessage.Voltage;
-            status.style.display = "none";
+            statusBox.style.display = "none";
             dataBox.innerHTML = "";
             for (let key in liveData) {
                 if (liveData.hasOwnProperty(key)) {
