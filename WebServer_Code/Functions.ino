@@ -79,6 +79,11 @@ void Melody2() {
   tone(Buzzer, 1570, 50);
 }
 
+void Melody3() {
+  tone(Buzzer, 500, 40);
+  tone(Buzzer, 600, 60);
+}
+
 void BlinkLed(int time, int count) {
   for (int i = 1; i <= count; i++) {
     digitalWrite(Led, LOW);

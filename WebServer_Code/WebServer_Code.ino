@@ -77,8 +77,7 @@ void setup() {
 
 void loop() {
   if (KLineStatus == false) {
-    tone(Buzzer, 500, 40);
-    tone(Buzzer, 600, 60);
+    Melody3():
     bool init_success = init_OBD2();
 
     if (init_success) {
