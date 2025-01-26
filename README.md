@@ -31,7 +31,6 @@ You can also see [this](https://github.com/muki01/I-K_Bus) project for I/K Bus f
      #define voltagePin 0
      ~~~
 * If you are using ESP32 C3,S2 or S3 board, you need to disable "USB CDC On Boot" option in Tools menu
-* Change Partition Scheme to "Huge APP (3MB No OTA, 1MB SPIFFS)" in Tools menu
 * Upload the code to your Board
 * Upload the Website to SPIFFS.
   - To upload the Web Site, you can use PlatformIO or you can upload with tool for Arduino IDE v1.x.x</br>
