@@ -70,7 +70,7 @@ void setup() {
 
 void loop() {
   if (KLineStatus == false) {
-    Melody3():
+    Melody3();
     bool init_success = init_OBD2();
 
     if (init_success) {

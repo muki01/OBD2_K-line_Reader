@@ -98,16 +98,41 @@ let klStatus = document.getElementById("kl");
 
 let selectedProtocol = document.getElementById("selectedProtocol");
 let connectedProtocol = document.getElementById("connectedProtocol");
+let selectArea = document.getElementById("selectArea");
 
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
         wsStatus.style.fill = "#00ff00";
         selectedProtocol.innerHTML = wsMessage.selectedProtocol;
-        if (wsMessage.connectedProtocol == "") {
+        // if (wsMessage.connectedProtocol == "") {
+        //     connectedProtocol.innerHTML = "Not Connected to the Vehicle.";
+        // } else {
+        //     connectedProtocol.innerHTML = wsMessage.connectedProtocol;
+        // }
+
+        if (wsMessage.KLineStatus == false) {
             connectedProtocol.innerHTML = "Not Connected to the Vehicle.";
+            selectArea.innerHTML = "Not Connected to the Vehicle.";
         } else {
             connectedProtocol.innerHTML = wsMessage.connectedProtocol;
+            const supportedLiveData = wsMessage.SupportedLiveData;
+            selectArea.innerHTML = "";
+            for (let key in supportedLiveData) {
+                if (supportedLiveData.hasOwnProperty(key)) {
+                    const data = supportedLiveData[key];
+
+                    const box = document.createElement("div");
+                    box.classList.add("box");
+
+                    box.innerHTML = `
+                        <label for='${key}'>${key}: </label>
+                        <input type='checkbox' name='${key}'>
+                    `;
+
+                    selectArea.appendChild(box);
+                }
+            }
         }
 
         klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";

@@ -1,6 +1,7 @@
 byte resultBuffer[70];
 String dtcBuffer[32];
 byte supportedLiveData[32];
+byte desiredLiveData[32];
 byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
 
@@ -10,7 +11,7 @@ void read_K() {
 
   if (page == 1 || page == -1) {
     for (const auto& mapping : liveDataMappings) {
-      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+      if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
         getPID(mapping.pid);
       }
     }
@@ -484,6 +485,7 @@ void getSupportedPIDs(const byte option) {
       for (int bit = 7; bit >= 0; bit--) {
         if ((value >> bit) & 1) {
           supportedLiveData[supportedCount++] = pidIndex + 1;
+          desiredLiveData[supportedCount] = pidIndex + 1;
         }
         pidIndex++;
       }
@@ -502,6 +504,7 @@ void getSupportedPIDs(const byte option) {
         for (int bit = 7; bit >= 0; bit--) {
           if ((value >> bit) & 1) {
             supportedLiveData[supportedCount++] = pidIndex + 1;
+            desiredLiveData[supportedCount] = pidIndex + 1;
           }
           pidIndex++;
         }

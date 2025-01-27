@@ -233,7 +233,7 @@ String JsonData() {
   if (page == -1) {
     JsonObject liveData = jsonDoc.createNestedObject("LiveData");
     for (const auto &mapping : liveDataMappings) {
-      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+      if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
         JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
         pidObject["value"] = mapping.value;
         pidObject["unit"] = mapping.unit;
@@ -243,7 +243,7 @@ String JsonData() {
   } else if (page == 1) {
     JsonObject liveData = jsonDoc.createNestedObject("LiveData");
     for (const auto &mapping : liveDataMappings) {
-      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+      if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
         JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
         pidObject["value"] = mapping.value;
         pidObject["unit"] = mapping.unit;
@@ -271,6 +271,13 @@ String JsonData() {
     jsonDoc["supportedLiveData"] = convertBytesToHexStringWithComma(supportedLiveData, sizeof(supportedLiveData));
     jsonDoc["supportedFreezeFrame"] = convertBytesToHexStringWithComma(supportedFreezeFrame, sizeof(supportedFreezeFrame));
     jsonDoc["supportedVehicleInfo"] = convertBytesToHexStringWithComma(supportedVehicleInfo, sizeof(supportedVehicleInfo));
+  } else if (page == 6) {
+    JsonObject liveData = jsonDoc.createNestedObject("SupportedLiveData");
+    for (const auto &mapping : liveDataMappings) {
+      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+        JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+      }
+    }
   }
 
   jsonDoc["selectedProtocol"] = selectedProtocol;
