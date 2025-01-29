@@ -96,46 +96,48 @@ document.getElementById('fileSystemUpdate').addEventListener('submit', function 
 let wsStatus = document.getElementById("ws");
 let klStatus = document.getElementById("kl");
 
+let protocol = document.getElementById("protocol");
 let selectedProtocol = document.getElementById("selectedProtocol");
 let connectedProtocol = document.getElementById("connectedProtocol");
 let selectArea = document.getElementById("selectArea");
 
+let dataReceived1 = false;
+let dataReceived2 = false;
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
         wsStatus.style.fill = "#00ff00";
-        selectedProtocol.innerHTML = wsMessage.selectedProtocol;
-        // if (wsMessage.connectedProtocol == "") {
-        //     connectedProtocol.innerHTML = "Not Connected to the Vehicle.";
-        // } else {
-        //     connectedProtocol.innerHTML = wsMessage.connectedProtocol;
-        // }
-
-        if (wsMessage.KLineStatus == false) {
-            connectedProtocol.innerHTML = "Not Connected to the Vehicle.";
-            selectArea.innerHTML = "Not Connected to the Vehicle.";
-        } else {
-            connectedProtocol.innerHTML = wsMessage.connectedProtocol;
-            const supportedLiveData = wsMessage.SupportedLiveData;
-            selectArea.innerHTML = "";
-            for (let key in supportedLiveData) {
-                if (supportedLiveData.hasOwnProperty(key)) {
-                    const data = supportedLiveData[key];
-
-                    const box = document.createElement("div");
-                    box.classList.add("box");
-
-                    box.innerHTML = `
-                        <label for='${key}'>${key}: </label>
-                        <input type='checkbox' name='${key}'>
-                    `;
-
-                    selectArea.appendChild(box);
-                }
-            }
+        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
+        
+        if (!dataReceived1) {
+            selectedProtocol.innerHTML = protocol.value = wsMessage.selectedProtocol;
+            dataReceived1 = true;
         }
 
-        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
+        if (wsMessage.KLineStatus == false) {
+            connectedProtocol.innerHTML = selectArea.innerHTML = "Not Connected to the Vehicle.";
+        } else {
+            if (!dataReceived2) {
+                connectedProtocol.innerHTML = wsMessage.connectedProtocol;
+                const supportedLiveData = wsMessage.SupportedLiveData;
+                for (let key in supportedLiveData) {
+                    if (supportedLiveData.hasOwnProperty(key)) {
+                        //const data = supportedLiveData[key];
+
+                        const box = document.createElement("div");
+                        box.classList.add("box");
+
+                        box.innerHTML = `
+                            <label for='${key}'>${key}: </label>
+                            <input type='checkbox' name='${key}'>
+                        `;
+
+                        selectArea.appendChild(box);
+                    }
+                }
+                dataReceived2 = true;
+            }
+        }
     } else {
         wsStatus.style.fill = "red";
     }
