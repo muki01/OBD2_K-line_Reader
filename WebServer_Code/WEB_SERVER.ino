@@ -280,7 +280,7 @@ String JsonData() {
     }
   }
 
-  jsonDoc["selectedProtocol"] = selectedProtocol;
+  jsonDoc["selectedProtocol"] = protocol;
   jsonDoc["connectedProtocol"] = connectedProtocol;
   jsonDoc["Voltage"] = VOLTAGE;
   jsonDoc["KLineStatus"] = KLineStatus;

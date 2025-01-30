@@ -35,7 +35,7 @@ AsyncWebSocket ws("/ws");
 #define READ_DELAY 5
 int REQUEST_DELAY;
 
-String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol, selectedProtocol = "", connectedProtocol = "";
+String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol, connectedProtocol = "";
 int page = -1;
 
 int oxygenSensor1Voltage = 0, shortTermFuelTrim1 = 0, oxygenSensor2Voltage = 0, shortTermFuelTrim2 = 0;
@@ -60,7 +60,6 @@ void setup() {
 
   initSpiffs();
   readSettings();
-  selectedProtocol = protocol;
 
   initWiFi();
   initWebSocket();
