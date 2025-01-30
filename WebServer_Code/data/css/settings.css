@@ -282,11 +282,15 @@ input[type="file"]::file-selector-button:hover{
     background-color: #eae9e9;
 }
 
-.selectArea {
+#selectPID_Form{
+    display: none;
+}
+
+.selectPID_Boxes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
-.selectArea .box{
+.selectPID_Boxes .box{
     display: flex;
     align-items: center;
 }

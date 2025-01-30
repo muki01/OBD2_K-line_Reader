@@ -38,20 +38,21 @@ dynamicIpRadio.addEventListener("click", function () {
 
 
 
-
+const overlay = document.getElementById("overlay");
+const overlayParagraph = document.getElementById("overlayParagraph");
 
 
 function showOverlay(showParagraph) {
-    document.getElementById('overlay').style.display = 'flex';
+    overlay.style.display = 'flex';
     if (showParagraph) {
-        document.getElementById('overlayParagraph').style.display = 'block';
+        overlayParagraph.style.display = 'block';
     } else {
-        document.getElementById('overlayParagraph').style.display = 'none';
+        overlayParagraph.style.display = 'none';
     }
 }
 
 function hideOverlay() {
-    document.getElementById('overlay').style.display = 'none';
+    overlay.style.display = 'none';
 }
 
 function submitForm(event, formId, url, showParagraph) {
@@ -75,27 +76,34 @@ function submitForm(event, formId, url, showParagraph) {
     xhr.send(formData);
 }
 
-document.getElementById('hideOverlayBtn').addEventListener('click', function (event) {
+const hideOverlayBtn = document.getElementById("hideOverlayBtn");
+const wifiChange_Form = document.getElementById("wifiChange_Form");
+const protocolChange_Form = document.getElementById("protocolChange_Form");
+const firmwareUpdate_Form = document.getElementById("firmwareUpdate_Form");
+const fileSystemUpdate_Form = document.getElementById("fileSystemUpdate_Form");
+const selectPID_Form = document.getElementById("selectPID_Form");
+
+hideOverlayBtn.addEventListener('click', function (event) {
     hideOverlay();
 });
 
-document.getElementById('wifiForm').addEventListener('submit', function (event) {
-    submitForm(event, 'wifiForm', '/wifiOptions', true);
+wifiChange_Form.addEventListener('submit', function (event) {
+    submitForm(event, 'wifiChange_Form', '/wifiOptions', true);
 });
 
-document.getElementById('protocolForm').addEventListener('submit', function (event) {
-    submitForm(event, 'protocolForm', '/protocolOptions', false);
+protocolChange_Form.addEventListener('submit', function (event) {
+    submitForm(event, 'protocolChange_Form', '/protocolOptions', false);
 });
 
-document.getElementById('firmwareUpdate').addEventListener('submit', function (event) {
-    submitForm(event, 'firmwareUpdate', '/firmwareUpdate', true);
+firmwareUpdate_Form.addEventListener('submit', function (event) {
+    submitForm(event, 'firmwareUpdate_Form', '/firmwareUpdate', true);
 });
-document.getElementById('fileSystemUpdate').addEventListener('submit', function (event) {
-    submitForm(event, 'fileSystemUpdate', '/fileSystemUpdate', false);
+fileSystemUpdate_Form.addEventListener('submit', function (event) {
+    submitForm(event, 'fileSystemUpdate_Form', '/fileSystemUpdate', false);
 });
 
-document.getElementById('selectPID').addEventListener('submit', function (event) {
-    submitForm(event, 'selectPID', '/pidSelect', false);
+selectPID_Form.addEventListener('submit', function (event) {
+    submitForm(event, 'selectPID_Form', '/pidSelect', false);
 });
 
 
@@ -108,10 +116,11 @@ document.getElementById('selectPID').addEventListener('submit', function (event)
 const wsStatus = document.getElementById("ws");
 const klStatus = document.getElementById("kl");
 
-let selectArea = document.getElementById("selectArea");
 const protocol = document.getElementById("protocol");
 const selectedProtocol = document.getElementById("selectedProtocol");
 const connectedProtocol = document.getElementById("connectedProtocol");
+const selectPID_Boxes = document.getElementById("selectPID_Boxes");
+const selectPID_Status = document.getElementById("selectPID_Status");
 
 let dataReceived1 = false;
 let dataReceived2 = false;
@@ -127,9 +136,11 @@ function handleWebSocketMessage(wsMessage) {
         }
 
         if (wsMessage.KLineStatus == false) {
-            connectedProtocol.innerHTML = selectArea.innerHTML = "Not Connected to the Vehicle.";
+            connectedProtocol.innerHTML = selectPID_Status.innerHTML = "Not Connected to the Vehicle.";
         } else {
             if (!dataReceived2) {
+                selectPID_Status.style.display = "none";
+                selectPID_Form.style.display = "block";
                 connectedProtocol.innerHTML = wsMessage.connectedProtocol;
                 const supportedLiveData = wsMessage.SupportedLiveData;
                 for (let key in supportedLiveData) {
@@ -144,7 +155,7 @@ function handleWebSocketMessage(wsMessage) {
                             <input type='checkbox' name='${key}' value='${data.pid}'>
                         `;
 
-                        selectArea.appendChild(box);
+                        selectPID_Boxes.appendChild(box);
                     }
                 }
                 dataReceived2 = true;
