@@ -41,15 +41,20 @@ dynamicIpRadio.addEventListener("click", function () {
 
 
 
-function showOverlay() {
+function showOverlay(showParagraph) {
     document.getElementById('overlay').style.display = 'flex';
+    if (showParagraph) {
+        document.getElementById('overlayParagraph').style.display = 'block';
+    } else {
+        document.getElementById('overlayParagraph').style.display = 'none';
+    }
 }
 
 function hideOverlay() {
     document.getElementById('overlay').style.display = 'none';
 }
 
-function submitForm(event, formId, url) {
+function submitForm(event, formId, url, showParagraph) {
     event.preventDefault();
     const formData = new FormData(document.getElementById(formId));
     const xhr = new XMLHttpRequest();
@@ -57,7 +62,7 @@ function submitForm(event, formId, url) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                showOverlay();
+                showOverlay(showParagraph);
                 console.log("Successfully");
             } else {
                 console.error(`Error: ${xhr.status} - ${xhr.statusText}`);
@@ -75,18 +80,18 @@ document.getElementById('hideOverlayBtn').addEventListener('click', function (ev
 });
 
 document.getElementById('wifiForm').addEventListener('submit', function (event) {
-    submitForm(event, 'wifiForm', '/wifiOptions');
+    submitForm(event, 'wifiForm', '/wifiOptions', true);
 });
 
 document.getElementById('protocolForm').addEventListener('submit', function (event) {
-    submitForm(event, 'protocolForm', '/protocolOptions');
+    submitForm(event, 'protocolForm', '/protocolOptions', false);
 });
 
 document.getElementById('firmwareUpdate').addEventListener('submit', function (event) {
-    submitForm(event, 'firmwareUpdate', '/firmwareUpdate');
+    submitForm(event, 'firmwareUpdate', '/firmwareUpdate', true);
 });
 document.getElementById('fileSystemUpdate').addEventListener('submit', function (event) {
-    submitForm(event, 'fileSystemUpdate', '/fileSystemUpdate');
+    submitForm(event, 'fileSystemUpdate', '/fileSystemUpdate', false);
 });
 
 
