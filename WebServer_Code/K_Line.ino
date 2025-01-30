@@ -6,9 +6,6 @@ byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
 
 void read_K() {
-  VOLTAGE = (double)analogRead(voltagePin) / 4096 * 17.4;
-  VOLTAGE = round(VOLTAGE * 10) / 10;
-
   if (page == 1 || page == -1) {
     for (const auto& mapping : liveDataMappings) {
       if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {

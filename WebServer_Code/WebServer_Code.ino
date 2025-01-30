@@ -89,6 +89,9 @@ void loop() {
     read_K();
   }
 
+  VOLTAGE = (double)analogRead(voltagePin) / 4096 * 17.4;
+  VOLTAGE = round(VOLTAGE * 10) / 10;
+
   if (millis() - lastWsTime >= 100) {
     sendDataToServer();
     lastWsTime = millis();
