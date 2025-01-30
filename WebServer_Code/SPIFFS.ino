@@ -52,5 +52,6 @@ void changeWifiSettings(String ssid, String password, String ipAddress, String s
 
 void changeCommunicationProtocol(String communicationProtocol) {
   updateSetting("protocol", communicationProtocol);
-  ESP.restart();
+  protocol = communicationProtocol;
+  //ESP.restart();
 }
