@@ -1,11 +1,11 @@
 import { InitWebSocket, setMessageHandler } from "./webSocket.js";
 
-let wsStatus = document.getElementById("ws");
-let klStatus = document.getElementById("kl");
+const wsStatus = document.getElementById("ws");
+const klStatus = document.getElementById("kl");
 
-let dataBox = document.getElementById("dataBox");
-let statusBox = document.getElementById("statusBox");
-let status = document.getElementById("status");
+const dataBox = document.getElementById("dataBox");
+const statusBox = document.getElementById("statusBox");
+const status = document.getElementById("status");
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {

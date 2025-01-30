@@ -1,8 +1,8 @@
 import { InitWebSocket, setMessageHandler } from "./webSocket.js";
 
-let wsStatus = document.getElementById("ws");
-let klStatus = document.getElementById("kl");
-let voltage = document.getElementById("voltage");
+const wsStatus = document.getElementById("ws");
+const klStatus = document.getElementById("kl");
+const voltage = document.getElementById("voltage");
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {

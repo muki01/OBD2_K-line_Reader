@@ -1,17 +1,17 @@
 import { InitWebSocket, setMessageHandler, sendData } from "./webSocket.js";
 
-let wsStatus = document.getElementById("ws");
-let klStatus = document.getElementById("kl");
+const wsStatus = document.getElementById("ws");
+const klStatus = document.getElementById("kl");
 
-let btnArea = document.getElementById("btnArea");
-let clearDTC = document.getElementById("clearDTC");
+const btnArea = document.getElementById("btnArea");
+const clearDTC = document.getElementById("clearDTC");
 
 clearDTC.addEventListener("click", function () {
     sendData("clear_dtc");
 });
 
-let errorsField = document.getElementById("errorCodes");
-let mil = document.getElementById("DistanceTraveledWithMIL");
+const errorsField = document.getElementById("errorCodes");
+const mil = document.getElementById("DistanceTraveledWithMIL");
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {

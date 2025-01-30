@@ -1,9 +1,9 @@
 import { InitWebSocket, setMessageHandler } from "./webSocket.js";
 
 
-let staticIpRadio = document.getElementById("staticIp");
-let dynamicIpRadio = document.getElementById("dynamicIp");
-let staticIpMenu = document.querySelector(".staticIP-menu");
+const staticIpRadio = document.getElementById("staticIp");
+const dynamicIpRadio = document.getElementById("dynamicIp");
+const staticIpMenu = document.querySelector(".staticIP-menu");
 let menu = `
             <h1>Static IP Options</h1>
             <div class="row">
@@ -105,13 +105,13 @@ document.getElementById('selectPID').addEventListener('submit', function (event)
 
 
 
-let wsStatus = document.getElementById("ws");
-let klStatus = document.getElementById("kl");
+const wsStatus = document.getElementById("ws");
+const klStatus = document.getElementById("kl");
 
-let protocol = document.getElementById("protocol");
-let selectedProtocol = document.getElementById("selectedProtocol");
-let connectedProtocol = document.getElementById("connectedProtocol");
 let selectArea = document.getElementById("selectArea");
+const protocol = document.getElementById("protocol");
+const selectedProtocol = document.getElementById("selectedProtocol");
+const connectedProtocol = document.getElementById("connectedProtocol");
 
 let dataReceived1 = false;
 let dataReceived2 = false;
