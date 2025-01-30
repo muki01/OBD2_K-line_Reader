@@ -53,5 +53,7 @@ void changeWifiSettings(String ssid, String password, String ipAddress, String s
 void changeCommunicationProtocol(String communicationProtocol) {
   updateSetting("protocol", communicationProtocol);
   protocol = communicationProtocol;
-  //ESP.restart();
+  if(KLineStatus){
+    KLineStatus = false;
+  }
 }
