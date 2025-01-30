@@ -225,7 +225,7 @@ void initWebServer() {
 
       if (final) {
         if (Update.end(true)) {
-          request->send(200, "text/plain", "SPIFFS updated successfully. Restarting...");
+          request->send(200, "text/plain", "SPIFFS updated successfully.");
           connectMelody();
         } else {
           request->send(500, "text/plain", "SPIFFS update failed to end.");
