@@ -55,10 +55,13 @@ function submitForm(event, formId, url) {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            showOverlay();
-        } else {
-            console.error(`Error: ${xhr.status} - ${xhr.statusText}`);
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                showOverlay();
+                console.log("Successfully");
+            } else {
+                console.error(`Error: ${xhr.status} - ${xhr.statusText}`);
+            }
         }
     };
     xhr.onerror = function () {
