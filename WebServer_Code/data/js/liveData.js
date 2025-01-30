@@ -15,7 +15,7 @@ function handleWebSocketMessage(wsMessage) {
             status.innerHTML = "Not Connected to the Vehicle.";
         } else {
             const liveData = wsMessage.LiveData;
-            const voltageData = wsMessage.Voltage;
+            const voltageData = wsMessage.Voltage.toFixed(1);
             statusBox.style.display = "none";
             dataBox.innerHTML = "";
             for (let key in liveData) {

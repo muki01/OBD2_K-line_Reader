@@ -6,7 +6,7 @@ let voltage = document.getElementById("voltage");
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
-        let batteryVoltage = wsMessage.Voltage;
+        let batteryVoltage = wsMessage.Voltage.toFixed(1);
         voltage.innerHTML = `${batteryVoltage} V`;
         wsStatus.style.color = "#00ff00";
         wsStatus.innerHTML = "Connected";
