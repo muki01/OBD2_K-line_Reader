@@ -147,6 +147,24 @@ void initWebServer() {
     String protocol = request->arg("protocol");
     changeCommunicationProtocol(protocol);
   });
+
+  server.on("/pidSelect", HTTP_POST, [](AsyncWebServerRequest *request) {
+    int pidCount = request->args();
+
+    if (pidCount == 0) {
+      request->send(400, "text/plain", "No pids selected");
+      return;
+    }
+
+    memset(desiredLiveData, 0, sizeof(desiredLiveData));
+
+    for (int i = 0; i < pidCount; i++) {
+      String pidStr = request->arg(i);
+      desiredLiveData[i] = pidStr.toInt();
+    }
+    request->send(200, "text/plain", "Successfully received pids");
+  });
+
   server.on(
     "/firmwareUpdate", HTTP_POST, [](AsyncWebServerRequest *request) {
       request->send(400, "text/plain", "No files uploaded.");
@@ -276,6 +294,7 @@ String JsonData() {
     for (const auto &mapping : liveDataMappings) {
       if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
         JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        pidObject["pid"] = mapping.pid;
       }
     }
   }

@@ -94,6 +94,10 @@ document.getElementById('fileSystemUpdate').addEventListener('submit', function 
     submitForm(event, 'fileSystemUpdate', '/fileSystemUpdate', false);
 });
 
+document.getElementById('selectPID').addEventListener('submit', function (event) {
+    submitForm(event, 'selectPID', '/pidSelect', false);
+});
+
 
 
 
@@ -116,7 +120,7 @@ function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
         wsStatus.style.fill = "#00ff00";
         klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
-        
+
         if (!dataReceived1) {
             selectedProtocol.innerHTML = protocol.value = wsMessage.selectedProtocol;
             dataReceived1 = true;
@@ -130,14 +134,14 @@ function handleWebSocketMessage(wsMessage) {
                 const supportedLiveData = wsMessage.SupportedLiveData;
                 for (let key in supportedLiveData) {
                     if (supportedLiveData.hasOwnProperty(key)) {
-                        //const data = supportedLiveData[key];
+                        const data = supportedLiveData[key];
 
                         const box = document.createElement("div");
                         box.classList.add("box");
 
                         box.innerHTML = `
                             <label for='${key}'>${key}: </label>
-                            <input type='checkbox' name='${key}'>
+                            <input type='checkbox' name='${key}' value='${data.pid}'>
                         `;
 
                         selectArea.appendChild(box);
