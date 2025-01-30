@@ -482,7 +482,6 @@ void getSupportedPIDs(const byte option) {
       for (int bit = 7; bit >= 0; bit--) {
         if ((value >> bit) & 1) {
           supportedLiveData[supportedCount++] = pidIndex + 1;
-          desiredLiveData[supportedCount] = pidIndex + 1;
         }
         pidIndex++;
       }
@@ -501,12 +500,12 @@ void getSupportedPIDs(const byte option) {
         for (int bit = 7; bit >= 0; bit--) {
           if ((value >> bit) & 1) {
             supportedLiveData[supportedCount++] = pidIndex + 1;
-            desiredLiveData[supportedCount] = pidIndex + 1;
           }
           pidIndex++;
         }
       }
     }
+    memcpy(desiredLiveData, supportedLiveData, sizeof(supportedLiveData));
   }
   if (option == 0x02) {
     if (protocol == "ISO9141") {
