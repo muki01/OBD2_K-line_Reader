@@ -143,16 +143,18 @@ function handleWebSocketMessage(wsMessage) {
                 selectPID_Form.style.display = "block";
                 connectedProtocol.innerHTML = wsMessage.connectedProtocol;
                 const supportedLiveData = wsMessage.SupportedLiveData;
+                const desiredLiveData = wsMessage.DesiredLiveData;
                 for (let key in supportedLiveData) {
                     if (supportedLiveData.hasOwnProperty(key)) {
                         const data = supportedLiveData[key];
+                        const isChecked = desiredLiveData.includes(data.pid) ? "checked" : "";
 
                         const box = document.createElement("div");
                         box.classList.add("box");
 
                         box.innerHTML = `
                             <label for='${key}'>${key}: </label>
-                            <input type='checkbox' name='${key}' value='${data.pid}'>
+                            <input type='checkbox' name='${key}' value='${data.pid}' ${isChecked}>
                         `;
 
                         selectPID_Boxes.appendChild(box);

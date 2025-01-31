@@ -297,6 +297,13 @@ String JsonData() {
         pidObject["pid"] = mapping.pid;
       }
     }
+
+    JsonArray desiredLiveDataArray = jsonDoc.createNestedArray("DesiredLiveData");
+    for (int i = 0; i < sizeof(desiredLiveData); i++) {
+    if (desiredLiveData[i] != 0) {
+        desiredLiveDataArray.add(desiredLiveData[i]);
+    }
+}
   }
 
   jsonDoc["selectedProtocol"] = protocol;
