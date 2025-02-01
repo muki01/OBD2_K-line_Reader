@@ -53,7 +53,7 @@ void changeWifiSettings(String ssid, String password, String ipAddress, String s
 void changeCommunicationProtocol(String communicationProtocol) {
   updateSetting("protocol", communicationProtocol);
   protocol = communicationProtocol;
-  if(KLineStatus){
+  if (KLineStatus) {
     KLineStatus = false;
   }
 }
