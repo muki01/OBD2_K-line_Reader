@@ -117,15 +117,6 @@ void initWebServer() {
   server.on("/api/getData", HTTP_GET, [](AsyncWebServerRequest *request) {
     page = -1;
     Melody2();
-    getPID(VEHICLE_SPEED);
-    getPID(ENGINE_RPM);
-    getPID(ENGINE_COOLANT_TEMP);
-    getPID(INTAKE_AIR_TEMP);
-    getPID(THROTTLE_POSITION);
-    getPID(TIMING_ADVANCE);
-    getPID(ENGINE_LOAD);
-    getPID(MAF_FLOW_RATE);
-    get_DTCs();
     request->send(200, "application/json", JsonData());
   });
   server.on("/api/clearDTCs", HTTP_GET, [](AsyncWebServerRequest *request) {

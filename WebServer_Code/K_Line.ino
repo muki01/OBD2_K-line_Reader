@@ -12,6 +12,9 @@ void read_K() {
         getPID(mapping.pid);
       }
     }
+    if (page == -1) {
+      get_DTCs();
+    }
   } else if (page == 0 || page == 2 || page == 5 || page == 6) {
     if (millis() - lastDTCTime >= 1000) {
       get_DTCs();
