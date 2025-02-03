@@ -260,7 +260,9 @@ String JsonData() {
     }
   } else if (page == 2) {
     jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
-    jsonDoc[liveDataMappings[32].jsonKey] = liveDataMappings[32].value;  //Distance Traveled With MIL On
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
+      jsonDoc[liveDataMappings[32].jsonKey] = liveDataMappings[32].value;  //Distance Traveled With MIL On
+    }
   } else if (page == 3) {
     jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
     JsonObject freezeFrame = jsonDoc.createNestedObject("FreezeFrame");
@@ -272,7 +274,9 @@ String JsonData() {
       }
     }
   } else if (page == 4) {
-    jsonDoc[liveDataMappings[11].jsonKey] = liveDataMappings[11].value;  //Speed
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
+      jsonDoc[liveDataMappings[11].jsonKey] = liveDataMappings[11].value;  //Speed
+    }
   } else if (page == 5) {
     jsonDoc["VIN"] = Vehicle_VIN;
     jsonDoc["ID"] = Vehicle_ID;
