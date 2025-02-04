@@ -274,7 +274,7 @@ String JsonData() {
       }
     }
   } else if (page == 4) {
-    if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), VEHICLE_SPEED)) {
       jsonDoc[liveDataMappings[11].jsonKey] = liveDataMappings[11].value;  //Speed
     }
   } else if (page == 5) {
