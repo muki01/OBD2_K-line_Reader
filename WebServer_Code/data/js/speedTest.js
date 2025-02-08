@@ -1,10 +1,10 @@
 import { InitWebSocket, setMessageHandler, sendData } from "./webSocket.js";
 
-let wsStatus = document.getElementById("ws");
-let klStatus = document.getElementById("kl");
-let timeRef = document.querySelector(".timerDisplay");
-let startBtn = document.getElementById("start-timer");
-let resetBtn = document.getElementById("reset-timer");
+const wsStatus = document.getElementById("ws");
+const klStatus = document.getElementById("kl");
+const timeRef = document.getElementById("timerDisplay");
+const startBtn = document.getElementById("start-timer");
+const resetBtn = document.getElementById("reset-timer");
 
 let [milliseconds, seconds, minutes] = [0, 0, 0];
 let interval = null;

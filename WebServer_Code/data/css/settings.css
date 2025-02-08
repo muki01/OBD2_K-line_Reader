@@ -252,11 +252,13 @@ hr {
 }
 
 .savedBox p {
+    display: block;
     font-size: 16px;
     margin-bottom: 20px;
 }
 
 .savedBox a {
+    display: inline-block;
     cursor: pointer;
     padding: 10px 60px;
     font-size: 24px;
@@ -276,8 +278,31 @@ input[type="file"]::file-selector-button {
     transition: 0.12s ease-in-out;
 }
 
-input[type="file"]::file-selector-button:hover{
+input[type="file"]::file-selector-button:hover {
     background-color: #eae9e9;
+}
+
+#selectPID_Form {
+    display: none;
+}
+
+.selectPID_Boxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 40px;
+    margin-bottom: 20px;
+}
+
+.selectPID_Boxes .box {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: center;
+}
+
+input[type="checkbox"] {
+    accent-color: #007aff;
+    transform: scale(1.3);
 }
 
 @media screen and (max-width: 700px) {
@@ -304,5 +329,9 @@ input[type="file"]::file-selector-button:hover{
     .submit-btn {
         font-size: 20px;
         padding: 10px 30px;
+    }
+
+    .selectPID_Boxes {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

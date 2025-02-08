@@ -117,15 +117,6 @@ void initWebServer() {
   server.on("/api/getData", HTTP_GET, [](AsyncWebServerRequest *request) {
     page = -1;
     Melody2();
-    getPID(VEHICLE_SPEED);
-    getPID(ENGINE_RPM);
-    getPID(ENGINE_COOLANT_TEMP);
-    getPID(INTAKE_AIR_TEMP);
-    getPID(THROTTLE_POSITION);
-    getPID(TIMING_ADVANCE);
-    getPID(ENGINE_LOAD);
-    getPID(MAF_FLOW_RATE);
-    get_DTCs();
     request->send(200, "application/json", JsonData());
   });
   server.on("/api/clearDTCs", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -147,6 +138,24 @@ void initWebServer() {
     String protocol = request->arg("protocol");
     changeCommunicationProtocol(protocol);
   });
+
+  server.on("/pidSelect", HTTP_POST, [](AsyncWebServerRequest *request) {
+    int pidCount = request->args();
+
+    if (pidCount == 0) {
+      request->send(400, "text/plain", "No pids selected");
+      return;
+    }
+
+    memset(desiredLiveData, 0, sizeof(desiredLiveData));
+
+    for (int i = 0; i < pidCount; i++) {
+      String pidStr = request->arg(i);
+      desiredLiveData[i] = pidStr.toInt();
+    }
+    request->send(200, "text/plain", "Successfully received pids");
+  });
+
   server.on(
     "/firmwareUpdate", HTTP_POST, [](AsyncWebServerRequest *request) {
       request->send(400, "text/plain", "No files uploaded.");
@@ -207,7 +216,7 @@ void initWebServer() {
 
       if (final) {
         if (Update.end(true)) {
-          request->send(200, "text/plain", "SPIFFS updated successfully. Restarting...");
+          request->send(200, "text/plain", "SPIFFS updated successfully.");
           connectMelody();
         } else {
           request->send(500, "text/plain", "SPIFFS update failed to end.");
@@ -233,7 +242,7 @@ String JsonData() {
   if (page == -1) {
     JsonObject liveData = jsonDoc.createNestedObject("LiveData");
     for (const auto &mapping : liveDataMappings) {
-      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+      if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
         JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
         pidObject["value"] = mapping.value;
         pidObject["unit"] = mapping.unit;
@@ -243,7 +252,7 @@ String JsonData() {
   } else if (page == 1) {
     JsonObject liveData = jsonDoc.createNestedObject("LiveData");
     for (const auto &mapping : liveDataMappings) {
-      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+      if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
         JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
         pidObject["value"] = mapping.value;
         pidObject["unit"] = mapping.unit;
@@ -251,7 +260,9 @@ String JsonData() {
     }
   } else if (page == 2) {
     jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
-    jsonDoc[liveDataMappings[32].jsonKey] = liveDataMappings[32].value;  //Distance Traveled With MIL On
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
+      jsonDoc[liveDataMappings[32].jsonKey] = liveDataMappings[32].value;  //Distance Traveled With MIL On
+    }
   } else if (page == 3) {
     jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
     JsonObject freezeFrame = jsonDoc.createNestedObject("FreezeFrame");
@@ -263,7 +274,9 @@ String JsonData() {
       }
     }
   } else if (page == 4) {
-    jsonDoc[liveDataMappings[11].jsonKey] = liveDataMappings[11].value;  //Speed
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), VEHICLE_SPEED)) {
+      jsonDoc[liveDataMappings[11].jsonKey] = liveDataMappings[11].value;  //Speed
+    }
   } else if (page == 5) {
     jsonDoc["VIN"] = Vehicle_VIN;
     jsonDoc["ID"] = Vehicle_ID;
@@ -271,9 +284,24 @@ String JsonData() {
     jsonDoc["supportedLiveData"] = convertBytesToHexStringWithComma(supportedLiveData, sizeof(supportedLiveData));
     jsonDoc["supportedFreezeFrame"] = convertBytesToHexStringWithComma(supportedFreezeFrame, sizeof(supportedFreezeFrame));
     jsonDoc["supportedVehicleInfo"] = convertBytesToHexStringWithComma(supportedVehicleInfo, sizeof(supportedVehicleInfo));
+  } else if (page == 6) {
+    JsonObject liveData = jsonDoc.createNestedObject("SupportedLiveData");
+    for (const auto &mapping : liveDataMappings) {
+      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+        JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        pidObject["pid"] = mapping.pid;
+      }
+    }
+
+    JsonArray desiredLiveDataArray = jsonDoc.createNestedArray("DesiredLiveData");
+    for (int i = 0; i < sizeof(desiredLiveData); i++) {
+      if (desiredLiveData[i] != 0) {
+        desiredLiveDataArray.add(desiredLiveData[i]);
+      }
+    }
   }
 
-  jsonDoc["selectedProtocol"] = selectedProtocol;
+  jsonDoc["selectedProtocol"] = protocol;
   jsonDoc["connectedProtocol"] = connectedProtocol;
   jsonDoc["Voltage"] = VOLTAGE;
   jsonDoc["KLineStatus"] = KLineStatus;

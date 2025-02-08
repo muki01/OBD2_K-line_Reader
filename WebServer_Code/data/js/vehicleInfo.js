@@ -1,14 +1,14 @@
 import { InitWebSocket, setMessageHandler } from "./webSocket.js";
 
-let wsStatus = document.getElementById("ws");
-let klStatus = document.getElementById("kl");
+const wsStatus = document.getElementById("ws");
+const klStatus = document.getElementById("kl");
 
-let VIN = document.getElementById("VIN");
-let ID = document.getElementById("ID");
-let IDNum = document.getElementById("IDNum");
-let liveDataField = document.getElementById("liveData");
-let freezeFrameField = document.getElementById("freezeFrame");
-let vehicleInfoField = document.getElementById("vehicleInfo");
+const VIN = document.getElementById("VIN");
+const ID = document.getElementById("ID");
+const IDNum = document.getElementById("IDNum");
+const liveDataField = document.getElementById("liveData");
+const freezeFrameField = document.getElementById("freezeFrame");
+const vehicleInfoField = document.getElementById("vehicleInfo");
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {

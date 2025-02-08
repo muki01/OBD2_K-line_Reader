@@ -35,7 +35,7 @@ AsyncWebSocket ws("/ws");
 #define READ_DELAY 5
 int REQUEST_DELAY;
 
-String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol, selectedProtocol = "", connectedProtocol = "";
+String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol, connectedProtocol = "";
 int page = -1;
 
 int oxygenSensor1Voltage = 0, shortTermFuelTrim1 = 0, oxygenSensor2Voltage = 0, shortTermFuelTrim2 = 0;
@@ -60,7 +60,6 @@ void setup() {
 
   initSpiffs();
   readSettings();
-  selectedProtocol = protocol;
 
   initWiFi();
   initWebSocket();
@@ -70,7 +69,7 @@ void setup() {
 
 void loop() {
   if (KLineStatus == false) {
-    Melody3():
+    Melody3();
     bool init_success = init_OBD2();
 
     if (init_success) {
@@ -88,6 +87,9 @@ void loop() {
   } else {
     read_K();
   }
+
+  VOLTAGE = (double)analogRead(voltagePin) / 4096 * 17.4;
+  VOLTAGE = round(VOLTAGE * 10) / 10;
 
   if (millis() - lastWsTime >= 100) {
     sendDataToServer();

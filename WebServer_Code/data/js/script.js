@@ -1,12 +1,12 @@
 import { InitWebSocket, setMessageHandler } from "./webSocket.js";
 
-let wsStatus = document.getElementById("ws");
-let klStatus = document.getElementById("kl");
-let voltage = document.getElementById("voltage");
+const wsStatus = document.getElementById("ws");
+const klStatus = document.getElementById("kl");
+const voltage = document.getElementById("voltage");
 
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
-        let batteryVoltage = wsMessage.Voltage;
+        let batteryVoltage = wsMessage.Voltage.toFixed(1);
         voltage.innerHTML = `${batteryVoltage} V`;
         wsStatus.style.color = "#00ff00";
         wsStatus.innerHTML = "Connected";

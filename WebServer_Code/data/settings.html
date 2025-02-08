@@ -24,7 +24,8 @@
                     d="M42.695,21.733L27.5,36.946l-5.235-5.22c-0.977-0.974-2.558-0.973-3.533,0.003l0,0 c-0.977,0.977-0.976,2.562,0.002,3.538l7.002,6.985c0.977,0.975,2.559,0.973,3.534-0.003l16.962-16.982 c0.975-0.977,0.975-2.559-0.001-3.535l0,0C45.254,20.756,43.671,20.756,42.695,21.733z" />
             </svg>
             <h1>Settings Saved Successfully</h1>
-            <p>Your device will reboot, please reconnect to the Wi-Fi connection of the device and click the OK button.
+            <p id="overlayParagraph">Your device will reboot, please reconnect to the Wi-Fi connection of the device and
+                click the OK button.
             </p>
             <a id="hideOverlayBtn">Ok</a>
         </div>
@@ -54,15 +55,15 @@
             <div class="settings">
                 <div class="card">
                     <h1>Wifi Info</h1>
-                    <form id="wifiForm">
+                    <form id="wifiChange_Form">
                         <div class="row">
                             <label for="SSID">Wifi Name:</label>
-                            <input type="text" name="SSID" required placeholder="Enter customer wifi network name">
+                            <input type="text" name="SSID" required placeholder="Enter WiFi network name">
                         </div>
                         <div class="row">
                             <label for="WifiPassword">Wifi Password:</label>
-                            <input type="password" name="WifiPassword" placeholder="Enter customer wifi password"
-                                pattern=".{8,}" title="Minimum 8 characters required">
+                            <input type="password" name="WifiPassword" placeholder="Enter WiFi Password" pattern=".{8,}"
+                                title="Minimum 8 characters required">
                         </div>
                         <div class="row">
                             <label>IP Address:</label>
@@ -83,10 +84,10 @@
                 </div>
                 <div class="card">
                     <h1>Communication Protocol</h1>
-                    <form id="protocolForm">
+                    <form id="protocolChange_Form">
                         <div class="row">
-                            <label for="PS3Address">Protocol:</label>
-                            <select name="protocol" required>
+                            <label for="protocol">Protocol:</label>
+                            <select name="protocol" id="protocol" required>
                                 <option disabled selected value="">Select Protocol</option>
                                 <option value="Automatic">Automatic</option>
                                 <option value="ISO9141">ISO9141</option>
@@ -95,19 +96,19 @@
                             </select>
                         </div>
                         <button class="submit-btn">Change Protocol</button>
-                        <div class="row">
-                            <h2>Selected Protocol: </h2>
-                            <p id="selectedProtocol">Waiting...</p>
-                        </div>
-                        <div class="row">
-                            <h2>Connected Protocol: </h2>
-                            <p id="connectedProtocol">Waiting...</p>
-                        </div>
                     </form>
+                    <div class="row">
+                        <h2>Selected Protocol: </h2>
+                        <p id="selectedProtocol">Waiting...</p>
+                    </div>
+                    <div class="row">
+                        <h2>Connected Protocol: </h2>
+                        <p id="connectedProtocol">Waiting...</p>
+                    </div>
                 </div>
                 <div class="card">
                     <h1>OTA Update</h1>
-                    <form id="firmwareUpdate">
+                    <form id="firmwareUpdate_Form">
                         <h2>Firmware</h2>
                         <div class="row">
                             <label for='firmware'>Firmware: </label>
@@ -116,13 +117,26 @@
                         <button class="submit-btn">Update</button>
                     </form>
                     <hr>
-                    <form id="fileSystemUpdate">
+                    <form id="fileSystemUpdate_Form">
                         <h2>File System</h2>
                         <div class="row">
                             <label for='spiffs'>SPIFFS: </label>
                             <input type='file' accept=".bin" name='spiffs' required>
                         </div>
                         <button class="submit-btn">Update</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h1>Select Live Data</h1>
+                    <p id="selectPID_Status">Waiting...</p>
+                    <form id="selectPID_Form">
+                        <div class="selectPID_Boxes" id="selectPID_Boxes">
+                            <!--<div class="box">
+                                <label for="Speed">Speed: </label>
+                                <input type="checkbox" name="Speed" value="13" checked="">
+                            </div>-->
+                        </div>
+                        <button class="submit-btn">Save</button>
                     </form>
                 </div>
             </div>

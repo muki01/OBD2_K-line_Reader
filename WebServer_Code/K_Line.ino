@@ -1,18 +1,19 @@
 byte resultBuffer[70];
 String dtcBuffer[32];
 byte supportedLiveData[32];
+byte desiredLiveData[32];
 byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
 
 void read_K() {
-  VOLTAGE = (double)analogRead(voltagePin) / 4096 * 17.4;
-  VOLTAGE = round(VOLTAGE * 10) / 10;
-
   if (page == 1 || page == -1) {
     for (const auto& mapping : liveDataMappings) {
-      if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
+      if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
         getPID(mapping.pid);
       }
+    }
+    if (page == -1) {
+      get_DTCs();
     }
   } else if (page == 0 || page == 2 || page == 5 || page == 6) {
     if (millis() - lastDTCTime >= 1000) {
@@ -507,6 +508,7 @@ void getSupportedPIDs(const byte option) {
         }
       }
     }
+    memcpy(desiredLiveData, supportedLiveData, sizeof(supportedLiveData));
   }
   if (option == 0x02) {
     if (protocol == "ISO9141") {
