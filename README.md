@@ -14,27 +14,8 @@ I will share more information about K-Line protocols and communication later. St
 You can also see [this](https://github.com/muki01/I-K_Bus) project for I/K Bus for BMW cars
 
 ## ⚙️Instalation
-* Open .ino file
-* 📚Instal these Libraries
-  ~~~
-  - ESPAsyncWebServer
-  - AsyncTCP
-  - ArduinoJson
-  ~~~
-* Edit the pins for your Board
-     ~~~
-     #define K_Serial Serial
-     #define K_line_RX 20
-     #define K_line_TX 21
-     #define Led 8
-     #define Buzzer 1
-     #define voltagePin 0
-     ~~~
-* If you are using ESP32 C3,S2 or S3 board, you need to disable "USB CDC On Boot" option in Tools menu
-* Upload the code to your Board
-* Upload the Website to SPIFFS.
-  - To upload the Web Site, you can use PlatformIO or you can upload with tool for Arduino IDE v1.x.x</br>
-  [Here](https://randomnerdtutorials.com/install-esp32-filesystem-uploader-arduino-ide/) is documentation how to upload files to SPIFFS with Arduino IDE.
+* If you just want to test, you can use the [Basic_Code](https://github.com/muki01/OBD2_K-line_Reader/tree/main/Basic_Code). This code extracts the data to the serial monitor. It is compatible with Arduino and ESP32. [Here](https://github.com/muki01/OBD2_K-line_Reader/blob/main/Basic_Code/README.md) are the instructions on how this code works and how to install.
+* If you want to see the retreaved data in the Web Site you can use [WebServer_Code](https://github.com/muki01/OBD2_K-line_Reader/tree/main/WebServer_Code). It is compatible with All ESP32 and ESP8266 board. [Here](https://github.com/muki01/OBD2_K-line_Reader/tree/main/WebServer_Code/README.md) are the instructions on how this code works and how to install.
 
 
 ## 📱Pictures of the application I made
