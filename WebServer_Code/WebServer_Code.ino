@@ -2,13 +2,13 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <SPIFFS.h>
+#include <Update.h>
 #elif defined(ESP8266)
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <FS.h>
 #endif
 #include <ESPAsyncWebServer.h>
-#include <Update.h>
 #include <ArduinoJson.h>
 #include "PIDs.h"
 
