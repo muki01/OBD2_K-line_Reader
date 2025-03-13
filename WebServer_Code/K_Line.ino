@@ -46,6 +46,7 @@ bool init_OBD2() {
   // Response: 83 F1 11 C1 8F EF C4
 
   if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
+    debugPrintln("Trying ISO9141 or ISO14230_Slow");
     REQUEST_DELAY = 500;
     K_Serial.end();
     digitalWrite(K_line_TX, HIGH), delay(3000);
@@ -56,12 +57,18 @@ bool init_OBD2() {
     digitalWrite(K_line_TX, LOW), delay(400);
     digitalWrite(K_line_TX, HIGH), delay(200);
 
+#ifdef ESP32
+    K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#elif defined(ESP8266)
     K_Serial.begin(10400, SERIAL_8N1);
+#endif
     readData();
     if (resultBuffer[0] == 0x55) {
       if (resultBuffer[1] == resultBuffer[2]) {
+        debugPrintln("Your Protocol is ISO9141");
         protocol = "ISO9141";
       } else {
+        debugPrintln("Your Protocol is ISO14230_Slow");
         protocol = "ISO14230_Slow";
       }
       delay(30);
@@ -77,25 +84,33 @@ bool init_OBD2() {
   }
 
   if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
+    debugPrintln("Trying ISO14230_Fast");
     REQUEST_DELAY = 50;
     K_Serial.end();
     digitalWrite(K_line_TX, HIGH), delay(3000);
     digitalWrite(K_line_TX, LOW), delay(25);
     digitalWrite(K_line_TX, HIGH), delay(25);
 
+#ifdef ESP32
+    K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#elif defined(ESP8266)
     K_Serial.begin(10400, SERIAL_8N1);
+#endif
     writeData(start_Bytes, sizeof(start_Bytes), init_OBD);
     readData();
     if (resultBuffer[8] == 0xC1) {
+      debugPrintln("Your Protocol is ISO14230_Fast");
       protocol = "ISO14230_Fast";
       return true;
     }
   }
 
+  debugPrintln("No Protocol Found");
   return false;
 }
 
 void writeData(const byte data[], int length, const byte pid) {
+  debugPrintln("Writing Data");
   byte extendedData[length + 2];
   memcpy(extendedData, data, length);
   extendedData[length] = pid;
@@ -127,11 +142,15 @@ void readData() {
   int result = K_Serial.available();
   if (result > 0) {
     memset(resultBuffer, 0, sizeof(resultBuffer));
+    debugPrint("Received Data: ");
     int bytesRead = min(result, int(sizeof(resultBuffer)));
     for (int i = 0; i < bytesRead; i++) {
       resultBuffer[i] = K_Serial.read();
+      debugPrintHex(resultBuffer[i]);
+      debugPrint(" ");
       delay(READ_DELAY);
     }
+    debugPrintln();
   }
 }
 

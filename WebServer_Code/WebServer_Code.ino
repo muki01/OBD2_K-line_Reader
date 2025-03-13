@@ -23,14 +23,25 @@ AsyncWebSocket ws("/ws");
 #define Led 8
 #define Buzzer 1
 #define voltagePin 0
+#define K_Serial Serial1
 #elif defined(ESP8266)
+#define K_Serial Serial
 #define K_line_RX 3
 #define K_line_TX 1
 #define Led 2
 #define Buzzer 4
 #define voltagePin 5
 #endif
-#define K_Serial Serial
+
+#ifdef DEBUG_Serial
+#define debugPrint(x) Serial.print(x)
+#define debugPrintln(x) Serial.println(x)
+#define debugPrintHex(x) Serial.print(x, HEX)
+#else
+#define debugPrint(x) ((void)0)
+#define debugPrintln(x) ((void)0)
+#define debugPrintHex(x) ((void)0)
+#endif
 
 #define READ_DELAY 5
 int REQUEST_DELAY;
@@ -51,6 +62,9 @@ bool KLineStatus = false;
 static unsigned long lastReqestTime = 5000, lastWsTime = 100, lastDTCTime = 1000;
 
 void setup() {
+#ifdef DEBUG_Serial
+  Serial.begin(115200);
+#endif
   pinMode(K_line_RX, INPUT_PULLUP);
   pinMode(K_line_TX, OUTPUT);
   pinMode(Led, OUTPUT);
@@ -60,19 +74,28 @@ void setup() {
 
   initSpiffs();
   readSettings();
+  debugPrint("Selected Protocol: ");
+  debugPrintln(protocol);
 
   initWiFi();
   initWebSocket();
   initWebServer();
+
+#ifdef ESP32
+  K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#elif defined(ESP8266)
   K_Serial.begin(10400, SERIAL_8N1);
+#endif
 }
 
 void loop() {
   if (KLineStatus == false) {
+    debugPrintln("Initialising...");
     Melody3();
     bool init_success = init_OBD2();
 
     if (init_success) {
+      debugPrintln("Init Success !!");
       KLineStatus = true;
       connectedProtocol = protocol;
       digitalWrite(Led, LOW);
