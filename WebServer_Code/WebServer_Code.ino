@@ -24,6 +24,7 @@ AsyncWebSocket ws("/ws");
 #define Buzzer 1
 #define voltagePin 0
 #define K_Serial Serial1
+#define DEBUG_Serial
 #elif defined(ESP8266)
 #define K_Serial Serial
 #define K_line_RX 3
