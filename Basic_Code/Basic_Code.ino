@@ -44,6 +44,9 @@ void setup() {
   pinMode(K_line_TX, OUTPUT);
   pinMode(Led, OUTPUT);
 
+  Serial.print("Selected Protocol: ");
+  Serial.println(protocol);
+
 #ifdef ESP32
   K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
 #elif defined(ARDUINO)

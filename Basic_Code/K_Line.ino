@@ -5,30 +5,6 @@ String supportedFreezeFrame[32];
 String supportedVehicleInfo[32];
 
 void read_K() {
-  // getSupportedPIDs(0x01);
-  // Serial.println("Suported LiveData: ");
-  // for (int i = 0; i < 32; i++) {
-  //   Serial.print(supportedLiveData[i]);
-  //   Serial.print(", ");
-  // }
-  // Serial.println();
-
-  // getSupportedPIDs(0x02);
-  // Serial.println("Suported FreezeFrame: ");
-  // for (int i = 0; i < 32; i++) {
-  //   Serial.print(supportedFreezeFrame[i]);
-  //   Serial.print(", ");
-  // }
-  // Serial.println();
-
-  // getSupportedPIDs(0x09);
-  // Serial.println("Suported VehicleInfo: ");
-  // for (int i = 0; i < 32; i++) {
-  //   Serial.print(supportedVehicleInfo[i]);
-  //   Serial.print(", ");
-  // }
-  // Serial.println();
-
   //Serial.println("Live Data: ");
   getPID(VEHICLE_SPEED);
   Serial.print("Speed: "), Serial.println(vehicleSpeedValue);
@@ -47,8 +23,8 @@ void read_K() {
   getPID(MAF_FLOW_RATE);
   Serial.print("MAF Flow Rate: "), Serial.println(mafAirFlowRate);
 
-  // get_DTCs();
   // Serial.println("DTCs: ");
+  // get_DTCs();
   // for (int i = 0; i < 32; i++) {
   //   Serial.print(dtcBuffer[i]);
   //   Serial.print(", ");
@@ -65,6 +41,30 @@ void read_K() {
   // getFreezeFrame(ENGINE_LOAD);
   // Serial.print("Engine Load: "), Serial.println(freeze_ENGINELOAD);
 
+  // Serial.println("Suported LiveData: ");
+  // getSupportedPIDs(0x01);
+  // for (int i = 0; i < 32; i++) {
+  //   Serial.print(supportedLiveData[i]);
+  //   Serial.print(", ");
+  // }
+  // Serial.println();
+
+  // Serial.println("Suported FreezeFrame: ");
+  // getSupportedPIDs(0x02);
+  // for (int i = 0; i < 32; i++) {
+  //   Serial.print(supportedFreezeFrame[i]);
+  //   Serial.print(", ");
+  // }
+  // Serial.println();
+
+  // Serial.println("Suported VehicleInfo: ");
+  // getSupportedPIDs(0x09);
+  // for (int i = 0; i < 32; i++) {
+  //   Serial.print(supportedVehicleInfo[i]);
+  //   Serial.print(", ");
+  // }
+  // Serial.println();
+
   K_Serial.flush();
 }
 
@@ -74,6 +74,7 @@ bool init_OBD2() {
   // Response: 83 F1 11 C1 8F EF C4
 
   if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
+    Serial.println("Trying ISO9141 or ISO14230_Slow");
     REQUEST_DELAY = 500;
     K_Serial.end();
     digitalWrite(K_line_TX, HIGH), delay(3000);
@@ -112,6 +113,7 @@ bool init_OBD2() {
   }
 
   if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
+    Serial.println("Trying ISO14230_Fast");
     REQUEST_DELAY = 50;
     K_Serial.end();
     digitalWrite(K_line_TX, HIGH), delay(3000);
@@ -133,6 +135,7 @@ bool init_OBD2() {
     }
   }
 
+  Serial.println("No Protocol Found");
   return false;
 }
 
