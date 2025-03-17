@@ -11,7 +11,9 @@ I have shared schematics to communicate with the car. You can use these schemati
 
 I will share more information about K-Line protocols and communication later. Stay tuned 😉.
 
-You can also see [this](https://github.com/muki01/I-K_Bus) project for I/K Bus for BMW cars
+You can also see my other car projects:
+1. [Тhis](https://github.com/muki01/I-K_Bus) project is for BMW with I/K bus system. 
+2. [Тhis](https://github.com/muki01/OBD2_CAN_Bus_Reader) project is for Cars with CAN Bus.
 
 ## ⚙️Instalation
 * If you just want to test, you can use the [Basic_Code](https://github.com/muki01/OBD2_K-line_Reader/tree/main/Basic_Code). This code extracts the data to the serial monitor. It is compatible with Arduino and ESP32. [Here](https://github.com/muki01/OBD2_K-line_Reader/blob/main/Basic_Code/README.md) are the instructions on how this code works and how to install.
