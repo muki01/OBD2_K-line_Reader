@@ -50,12 +50,7 @@ bool init_OBD2() {
     REQUEST_DELAY = 500;
     K_Serial.end();
     digitalWrite(K_line_TX, HIGH), delay(3000);
-    digitalWrite(K_line_TX, LOW), delay(200);
-    digitalWrite(K_line_TX, HIGH), delay(400);
-    digitalWrite(K_line_TX, LOW), delay(400);
-    digitalWrite(K_line_TX, HIGH), delay(400);
-    digitalWrite(K_line_TX, LOW), delay(400);
-    digitalWrite(K_line_TX, HIGH), delay(200);
+    send5baud(0x33);
 
 #ifdef ESP32
     K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
@@ -107,6 +102,33 @@ bool init_OBD2() {
 
   debugPrintln("No Protocol Found");
   return false;
+}
+
+void send5baud(uint8_t data) {
+  byte even = 1;  // Variable to calculate the parity bit
+  byte bits[10];
+
+  bits[0] = 0;  // Start bit
+  bits[9] = 1;  // Stop bit
+
+  // Calculate 7-bit data and parity
+  for (int i = 1; i <= 7; i++) {
+    bits[i] = (data >> (i - 1)) & 1;
+    even ^= bits[i];  // Update parity
+  }
+
+  bits[8] = (even == 0) ? 1 : 0;  // Set parity bit
+
+  // Transmit bits sequentially (5 baud = 1 bit per 200 ms)
+  debugPrint("5 Baud Init for Module 0x");
+  debugPrintHex(data);
+  debugPrint(": ");
+  for (int i = 0; i < 10; i++) {
+    debugPrint(bits[i]);
+    digitalWrite(K_line_TX, bits[i] ? HIGH : LOW);
+    delay(200);
+  }
+  debugPrintln();
 }
 
 void writeData(const byte data[], int length, const byte pid) {
