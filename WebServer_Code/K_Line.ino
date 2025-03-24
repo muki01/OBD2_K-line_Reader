@@ -67,6 +67,7 @@ bool init_OBD2() {
         protocol = "ISO14230_Slow";
       }
       delay(30);
+      debugPrintln("Writing KW2 Reversed");
       K_Serial.write(~resultBuffer[2]);  //0xF7
       REQUEST_DELAY = 50;
       readData();
@@ -74,6 +75,8 @@ bool init_OBD2() {
 
       if (resultBuffer[1]) {
         return true;
+      }else{
+        debugPrintln("No Data Retrieved from Car");
       }
     }
   }
@@ -146,6 +149,7 @@ void writeData(const byte data[], int length, const byte pid) {
 }
 
 void writeDataFreezeFrame(const byte data[], int length, const byte pid) {
+  debugPrintln("Writing Data for FeezeFrame");
   byte extendedData[length + 3];
   memcpy(extendedData, data, length);
   extendedData[length] = pid;
@@ -160,12 +164,13 @@ void writeDataFreezeFrame(const byte data[], int length, const byte pid) {
 }
 
 void readData() {
+  debugPrintln("Reading...");
   delay(REQUEST_DELAY);
   int result = K_Serial.available();
   if (result > 0) {
     memset(resultBuffer, 0, sizeof(resultBuffer));
-    debugPrint("Received Data: ");
     int bytesRead = min(result, int(sizeof(resultBuffer)));
+    debugPrint("Received Data: ");
     for (int i = 0; i < bytesRead; i++) {
       resultBuffer[i] = K_Serial.read();
       debugPrintHex(resultBuffer[i]);
@@ -173,6 +178,8 @@ void readData() {
       delay(READ_DELAY);
     }
     debugPrintln();
+  } else {
+    debugPrintln("Nothing Received !");
   }
 }
 
