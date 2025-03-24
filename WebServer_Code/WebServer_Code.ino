@@ -18,12 +18,12 @@ AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
 #ifdef ESP32
-#define K_line_RX 20
-#define K_line_TX 21
-#define Led 8
-#define Buzzer 1
-#define voltagePin 0
 #define K_Serial Serial1
+#define K_line_RX 11
+#define K_line_TX 10
+#define Led 7
+#define Buzzer 9
+#define voltagePin 8
 #define DEBUG_Serial
 #elif defined(ESP8266)
 #define K_Serial Serial
