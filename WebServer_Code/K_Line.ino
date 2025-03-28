@@ -160,6 +160,8 @@ void writeData(const byte mode, const byte pid) {
     K_Serial.write(message[i]);
     delay(WRITE_DELAY);
   }
+
+  clearEcho();
 }
 
 bool readData() {
@@ -208,6 +210,20 @@ bool readData() {
     }
   }
   return false;
+}
+
+void clearEcho() {
+  int result = K_Serial.available();
+  if (result > 0) {
+    debugPrint("Cleared Echo Data: ");
+    for (int i = 0; i < result; i++) {
+      debugPrintHex(K_Serial.read());
+      debugPrint(" ");
+    }
+    debugPrintln();
+  } else {
+    debugPrintln("Not Received Echo Data");
+  }
 }
 
 void getPID(const byte pid) {
