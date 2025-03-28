@@ -134,32 +134,31 @@ void send5baud(uint8_t data) {
   debugPrintln();
 }
 
-void writeData(const byte data[], int length, const byte pid) {
+void writeData(const byte mode, const byte pid) {
   debugPrintln("Writing Data");
-  byte extendedData[length + 2];
-  memcpy(extendedData, data, length);
-  extendedData[length] = pid;
-  byte checksum = calculateChecksum(extendedData, length + 1);
-  extendedData[length + 1] = checksum;
+  byte message[7] = { 0 };
+  size_t length = (mode == read_FreezeFrame) ? 7 : (mode == init_OBD || mode == read_DTCs || mode == clear_DTCs) ? 5
+                                                                                                                 : 6;
 
-  for (int i = 0; i < length + 2; i++) {
-    K_Serial.write(extendedData[i]);
-    delay(READ_DELAY);
+  if (protocol == "ISO9141") {
+    message[0] = (mode == read_FreezeFrame) ? 0x69 : 0x68;
+    message[1] = 0x6A;
+  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+    message[0] = (mode == read_FreezeFrame) ? 0xC3 : (mode == init_OBD || mode == read_DTCs || mode == clear_DTCs) ? 0xC1
+                                                                                                                   : 0xC2;
+    message[1] = 0x33;
   }
-}
 
-void writeDataFreezeFrame(const byte data[], int length, const byte pid) {
-  debugPrintln("Writing Data for FeezeFrame");
-  byte extendedData[length + 3];
-  memcpy(extendedData, data, length);
-  extendedData[length] = pid;
-  extendedData[length + 1] = 0x00;
-  byte checksum = calculateChecksum(extendedData, length + 2);
-  extendedData[length + 2] = checksum;
+  message[2] = 0xF1;
+  message[3] = mode;
+  if (length > 5) message[4] = pid;
+  if (length == 7) message[5] = 0x00;
 
-  for (int i = 0; i < length + 3; i++) {
-    K_Serial.write(extendedData[i]);
-    delay(READ_DELAY);
+  message[length - 1] = calculateChecksum(message, length - 1);
+
+  for (size_t i = 0; i < length; i++) {
+    K_Serial.write(message[i]);
+    delay(WRITE_DELAY);
   }
 }
 
