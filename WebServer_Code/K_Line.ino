@@ -163,24 +163,52 @@ void writeDataFreezeFrame(const byte data[], int length, const byte pid) {
   }
 }
 
-void readData() {
+bool readData() {
   debugPrintln("Reading...");
-  delay(REQUEST_DELAY);
-  int result = K_Serial.available();
-  if (result > 0) {
-    memset(resultBuffer, 0, sizeof(resultBuffer));
-    int bytesRead = min(result, int(sizeof(resultBuffer)));
-    debugPrint("Received Data: ");
-    for (int i = 0; i < bytesRead; i++) {
-      resultBuffer[i] = K_Serial.read();
-      debugPrintHex(resultBuffer[i]);
-      debugPrint(" ");
-      delay(READ_DELAY);
+  unsigned long startMillis = millis();  // Start time for waiting the first byte
+  int bytesRead = 0;
+
+  // Wait up to 1 second for the first byte
+  while (millis() - startMillis < 1000) {
+    if (K_Serial.available() > 0) {           // If the first byte is received
+      unsigned long lastByteTime = millis();  // Get the last received byte time
+      memset(resultBuffer, 0, sizeof(resultBuffer));
+      errors = 0;
+
+      // Inner loop: Read all data
+      debugPrint("Received Data: ");
+      while (millis() - lastByteTime < DATA_REQUEST_INTERVAL) {  // Wait up to 60ms for new data
+        if (K_Serial.available() > 0) {                          // If new data is available, read it
+          resultBuffer[bytesRead] = K_Serial.read();
+          debugPrintHex(resultBuffer[bytesRead]);
+          debugPrint(" ");
+          bytesRead++;
+          lastByteTime = millis();  // Reset timer
+
+          // If buffer is full, stop reading and print message
+          if (bytesRead >= sizeof(resultBuffer)) {
+            debugPrintln("\nBuffer is full. Stopping data reception.");
+            return true;
+          }
+        }
+      }
+
+      // If no new data is received within 60ms, exit the loop
+      debugPrintln("\nData reception completed.");
+      return true;
     }
-    debugPrintln();
-  } else {
-    debugPrintln("Nothing Received !");
   }
+
+  // If no data is received within 1 seconds
+  debugPrintln("Timeout: Not Received Data.");
+  errors++;
+  if (errors > 2) {
+    errors = 0;
+    if (KLineStatus) {
+      KLineStatus = false;
+    }
+  }
+  return false;
 }
 
 void getPID(const byte pid) {
