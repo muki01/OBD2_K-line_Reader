@@ -406,26 +406,23 @@ void get_DTCs() {
   int dtcs = 0;
   char dtcBytes[2];
 
-  if (protocol == "ISO9141") {
-    writeData(start_Bytes_SLOW, sizeof(start_Bytes_SLOW), read_DTCs);
-  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    writeData(start_Bytes, sizeof(start_Bytes), read_DTCs);
-  }
-  readData();
+  writeData(read_DTCs, 0x00);
 
-  int length = sizeof(resultBuffer) - 10;
-  for (int i = 0; i < length; i++) {
-    dtcBytes[0] = resultBuffer[9 + i * 2];
-    dtcBytes[1] = resultBuffer[9 + i * 2 + 1];
-    delay(READ_DELAY);
+  if (readData()) {
+    int length = sizeof(resultBuffer);
+    for (int i = 0; i < length; i++) {
+      dtcBytes[0] = resultBuffer[4 + i * 2];
+      dtcBytes[1] = resultBuffer[4 + i * 2 + 1];
 
-    if (dtcBytes[0] == 0 && dtcBytes[1] == 0) {
-      break;
-    } else {
-      String ErrorCode = decodeDTC(dtcBytes[0], dtcBytes[1]);
-      dtcBuffer[dtcs++] = ErrorCode;
+      if (dtcBytes[0] == 0 && dtcBytes[1] == 0) {
+        break;
+      } else {
+        String ErrorCode = decodeDTC(dtcBytes[0], dtcBytes[1]);
+        dtcBuffer[dtcs++] = ErrorCode;
+      }
     }
   }
+
   sendDataToServer();
 }
 
