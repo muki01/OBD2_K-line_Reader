@@ -484,30 +484,22 @@ void getCalibrationID() {
   int ID_messageCount;
   int arrayNum = 0;
 
-  if (protocol == "ISO9141") {
-    writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID_Length);
-  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    writeData(vehicle_info, sizeof(vehicle_info), read_ID_Length);
-  }
-  delay(200);
-  readData();
-  ID_messageCount = resultBuffer[11];
+  writeData(read_VehicleInfo, read_ID_Length);
 
-  if (protocol == "ISO9141") {
-    writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_ID);
-  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    writeData(vehicle_info, sizeof(vehicle_info), read_ID);
-  }
-  delay(200);
-  readData();
+  if (readData()) {
+    ID_messageCount = resultBuffer[5];
 
-  if (resultBuffer[11] == 0x01) {
-    for (int j = 0; j < ID_messageCount; j++) {
-      for (int i = 1; i <= 4; i++) {
-        ID_Array[arrayNum++] = resultBuffer[i + 11 + j * 11];
+    writeData(read_VehicleInfo, read_ID);
+
+    if (readData()) {
+      for (int j = 0; j < ID_messageCount; j++) {
+        for (int i = 1; i <= 4; i++) {
+          ID_Array[arrayNum++] = resultBuffer[i + 5 + j * 11];
+        }
       }
     }
   }
+
   Vehicle_ID = convertHexToAscii(ID_Array, arrayNum);
 }
 
