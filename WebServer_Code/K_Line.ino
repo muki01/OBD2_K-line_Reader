@@ -454,24 +454,18 @@ void getVIN() {
   //                   87 F1 11 49 02 02 41 31 4A 43 D5
   //                   87 F1 11 49 02 03 35 34 34 34 A8
   //                   87 F1 11 49 02 04 52 37 32 35 C8
+  //                   87 F1 11 49 02 05 32 33 36 37 E6
 
   byte VIN_Array[17];
   int arrayNum = 0;
 
-  if (protocol == "ISO9141") {
-    writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), read_VIN);
-  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    writeData(vehicle_info, sizeof(vehicle_info), read_VIN);
-  }
+  writeData(read_VehicleInfo, read_VIN);
 
-  delay(200);
-  readData();
-
-  if (resultBuffer[11] == 0x01) {
-    VIN_Array[arrayNum++] = resultBuffer[15];
+  if (readData()) {
+    VIN_Array[arrayNum++] = resultBuffer[9];
     for (int j = 0; j < 4; j++) {
       for (int i = 1; i <= 4; i++) {
-        VIN_Array[arrayNum++] = resultBuffer[i + 22 + j * 11];
+        VIN_Array[arrayNum++] = resultBuffer[i + 16 + j * 11];
       }
     }
   }
