@@ -441,11 +441,7 @@ String decodeDTC(char input_byte1, char input_byte2) {
 }
 
 void clear_DTC() {
-  if (protocol == "ISO9141") {
-    writeData(start_Bytes_SLOW, sizeof(start_Bytes_SLOW), clear_DTCs);
-  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    writeData(start_Bytes, sizeof(start_Bytes), clear_DTCs);
-  }
+  writeData(clear_DTCs, 0x00);
 }
 
 void getVIN() {
