@@ -596,20 +596,17 @@ void getSupportedPIDs(const byte option) {
     }
   }
   if (option == 0x09) {
-    if (protocol == "ISO9141") {
-      writeData(vehicle_info_SLOW, sizeof(vehicle_info_SLOW), 0x00);
-    } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-      writeData(vehicle_info, sizeof(vehicle_info), 0x00);
-    }
-    readData();
+    writeData(read_VehicleInfo, supported_VehicleInfo);
 
-    for (int i = 12; i < 16; i++) {
-      byte value = resultBuffer[i];
-      for (int bit = 7; bit >= 0; bit--) {
-        if ((value >> bit) & 1) {
-          supportedVehicleInfo[supportedCount++] = pidIndex + 1;
+    if (readData()) {
+      for (int i = 6; i < 10; i++) {
+        byte value = resultBuffer[i];
+        for (int bit = 7; bit >= 0; bit--) {
+          if ((value >> bit) & 1) {
+            supportedVehicleInfo[supportedCount++] = pidIndex + 1;
+          }
+          pidIndex++;
         }
-        pidIndex++;
       }
     }
   }
