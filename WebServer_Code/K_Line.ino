@@ -581,20 +581,17 @@ void getSupportedPIDs(const byte option) {
     memcpy(desiredLiveData, supportedLiveData, sizeof(supportedLiveData));
   }
   if (option == 0x02) {
-    if (protocol == "ISO9141") {
-      writeDataFreezeFrame(freeze_frame_SLOW, sizeof(freeze_frame_SLOW), 0x00);
-    } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-      writeDataFreezeFrame(freeze_frame, sizeof(freeze_frame), 0x00);
-    }
-    readData();
+    writeData(read_FreezeFrame, SUPPORTED_PIDS_1_20);
 
-    for (int i = 13; i < 17; i++) {
-      byte value = resultBuffer[i];
-      for (int bit = 7; bit >= 0; bit--) {
-        if ((value >> bit) & 1) {
-          supportedFreezeFrame[supportedCount++] = pidIndex + 1;
+    if (readData()) {
+      for (int i = 6; i < 10; i++) {
+        byte value = resultBuffer[i];
+        for (int bit = 7; bit >= 0; bit--) {
+          if ((value >> bit) & 1) {
+            supportedFreezeFrame[supportedCount++] = pidIndex + 1;
+          }
+          pidIndex++;
         }
-        pidIndex++;
       }
     }
   }
