@@ -47,7 +47,6 @@ bool init_OBD2() {
 
   if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
     debugPrintln("Trying ISO9141 or ISO14230_Slow");
-    REQUEST_DELAY = 500;
     K_Serial.end();
     digitalWrite(K_line_TX, HIGH), delay(3000);
     send5baud(0x33);
@@ -57,33 +56,31 @@ bool init_OBD2() {
 #elif defined(ESP8266)
     K_Serial.begin(10400, SERIAL_8N1);
 #endif
-    readData();
-    if (resultBuffer[0] == 0x55) {
-      if (resultBuffer[1] == resultBuffer[2]) {
-        debugPrintln("Your Protocol is ISO9141");
-        protocol = "ISO9141";
-      } else {
-        debugPrintln("Your Protocol is ISO14230_Slow");
-        protocol = "ISO14230_Slow";
-      }
-      delay(30);
-      debugPrintln("Writing KW2 Reversed");
-      K_Serial.write(~resultBuffer[2]);  //0xF7
-      REQUEST_DELAY = 50;
-      readData();
-      REQUEST_DELAY = 500;
+    if (readData()) {
+      if (resultBuffer[0] == 0x55) {
+        if (resultBuffer[1] == resultBuffer[2]) {
+          debugPrintln("Your Protocol is ISO9141");
+          protocol = "ISO9141";
+        } else {
+          debugPrintln("Your Protocol is ISO14230_Slow");
+          protocol = "ISO14230_Slow";
+        }
+        debugPrintln("Writing KW2 Reversed");
+        K_Serial.write(~resultBuffer[2]);  //0xF7
 
-      if (resultBuffer[1]) {
-        return true;
-      }else{
-        debugPrintln("No Data Retrieved from Car");
+        if (readData()) {
+          if (resultBuffer[0]) {
+            return true;
+          } else {
+            debugPrintln("No Data Retrieved from Car");
+          }
+        }
       }
     }
   }
 
   if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
     debugPrintln("Trying ISO14230_Fast");
-    REQUEST_DELAY = 50;
     K_Serial.end();
     digitalWrite(K_line_TX, HIGH), delay(3000);
     digitalWrite(K_line_TX, LOW), delay(25);
@@ -94,12 +91,13 @@ bool init_OBD2() {
 #elif defined(ESP8266)
     K_Serial.begin(10400, SERIAL_8N1);
 #endif
-    writeData(start_Bytes, sizeof(start_Bytes), init_OBD);
-    readData();
-    if (resultBuffer[8] == 0xC1) {
-      debugPrintln("Your Protocol is ISO14230_Fast");
-      protocol = "ISO14230_Fast";
-      return true;
+    writeData(init_OBD, 0x00);
+    if (readData()) {
+      if (resultBuffer[3] == 0xC1) {
+        debugPrintln("Your Protocol is ISO14230_Fast");
+        protocol = "ISO14230_Fast";
+        return true;
+      }
     }
   }
 
