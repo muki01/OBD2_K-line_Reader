@@ -531,32 +531,11 @@ void getSupportedPIDs(const byte option) {
   int supportedCount = 0;
 
   if (option == 0x01) {
-    if (protocol == "ISO9141") {
-      writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_1_20);
-    } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-      writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_1_20);
-    }
-    readData();
+    writeData(read_LiveData, SUPPORTED_PIDS_1_20);
 
-    for (int i = 11; i < 15; i++) {
-      byte value = resultBuffer[i];
-      for (int bit = 7; bit >= 0; bit--) {
-        if ((value >> bit) & 1) {
-          supportedLiveData[supportedCount++] = pidIndex + 1;
-        }
-        pidIndex++;
-      }
-    }
+    if (readData()) {
 
-    if (isInArray(supportedLiveData, sizeof(supportedLiveData), 0x20)) {
-      if (protocol == "ISO9141") {
-        writeData(live_data_SLOW, sizeof(live_data_SLOW), SUPPORTED_PIDS_21_40);
-      } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-        writeData(live_data, sizeof(live_data), SUPPORTED_PIDS_21_40);
-      }
-      readData();
-
-      for (int i = 11; i < 15; i++) {
+      for (int i = 5; i < 9; i++) {
         byte value = resultBuffer[i];
         for (int bit = 7; bit >= 0; bit--) {
           if ((value >> bit) & 1) {
@@ -566,6 +545,39 @@ void getSupportedPIDs(const byte option) {
         }
       }
     }
+
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), 0x20)) {
+      writeData(read_LiveData, SUPPORTED_PIDS_21_40);
+
+      if (readData()) {
+        for (int i = 5; i < 9; i++) {
+          byte value = resultBuffer[i];
+          for (int bit = 7; bit >= 0; bit--) {
+            if ((value >> bit) & 1) {
+              supportedLiveData[supportedCount++] = pidIndex + 1;
+            }
+            pidIndex++;
+          }
+        }
+      }
+    }
+
+    if (isInArray(supportedLiveData, sizeof(supportedLiveData), 0x40)) {
+      writeData(read_LiveData, SUPPORTED_PIDS_41_60);
+
+      if (readData()) {
+        for (int i = 5; i < 9; i++) {
+          byte value = resultBuffer[i];
+          for (int bit = 7; bit >= 0; bit--) {
+            if ((value >> bit) & 1) {
+              supportedLiveData[supportedCount++] = pidIndex + 1;
+            }
+            pidIndex++;
+          }
+        }
+      }
+    }
+
     memcpy(desiredLiveData, supportedLiveData, sizeof(supportedLiveData));
   }
   if (option == 0x02) {
