@@ -44,11 +44,11 @@ AsyncWebSocket ws("/ws");
 #define debugPrintHex(x) ((void)0)
 #endif
 
-#define READ_DELAY 5
-int REQUEST_DELAY;
+#define WRITE_DELAY 5             // Delay between each byte of the transmitted data (5ms - 20ms)
+#define DATA_REQUEST_INTERVAL 60  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
 
 String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol, connectedProtocol = "";
-int page = -1;
+int page = -1, errors = 0;
 
 int oxygenSensor1Voltage = 0, shortTermFuelTrim1 = 0, oxygenSensor2Voltage = 0, shortTermFuelTrim2 = 0;
 int oxygenSensor3Voltage = 0, shortTermFuelTrim3 = 0, oxygenSensor4Voltage = 0, shortTermFuelTrim4 = 0;
@@ -60,7 +60,7 @@ String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
 bool KLineStatus = false;
 
-static unsigned long lastReqestTime = 5000, lastWsTime = 100, lastDTCTime = 1000;
+static unsigned long lastWsTime = 100, lastDTCTime = 1000;
 
 void setup() {
 #ifdef DEBUG_Serial
