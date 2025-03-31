@@ -79,6 +79,13 @@ String joinStringsWithComma(String arr[], int length) {
 }
 
 
+void begin_K_Serial() {
+#ifdef ESP32
+  K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#elif defined(ESP8266)
+  K_Serial.begin(10400, SERIAL_8N1);
+#endif
+}
 
 
 
