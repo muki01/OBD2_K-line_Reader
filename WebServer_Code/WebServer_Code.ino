@@ -101,9 +101,6 @@ void loop() {
       connectedProtocol = protocol;
       digitalWrite(Led, LOW);
       connectMelody();
-      getVIN();
-      getCalibrationID();
-      getCalibrationIDNum();
       getSupportedPIDs(0x01);
       getSupportedPIDs(0x02);
       getSupportedPIDs(0x09);
