@@ -19,8 +19,8 @@ AsyncWebSocket ws("/ws");
 
 #ifdef ESP32
 #define K_Serial Serial1
-#define K_line_RX 11
-#define K_line_TX 10
+#define K_line_RX 10
+#define K_line_TX 11
 #define Led 7
 #define Buzzer 9
 #define voltagePin 8
