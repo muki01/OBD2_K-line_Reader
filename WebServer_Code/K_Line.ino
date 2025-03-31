@@ -1,4 +1,4 @@
-byte resultBuffer[70];
+byte resultBuffer[64];
 String dtcBuffer[32];
 byte supportedLiveData[32];
 byte desiredLiveData[32];
@@ -6,39 +6,68 @@ byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
 
 void read_K() {
-  if (page == 1 || page == -1) {
+  //Check DTCs in page -1, 0, 2, 3, 5, 6
+  if (page == -1 || page == 0 || page == 2 || page == 3 || page == 5 || page == 6) {
+    if (page != -1) {
+      if (millis() - lastDTCTime >= 1000) {
+        get_DTCs();
+        lastDTCTime = millis();
+      }
+    } else {
+      get_DTCs();
+    }
+  }
+
+  //Get Desired LiveData in page -1 and 1
+  if (page == -1 || page == 1) {
     for (const auto& mapping : liveDataMappings) {
+      if (KLineStatus == false) {
+        return;
+      }
       if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
         getPID(mapping.pid);
       }
     }
-    if (page == -1) {
-      get_DTCs();
+  }
+  //Get DISTANCE_TRAVELED_WITH_MIL_ON in page 2 if is in supportedLiveData and DTCs detected
+  else if (page == 2) {
+    if (dtcBuffer[0] != "") {
+      if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
+        getPID(DISTANCE_TRAVELED_WITH_MIL_ON);
+      }
     }
-  } else if (page == 0 || page == 2 || page == 5 || page == 6) {
-    if (millis() - lastDTCTime >= 1000) {
-      get_DTCs();
-      if (page == 2) {
-        if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
-          getPID(DISTANCE_TRAVELED_WITH_MIL_ON);
+  }
+  //Get All FreezeFrame values in page 3 if detected DTCs
+  else if (page == 3) {
+    if (dtcBuffer[0] != "") {
+      for (const auto& mapping : freezeFrameMappings) {
+        if (KLineStatus == false) {
+          return;
+        }
+        if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
+          getFreezeFrame(mapping.pid);
         }
       }
-      lastDTCTime = millis();
     }
-  } else if (page == 3) {
-    get_DTCs();
-    for (const auto& mapping : freezeFrameMappings) {
-      if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
-        getPID(mapping.pid);
-      }
-    }
-  } else if (page == 4) {
+  }
+  //Get Speed data in page 4
+  else if (page == 4) {
     if (isInArray(supportedLiveData, sizeof(supportedLiveData), VEHICLE_SPEED)) {
       getPID(VEHICLE_SPEED);
     }
   }
-
-  K_Serial.flush();
+  //Get VIN, ID, ID_Num data in page 5
+  else if (page == 5) {
+    if (isInArray(supportedVehicleInfo, sizeof(supportedVehicleInfo), read_VIN)) {
+      getVIN();
+    }
+    if (isInArray(supportedVehicleInfo, sizeof(supportedVehicleInfo), read_ID)) {
+      getCalibrationID();
+    }
+    if (isInArray(supportedVehicleInfo, sizeof(supportedVehicleInfo), read_ID_Num)) {
+      getCalibrationIDNum();
+    }
+  }
 }
 
 bool init_OBD2() {
