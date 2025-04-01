@@ -5,6 +5,10 @@ const klStatus = document.getElementById("kl");
 const timeRef = document.getElementById("timerDisplay");
 const startBtn = document.getElementById("start-timer");
 const resetBtn = document.getElementById("reset-timer");
+const statusBox = document.getElementById("statusBox");
+const status = document.getElementById("status");
+const speedBox = document.getElementById("speedBox");
+const speed = document.getElementById("Speed");
 
 let [milliseconds, seconds, minutes] = [0, 0, 0];
 let interval = null;
@@ -64,16 +68,25 @@ function displayTimer() {
 function handleWebSocketMessage(wsMessage) {
     if (wsMessage) {
         wsStatus.style.fill = "#00ff00";
-        document.getElementById("Speed").innerHTML = wsMessage.Speed;
 
-        if (counterEnabled == true && wsMessage.Speed > 0) {
-            counterEnabled = false;
-            startTimer();
-            sendData("beep");
-        } else if (stoperEnabled == false && wsMessage.Speed >= 100) {
-            stoperEnabled = true;
-            pauseTimer();
-            sendData("beep");
+        if (wsMessage.KLineStatus != false) {
+            statusBox.style.display = "none";
+            speedBox.style.display = "block";
+            speed.innerHTML = wsMessage.Speed;
+
+            if (counterEnabled == true && wsMessage.Speed > 0) {
+                counterEnabled = false;
+                startTimer();
+                sendData("beep");
+            } else if (stoperEnabled == false && wsMessage.Speed >= 100) {
+                stoperEnabled = true;
+                pauseTimer();
+                sendData("beep");
+            }
+        }else{
+            statusBox.style.display = "block";
+            status.innerHTML = "Not Connected to the Vehicle.";
+            speedBox.style.display = "none";
         }
 
         klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";

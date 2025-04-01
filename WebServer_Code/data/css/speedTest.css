@@ -140,6 +140,18 @@ main .data .name {
     border-radius: 0 0 10px 10px;
 }
 
+main #statusBox{
+    display: block;
+}
+
+main #statusBox h1{
+    color: #00a0eb;
+}
+
+main #speedBox{
+    display: none;
+}
+
 main .timerArea {
     margin-top: 20px;
     border-radius: 10px;
