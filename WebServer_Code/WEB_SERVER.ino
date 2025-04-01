@@ -155,7 +155,7 @@ void initWebServer() {
     }
     request->send(200, "text/plain", "Successfully received pids");
   });
-
+#ifdef ESP32
   server.on(
     "/firmwareUpdate", HTTP_POST, [](AsyncWebServerRequest *request) {
       request->send(400, "text/plain", "No files uploaded.");
@@ -223,6 +223,7 @@ void initWebServer() {
         }
       }
     });
+#endif
 
   server.onNotFound([](AsyncWebServerRequest *request) {
     request->send_P(404, "text/plain", "404 Not found");

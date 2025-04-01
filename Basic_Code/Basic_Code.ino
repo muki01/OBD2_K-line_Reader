@@ -14,8 +14,8 @@ AltSoftSerial Alt_Serial;
 #define Led 13
 #endif
 
-#define READ_DELAY 5
-int REQUEST_DELAY;
+#define WRITE_DELAY 5             // Delay between each byte of the transmitted data (5ms - 20ms)
+#define DATA_REQUEST_INTERVAL 60  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
 
 String protocol = "Automatic";
 // String protocol = "ISO9141";
@@ -37,6 +37,7 @@ int freeze_SPEED = 0, freeze_RPM = 0, freeze_COOLANT_TEMP = 0, freeze_ENGINELOAD
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
 bool KLineStatus = false;
+int errors = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -44,11 +45,10 @@ void setup() {
   pinMode(K_line_TX, OUTPUT);
   pinMode(Led, OUTPUT);
 
-#ifdef ESP32
-  K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
-#elif defined(ARDUINO)
-  K_Serial.begin(10400);
-#endif
+  Serial.print("Selected Protocol: ");
+  Serial.println(protocol);
+
+  begin_K_Serial();
 }
 
 void loop() {
@@ -57,9 +57,9 @@ void loop() {
     bool init_success = init_OBD2();
 
     if (init_success) {
+      Serial.println("Init Success !!");
       KLineStatus = true;
       digitalWrite(Led, HIGH);
-      Serial.println("Init Success !!");
     }
   } else {
     read_K();

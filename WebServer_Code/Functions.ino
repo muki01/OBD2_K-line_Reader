@@ -46,39 +46,15 @@ String convertBytesToHexString(byte* buffer, int length) {
   return hexString;
 }
 
-String convertBytesToHexStringWithComma(byte arr[], int length) {
-  String hexString = "";
-  for (int i = 0; i < length; i++) {
-    if (arr[i] == 0) {
-      break;
-    }
-    if (i > 0) {
-      hexString += ", ";
-    }
-    if (arr[i] < 0x10) {
-      hexString += "0";
-    }
-    hexString += String(arr[i], HEX);
-  }
-  hexString.toUpperCase();
-  return hexString;
+
+
+void begin_K_Serial() {
+#ifdef ESP32
+  K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#elif defined(ESP8266)
+  K_Serial.begin(10400, SERIAL_8N1);
+#endif
 }
-
-String joinStringsWithComma(String arr[], int length) {
-  String result = "";
-  for (int i = 0; i < length; i++) {
-    if (arr[i] == 0) {
-      break;
-    }
-    if (i > 0) {
-      result += ", ";
-    }
-    result += arr[i];
-  }
-  return result;
-}
-
-
 
 
 

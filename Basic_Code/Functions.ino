@@ -6,9 +6,9 @@ byte calculateChecksum(const byte data[], int length) {
   return checksum % 256;
 }
 
-bool isInArray(String array[], int arrayLength, String searchString) {
-  for (int i = 0; i < arrayLength; i++) {
-    if (array[i] == searchString) {
+bool isInArray(byte arr[], int size, byte value) {
+  for (int i = 0; i < size; i++) {
+    if (arr[i] == value) {
       return true;
     }
   }
@@ -48,6 +48,13 @@ String convertBytesToHexString(byte* buffer, int length) {
 
 
 
+void begin_K_Serial() {
+#ifdef ESP32
+  K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#elif defined(ARDUINO)
+  K_Serial.begin(10400);
+#endif
+}
 
 void BlinkLed(int time, int count) {
   for (int i = 1; i <= count; i++) {

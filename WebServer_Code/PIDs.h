@@ -2,30 +2,25 @@
 // PIDs (https://en.wikipedia.org/wiki/OBD-II_PIDs)
 //-------------------------------------------------------------------------------------//
 
-const byte start_Bytes[3] = { 0xC1, 0x33, 0xF1 };
-const byte start_Bytes_SLOW[3] = { 0x68, 0x6A, 0xF1 };
+const byte init_OBD = 0x81;     // Init ISO14230
 
-const byte live_data[4] = { 0xC2, 0x33, 0xF1, 0x01 };           //Live Data Start Bytes
-const byte live_data_SLOW[4] = { 0x68, 0x6A, 0xF1, 0x01 };      //Live Data Start Bytes
+// Modes
+const byte read_LiveData= 0x01;       // Read Troubleshoot Codes
+const byte read_FreezeFrame = 0x02;   // Read Troubleshoot Codes
+const byte read_DTCs = 0x03;          // Read Troubleshoot Codes
+const byte clear_DTCs = 0x04;         // Clear Troubleshoot Codes
+const byte read_VehicleInfo = 0x09;   // Clear Troubleshoot Codes
 
-const byte freeze_frame[4] = { 0xC3, 0x33, 0xF1, 0x02 };        //Freeze Frame Start Bytes
-const byte freeze_frame_SLOW[4] = { 0x69, 0x6A, 0xF1, 0x02 };   //Freeze Frame Start Bytes
+// PIDs for Vehicle Info
+const byte supported_VehicleInfo = 0x00;  // Read Supported Vehicle Info
+const byte read_VIN_Count = 0x01;         // Read VIN Count
+const byte read_VIN = 0x02;               // Read VIN
+const byte read_ID_Length = 0x03;         // Read Calibration ID Length
+const byte read_ID = 0x04;                // Read Calibration ID
+const byte read_ID_Num_Length = 0x05;     // Read Calibration ID Number Length
+const byte read_ID_Num = 0x06;            // Read Calibration ID Number
 
-const byte vehicle_info[4] = { 0xC2, 0x33, 0xF1, 0x09 };        //Live Data Start Bytes
-const byte vehicle_info_SLOW[4] = { 0x68, 0x6A, 0xF1, 0x09 };   //Live Data Start Bytes
-
-const byte init_OBD = 0x81;    // Init fast ISO14230
-const byte read_DTCs = 0x03;   // Read Troubleshoot Codes
-const byte clear_DTCs = 0x04;  // Clear Troubleshoot Codes
-
-const byte read_VIN = 0x02;             // Read VIN
-const byte read_ID_Length = 0x03;       // Read Calibration ID Length
-const byte read_ID = 0x04;              // Read Calibration ID
-const byte read_ID_Num_Length = 0x05;   // Read Calibration ID Number Length
-const byte read_ID_Num = 0x06;          // Read Calibration ID Number
-
-
-
+// PIDs for Live Data and Freeze Frame
 const byte SUPPORTED_PIDS_1_20              = 0x00;  // bit encoded
 const byte MONITOR_STATUS_SINCE_DTC_CLEARED = 0x01;  // bit encoded          suported
 const byte FREEZE_DTC                       = 0x02;  //                      suported
