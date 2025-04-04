@@ -46,6 +46,37 @@ String convertBytesToHexString(byte* buffer, int length) {
   return hexString;
 }
 
+String convertBytesToHexStringWithComma(byte arr[], int length) {
+  String hexString = "";
+  for (int i = 0; i < length; i++) {
+    if (arr[i] == 0) {
+      break;
+    }
+    if (i > 0) {
+      hexString += ", ";
+    }
+    if (arr[i] < 0x10) {
+      hexString += "0";
+    }
+    hexString += String(arr[i], HEX);
+  }
+  hexString.toUpperCase();
+  return hexString;
+}
+
+String joinStringsWithComma(String arr[], int length) {
+  String result = "";
+  for (int i = 0; i < length; i++) {
+    if (arr[i] == 0) {
+      break;
+    }
+    if (i > 0) {
+      result += ", ";
+    }
+    result += arr[i];
+  }
+  return result;
+}
 
 
 void begin_K_Serial() {
