@@ -123,24 +123,24 @@ main .box {
     text-align: center;
 }
 
-main .data {
+main .dataBox {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px 20px;
 }
 
-main .data h1 {
+main .dataBox h1 {
     margin: 14px 0;
     font-size: 26px;
     color: #fff;
 }
 
-main .data h1 span {
+main .dataBox h1 span {
     font-size: 26px;
     color: #00a0eb;
 }
 
-main .data .name {
+main .dataBox .name {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -153,7 +153,7 @@ main .data .name {
 
 
 @media screen and (max-width: 1000px) {
-    main .data {
+    main .dataBox {
         grid-template-columns: repeat(3, 1fr);
     }
 }
@@ -166,7 +166,7 @@ main .data .name {
         height: 24px;
     }
 
-    main .data {
+    main .dataBox {
         grid-template-columns: repeat(2, 1fr);
         column-gap: 10px;
     }
