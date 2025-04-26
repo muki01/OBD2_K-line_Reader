@@ -91,7 +91,7 @@ header .connectionArea {
 }
 
 header #ws,
-header #kl {
+header #vehicleStatus {
     width: 30px;
     height: 30px;
     fill: red;
@@ -188,7 +188,7 @@ main .dtcBox h1 {
 @media screen and (max-width: 700px) {
 
     header #ws,
-    header #kl {
+    header #vehicleStatus {
         width: 24px;
         height: 24px;
     }

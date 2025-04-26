@@ -21,7 +21,7 @@ void read_K() {
   //Get Desired LiveData in page -1 and 1
   if (page == -1 || page == 1) {
     for (const auto& mapping : liveDataMappings) {
-      if (KLineStatus == false) {
+      if (conectionStatus == false) {
         return;
       }
       if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
@@ -41,7 +41,7 @@ void read_K() {
   else if (page == 3) {
     if (dtcBuffer[0] != "") {
       for (const auto& mapping : freezeFrameMappings) {
-        if (KLineStatus == false) {
+        if (conectionStatus == false) {
           return;
         }
         if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
@@ -224,8 +224,8 @@ bool readData() {
   errors++;
   if (errors > 2) {
     errors = 0;
-    if (KLineStatus) {
-      KLineStatus = false;
+    if (conectionStatus) {
+      conectionStatus = false;
     }
   }
   return false;

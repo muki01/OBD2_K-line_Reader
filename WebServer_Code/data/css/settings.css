@@ -91,7 +91,7 @@ header .connectionArea {
 }
 
 header #ws,
-header #kl {
+header #vehicleStatus {
     width: 30px;
     height: 30px;
     fill: red;
@@ -311,7 +311,7 @@ input[type="checkbox"] {
     }
 
     header #ws,
-    header #kl {
+    header #vehicleStatus {
         width: 24px;
         height: 24px;
     }
