@@ -1,14 +1,14 @@
 import { InitWebSocket, setMessageHandler, sendData } from "./webSocket.js";
 
 const wsStatus = document.getElementById("ws");
-const klStatus = document.getElementById("kl");
+const vehicleStatus = document.getElementById("vehicleStatus");
+const statusBox = document.getElementById("statusBox");
+const status = document.getElementById("status");
+const dataBox = document.getElementById("dataBox");
+const Speed = document.getElementById("Speed");
 const timeRef = document.getElementById("timerDisplay");
 const startBtn = document.getElementById("start-timer");
 const resetBtn = document.getElementById("reset-timer");
-const statusBox = document.getElementById("statusBox");
-const status = document.getElementById("status");
-const speedBox = document.getElementById("speedBox");
-const speed = document.getElementById("Speed");
 
 let [milliseconds, seconds, minutes] = [0, 0, 0];
 let interval = null;
@@ -66,32 +66,32 @@ function displayTimer() {
 }
 
 function handleWebSocketMessage(wsMessage) {
-    if (wsMessage) {
-        wsStatus.style.fill = "#00ff00";
-
-        if (wsMessage.KLineStatus != false) {
-            statusBox.style.display = "none";
-            speedBox.style.display = "block";
-            speed.innerHTML = wsMessage.Speed;
-
-            if (counterEnabled == true && wsMessage.Speed > 0) {
-                counterEnabled = false;
-                startTimer();
-                sendData("beep");
-            } else if (stoperEnabled == false && wsMessage.Speed >= 100) {
-                stoperEnabled = true;
-                pauseTimer();
-                sendData("beep");
-            }
-        }else{
-            statusBox.style.display = "block";
-            status.innerHTML = "Not Connected to the Vehicle.";
-            speedBox.style.display = "none";
-        }
-
-        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
-    } else {
+    if (!wsMessage) {
         wsStatus.style.fill = "red";
+        return;
+    }
+
+    wsStatus.style.fill = "#00ff00";
+    vehicleStatus.style.fill = wsMessage.vehicleStatus ? "#00ff00" : "red";
+
+    if (wsMessage.vehicleStatus == true) {
+        statusBox.style.display = "none";
+        dataBox.style.display = "grid";
+        Speed.innerHTML = wsMessage.Speed;
+
+        if (counterEnabled == true && wsMessage.Speed > 0) {
+            counterEnabled = false;
+            startTimer();
+            sendData("beep");
+        } else if (stoperEnabled == false && wsMessage.Speed >= 100) {
+            stoperEnabled = true;
+            pauseTimer();
+            sendData("beep");
+        }
+    } else {
+        statusBox.style.display = "block";
+        status.innerHTML = "Not Connected to the Vehicle.";
+        dataBox.style.display = "none";
     }
 }
 

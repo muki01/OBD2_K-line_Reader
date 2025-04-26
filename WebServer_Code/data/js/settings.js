@@ -28,9 +28,7 @@ staticIpRadio.addEventListener("click", function () {
 dynamicIpRadio.addEventListener("click", function () {
     if (dynamicIpRadio.checked) {
         staticIpMenu.classList.remove("show");
-        setTimeout(function () {
-            staticIpMenu.innerHTML = " ";
-        }, 400);
+        setTimeout(() => staticIpMenu.innerHTML = "", 400);
     }
 });
 
@@ -44,11 +42,7 @@ const overlayParagraph = document.getElementById("overlayParagraph");
 
 function showOverlay(showParagraph) {
     overlay.style.display = 'flex';
-    if (showParagraph) {
-        overlayParagraph.style.display = 'block';
-    } else {
-        overlayParagraph.style.display = 'none';
-    }
+    overlayParagraph.style.display = showParagraph ? 'block' : 'none';
 }
 
 function hideOverlay() {
@@ -114,7 +108,7 @@ selectPID_Form.addEventListener('submit', function (event) {
 
 
 const wsStatus = document.getElementById("ws");
-const klStatus = document.getElementById("kl");
+const vehicleStatus = document.getElementById("vehicleStatus");
 
 const protocol = document.getElementById("protocol");
 const selectedProtocol = document.getElementById("selectedProtocol");
@@ -126,48 +120,64 @@ let dataReceived1 = false;
 let dataReceived2 = false;
 
 function handleWebSocketMessage(wsMessage) {
-    if (wsMessage) {
-        wsStatus.style.fill = "#00ff00";
-        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
-
-        if (!dataReceived1) {
-            selectedProtocol.innerHTML = protocol.value = wsMessage.selectedProtocol;
-            dataReceived1 = true;
-        }
-
-        if (wsMessage.KLineStatus == false) {
-            connectedProtocol.innerHTML = selectPID_Status.innerHTML = "Not Connected to the Vehicle.";
-        } else {
-            if (!dataReceived2) {
-                selectPID_Status.style.display = "none";
-                selectPID_Form.style.display = "block";
-                connectedProtocol.innerHTML = wsMessage.connectedProtocol;
-                const supportedLiveData = wsMessage.SupportedLiveData;
-                const desiredLiveData = wsMessage.DesiredLiveData;
-                for (let key in supportedLiveData) {
-                    if (supportedLiveData.hasOwnProperty(key)) {
-                        const data = supportedLiveData[key];
-                        const isChecked = desiredLiveData.includes(data.pid) ? "checked" : "";
-
-                        const box = document.createElement("div");
-                        box.classList.add("box");
-
-                        box.innerHTML = `
-                            <label for='${key}'>${key}: </label>
-                            <input type='checkbox' name='${key}' value='${data.pid}' ${isChecked}>
-                        `;
-
-                        selectPID_Boxes.appendChild(box);
-                    }
-                }
-                dataReceived2 = true;
-            }
-        }
-    } else {
+    if (!wsMessage) {
         wsStatus.style.fill = "red";
+        return;
+    }
+
+    wsStatus.style.fill = "#00ff00";
+    vehicleStatus.style.fill = wsMessage.vehicleStatus ? "#00ff00" : "red";
+
+    const protocolMap = {
+        "ISO9141": "ISO9141",
+        "ISO14230_Slow": "ISO14230 Slow",
+        "ISO14230_Fast": "ISO14230 Fast",
+        "Automatic": "Automatic"
+    };
+
+    selectedProtocol.innerHTML = protocolMap[wsMessage.selectedProtocol] || "Unknown";
+
+    if (!dataReceived1) {
+        protocol.value = wsMessage.selectedProtocol;
+        dataReceived1 = true;
+    }
+
+    if (!wsMessage.vehicleStatus) {
+        selectPID_Status.style.display = "block";
+        selectPID_Form.style.display = "none";
+        connectedProtocol.innerHTML = selectPID_Status.innerHTML = "Not Connected to the Vehicle.";
+        dataReceived2 = false;
+        return;
+    }
+
+    if (wsMessage.vehicleStatus && !dataReceived2) {
+        selectPID_Boxes.innerHTML = "";
+        selectPID_Status.style.display = "none";
+        selectPID_Form.style.display = "block";
+        connectedProtocol.innerHTML = protocolMap[wsMessage.connectedProtocol];
+
+        const supportedLiveData = wsMessage.SupportedLiveData;
+        const desiredLiveData = wsMessage.DesiredLiveData;
+
+        for (let key in supportedLiveData) {
+            if (!supportedLiveData.hasOwnProperty(key)) continue;
+
+            const data = supportedLiveData[key];
+            const isChecked = desiredLiveData.includes(data.pid) ? "checked" : "";
+
+            const box = document.createElement("div");
+            box.classList.add("box");
+            box.innerHTML = `
+                <label for='${key}'>${key}: </label>
+                <input type='checkbox' name='${key}' value='${data.pid}' ${isChecked}>
+            `;
+
+            selectPID_Boxes.appendChild(box);
+        }
+
+        dataReceived2 = true;
     }
 }
 
 setMessageHandler(handleWebSocketMessage);
 InitWebSocket();
-
