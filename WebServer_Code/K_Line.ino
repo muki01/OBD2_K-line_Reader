@@ -5,7 +5,7 @@ byte desiredLiveData[32];
 byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
 
-void read_K() {
+void obdTask() {
   //Check DTCs in page -1, 0, 2, 3, 5, 6
   if (page == -1 || page == 0 || page == 2 || page == 3 || page == 5 || page == 6) {
     if (page != -1) {

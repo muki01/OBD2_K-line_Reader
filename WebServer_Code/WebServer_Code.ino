@@ -102,7 +102,7 @@ void loop() {
       getSupportedPIDs(0x09);
     }
   } else {
-    read_K();
+    obdTask();
   }
 
   VOLTAGE = (double)analogRead(voltagePin) / 4096.0 * 20.4;
