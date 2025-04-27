@@ -4,8 +4,8 @@ byte supportedLiveData[32];
 byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
 
-void read_K() {
   //Serial.println("Live Data: ");
+void obdTask() {
   getPID(VEHICLE_SPEED);
   Serial.print("Speed: "), Serial.println(vehicleSpeedValue);
   getPID(ENGINE_RPM);
