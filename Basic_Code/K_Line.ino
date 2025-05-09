@@ -81,6 +81,8 @@ bool init_OBD2() {
   if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
     Serial.println("Trying ISO9141 or ISO14230_Slow");
     K_Serial.end();
+    pinMode(K_line_RX, INPUT_PULLUP);
+    pinMode(K_line_TX, OUTPUT);
     digitalWrite(K_line_TX, HIGH), delay(3000);
     send5baud(0x33);
 
@@ -111,6 +113,8 @@ bool init_OBD2() {
   if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
     Serial.println("Trying ISO14230_Fast");
     K_Serial.end();
+    pinMode(K_line_RX, INPUT_PULLUP);
+    pinMode(K_line_TX, OUTPUT);
     digitalWrite(K_line_TX, HIGH), delay(3000);
     digitalWrite(K_line_TX, LOW), delay(25);
     digitalWrite(K_line_TX, HIGH), delay(25);
