@@ -1,51 +1,54 @@
 import { InitWebSocket, setMessageHandler } from "./webSocket.js";
 
 const wsStatus = document.getElementById("ws");
-const klStatus = document.getElementById("kl");
+const vehicleStatus = document.getElementById("vehicleStatus");
 
-const dtcBox = document.getElementById("dtcBox");
-const errors = document.getElementById("errors");
+const statusBox = document.getElementById("statusBox");
+const status = document.getElementById("status");
 const dataBox = document.getElementById("dataBox");
 
 function handleWebSocketMessage(wsMessage) {
-    if (wsMessage) {
-        wsStatus.style.fill = "#00ff00";
+    if (!wsMessage) {
+        wsStatus.style.fill = "red";
+        return;
+    }
 
-        let DTCs = wsMessage.DTCs;
-        if (wsMessage.KLineStatus == false) {
-            errors.innerHTML = "Not Connected to the Vehicle.";
-        } else if (DTCs) {
-            dataBox.innerHTML = "";
-            dtcBox.style.display = "none";
-            dataBox.style.display = "grid";
-            const freezeFrame = wsMessage.FreezeFrame;
+    wsStatus.style.fill = "#00ff00";
+    vehicleStatus.style.fill = wsMessage.vehicleStatus ? "#00ff00" : "red";
 
-            for (let key in freezeFrame) {
-                if (freezeFrame.hasOwnProperty(key)) {
-                    const data = freezeFrame[key];
+    let DTCs = wsMessage.DTCs;
+    if (wsMessage.vehicleStatus == false) {
+        dataBox.innerHTML = "";
+        dataBox.style.display = "none";
+        status.innerHTML = "Not Connected to the Vehicle.";
+        statusBox.style.display = "block";
+    } else if (DTCs) {
+        dataBox.innerHTML = "";
+        statusBox.style.display = "none";
+        dataBox.style.display = "grid";
+        const freezeFrame = wsMessage.FreezeFrame;
 
-                    const box = document.createElement("div");
-                    box.classList.add("box");
+        for (let key in freezeFrame) {
+            if (freezeFrame.hasOwnProperty(key)) {
+                const data = freezeFrame[key];
 
-                    box.innerHTML = `
+                const box = document.createElement("div");
+                box.classList.add("box");
+
+                box.innerHTML = `
                         <h1><span>${data.value}</span> ${data.unit}</h1>
                         <div class="name">
                             <h2>${key}</h2>
                         </div>
                     `;
 
-                    dataBox.appendChild(box);
-                }
+                dataBox.appendChild(box);
             }
-        } else {
-            dtcBox.style.display = "block";
-            dataBox.style.display = "none";
-            errors.innerHTML = "No errors detected.";
         }
-
-        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
     } else {
-        wsStatus.style.fill = "red";
+        dataBox.style.display = "none";
+        status.innerHTML = "No errors detected.";
+        statusBox.style.display = "block";
     }
 }
 

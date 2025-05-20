@@ -91,7 +91,7 @@ header .connectionArea {
 }
 
 header #ws,
-header #kl {
+header #vehicleStatus {
     width: 30px;
     height: 30px;
     fill: red;
@@ -112,24 +112,24 @@ main .box {
     text-align: center;
 }
 
-main .data {
-    display: grid;
+main .dataBox {
+    display: none;
     grid-template-columns: 1fr;
     gap: 10px 40px;
 }
 
-main .data h1 {
+main .dataBox h1 {
     margin: 14px 0;
     font-size: 26px;
     color: #fff;
 }
 
-main .data h1 span {
+main .dataBox h1 span {
     font-size: 64px;
     color: #00a0eb;
 }
 
-main .data .name {
+main .dataBox .name {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -138,18 +138,6 @@ main .data .name {
     color: #fff;
     background-color: #242424;
     border-radius: 0 0 10px 10px;
-}
-
-main #statusBox{
-    display: block;
-}
-
-main #statusBox h1{
-    color: #00a0eb;
-}
-
-main #speedBox{
-    display: none;
 }
 
 main .timerArea {
@@ -220,10 +208,24 @@ main .info p {
     line-height: 22px;
 }
 
+main .statusBox {
+    background-color: #393939;
+    border-radius: 10px;
+    text-align: center;
+    padding: 2px 0;
+    margin-bottom: 10px;
+}
+
+main .statusBox h1 {
+    margin: 14px 0;
+    font-size: 26px;
+    color: #00a0eb;
+}
+
 @media screen and (max-width: 700px) {
 
     header #ws,
-    header #kl {
+    header #vehicleStatus {
         width: 24px;
         height: 24px;
     }

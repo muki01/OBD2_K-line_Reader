@@ -4,6 +4,7 @@ void initSpiffs() {
       BlinkLed(1000, 100);
     }
   }
+  debugPrintln("SPIFFS Init Successfully");
 }
 
 void readSettings() {
@@ -53,7 +54,7 @@ void changeWifiSettings(String ssid, String password, String ipAddress, String s
 void changeCommunicationProtocol(String communicationProtocol) {
   updateSetting("protocol", communicationProtocol);
   protocol = communicationProtocol;
-  if (KLineStatus) {
-    KLineStatus = false;
+  if (conectionStatus) {
+    conectionStatus = false;
   }
 }

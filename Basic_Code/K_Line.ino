@@ -4,8 +4,9 @@ byte supportedLiveData[32];
 byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
 
-void read_K() {
-  //Serial.println("Live Data: ");
+void obdTask() {
+  Serial.println();
+  Serial.println("Live Data: ");
   getPID(VEHICLE_SPEED);
   Serial.print("Speed: "), Serial.println(vehicleSpeedValue);
   getPID(ENGINE_RPM);
@@ -22,48 +23,54 @@ void read_K() {
   Serial.print("Engine Load: "), Serial.println(engineLoadValue);
   getPID(MAF_FLOW_RATE);
   Serial.print("MAF Flow Rate: "), Serial.println(mafAirFlowRate);
+  Serial.println();
 
-  // Serial.println("DTCs: ");
-  // get_DTCs();
-  // for (int i = 0; i < 32; i++) {
-  //   Serial.print(dtcBuffer[i]);
-  //   Serial.print(", ");
-  // }
-  // Serial.println();
+  Serial.println("DTCs: ");
+  get_DTCs();
+  for (int i = 0; i < 32; i++) {
+    Serial.print(dtcBuffer[i]);
+    Serial.print(", ");
+  }
+  Serial.println();
+  Serial.println();
 
-  // Serial.println("Freeze Frame: ");
-  // getFreezeFrame(VEHICLE_SPEED);
-  // Serial.print("Speed: "), Serial.println(freeze_SPEED);
-  // getFreezeFrame(ENGINE_RPM);
-  // Serial.print("Engine RPM: "), Serial.println(freeze_RPM);
-  // getFreezeFrame(ENGINE_COOLANT_TEMP);
-  // Serial.print("Coolant Temp: "), Serial.println(freeze_COOLANT_TEMP);
-  // getFreezeFrame(ENGINE_LOAD);
-  // Serial.print("Engine Load: "), Serial.println(freeze_ENGINELOAD);
+  Serial.println("Freeze Frame: ");
+  getFreezeFrame(VEHICLE_SPEED);
+  Serial.print("Speed: "), Serial.println(freeze_SPEED);
+  getFreezeFrame(ENGINE_RPM);
+  Serial.print("Engine RPM: "), Serial.println(freeze_RPM);
+  getFreezeFrame(ENGINE_COOLANT_TEMP);
+  Serial.print("Coolant Temp: "), Serial.println(freeze_COOLANT_TEMP);
+  getFreezeFrame(ENGINE_LOAD);
+  Serial.print("Engine Load: "), Serial.println(freeze_ENGINELOAD);
+  Serial.println();
 
-  // Serial.println("Suported LiveData: ");
-  // getSupportedPIDs(0x01);
-  // for (int i = 0; i < 32; i++) {
-  //   Serial.print(supportedLiveData[i], HEX);
-  //   Serial.print(", ");
-  // }
-  // Serial.println();
+  Serial.println("Suported LiveData: ");
+  getSupportedPIDs(0x01);
+  for (int i = 0; i < 32; i++) {
+    Serial.print(supportedLiveData[i], HEX);
+    Serial.print(", ");
+  }
+  Serial.println();
+  Serial.println();
 
-  // Serial.println("Suported FreezeFrame: ");
-  // getSupportedPIDs(0x02);
-  // for (int i = 0; i < 32; i++) {
-  //   Serial.print(supportedFreezeFrame[i], HEX);
-  //   Serial.print(", ");
-  // }
-  // Serial.println();
+  Serial.println("Suported FreezeFrame: ");
+  getSupportedPIDs(0x02);
+  for (int i = 0; i < 32; i++) {
+    Serial.print(supportedFreezeFrame[i], HEX);
+    Serial.print(", ");
+  }
+  Serial.println();
+  Serial.println();
 
-  // Serial.println("Suported VehicleInfo: ");
-  // getSupportedPIDs(0x09);
-  // for (int i = 0; i < 32; i++) {
-  //   Serial.print(supportedVehicleInfo[i], HEX);
-  //   Serial.print(", ");
-  // }
-  // Serial.println();
+  Serial.println("Suported VehicleInfo: ");
+  getSupportedPIDs(0x09);
+  for (int i = 0; i < 32; i++) {
+    Serial.print(supportedVehicleInfo[i], HEX);
+    Serial.print(", ");
+  }
+  Serial.println();
+  Serial.println();
 }
 
 
@@ -74,6 +81,8 @@ bool init_OBD2() {
   if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
     Serial.println("Trying ISO9141 or ISO14230_Slow");
     K_Serial.end();
+    pinMode(K_line_RX, INPUT_PULLUP);
+    pinMode(K_line_TX, OUTPUT);
     digitalWrite(K_line_TX, HIGH), delay(3000);
     send5baud(0x33);
 
@@ -104,6 +113,8 @@ bool init_OBD2() {
   if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
     Serial.println("Trying ISO14230_Fast");
     K_Serial.end();
+    pinMode(K_line_RX, INPUT_PULLUP);
+    pinMode(K_line_TX, OUTPUT);
     digitalWrite(K_line_TX, HIGH), delay(3000);
     digitalWrite(K_line_TX, LOW), delay(25);
     digitalWrite(K_line_TX, HIGH), delay(25);

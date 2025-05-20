@@ -1,7 +1,7 @@
 import { InitWebSocket, setMessageHandler, sendData } from "./webSocket.js";
 
 const wsStatus = document.getElementById("ws");
-const klStatus = document.getElementById("kl");
+const vehicleStatus = document.getElementById("vehicleStatus");
 
 const btnArea = document.getElementById("btnArea");
 const clearDTC = document.getElementById("clearDTC");
@@ -14,22 +14,24 @@ const errorsField = document.getElementById("errorCodes");
 const mil = document.getElementById("DistanceTraveledWithMIL");
 
 function handleWebSocketMessage(wsMessage) {
-    if (wsMessage) {
-        wsStatus.style.fill = "#00ff00";
-
-        let DTCs = wsMessage.DTCs;
-        if (wsMessage.KLineStatus == false) {
-            errorsField.innerHTML = "Not Connected to the Vehicle.";
-        } else if (DTCs) {
-            errorsField.innerHTML = DTCs;
-            btnArea.style.display = "flex";
-        } else {
-            errorsField.innerHTML = "No errors detected.";
-        }
-
-        klStatus.style.fill = wsMessage.KLineStatus ? "#00ff00" : "red";
-    } else {
+    if (!wsMessage) {
         wsStatus.style.fill = "red";
+        return;
+    }
+
+    wsStatus.style.fill = "#00ff00";
+    vehicleStatus.style.fill = wsMessage.vehicleStatus ? "#00ff00" : "red";
+
+    let DTCs = wsMessage.DTCs;
+    if (wsMessage.vehicleStatus == false) {
+        errorsField.innerHTML = "Not Connected to the Vehicle.";
+        btnArea.style.display = "none";
+    } else if (DTCs) {
+        errorsField.innerHTML = DTCs;
+        btnArea.style.display = "flex";
+    } else {
+        errorsField.innerHTML = "No errors detected.";
+        btnArea.style.display = "none";
     }
 }
 
