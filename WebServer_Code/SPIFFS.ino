@@ -4,6 +4,7 @@ void initSpiffs() {
       BlinkLed(1000, 100);
     }
   }
+  debugPrintln("SPIFFS Init Successfully");
 }
 
 void readSettings() {
