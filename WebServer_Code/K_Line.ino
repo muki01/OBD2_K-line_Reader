@@ -240,7 +240,8 @@ void clearEcho() {
   if (result > 0) {
     debugPrint("Cleared Echo Data: ");
     for (int i = 0; i < result; i++) {
-      debugPrintHex(K_Serial.read());
+      byte receivedByte = K_Serial.read();
+      debugPrintHex(receivedByte);
       debugPrint(" ");
     }
     debugPrintln();
