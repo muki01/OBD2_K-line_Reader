@@ -5,7 +5,7 @@ byte desiredLiveData[32];
 byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
 
-void read_K() {
+void obdTask() {
   //Check DTCs in page -1, 0, 2, 3, 5, 6
   if (page == -1 || page == 0 || page == 2 || page == 3 || page == 5 || page == 6) {
     if (page != -1) {
@@ -21,7 +21,7 @@ void read_K() {
   //Get Desired LiveData in page -1 and 1
   if (page == -1 || page == 1) {
     for (const auto& mapping : liveDataMappings) {
-      if (KLineStatus == false) {
+      if (conectionStatus == false) {
         return;
       }
       if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
@@ -41,7 +41,7 @@ void read_K() {
   else if (page == 3) {
     if (dtcBuffer[0] != "") {
       for (const auto& mapping : freezeFrameMappings) {
-        if (KLineStatus == false) {
+        if (conectionStatus == false) {
           return;
         }
         if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
@@ -77,6 +77,8 @@ bool init_OBD2() {
   if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
     debugPrintln("Trying ISO9141 or ISO14230_Slow");
     K_Serial.end();
+    pinMode(K_line_RX, INPUT_PULLUP);
+    pinMode(K_line_TX, OUTPUT);
     digitalWrite(K_line_TX, HIGH), delay(3000);
     send5baud(0x33);
 
@@ -107,6 +109,8 @@ bool init_OBD2() {
   if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
     debugPrintln("Trying ISO14230_Fast");
     K_Serial.end();
+    pinMode(K_line_RX, INPUT_PULLUP);
+    pinMode(K_line_TX, OUTPUT);
     digitalWrite(K_line_TX, HIGH), delay(3000);
     digitalWrite(K_line_TX, LOW), delay(25);
     digitalWrite(K_line_TX, HIGH), delay(25);
@@ -224,8 +228,8 @@ bool readData() {
   errors++;
   if (errors > 2) {
     errors = 0;
-    if (KLineStatus) {
-      KLineStatus = false;
+    if (conectionStatus) {
+      conectionStatus = false;
     }
   }
   return false;
@@ -236,7 +240,8 @@ void clearEcho() {
   if (result > 0) {
     debugPrint("Cleared Echo Data: ");
     for (int i = 0; i < result; i++) {
-      debugPrintHex(K_Serial.read());
+      byte receivedByte = K_Serial.read();
+      debugPrintHex(receivedByte);
       debugPrint(" ");
     }
     debugPrintln();

@@ -62,6 +62,6 @@ void loop() {
       digitalWrite(Led, HIGH);
     }
   } else {
-    read_K();
+    obdTask();
   }
 }

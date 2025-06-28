@@ -91,7 +91,7 @@ header .connectionArea {
 }
 
 header #ws,
-header #kl {
+header #vehicleStatus {
     width: 30px;
     height: 30px;
     fill: red;
@@ -112,24 +112,24 @@ main .box {
     text-align: center;
 }
 
-main .data {
+main .dataBox {
     display: none;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px 40px;
 }
 
-main .data h1 {
+main .dataBox h1 {
     margin: 14px 0;
     font-size: 26px;
     color: #fff;
 }
 
-main .data h1 span {
+main .dataBox h1 span {
     font-size: 26px;
     color: #00a0eb;
 }
 
-main .data .name {
+main .dataBox .name {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -163,7 +163,7 @@ main .info p {
     line-height: 22px;
 }
 
-main .dtcBox {
+main .statusBox {
     background-color: #393939;
     border-radius: 10px;
     text-align: center;
@@ -171,7 +171,7 @@ main .dtcBox {
     margin-bottom: 10px;
 }
 
-main .dtcBox h1 {
+main .statusBox h1 {
     margin: 14px 0;
     font-size: 26px;
     color: #00a0eb;
@@ -179,7 +179,7 @@ main .dtcBox h1 {
 
 
 @media screen and (max-width: 1000px) {
-    main .data {
+    main .dataBox {
         grid-template-columns: repeat(3, 1fr);
         column-gap: 20px;
     }
@@ -188,12 +188,12 @@ main .dtcBox h1 {
 @media screen and (max-width: 700px) {
 
     header #ws,
-    header #kl {
+    header #vehicleStatus {
         width: 24px;
         height: 24px;
     }
 
-    main .data {
+    main .dataBox {
         grid-template-columns: repeat(2, 1fr);
         column-gap: 10px;
     }

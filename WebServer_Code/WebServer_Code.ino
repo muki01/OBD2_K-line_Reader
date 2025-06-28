@@ -58,7 +58,7 @@ int oxygenSensor7Voltage = 0, shortTermFuelTrim7 = 0, oxygenSensor8Voltage = 0, 
 double VOLTAGE = 0;
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
-bool KLineStatus = false;
+bool conectionStatus = false;
 
 static unsigned long lastWsTime = 100, lastDTCTime = 1000;
 
@@ -86,14 +86,14 @@ void setup() {
 }
 
 void loop() {
-  if (KLineStatus == false) {
+  if (conectionStatus == false) {
     debugPrintln("Initialising...");
     Melody3();
     bool init_success = init_OBD2();
 
     if (init_success) {
       debugPrintln("Init Success !!");
-      KLineStatus = true;
+      conectionStatus = true;
       connectedProtocol = protocol;
       digitalWrite(Led, LOW);
       connectMelody();
@@ -102,7 +102,7 @@ void loop() {
       getSupportedPIDs(0x09);
     }
   } else {
-    read_K();
+    obdTask();
   }
 
   VOLTAGE = (double)analogRead(voltagePin) / 4096.0 * 20.4;
