@@ -236,7 +236,8 @@ void initWebServer() {
 #endif
 
   server.onNotFound([](AsyncWebServerRequest *request) {
-    request->send_P(404, "text/plain", "404 Not found");
+    //request->send_P(404, "text/plain", "404 Not found");
+    request->send(404, "text/plain", "404 Not found");
   });
   server.begin();
 }
@@ -251,20 +252,24 @@ String JsonData() {
   jsonDoc.clear();
 
   if (page == -1) {
-    JsonObject liveData = jsonDoc.createNestedObject("LiveData");
+    //JsonObject liveData = jsonDoc.createNestedObject("LiveData");
+    JsonObject liveData = jsonDoc["LiveData"].to<JsonObject>(); // breaking change v6 -> v7
     for (const auto &mapping : liveDataMappings) {
       if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
-        JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        //JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        JsonObject pidObject = liveData[mapping.jsonKey].to<JsonObject>(); // breaking change v6 -> v7
         pidObject["value"] = mapping.value;
         pidObject["unit"] = mapping.unit;
       }
     }
     jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
   } else if (page == 1) {
-    JsonObject liveData = jsonDoc.createNestedObject("LiveData");
+    //JsonObject liveData = jsonDoc.createNestedObject("LiveData");
+    JsonObject liveData = jsonDoc["LiveData"].to<JsonObject>(); // breaking change v6 -> v7
     for (const auto &mapping : liveDataMappings) {
       if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
-        JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        //JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        JsonObject pidObject = liveData[mapping.jsonKey].to<JsonObject>(); // breaking change v6 -> v7
         pidObject["value"] = mapping.value;
         pidObject["unit"] = mapping.unit;
       }
@@ -276,10 +281,13 @@ String JsonData() {
     }
   } else if (page == 3) {
     jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
-    JsonObject freezeFrame = jsonDoc.createNestedObject("FreezeFrame");
+    //JsonObject freezeFrame = jsonDoc.createNestedObject("FreezeFrame");
+    JsonObject freezeFrame = jsonDoc["FreezeFrame"].to<JsonObject>(); // breaking change v6 -> v7
     for (const auto &mapping : freezeFrameMappings) {
       if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
-        JsonObject pidObject = freezeFrame.createNestedObject(mapping.jsonKey);
+        //JsonObject pidObject = freezeFrame.createNestedObject(mapping.jsonKey);
+        JsonObject pidObject = freezeFrame[mapping.jsonKey].to<JsonObject>(); // breaking change v6 -> v7
+
         pidObject["value"] = mapping.value;
         pidObject["unit"] = mapping.unit;
       }
@@ -296,15 +304,20 @@ String JsonData() {
     jsonDoc["supportedFreezeFrame"] = convertBytesToHexStringWithComma(supportedFreezeFrame, sizeof(supportedFreezeFrame));
     jsonDoc["supportedVehicleInfo"] = convertBytesToHexStringWithComma(supportedVehicleInfo, sizeof(supportedVehicleInfo));
   } else if (page == 6) {
-    JsonObject liveData = jsonDoc.createNestedObject("SupportedLiveData");
+    //JsonObject liveData = jsonDoc.createNestedObject("SupportedLiveData");
+    JsonObject liveData = jsonDoc["SupportedLiveData"].to<JsonObject>(); // breaking change v6 -> v7
+
     for (const auto &mapping : liveDataMappings) {
       if (isInArray(supportedLiveData, sizeof(supportedLiveData), mapping.pid)) {
-        JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        //JsonObject pidObject = liveData.createNestedObject(mapping.jsonKey);
+        JsonObject pidObject = liveData[mapping.jsonKey].to<JsonObject>(); // breaking change v6 -> v7
+
         pidObject["pid"] = mapping.pid;
       }
     }
 
-    JsonArray desiredLiveDataArray = jsonDoc.createNestedArray("DesiredLiveData");
+    //JsonArray desiredLiveDataArray = jsonDoc.createNestedArray("DesiredLiveData");
+    JsonArray desiredLiveDataArray = jsonDoc["DesiredLiveData"].to<JsonArray>(); // breaking change v6 -> v7
     for (int i = 0; i < sizeof(desiredLiveData); i++) {
       if (desiredLiveData[i] != 0) {
         desiredLiveDataArray.add(desiredLiveData[i]);
