@@ -37,7 +37,8 @@ AsyncWebSocket ws("/ws");
 #ifdef DEBUG_Serial
 #define debugPrint(x) Serial.print(x)
 #define debugPrintln(x) Serial.println(x)
-#define debugPrintHex(x) Serial.print(x, HEX)
+//#define debugPrintHex(x) Serial.print(x, HEX)
+#define debugPrintHex(x) Serial.printf("%02X", x) // HEX values with leading 0s. Always two digits values
 #else
 #define debugPrint(x) ((void)0)
 #define debugPrintln(x) ((void)0)
