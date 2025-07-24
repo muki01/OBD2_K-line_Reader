@@ -233,7 +233,7 @@ int readData() {
       conectionStatus = false;
     }
   }
-  return false;
+  return 0;
 }
 
 void clearEcho() {
