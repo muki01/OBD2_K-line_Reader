@@ -469,7 +469,7 @@ void clear_DTC() {
   writeData(clear_DTCs, 0x00);
 }
 
-void getVIN() {
+String getVehicleInfo(byte pid) {
   // Request: C2 33 F1 09 02 F1
   // example Response: 87 F1 11 49 02 01 00 00 00 31 06
   //                   87 F1 11 49 02 02 41 31 4A 43 D5
@@ -477,78 +477,48 @@ void getVIN() {
   //                   87 F1 11 49 02 04 52 37 32 35 C8
   //                   87 F1 11 49 02 05 32 33 36 37 E6
 
-  byte VIN_Array[17];
+  byte dataArray[64];
+  int messageCount;
   int arrayNum = 0;
 
-  writeData(read_VehicleInfo, read_VIN);
+  if (pid == 0x02) {
+    messageCount = 5;
+  } else if (pid == 0x04 || pid == 0x06) {
+    if (pid == 0x04) {
+      writeData(read_VehicleInfo, read_ID_Length);
+    } else if (pid == 0x06) {
+      writeData(read_VehicleInfo, read_ID_Num_Length);
+    } else {
+      return "";
+    }
+
+    if (readData()) {
+      messageCount = resultBuffer[5];
+    } else {
+      return "";
+    }
+  }
+
+  writeData(read_VehicleInfo, pid);
 
   if (readData()) {
-    VIN_Array[arrayNum++] = resultBuffer[9];
-    for (int j = 0; j < 4; j++) {
+    for (int j = 0; j < messageCount; j++) {
+      if (pid == 0x02 && j == 0) {
+        dataArray[arrayNum++] = resultBuffer[9];
+        continue;
+      }
       for (int i = 1; i <= 4; i++) {
-        VIN_Array[arrayNum++] = resultBuffer[i + 16 + j * 11];
+        dataArray[arrayNum++] = resultBuffer[i + 5 + j * 11];
       }
     }
   }
 
-  Vehicle_VIN = convertHexToAscii(VIN_Array, sizeof(VIN_Array));
-}
-
-void getCalibrationID() {
-  // Request: C2 33 F1 09 04 F3
-  // example Response: 87 F1 11 49 04 01 4F 32 43 44 DF
-  //                   87 F1 11 49 04 02 31 30 31 41 AB
-  //                   87 F1 11 49 04 03 00 00 00 00 D9
-  //                   87 F1 11 49 04 04 00 00 00 00 DA
-
-  byte ID_Array[64];
-  int ID_messageCount;
-  int arrayNum = 0;
-
-  writeData(read_VehicleInfo, read_ID_Length);
-
-  if (readData()) {
-    ID_messageCount = resultBuffer[5];
-
-    writeData(read_VehicleInfo, read_ID);
-
-    if (readData()) {
-      for (int j = 0; j < ID_messageCount; j++) {
-        for (int i = 1; i <= 4; i++) {
-          ID_Array[arrayNum++] = resultBuffer[i + 5 + j * 11];
-        }
-      }
-    }
+  if (pid == 0x02 || pid == 0x04) {
+    return convertHexToAscii(dataArray, arrayNum);
+  } else if (pid == 0x06) {
+    return convertBytesToHexString(dataArray, arrayNum);
   }
-
-  Vehicle_ID = convertHexToAscii(ID_Array, arrayNum);
-}
-
-void getCalibrationIDNum() {
-  // Request: C2 33 F1 09 06 F5
-  // example Response: 87 F1 11 49 06 01 00 00 67 0C 4C
-
-  byte IDNum_Array[16];
-  int ID_messageCount;
-  int arrayNum = 0;
-
-  writeData(read_VehicleInfo, read_ID_Num_Length);
-
-  if (readData()) {
-    ID_messageCount = resultBuffer[5];
-
-    writeData(read_VehicleInfo, read_ID_Num);
-
-    if (readData()) {
-      for (int j = 0; j < ID_messageCount; j++) {
-        for (int i = 1; i <= 4; i++) {
-          IDNum_Array[arrayNum++] = resultBuffer[i + 5 + j * 11];
-        }
-      }
-    }
-  }
-
-  Vehicle_ID_Num = convertBytesToHexString(IDNum_Array, arrayNum);
+  return "";
 }
 
 void getSupportedPIDs(const byte option) {
