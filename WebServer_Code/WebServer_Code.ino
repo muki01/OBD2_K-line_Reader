@@ -97,9 +97,9 @@ void loop() {
       connectedProtocol = protocol;
       digitalWrite(Led, LOW);
       connectMelody();
-      getSupportedPIDs(0x01);
-      getSupportedPIDs(0x02);
-      getSupportedPIDs(0x09);
+      readSupportedData(0x01);
+      readSupportedData(0x02);
+      readSupportedData(0x09);
     }
   } else {
     obdTask();

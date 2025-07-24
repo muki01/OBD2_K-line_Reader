@@ -4,6 +4,7 @@ byte supportedLiveData[32];
 byte desiredLiveData[32];
 byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
+byte supportedComponentMonitoring[32];
 
 void obdTask() {
   //Check DTCs in page -1, 0, 2, 3, 5, 6
@@ -521,88 +522,71 @@ String getVehicleInfo(byte pid) {
   return "";
 }
 
-void getSupportedPIDs(const byte option) {
-  int pidIndex = 0;
+int readSupportedData(byte mode) {
   int supportedCount = 0;
+  int pidIndex = 0;
+  int startByte = 0;
+  int arraySize = 32;  // Size of supported data arrays
+  byte *targetArray = nullptr;
 
-  if (option == 0x01) {
-    writeData(read_LiveData, SUPPORTED_PIDS_1_20);
-
-    if (readData()) {
-
-      for (int i = 5; i < 9; i++) {
-        byte value = resultBuffer[i];
-        for (int bit = 7; bit >= 0; bit--) {
-          if ((value >> bit) & 1) {
-            supportedLiveData[supportedCount++] = pidIndex + 1;
-          }
-          pidIndex++;
-        }
-      }
-    }
-
-    if (isInArray(supportedLiveData, sizeof(supportedLiveData), 0x20)) {
-      writeData(read_LiveData, SUPPORTED_PIDS_21_40);
-
-      if (readData()) {
-        for (int i = 5; i < 9; i++) {
-          byte value = resultBuffer[i];
-          for (int bit = 7; bit >= 0; bit--) {
-            if ((value >> bit) & 1) {
-              supportedLiveData[supportedCount++] = pidIndex + 1;
-            }
-            pidIndex++;
-          }
-        }
-      }
-    }
-
-    if (isInArray(supportedLiveData, sizeof(supportedLiveData), 0x40)) {
-      writeData(read_LiveData, SUPPORTED_PIDS_41_60);
-
-      if (readData()) {
-        for (int i = 5; i < 9; i++) {
-          byte value = resultBuffer[i];
-          for (int bit = 7; bit >= 0; bit--) {
-            if ((value >> bit) & 1) {
-              supportedLiveData[supportedCount++] = pidIndex + 1;
-            }
-            pidIndex++;
-          }
-        }
-      }
-    }
-
-    memcpy(desiredLiveData, supportedLiveData, sizeof(supportedLiveData));
+  if (mode == read_LiveData) {
+    startByte = 5;
+    targetArray = supportedLiveData;
+  } else if (mode == read_FreezeFrame) {
+    startByte = 6;
+    targetArray = supportedFreezeFrame;
+  } else if (mode == read_VehicleInfo) {
+    startByte = 6;
+    targetArray = supportedVehicleInfo;
+  } else if (mode == component_Monitoring) {
+    startByte = 6;
+    targetArray = supportedComponentMonitoring;
+  } else {
+    return -1;  // Invalid mode
   }
-  if (option == 0x02) {
-    writeData(read_FreezeFrame, SUPPORTED_PIDS_1_20);
 
+  writeData(mode, SUPPORTED_PIDS_1_20);
+  if (readData()) {
+    for (int i = 0; i < 4; i++) {
+      byte value = resultBuffer[i + startByte];
+      for (int bit = 7; bit >= 0; bit--) {
+        if ((value >> bit) & 1) {
+          targetArray[supportedCount++] = pidIndex + 1;
+        }
+        pidIndex++;
+      }
+    }
+  }
+
+  if (isInArray(targetArray, arraySize, 0x20)) {
+    writeData(mode, SUPPORTED_PIDS_21_40);
     if (readData()) {
-      for (int i = 6; i < 10; i++) {
-        byte value = resultBuffer[i];
+      for (int i = 0; i < 4; i++) {
+        byte value = resultBuffer[i + startByte];
         for (int bit = 7; bit >= 0; bit--) {
           if ((value >> bit) & 1) {
-            supportedFreezeFrame[supportedCount++] = pidIndex + 1;
+            targetArray[supportedCount++] = pidIndex + 1;
           }
           pidIndex++;
         }
       }
     }
   }
-  if (option == 0x09) {
-    writeData(read_VehicleInfo, supported_VehicleInfo);
 
+  if (isInArray(targetArray, arraySize, 0x40)) {
+    writeData(mode, SUPPORTED_PIDS_41_60);
     if (readData()) {
-      for (int i = 6; i < 10; i++) {
-        byte value = resultBuffer[i];
+      for (int i = 0; i < 4; i++) {
+        byte value = resultBuffer[i + startByte];
         for (int bit = 7; bit >= 0; bit--) {
           if ((value >> bit) & 1) {
-            supportedVehicleInfo[supportedCount++] = pidIndex + 1;
+            targetArray[supportedCount++] = pidIndex + 1;
           }
           pidIndex++;
         }
       }
     }
   }
+
+  return supportedCount;
 }
