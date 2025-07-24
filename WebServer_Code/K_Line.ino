@@ -187,7 +187,7 @@ void writeData(const byte mode, const byte pid) {
   clearEcho();
 }
 
-bool readData() {
+int readData() {
   debugPrintln("Reading...");
   unsigned long startMillis = millis();  // Start time for waiting the first byte
   int bytesRead = 0;
@@ -203,6 +203,11 @@ bool readData() {
       debugPrint("Received Data: ");
       while (millis() - lastByteTime < DATA_REQUEST_INTERVAL) {  // Wait up to 60ms for new data
         if (K_Serial.available() > 0) {                          // If new data is available, read it
+          if (bytesRead >= sizeof(resultBuffer)) {
+            debugPrintln("\nBuffer is full. Stopping data reception.");
+            return bytesRead;
+          }
+
           resultBuffer[bytesRead] = K_Serial.read();
           debugPrintHex(resultBuffer[bytesRead]);
           debugPrint(" ");
@@ -210,16 +215,12 @@ bool readData() {
           lastByteTime = millis();  // Reset timer
 
           // If buffer is full, stop reading and print message
-          if (bytesRead >= sizeof(resultBuffer)) {
-            debugPrintln("\nBuffer is full. Stopping data reception.");
-            return true;
-          }
         }
       }
 
       // If no new data is received within 60ms, exit the loop
       debugPrintln("\nData reception completed.");
-      return true;
+      return bytesRead;
     }
   }
 
