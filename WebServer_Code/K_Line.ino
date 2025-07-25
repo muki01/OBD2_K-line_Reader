@@ -26,7 +26,7 @@ void obdTask() {
         return;
       }
       if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
-        getPID(mapping.pid);
+        getPID(read_LiveData, mapping.pid);
       }
     }
   }
@@ -572,7 +572,7 @@ int readSupportedData(byte mode) {
   int pidIndex = 0;
   int startByte = 0;
   int arraySize = 32;  // Size of supported data arrays
-  byte *targetArray = nullptr;
+  byte* targetArray = nullptr;
 
   if (mode == read_LiveData) {
     startByte = 5;
@@ -631,6 +631,10 @@ int readSupportedData(byte mode) {
         }
       }
     }
+  }
+
+  if (mode == read_LiveData) {
+    memcpy(desiredLiveData, supportedLiveData, sizeof(supportedLiveData));
   }
 
   return supportedCount;
