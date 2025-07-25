@@ -34,7 +34,7 @@ void obdTask() {
   else if (page == 2) {
     if (dtcBuffer[0] != "") {
       if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
-        getPID(DISTANCE_TRAVELED_WITH_MIL_ON);
+        getPID(read_LiveData, DISTANCE_TRAVELED_WITH_MIL_ON);
       }
     }
   }
@@ -46,7 +46,7 @@ void obdTask() {
           return;
         }
         if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
-          getFreezeFrame(mapping.pid);
+          getPID(read_FreezeFrame, mapping.pid);
         }
       }
     }
@@ -54,19 +54,19 @@ void obdTask() {
   //Get Speed data in page 4
   else if (page == 4) {
     if (isInArray(supportedLiveData, sizeof(supportedLiveData), VEHICLE_SPEED)) {
-      getPID(VEHICLE_SPEED);
+      getPID(read_LiveData, VEHICLE_SPEED);
     }
   }
   //Get VIN, ID, ID_Num data in page 5
   else if (page == 5) {
     if (isInArray(supportedVehicleInfo, sizeof(supportedVehicleInfo), read_VIN)) {
-      getVIN();
+      Vehicle_VIN = getVehicleInfo(read_VIN);
     }
     if (isInArray(supportedVehicleInfo, sizeof(supportedVehicleInfo), read_ID)) {
-      getCalibrationID();
+      Vehicle_ID = getVehicleInfo(read_ID);
     }
     if (isInArray(supportedVehicleInfo, sizeof(supportedVehicleInfo), read_ID_Num)) {
-      getCalibrationIDNum();
+      Vehicle_ID_Num = getVehicleInfo(read_ID_Num);
     }
   }
 }
