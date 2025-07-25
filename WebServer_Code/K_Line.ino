@@ -252,173 +252,218 @@ void clearEcho() {
   }
 }
 
-void getPID(const byte pid) {
+void getPID(byte mode, byte pid) {
   // example Request: C2 33 F1 01 0C F3
   // example Response: 84 F1 11 41 0C 1F 40 32
-  writeData(read_LiveData, pid);
+  if (mode != 0x01 && mode != 0x02) return;
 
-  if (readData()) {
-    if (resultBuffer[4] == pid) {
-      for (int i = 0; i < 64; i++) {
-        if (liveDataMappings[i].pid == pid) {
+  writeData(mode, pid);
 
-          if (pid == FUEL_SYSTEM_STATUS) {
-            liveDataMappings[i].value = resultBuffer[5];
-          } else if (pid == ENGINE_LOAD) {
-            liveDataMappings[i].value = (100.0 / 255) * resultBuffer[5];
-          } else if (pid == ENGINE_COOLANT_TEMP) {
-            liveDataMappings[i].value = resultBuffer[5] - 40;
-          } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_1) {
-            liveDataMappings[i].value = (resultBuffer[5] / 1.28) - 100.0;
-          } else if (pid == LONG_TERM_FUEL_TRIM_BANK_1) {
-            liveDataMappings[i].value = (resultBuffer[5] / 1.28) - 100.0;
-          } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_2) {
-            liveDataMappings[i].value = (resultBuffer[5] / 1.28) - 100.0;
-          } else if (pid == LONG_TERM_FUEL_TRIM_BANK_2) {
-            liveDataMappings[i].value = (resultBuffer[5] / 1.28) - 100.0;
-          } else if (pid == FUEL_PRESSURE) {
-            liveDataMappings[i].value = 3 * resultBuffer[5];
-          } else if (pid == INTAKE_MANIFOLD_ABS_PRESSURE) {
-            liveDataMappings[i].value = resultBuffer[5];
-          } else if (pid == ENGINE_RPM) {
-            liveDataMappings[i].value = (256 * resultBuffer[5] + resultBuffer[6]) / 4;
-          } else if (pid == VEHICLE_SPEED) {
-            liveDataMappings[i].value = resultBuffer[5];
-          } else if (pid == TIMING_ADVANCE) {
-            liveDataMappings[i].value = (resultBuffer[5] / 2) - 64;
-          } else if (pid == INTAKE_AIR_TEMP) {
-            liveDataMappings[i].value = resultBuffer[5] - 40;
-          } else if (pid == MAF_FLOW_RATE) {
-            liveDataMappings[i].value = (256 * resultBuffer[5] + resultBuffer[6]) / 100.0;
-          } else if (pid == THROTTLE_POSITION) {
-            liveDataMappings[i].value = (100.0 / 255) * resultBuffer[5];
-          } else if (pid == COMMANDED_SECONDARY_AIR_STATUS) {
-            liveDataMappings[i].value = resultBuffer[5];
-          } else if (pid == OXYGEN_SENSORS_PRESENT_2_BANKS) {
-            liveDataMappings[i].value = resultBuffer[5];
-          } else if (pid == OXYGEN_SENSOR_1_A) {
-            liveDataMappings[i].value = resultBuffer[5] / 200.0;
-            shortTermFuelTrim1 = (100.0 / 128) * resultBuffer[6] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_2_A) {
-            liveDataMappings[i].value = resultBuffer[5] / 200.0;
-            shortTermFuelTrim2 = (100.0 / 128) * resultBuffer[6] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_3_A) {
-            liveDataMappings[i].value = resultBuffer[5] / 200.0;
-            shortTermFuelTrim3 = (100.0 / 128) * resultBuffer[6] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_4_A) {
-            liveDataMappings[i].value = resultBuffer[5] / 200.0;
-            shortTermFuelTrim4 = (100.0 / 128) * resultBuffer[6] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_5_A) {
-            liveDataMappings[i].value = resultBuffer[5] / 200.0;
-            shortTermFuelTrim5 = (100.0 / 128) * resultBuffer[6] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_6_A) {
-            liveDataMappings[i].value = resultBuffer[5] / 200.0;
-            shortTermFuelTrim6 = (100.0 / 128) * resultBuffer[6] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_7_A) {
-            liveDataMappings[i].value = resultBuffer[5] / 200.0;
-            shortTermFuelTrim7 = (100.0 / 128) * resultBuffer[6] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_8_A) {
-            liveDataMappings[i].value = resultBuffer[5] / 200.0;
-            shortTermFuelTrim8 = (100.0 / 128) * resultBuffer[6] - 100.0;
-          } else if (pid == OBD_STANDARDS) {
-            liveDataMappings[i].value = resultBuffer[5];
-          } else if (pid == OXYGEN_SENSORS_PRESENT_4_BANKS) {
-            liveDataMappings[i].value = resultBuffer[5];
-          } else if (pid == AUX_INPUT_STATUS) {
-            liveDataMappings[i].value = resultBuffer[5];
-          } else if (pid == RUN_TIME_SINCE_ENGINE_START) {
-            liveDataMappings[i].value = 256 * resultBuffer[5] + resultBuffer[6];
-          } else if (pid == DISTANCE_TRAVELED_WITH_MIL_ON) {
-            liveDataMappings[i].value = 256 * resultBuffer[5] + resultBuffer[6];
-          }
-        }
+  if (!readData()) return;             // Yanıt okunamadıysa çık
+  if (resultBuffer[4] != pid) return;  // Gelen PID doğru mu kontrol et
+
+  byte A = resultBuffer[(mode == 1) ? 5 : 6];
+  byte B = resultBuffer[(mode == 1) ? 6 : 7];
+
+  PidMapping* mappings = (mode == 1) ? liveDataMappings : freezeFrameMappings;  // Doğru mapping dizisini seç
+
+  for (int i = 0; i < 64; i++) {
+    if (mappings[i].pid == pid) {
+
+      if (pid == FUEL_SYSTEM_STATUS) {                     // PID: 0x03
+        mappings[i].value = A;                             // unit: raw
+      } else if (pid == ENGINE_LOAD) {                     // PID: 0x04
+        mappings[i].value = (100.0 / 255) * A;             // unit: %
+      } else if (pid == ENGINE_COOLANT_TEMP) {             // PID: 0x05
+        mappings[i].value = A - 40;                        // unit: °C
+      } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_1) {     // PID: 0x06
+        mappings[i].value = (A / 1.28) - 100.0;            // unit: %
+      } else if (pid == LONG_TERM_FUEL_TRIM_BANK_1) {      // PID: 0x07
+        mappings[i].value = (A / 1.28) - 100.0;            // unit: %
+      } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_2) {     // PID: 0x08
+        mappings[i].value = (A / 1.28) - 100.0;            // unit: %
+      } else if (pid == LONG_TERM_FUEL_TRIM_BANK_2) {      // PID: 0x09
+        mappings[i].value = (A / 1.28) - 100.0;            // unit: %
+      } else if (pid == FUEL_PRESSURE) {                   // PID: 0x0A
+        mappings[i].value = 3 * A;                         // unit: kPa
+      } else if (pid == INTAKE_MANIFOLD_ABS_PRESSURE) {    // PID: 0x0B
+        mappings[i].value = A;                             // unit: kPa
+      } else if (pid == ENGINE_RPM) {                      // PID: 0x0C
+        mappings[i].value = (256 * A + B) / 4;             // unit: rpm
+      } else if (pid == VEHICLE_SPEED) {                   // PID: 0x0D
+        mappings[i].value = A;                             // unit: km/h
+      } else if (pid == TIMING_ADVANCE) {                  // PID: 0x0E
+        mappings[i].value = (A / 2) - 64;                  // unit: °BTDC
+      } else if (pid == INTAKE_AIR_TEMP) {                 // PID: 0x0F
+        mappings[i].value = A - 40;                        // unit: °C
+      } else if (pid == MAF_FLOW_RATE) {                   // PID: 0x10
+        mappings[i].value = (256 * A + B) / 100.0;         // unit: g/s
+      } else if (pid == THROTTLE_POSITION) {               // PID: 0x11
+        mappings[i].value = (100.0 / 255) * A;             // unit: %
+      } else if (pid == COMMANDED_SECONDARY_AIR_STATUS) {  // PID: 0x12
+        mappings[i].value = A;                             // unit: raw
+      } else if (pid == OXYGEN_SENSORS_PRESENT_2_BANKS) {  // PID: 0x13
+        mappings[i].value = A;                             // unit: raw
+      } else if (pid == OXYGEN_SENSOR_1_A) {               // PID: 0x14
+        mappings[i].value = A / 200.0;                     // unit: volts
+        shortTermFuelTrim1 = (100.0 / 128) * B - 100.0;    // unit: %
+      } else if (pid == OXYGEN_SENSOR_2_A) {               // PID: 0x15
+        mappings[i].value = A / 200.0;                     // unit: volts
+        shortTermFuelTrim2 = (100.0 / 128) * B - 100.0;    // unit: %
+      } else if (pid == OXYGEN_SENSOR_3_A) {               // PID: 0x16
+        mappings[i].value = A / 200.0;                     // unit: volts
+        shortTermFuelTrim3 = (100.0 / 128) * B - 100.0;    // unit: %
+      } else if (pid == OXYGEN_SENSOR_4_A) {               // PID: 0x17
+        mappings[i].value = A / 200.0;                     // unit: volts
+        shortTermFuelTrim4 = (100.0 / 128) * B - 100.0;    // unit: %
+      } else if (pid == OXYGEN_SENSOR_5_A) {               // PID: 0x18
+        mappings[i].value = A / 200.0;                     // unit: volts
+        shortTermFuelTrim5 = (100.0 / 128) * B - 100.0;    // unit: %
+      } else if (pid == OXYGEN_SENSOR_6_A) {               // PID: 0x19
+        mappings[i].value = A / 200.0;                     // unit: volts
+        shortTermFuelTrim6 = (100.0 / 128) * B - 100.0;    // unit: %
+      } else if (pid == OXYGEN_SENSOR_7_A) {               // PID: 0x1A
+        mappings[i].value = A / 200.0;                     // unit: volts
+        shortTermFuelTrim7 = (100.0 / 128) * B - 100.0;    // unit: %
+      } else if (pid == OXYGEN_SENSOR_8_A) {               // PID: 0x1B
+        mappings[i].value = A / 200.0;                     // unit: volts
+        shortTermFuelTrim8 = (100.0 / 128) * B - 100.0;    // unit: %
+      } else if (pid == OBD_STANDARDS) {                   // PID: 0x1C
+        mappings[i].value = A;                             // unit: raw
+      } else if (pid == OXYGEN_SENSORS_PRESENT_4_BANKS) {  // PID: 0x1D
+        mappings[i].value = A;                             // unit: raw
+      } else if (pid == AUX_INPUT_STATUS) {                // PID: 0x1E
+        mappings[i].value = A;                             // unit: raw
+      } else if (pid == RUN_TIME_SINCE_ENGINE_START) {     // PID: 0x1F
+        mappings[i].value = 256 * A + B;                   // unit: seconds
       }
-    }
-  }
 
-  sendDataToServer();
-}
+      else if (pid == DISTANCE_TRAVELED_WITH_MIL_ON) {            // PID: 0x21
+        mappings[i].value = 256 * A + B;                          // unit: km
+      } else if (pid == FUEL_RAIL_PRESSURE) {                     // PID: 0x22
+        mappings[i].value = 0.079 * (256 * A + B);                // unit: kPa
+      } else if (pid == FUEL_RAIL_GAUGE_PRESSURE) {               // PID: 0x23
+        mappings[i].value = 10 * (256 * A + B);                   // unit: kPa
+      } else if (pid == OXYGEN_SENSOR_1_B) {                      // PID: 0x24
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio V
+      } else if (pid == OXYGEN_SENSOR_2_B) {                      // PID: 0x25
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio V
+      } else if (pid == OXYGEN_SENSOR_3_B) {                      // PID: 0x26
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio V
+      } else if (pid == OXYGEN_SENSOR_4_B) {                      // PID: 0x27
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio V
+      } else if (pid == OXYGEN_SENSOR_5_B) {                      // PID: 0x28
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio V
+      } else if (pid == OXYGEN_SENSOR_6_B) {                      // PID: 0x29
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio V
+      } else if (pid == OXYGEN_SENSOR_7_B) {                      // PID: 0x2A
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio V
+      } else if (pid == OXYGEN_SENSOR_8_B) {                      // PID: 0x2B
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio V
+      } else if (pid == COMMANDED_EGR) {                          // PID: 0x2C
+        mappings[i].value = (100.0 / 255) * A;                    // unit: %
+      } else if (pid == EGR_ERROR) {                              // PID: 0x2D
+        mappings[i].value = (100.0 / 128) * A - 100;              // unit: %
+      } else if (pid == COMMANDED_EVAPORATIVE_PURGE) {            // PID: 0x2E
+        mappings[i].value = (100.0 / 255) * A;                    // unit: %
+      } else if (pid == FUEL_TANK_LEVEL_INPUT) {                  // PID: 0x2F
+        mappings[i].value = (100.0 / 255) * A;                    // unit: %
+      } else if (pid == WARMUPS_SINCE_CODES_CLEARED) {            // PID: 0x30
+        mappings[i].value = A;                                    // unit: counts
+      } else if (pid == DISTANCE_TRAVELED_SINCE_CODES_CLEARED) {  // PID: 0x31
+        mappings[i].value = 256 * A + B;                          // unit: km
+      } else if (pid == EVAPORATION_SYSTEM_VAPOR_PRESSURE) {      // PID: 0x32
+        mappings[i].value = (256 * A + B) / 4;                    // unit: Pa
+      } else if (pid == ABSOLUTE_BAROMETRIC_PRESSURE) {           // PID: 0x33
+        mappings[i].value = A;                                    // unit: kPa
+      } else if (pid == OXYGEN_SENSOR_1_C) {                      // PID: 0x34
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio mA
+      } else if (pid == OXYGEN_SENSOR_2_C) {                      // PID: 0x35
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio mA
+      } else if (pid == OXYGEN_SENSOR_3_C) {                      // PID: 0x36
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio mA
+      } else if (pid == OXYGEN_SENSOR_4_C) {                      // PID: 0x37
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio mA
+      } else if (pid == OXYGEN_SENSOR_5_C) {                      // PID: 0x38
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio mA
+      } else if (pid == OXYGEN_SENSOR_6_C) {                      // PID: 0x39
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio mA
+      } else if (pid == OXYGEN_SENSOR_7_C) {                      // PID: 0x3A
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio mA
+      } else if (pid == OXYGEN_SENSOR_8_C) {                      // PID: 0x3B
+        mappings[i].value = (256 * A + B) / 32768.0;              // unit: ratio mA
+      } else if (pid == CATALYST_TEMP_BANK_1_SENSOR_1) {          // PID: 0x3C
+        mappings[i].value = (256 * A + B) / 10 - 40;              // unit: °C
+      } else if (pid == CATALYST_TEMP_BANK_2_SENSOR_1) {          // PID: 0x3D
+        mappings[i].value = (256 * A + B) / 10 - 40;              // unit: °C
+      } else if (pid == CATALYST_TEMP_BANK_1_SENSOR_2) {          // PID: 0x3E
+        mappings[i].value = (256 * A + B) / 10 - 40;              // unit: °C
+      } else if (pid == CATALYST_TEMP_BANK_2_SENSOR_2) {          // PID: 0x3F
+        mappings[i].value = (256 * A + B) / 10 - 40;              // unit: °C
+      }
 
-void getFreezeFrame(const byte pid) {
-  // example Request: C3 33 F1 02 05 00 EE
-  // example Response: 84 F1 11 42 05 00 8A 57
-
-  writeData(read_FreezeFrame, pid);
-
-  if (readData()) {
-    if (resultBuffer[4] == pid) {
-      for (int i = 0; i < 64; i++) {
-        if (freezeFrameMappings[i].pid == pid) {
-          if (pid == FUEL_SYSTEM_STATUS) {
-            freezeFrameMappings[i].value = resultBuffer[6];
-          } else if (pid == ENGINE_LOAD) {
-            freezeFrameMappings[i].value = (100.0 / 255) * resultBuffer[6];
-          } else if (pid == ENGINE_COOLANT_TEMP) {
-            freezeFrameMappings[i].value = resultBuffer[6] - 40;
-          } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_1) {
-            freezeFrameMappings[i].value = (resultBuffer[6] / 1.28) - 100.0;
-          } else if (pid == LONG_TERM_FUEL_TRIM_BANK_1) {
-            freezeFrameMappings[i].value = (resultBuffer[6] / 1.28) - 100.0;
-          } else if (pid == SHORT_TERM_FUEL_TRIM_BANK_2) {
-            freezeFrameMappings[i].value = (resultBuffer[6] / 1.28) - 100.0;
-          } else if (pid == LONG_TERM_FUEL_TRIM_BANK_2) {
-            freezeFrameMappings[i].value = (resultBuffer[6] / 1.28) - 100.0;
-          } else if (pid == FUEL_PRESSURE) {
-            freezeFrameMappings[i].value = 3 * resultBuffer[6];
-          } else if (pid == INTAKE_MANIFOLD_ABS_PRESSURE) {
-            freezeFrameMappings[i].value = resultBuffer[6];
-          } else if (pid == ENGINE_RPM) {
-            freezeFrameMappings[i].value = (256 * resultBuffer[6] + resultBuffer[7]) / 4;
-          } else if (pid == VEHICLE_SPEED) {
-            freezeFrameMappings[i].value = resultBuffer[6];
-          } else if (pid == TIMING_ADVANCE) {
-            freezeFrameMappings[i].value = (resultBuffer[6] / 2) - 64;
-          } else if (pid == INTAKE_AIR_TEMP) {
-            freezeFrameMappings[i].value = resultBuffer[6] - 40;
-          } else if (pid == MAF_FLOW_RATE) {
-            freezeFrameMappings[i].value = (256 * resultBuffer[6] + resultBuffer[7]) / 100.0;
-          } else if (pid == THROTTLE_POSITION) {
-            freezeFrameMappings[i].value = (100.0 / 255) * resultBuffer[6];
-          } else if (pid == COMMANDED_SECONDARY_AIR_STATUS) {
-            freezeFrameMappings[i].value = resultBuffer[6];
-          } else if (pid == OXYGEN_SENSORS_PRESENT_2_BANKS) {
-            freezeFrameMappings[i].value = resultBuffer[6];
-          } else if (pid == OXYGEN_SENSOR_1_A) {
-            freezeFrameMappings[i].value = resultBuffer[6] / 200.0;
-            shortTermFuelTrim1 = (100.0 / 128) * resultBuffer[7] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_2_A) {
-            freezeFrameMappings[i].value = resultBuffer[6] / 200.0;
-            shortTermFuelTrim2 = (100.0 / 128) * resultBuffer[7] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_3_A) {
-            freezeFrameMappings[i].value = resultBuffer[6] / 200.0;
-            shortTermFuelTrim3 = (100.0 / 128) * resultBuffer[7] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_4_A) {
-            freezeFrameMappings[i].value = resultBuffer[6] / 200.0;
-            shortTermFuelTrim4 = (100.0 / 128) * resultBuffer[7] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_5_A) {
-            freezeFrameMappings[i].value = resultBuffer[6] / 200.0;
-            shortTermFuelTrim5 = (100.0 / 128) * resultBuffer[7] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_6_A) {
-            freezeFrameMappings[i].value = resultBuffer[6] / 200.0;
-            shortTermFuelTrim6 = (100.0 / 128) * resultBuffer[7] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_7_A) {
-            freezeFrameMappings[i].value = resultBuffer[6] / 200.0;
-            shortTermFuelTrim7 = (100.0 / 128) * resultBuffer[7] - 100.0;
-          } else if (pid == OXYGEN_SENSOR_8_A) {
-            freezeFrameMappings[i].value = resultBuffer[6] / 200.0;
-            shortTermFuelTrim8 = (100.0 / 128) * resultBuffer[7] - 100.0;
-          } else if (pid == OBD_STANDARDS) {
-            freezeFrameMappings[i].value = resultBuffer[6];
-          } else if (pid == OXYGEN_SENSORS_PRESENT_4_BANKS) {
-            freezeFrameMappings[i].value = resultBuffer[6];
-          } else if (pid == AUX_INPUT_STATUS) {
-            freezeFrameMappings[i].value = resultBuffer[6];
-          } else if (pid == RUN_TIME_SINCE_ENGINE_START) {
-            freezeFrameMappings[i].value = 256 * resultBuffer[6] + resultBuffer[7];
-          } else if (pid == DISTANCE_TRAVELED_WITH_MIL_ON) {
-            freezeFrameMappings[i].value = 256 * resultBuffer[6] + resultBuffer[7];
-          }
-        }
+      else if (pid == MONITOR_STATUS_THIS_DRIVE_CYCLE) {     // PID: 0x41
+        mappings[i].value = A;                               // unit: raw
+      } else if (pid == CONTROL_MODULE_VOLTAGE) {            // PID: 0x42
+        mappings[i].value = (256 * A + B) / 1000.0;          // unit: V
+      } else if (pid == ABS_LOAD_VALUE) {                    // PID: 0x43
+        mappings[i].value = (100.0 / 255) * (256 * A + B);   // unit: %
+      } else if (pid == FUEL_AIR_COMMANDED_EQUIV_RATIO) {    // PID: 0x44
+        mappings[i].value = (256 * A + B) / 32768.0;         // unit: ratio
+      } else if (pid == RELATIVE_THROTTLE_POSITION) {        // PID: 0x45
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == AMBIENT_AIR_TEMP) {                  // PID: 0x46
+        mappings[i].value = A - 40;                          // unit: °C
+      } else if (pid == ABS_THROTTLE_POSITION_B) {           // PID: 0x47
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == ABS_THROTTLE_POSITION_C) {           // PID: 0x48
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == ABS_THROTTLE_POSITION_D) {           // PID: 0x49
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == ABS_THROTTLE_POSITION_E) {           // PID: 0x4A
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == ABS_THROTTLE_POSITION_F) {           // PID: 0x4B
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == COMMANDED_THROTTLE_ACTUATOR) {       // PID: 0x4C
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == TIME_RUN_WITH_MIL_ON) {              // PID: 0x4D
+        mappings[i].value = 256 * A + B;                     // unit: min
+      } else if (pid == TIME_SINCE_CODES_CLEARED) {          // PID: 0x4E
+        mappings[i].value = 256 * A + B;                     // unit: min
+      } else if (pid == MAX_VALUES_EQUIV_V_I_PRESSURE) {     // PID: 0x4F
+        mappings[i].value = B;                               // unit: ratio V mA kPa
+      } else if (pid == MAX_MAF_RATE) {                      // PID: 0x50
+        mappings[i].value = A * 10;                          // unit: g/s
+      } else if (pid == FUEL_TYPE) {                         // PID: 0x51
+        mappings[i].value = A;                               // unit: ref table
+      } else if (pid == ETHANOL_FUEL_PERCENT) {              // PID: 0x52
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == ABS_EVAP_SYS_VAPOR_PRESSURE) {       // PID: 0x53
+        mappings[i].value = (256 * A + B) / 200;             // unit: kPa
+      } else if (pid == EVAP_SYS_VAPOR_PRESSURE) {           // PID: 0x54
+        mappings[i].value = 256 * A + B;                     // unit: Pa
+      } else if (pid == SHORT_TERM_SEC_OXY_SENS_TRIM_1_3) {  // PID: 0x55
+        mappings[i].value = (100.0 / 128.0) * A - 100;       // unit: %
+      } else if (pid == LONG_TERM_SEC_OXY_SENS_TRIM_1_3) {   // PID: 0x56
+        mappings[i].value = (100.0 / 128.0) * A - 100;       // unit: %
+      } else if (pid == SHORT_TERM_SEC_OXY_SENS_TRIM_2_4) {  // PID: 0x57
+        mappings[i].value = (100.0 / 128.0) * A - 100;       // unit: %
+      } else if (pid == LONG_TERM_SEC_OXY_SENS_TRIM_2_4) {   // PID: 0x58
+        mappings[i].value = (100.0 / 128.0) * A - 100;       // unit: %
+      } else if (pid == FUEL_RAIL_ABS_PRESSURE) {            // PID: 0x59
+        mappings[i].value = 10.0 * (256 * A + B);            // unit: kPa
+      } else if (pid == RELATIVE_ACCELERATOR_PEDAL_POS) {    // PID: 0x5A
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == HYBRID_BATTERY_REMAINING_LIFE) {     // PID: 0x5B
+        mappings[i].value = (100.0 / 255) * A;               // unit: %
+      } else if (pid == ENGINE_OIL_TEMP) {                   // PID: 0x5C
+        mappings[i].value = A - 40;                          // unit: °C
+      } else if (pid == FUEL_INJECTION_TIMING) {             // PID: 0x5D
+        mappings[i].value = (256 * A + B) / 128.0 - 210;     // unit: °
+      } else if (pid == ENGINE_FUEL_RATE) {                  // PID: 0x5E
+        mappings[i].value = (256 * A + B) / 20.0;            // unit: L/h
+      } else if (pid == EMISSION_REQUIREMENTS) {             // PID: 0x5F
+        mappings[i].value = A;                               // unit: raw
       }
     }
   }
