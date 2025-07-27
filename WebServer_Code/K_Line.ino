@@ -474,23 +474,19 @@ void getPID(byte mode, byte pid) {
 void get_DTCs() {
   // Request: C2 33 F1 03 F3
   // example Response: 87 F1 11 43 01 70 01 34 00 00 72
-  int dtcs = 0;
-  char dtcBytes[2];
+  int dtcCount = 0;
 
   writeData(read_DTCs, 0x00);
 
-  if (readData()) {
-    int length = sizeof(resultBuffer);
-    for (int i = 0; i < length; i++) {
-      dtcBytes[0] = resultBuffer[4 + i * 2];
-      dtcBytes[1] = resultBuffer[4 + i * 2 + 1];
+  int len = readData();
+  if (len >= 3) {
+    for (int i = 0; i < len - 5; i += 2) {
+      byte b1 = resultBuffer[4 + i];
+      byte b2 = resultBuffer[4 + i + 1];
 
-      if (dtcBytes[0] == 0 && dtcBytes[1] == 0) {
-        break;
-      } else {
-        String ErrorCode = decodeDTC(dtcBytes[0], dtcBytes[1]);
-        dtcBuffer[dtcs++] = ErrorCode;
-      }
+      if (b1 == 0 && b2 == 0) break;
+
+      dtcBuffer[dtcCount++] = decodeDTC(b1, b2);
     }
   }
 
