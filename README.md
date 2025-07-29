@@ -60,8 +60,6 @@ Additionally, I have observed that many test devices use a **1kΩ** value for **
    I'd like to thank PCBWay for their excellent manufacturing, fast delivery, and affordable pricing that truly added value to this project.
 </p>
 
-</br>
-
 #### 📷 Below is a photo of the PCB manufactured for this project:
 
 <img width=36% src="https://github.com/user-attachments/assets/3a34b38d-cd39-4f5f-b4dd-d671399bff53" />
