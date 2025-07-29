@@ -48,37 +48,29 @@ Additionally, I have observed that many test devices use a **1kΩ** value for **
 
 ## 🧩 PCB Design and Sponsorship
 
-<table>
-  <tr>
-    <td style="width: 150px; vertical-align: top;">
-      <a href="https://www.pcbway.com/">
-        <img src="https://github.com/user-attachments/assets/793d8b14-11d8-4dde-9778-d24fd80c78ea" alt="PCBWay" width="120"/>
-      </a>
-    </td>
-    <td style="vertical-align: top;">
-      <p>
-        <strong>The custom-designed PCBs used in this project were manufactured with sponsorship from <a href="https://www.pcbway.com/" target="_blank">PCBWay</a>.</strong><br/>
-        <a href="https://www.pcbway.com/" target="_blank">PCBWay</a> is a well-established company that provides high-quality and reliable PCB manufacturing services to electronics developers worldwide.
-      </p>
-      <p>
-        I was thoroughly satisfied with the board quality and customer support throughout the production process.<br/>
-        I'd like to thank <a href="https://www.pcbway.com/" target="_blank">PCBWay</a> for their excellent manufacturing, fast delivery, and affordable pricing that truly added value to this project.
-      </p>
-    </td>
-  </tr>
-</table>
+<a href="https://www.pcbway.com/">
+  <img align="left" src="https://github.com/user-attachments/assets/793d8b14-11d8-4dde-9778-d24fd80c78ea" alt="PCBWay" width="18%" />
+</a>
+<p>
+   <strong>The custom-designed PCBs used in this project were manufactured with sponsorship from <a href="https://www.pcbway.com/" target="_blank">PCBWay</a>.</strong>
+   PCBWay is a well-established company that provides high-quality and reliable PCB manufacturing services to electronics developers worldwide.
+</p>
+<p>
+   I was thoroughly satisfied with the board quality and customer support throughout the production process.
+   I'd like to thank PCBWay for their excellent manufacturing, fast delivery, and affordable pricing that truly added value to this project.
+</p>
 
+</br>
 
-
-📷 Below is a photo of the PCB manufactured for this project:
+#### 📷 Below is a photo of the PCB manufactured for this project:
 
 <img width=36% src="https://github.com/user-attachments/assets/3a34b38d-cd39-4f5f-b4dd-d671399bff53" />
 
-<br>
-<br>
+</br>
+</br>
 
 👉 If you're looking for professional PCB manufacturing for your own projects: </br>
-🔗  [Check out PCBWay](https://www.pcbway.com/)
+🔗 [Check out PCBWay](https://www.pcbway.com/)
 
 ## 🔧 The Device I Made
 I am currently assembling the final version of the device using this PCB.
