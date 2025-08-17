@@ -1,5 +1,6 @@
 byte resultBuffer[64];
-String dtcBuffer[32];
+String storedDTCBuffer[32];
+String pendingDTCBuffer[32];
 byte supportedLiveData[32];
 byte desiredLiveData[32];
 byte supportedFreezeFrame[32];
@@ -11,11 +12,11 @@ void obdTask() {
   if (page == -1 || page == 0 || page == 2 || page == 3 || page == 5 || page == 6) {
     if (page != -1) {
       if (millis() - lastDTCTime >= 1000) {
-        get_DTCs();
+        get_DTCs(readStoredDTCs);
         lastDTCTime = millis();
       }
     } else {
-      get_DTCs();
+      get_DTCs(readStoredDTCs);
     }
   }
 
@@ -32,7 +33,7 @@ void obdTask() {
   }
   //Get DISTANCE_TRAVELED_WITH_MIL_ON in page 2 if is in supportedLiveData and DTCs detected
   else if (page == 2) {
-    if (dtcBuffer[0] != "") {
+    if (storedDTCBuffer[0] != "") {
       if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
         getPID(readLiveData, DISTANCE_TRAVELED_WITH_MIL_ON);
       }
@@ -40,7 +41,7 @@ void obdTask() {
   }
   //Get All FreezeFrame values in page 3 if detected DTCs
   else if (page == 3) {
-    if (dtcBuffer[0] != "") {
+    if (storedDTCBuffer[0] != "") {
       for (const auto& mapping : freezeFrameMappings) {
         if (conectionStatus == false) {
           return;
@@ -471,12 +472,21 @@ void getPID(byte mode, byte pid) {
   sendDataToServer();
 }
 
-void get_DTCs() {
+void get_DTCs(byte mode) {
   // Request: C2 33 F1 03 F3
   // example Response: 87 F1 11 43 01 70 01 34 00 00 72
   int dtcCount = 0;
+  String *targetArray = nullptr;
 
-  writeData(read_DTCs, 0x00);
+  if (mode == readStoredDTCs) {
+    targetArray = storedDTCBuffer;
+  } else if (mode == readPendingDTCs) {
+    targetArray = pendingDTCBuffer;
+  } else {
+    return;  // Invalid mode
+  }
+
+  writeData(mode, 0x00);
 
   int len = readData();
   if (len >= 3) {
@@ -486,7 +496,7 @@ void get_DTCs() {
 
       if (b1 == 0 && b2 == 0) break;
 
-      dtcBuffer[dtcCount++] = decodeDTC(b1, b2);
+      targetArray[dtcCount++] = decodeDTC(b1, b2);
     }
   }
 

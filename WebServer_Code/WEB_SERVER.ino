@@ -259,7 +259,7 @@ String JsonData() {
         pidObject["unit"] = mapping.unit;
       }
     }
-    jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
+    jsonDoc["DTCs"] = joinStringsWithComma(storedDTCBuffer, sizeof(storedDTCBuffer));
   } else if (page == 1) {
     JsonObject liveData = jsonDoc.createNestedObject("LiveData");
     for (const auto &mapping : liveDataMappings) {
@@ -270,12 +270,12 @@ String JsonData() {
       }
     }
   } else if (page == 2) {
-    jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
+    jsonDoc["DTCs"] = joinStringsWithComma(storedDTCBuffer, sizeof(storedDTCBuffer));
     if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
       jsonDoc[liveDataMappings[32].jsonKey] = liveDataMappings[32].value;  //Distance Traveled With MIL On
     }
   } else if (page == 3) {
-    jsonDoc["DTCs"] = joinStringsWithComma(dtcBuffer, sizeof(dtcBuffer));
+    jsonDoc["DTCs"] = joinStringsWithComma(storedDTCBuffer, sizeof(storedDTCBuffer));
     JsonObject freezeFrame = jsonDoc.createNestedObject("FreezeFrame");
     for (const auto &mapping : freezeFrameMappings) {
       if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
