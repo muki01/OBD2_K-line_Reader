@@ -5,14 +5,16 @@
 const byte init_OBD = 0x81;  // Init ISO14230
 
 // Modes
-const byte read_LiveData = 0x01;         // Read Troubleshoot Codes
-const byte read_FreezeFrame = 0x02;      // Read Troubleshoot Codes
-const byte read_DTCs = 0x03;             // Read Troubleshoot Codes
-const byte clear_DTCs = 0x04;            // Clear Troubleshoot Codes
-const byte test_OxygenSensors = 0x05;    // Test Oxygen Sensors
-const byte component_Monitoring = 0x06;  // Component Monitoring
-const byte read_pendingDTCs = 0x07;      // Read Pending Troubleshoot Codes
-const byte read_VehicleInfo = 0x09;      // Clear Troubleshoot Codes
+const byte readLiveData = 0x01;              // Show current live data
+const byte readFreezeFrameData = 0x02;       // Show freeze frame data
+const byte readStoredDTCs = 0x03;            // Show stored Diagnostic Trouble Codes (DTCs)
+const byte clearStoredDTCs = 0x04;           // Clear Diagnostic Trouble Codes and stored values
+const byte testOxygenSensor = 0x05;          // Test results, oxygen sensor monitoring (non-CAN only)
+const byte testOtherComponents = 0x06;       // Test results, other component/system monitoring (for CAN)
+const byte readPendingDTCs = 0x07;           // Show pending Diagnostic Trouble Codes
+const byte controlOnBoardComponents = 0x08;  // Control operation of on-board component/system
+const byte readVehicleInfo = 0x09;           // Request vehicle information
+const byte readPermanentDTCs = 0x0A;         // Show permanent Diagnostic Trouble Codes
 
 // PIDs for Vehicle Info
 const byte supported_VehicleInfo = 0x00;  // Read Supported Vehicle Info
