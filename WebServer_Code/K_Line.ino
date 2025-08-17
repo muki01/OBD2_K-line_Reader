@@ -522,6 +522,8 @@ bool clear_DTC() {
   int len = readData();
   if (len >= 3) {
     if (resultBuffer[3] == 0x44) {
+      memset(storedDTCBuffer, 0, sizeof(storedDTCBuffer));
+      memset(pendingDTCBuffer, 0, sizeof(pendingDTCBuffer));
       return true;
     }
   }
