@@ -260,13 +260,13 @@ void getPID(byte mode, byte pid) {
 
   writeData(mode, pid);
 
-  if (!readData()) return;             // Yanıt okunamadıysa çık
-  if (resultBuffer[4] != pid) return;  // Gelen PID doğru mu kontrol et
+  if (!readData()) return;             // Return if no response
+  if (resultBuffer[4] != pid) return;  // Check if the received PID is correct
 
   byte A = resultBuffer[(mode == readLiveData) ? 5 : 6];
   byte B = resultBuffer[(mode == readLiveData) ? 6 : 7];
 
-  PidMapping* mappings = (mode == 1) ? liveDataMappings : freezeFrameMappings;  // Doğru mapping dizisini seç
+  PidMapping* mappings = (mode == 1) ? liveDataMappings : freezeFrameMappings;  // Select the correct mapping array
 
   for (int i = 0; i < 64; i++) {
     if (mappings[i].pid == pid) {
