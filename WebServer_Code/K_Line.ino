@@ -163,14 +163,14 @@ void writeData(const byte mode, const byte pid) {
   debugPrintln("Writing Data");
   byte message[7] = { 0 };
   size_t length = (mode == readFreezeFrameData || mode == testOxygenSensor) ? 7 : (mode == init_OBD || mode == readStoredDTCs || mode == clearStoredDTCs || mode == readPendingDTCs) ? 5
-                                                                                                                                                                           : 6;
+                                                                                                                                                                                     : 6;
 
   if (protocol == "ISO9141") {
     message[0] = (mode == readFreezeFrameData || mode == testOxygenSensor) ? 0x69 : 0x68;
     message[1] = 0x6A;
   } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
     message[0] = (mode == readFreezeFrameData || mode == testOxygenSensor) ? 0xC3 : (mode == init_OBD || mode == readStoredDTCs || mode == clearStoredDTCs || mode == readPendingDTCs) ? 0xC1
-                                                                                                                   : 0xC2;
+                                                                                                                                                                                       : 0xC2;
     message[1] = 0x33;
   }
 
@@ -472,11 +472,11 @@ void getPID(byte mode, byte pid) {
   sendDataToServer();
 }
 
-void get_DTCs(byte mode) {
+int get_DTCs(byte mode) {
   // Request: C2 33 F1 03 F3
   // example Response: 87 F1 11 43 01 70 01 34 00 00 72
   int dtcCount = 0;
-  String *targetArray = nullptr;
+  String* targetArray = nullptr;
 
   if (mode == readStoredDTCs) {
     targetArray = storedDTCBuffer;
@@ -501,6 +501,7 @@ void get_DTCs(byte mode) {
   }
 
   sendDataToServer();
+  return dtcCount;
 }
 
 String decodeDTC(char input_byte1, char input_byte2) {
