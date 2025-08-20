@@ -1,75 +1,110 @@
 byte resultBuffer[64];
-String dtcBuffer[32];
+String storedDTCBuffer[32];
+String pendingDTCBuffer[32];
 byte supportedLiveData[32];
 byte supportedFreezeFrame[32];
 byte supportedVehicleInfo[32];
+byte supportedComponentMonitoring[32];
 
 void obdTask() {
   Serial.println();
   Serial.println("Live Data: ");
-  getPID(VEHICLE_SPEED);
+  vehicleSpeedValue = getPID(readLiveData, VEHICLE_SPEED);
   Serial.print("Speed: "), Serial.println(vehicleSpeedValue);
-  getPID(ENGINE_RPM);
+  engineRpmValue = getPID(readLiveData, ENGINE_RPM);
   Serial.print("Engine RPM: "), Serial.println(engineRpmValue);
-  getPID(ENGINE_COOLANT_TEMP);
+  engineCoolantTemp = getPID(readLiveData, ENGINE_COOLANT_TEMP);
   Serial.print("Coolant Temp: "), Serial.println(engineCoolantTemp);
-  getPID(INTAKE_AIR_TEMP);
+  intakeAirTempValue = getPID(readLiveData, INTAKE_AIR_TEMP);
   Serial.print("Intake Air Temp: "), Serial.println(intakeAirTempValue);
-  getPID(THROTTLE_POSITION);
+  throttlePositionValue = getPID(readLiveData, THROTTLE_POSITION);
   Serial.print("Throttle: "), Serial.println(throttlePositionValue);
-  getPID(TIMING_ADVANCE);
+  timingAdvanceValue = getPID(readLiveData, TIMING_ADVANCE);
   Serial.print("Timing Advance: "), Serial.println(timingAdvanceValue);
-  getPID(ENGINE_LOAD);
+  engineLoadValue = getPID(readLiveData, ENGINE_LOAD);
   Serial.print("Engine Load: "), Serial.println(engineLoadValue);
-  getPID(MAF_FLOW_RATE);
+  mafAirFlowRate = getPID(readLiveData, MAF_FLOW_RATE);
   Serial.print("MAF Flow Rate: "), Serial.println(mafAirFlowRate);
   Serial.println();
 
-  Serial.println("DTCs: ");
-  get_DTCs();
-  for (int i = 0; i < 32; i++) {
-    Serial.print(dtcBuffer[i]);
-    Serial.print(", ");
+  Serial.println("Stored DTCs: ");
+  int storedDTCsLength = get_DTCs(readStoredDTCs);
+  if (storedDTCsLength) {
+    for (int i = 0; i < storedDTCsLength; i++) {
+      Serial.print(storedDTCBuffer[i]);
+      Serial.print(", ");
+    }
+    Serial.println();
+  } else {
+    Serial.println("No Stored DTCs Found.");
   }
   Serial.println();
+
+  Serial.println("Pending DTCs: ");
+  int pendingDTCsLength = get_DTCs(readPendingDTCs);
+  if (pendingDTCsLength) {
+    for (int i = 0; i < pendingDTCsLength; i++) {
+      Serial.print(pendingDTCBuffer[i]);
+      Serial.print(", ");
+    }
+    Serial.println();
+  } else {
+    Serial.println("No Pending DTCs Found.");
+  }
   Serial.println();
 
   Serial.println("Freeze Frame: ");
-  getFreezeFrame(VEHICLE_SPEED);
-  Serial.print("Speed: "), Serial.println(freeze_SPEED);
-  getFreezeFrame(ENGINE_RPM);
-  Serial.print("Engine RPM: "), Serial.println(freeze_RPM);
-  getFreezeFrame(ENGINE_COOLANT_TEMP);
-  Serial.print("Coolant Temp: "), Serial.println(freeze_COOLANT_TEMP);
-  getFreezeFrame(ENGINE_LOAD);
-  Serial.print("Engine Load: "), Serial.println(freeze_ENGINELOAD);
-  Serial.println();
-
-  Serial.println("Suported LiveData: ");
-  getSupportedPIDs(0x01);
-  for (int i = 0; i < 32; i++) {
-    Serial.print(supportedLiveData[i], HEX);
-    Serial.print(", ");
+  if (get_DTCs(readStoredDTCs)) {
+    freeze_SPEED = getPID(readFreezeFrameData, VEHICLE_SPEED);
+    Serial.print("Speed: "), Serial.println(freeze_SPEED);
+    freeze_RPM = getPID(readFreezeFrameData, ENGINE_RPM);
+    Serial.print("Engine RPM: "), Serial.println(freeze_RPM);
+    freeze_COOLANT_TEMP = getPID(readFreezeFrameData, ENGINE_COOLANT_TEMP);
+    Serial.print("Coolant Temp: "), Serial.println(freeze_COOLANT_TEMP);
+    freeze_ENGINELOAD = getPID(readFreezeFrameData, ENGINE_LOAD);
+    Serial.print("Engine Load: "), Serial.println(freeze_ENGINELOAD);
+  } else {
+    Serial.println("No Stored DTCs Found for Freeze Frame.");
   }
   Serial.println();
-  Serial.println();
 
-  Serial.println("Suported FreezeFrame: ");
-  getSupportedPIDs(0x02);
-  for (int i = 0; i < 32; i++) {
-    Serial.print(supportedFreezeFrame[i], HEX);
-    Serial.print(", ");
+  Serial.println("Supported LiveData: ");
+  int supportedLiveDataLength = readSupportedData(0x01);
+  if (supportedLiveDataLength) {
+    for (int i = 0; i < supportedLiveDataLength; i++) {
+      Serial.print(supportedLiveData[i], HEX);
+      Serial.print(", ");
+    }
+    Serial.println();
+  } else {
+    Serial.println("No Supported LiveData Found.");
   }
   Serial.println();
-  Serial.println();
 
-  Serial.println("Suported VehicleInfo: ");
-  getSupportedPIDs(0x09);
-  for (int i = 0; i < 32; i++) {
-    Serial.print(supportedVehicleInfo[i], HEX);
-    Serial.print(", ");
+  Serial.println("Supported FreezeFrame: ");
+  int supportedFreezeFrameLength = readSupportedData(0x02);
+  if (supportedFreezeFrameLength) {
+    for (int i = 0; i < supportedFreezeFrameLength; i++) {
+      Serial.print(supportedFreezeFrame[i], HEX);
+      Serial.print(", ");
+    }
+    Serial.println();
+  } else {
+    Serial.println("No Supported FreezeFrame Found.");
   }
   Serial.println();
+
+  Serial.println("Supported VehicleInfo: ");
+  int supportedVehicleInfoLength = readSupportedData(0x09);
+  if (supportedVehicleInfoLength) {
+    for (int i = 0; i < supportedVehicleInfoLength; i++) {
+      Serial.print(supportedVehicleInfo[i], HEX);
+      Serial.print(", ");
+    }
+    Serial.println();
+  } else {
+    Serial.println("No Supported VehicleInfo Found.");
+  }
   Serial.println();
 }
 
@@ -164,15 +199,15 @@ void send5baud(uint8_t data) {
 void writeData(const byte mode, const byte pid) {
   Serial.println("Writing Data");
   byte message[7] = { 0 };
-  size_t length = (mode == read_FreezeFrame) ? 7 : (mode == init_OBD || mode == read_DTCs || mode == clear_DTCs) ? 5
-                                                                                                                 : 6;
+  size_t length = (mode == readFreezeFrameData || mode == testOxygenSensor) ? 7 : (mode == init_OBD || mode == readStoredDTCs || mode == clearStoredDTCs || mode == readPendingDTCs) ? 5
+                                                                                                                                                                                     : 6;
 
   if (protocol == "ISO9141") {
-    message[0] = (mode == read_FreezeFrame) ? 0x69 : 0x68;
+    message[0] = (mode == readFreezeFrameData || mode == testOxygenSensor) ? 0x69 : 0x68;
     message[1] = 0x6A;
   } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    message[0] = (mode == read_FreezeFrame) ? 0xC3 : (mode == init_OBD || mode == read_DTCs || mode == clear_DTCs) ? 0xC1
-                                                                                                                   : 0xC2;
+    message[0] = (mode == readFreezeFrameData || mode == testOxygenSensor) ? 0xC3 : (mode == init_OBD || mode == readStoredDTCs || mode == clearStoredDTCs || mode == readPendingDTCs) ? 0xC1
+                                                                                                                                                                                       : 0xC2;
     message[1] = 0x33;
   }
 
@@ -191,7 +226,7 @@ void writeData(const byte mode, const byte pid) {
   clearEcho();
 }
 
-bool readData() {
+int readData() {
   Serial.println("Reading...");
   unsigned long startMillis = millis();  // Start time for waiting the first byte
   int bytesRead = 0;
@@ -207,23 +242,22 @@ bool readData() {
       Serial.print("Received Data: ");
       while (millis() - lastByteTime < DATA_REQUEST_INTERVAL) {  // Wait up to 60ms for new data
         if (K_Serial.available() > 0) {                          // If new data is available, read it
+          if (bytesRead >= sizeof(resultBuffer)) {
+            Serial.println("\nBuffer is full. Stopping data reception.");
+            return bytesRead;
+          }
+
           resultBuffer[bytesRead] = K_Serial.read();
           Serial.print(resultBuffer[bytesRead], HEX);
           Serial.print(" ");
           bytesRead++;
           lastByteTime = millis();  // Reset timer
-
-          // If buffer is full, stop reading and print message
-          if (bytesRead >= sizeof(resultBuffer)) {
-            Serial.println("\nBuffer is full. Stopping data reception.");
-            return true;
-          }
         }
       }
 
       // If no new data is received within 60ms, exit the loop
       Serial.println("\nData reception completed.");
-      return true;
+      return bytesRead;
     }
   }
 
@@ -236,7 +270,7 @@ bool readData() {
       KLineStatus = false;
     }
   }
-  return false;
+  return 0;
 }
 
 void clearEcho() {
@@ -244,7 +278,8 @@ void clearEcho() {
   if (result > 0) {
     Serial.print("Cleared Echo Data: ");
     for (int i = 0; i < result; i++) {
-      Serial.print(K_Serial.read(), HEX);
+      byte receivedByte = K_Serial.read();
+      Serial.print(receivedByte);
       Serial.print(" ");
     }
     Serial.println();
@@ -253,163 +288,147 @@ void clearEcho() {
   }
 }
 
-void getPID(const byte pid) {
+float getPID(byte mode, byte pid) {
   // example Request: C2 33 F1 01 0C F3
   // example Response: 84 F1 11 41 0C 1F 40 32
-  writeData(read_LiveData, pid);
+  if (mode != readLiveData && mode != readFreezeFrameData) return;
 
-  if (readData()) {
-    if (resultBuffer[4] == pid) {
-      if (pid == FUEL_SYSTEM_STATUS)
-        fuelSystemStatus = resultBuffer[5];
+  writeData(mode, pid);
 
-      if (pid == ENGINE_LOAD)
-        engineLoadValue = (100.0 / 255) * resultBuffer[5];
+  if (!readData()) return -1;             // Return if no response
+  if (resultBuffer[4] != pid) return -2;  // Check if the received PID is correct
 
-      if (pid == ENGINE_COOLANT_TEMP)
-        engineCoolantTemp = resultBuffer[5] - 40;
+  byte A = resultBuffer[(mode == readLiveData) ? 5 : 6];
+  byte B = resultBuffer[(mode == readLiveData) ? 6 : 7];
 
-      if (pid == SHORT_TERM_FUEL_TRIM_BANK_1)
-        shortTermFuelTrimBank1 = (resultBuffer[5] / 1.28) - 100.0;
 
-      if (pid == LONG_TERM_FUEL_TRIM_BANK_1)
-        longTermFuelTrimBank1 = (resultBuffer[5] / 1.28) - 100.0;
-
-      if (pid == SHORT_TERM_FUEL_TRIM_BANK_2)
-        shortTermFuelTrimBank2 = (resultBuffer[5] / 1.28) - 100.0;
-
-      if (pid == LONG_TERM_FUEL_TRIM_BANK_2)
-        longTermFuelTrimBank2 = (resultBuffer[5] / 1.28) - 100.0;
-
-      if (pid == FUEL_PRESSURE)
-        fuelPressureValue = 3 * resultBuffer[5];
-
-      if (pid == INTAKE_MANIFOLD_ABS_PRESSURE)
-        intakeManifoldAbsPressure = resultBuffer[5];
-
-      if (pid == ENGINE_RPM)
-        engineRpmValue = (256 * resultBuffer[5] + resultBuffer[6]) / 4;
-
-      if (pid == VEHICLE_SPEED)
-        vehicleSpeedValue = resultBuffer[5];
-
-      if (pid == TIMING_ADVANCE)
-        timingAdvanceValue = (resultBuffer[5] / 2) - 64;
-
-      if (pid == INTAKE_AIR_TEMP)
-        intakeAirTempValue = resultBuffer[5] - 40;
-
-      if (pid == MAF_FLOW_RATE)
-        mafAirFlowRate = (256 * resultBuffer[5] + resultBuffer[6]) / 100.0;
-
-      if (pid == THROTTLE_POSITION)
-        throttlePositionValue = (100.0 / 255) * resultBuffer[5];
-
-      if (pid == COMMANDED_SECONDARY_AIR_STATUS)
-        secondaryAirStatus = resultBuffer[5];
-
-      if (pid == OXYGEN_SENSORS_PRESENT_2_BANKS)
-        oxygenSensorsPresent2Banks = resultBuffer[5];
-
-      if (pid == OXYGEN_SENSOR_1_A) {
-        oxygenSensor1Voltage = resultBuffer[5] / 200.0;
-        shortTermFuelTrim1 = (100.0 / 128) * resultBuffer[6] - 100.0;
+  switch (pid) {
+    case 0x01:                                    // Monitor Status Since DTC Cleared (bit encoded)
+    case 0x02:                                    // Monitor Status Since DTC Cleared (bit encoded)
+    case 0x03:                                    // Fuel System Status (bit encoded)
+      return A;                                   //
+    case 0x04:                                    // Engine Load (%)
+      return A * 100 / 255;                       //
+    case 0x05:                                    // Coolant Temperature (°C)
+      return A - 40;                              //
+    case 0x06:                                    // Short Term Fuel Trim Bank 1 (%)
+    case 0x07:                                    // Long Term Fuel Trim Bank 1 (%)
+    case 0x08:                                    // Short Term Fuel Trim Bank 2 (%)
+    case 0x09:                                    // Long Term Fuel Trim Bank 2 (%)
+      return (int)((int8_t)A * 100 / 128);        //
+    case 0x0A:                                    // Fuel Pressure (kPa)
+      return A * 3;                               //
+    case 0x0B:                                    // Intake Manifold Absolute Pressure (kPa)
+      return A;                                   //
+    case 0x0C:                                    // RPM
+      return ((A * 256) + B) / 4;                 //
+    case 0x0D:                                    // Speed (km/h)
+      return A;                                   //
+    case 0x0E:                                    // Timing Advance (°)
+      return (int8_t)A / 2;                       //
+    case 0x0F:                                    // Intake Air Temperature (°C)
+      return A - 40;                              //
+    case 0x10:                                    // MAF Flow Rate (grams/sec)
+      return ((A * 256) + B) / 100;               //
+    case 0x11:                                    // Throttle Position (%)
+      return A * 100 / 255;                       //
+    case 0x12:                                    // Commanded Secondary Air Status (bit encoded)
+    case 0x13:                                    // Oxygen Sensors Present 2 Banks (bit encoded)
+      return A;                                   //
+    case 0x14:                                    // Oxygen Sensor 1A Voltage (V)
+    case 0x15:                                    // Oxygen Sensor 2A Voltage (V)
+    case 0x16:                                    // Oxygen Sensor 3A Voltage (V)
+    case 0x17:                                    // Oxygen Sensor 4A Voltage (V)
+    case 0x18:                                    // Oxygen Sensor 5A Voltage (V)
+    case 0x19:                                    // Oxygen Sensor 6A Voltage (V)
+    case 0x1A:                                    // Oxygen Sensor 7A Voltage (V)
+    case 0x1B:                                    // Oxygen Sensor 8A Voltage (V)
+      return A / 200;                             // Volt to mV (V*1000), float hesap gerekirse fonksiyon
+    case 0x1C:                                    // OBD Standards This Vehicle Conforms To (bit encoded)
+    case 0x1D:                                    // Oxygen Sensors Present 4 Banks (bit encoded)
+    case 0x1E:                                    // Auxiliary Input Status (bit encoded)
+      return A;                                   //
+    case 0x1F:                                    // Run Time Since Engine Start (seconds)
+    case 0x21:                                    // Distance Traveled With MIL On (km)
+      return (A * 256) + B;                       //
+    case 0x22:                                    // Fuel Rail Pressure (kPa)
+    case 0x23:                                    // Fuel Rail Gauge Pressure (kPa)
+      return ((A * 256) + B) / 10;                //
+    case 0x24:                                    // Oxygen Sensor 1B (ratio voltage)
+    case 0x25:                                    // Oxygen Sensor 2B
+    case 0x26:                                    // Oxygen Sensor 3B
+    case 0x27:                                    // Oxygen Sensor 4B
+    case 0x28:                                    // Oxygen Sensor 5B
+    case 0x29:                                    // Oxygen Sensor 6B
+    case 0x2A:                                    // Oxygen Sensor 7B
+    case 0x2B:                                    // Oxygen Sensor 8B
+      return ((A * 256) + B) * 0.0000305 * 1000;  // ratio * 1000 (mV), float önerilir
+    case 0x2C:                                    // Commanded EGR (%)
+      return A * 100 / 255;                       //
+    case 0x2D:                                    // EGR Error (%)
+      return (int8_t)A * 100 / 128;               //
+    case 0x2E:                                    // Commanded Evaporative Purge (%)
+    case 0x2F:                                    // Fuel Tank Level Input (%)
+      return A * 100 / 255;                       //
+    case 0x30:                                    // Warm-ups Since Codes Cleared (count)
+      return A;                                   //
+    case 0x31:                                    // Distance Traveled Since Codes Cleared (km)
+      return (A * 256) + B;                       //
+    case 0x32:
+      {                                                 // Evap System Vapor Pressure (Pa)
+        int16_t signedValue = (int16_t)((A << 8) | B);  //
+        return signedValue / 4;                         //
       }
-
-      if (pid == OXYGEN_SENSOR_2_A) {
-        oxygenSensor2Voltage = resultBuffer[5] / 200.0;
-        shortTermFuelTrim2 = (100.0 / 128) * resultBuffer[6] - 100.0;
-      }
-
-      if (pid == OXYGEN_SENSOR_3_A) {
-        oxygenSensor3Voltage = resultBuffer[5] / 200.0;
-        shortTermFuelTrim3 = (100.0 / 128) * resultBuffer[6] - 100.0;
-      }
-
-      if (pid == OXYGEN_SENSOR_4_A) {
-        oxygenSensor4Voltage = resultBuffer[5] / 200.0;
-        shortTermFuelTrim4 = (100.0 / 128) * resultBuffer[6] - 100.0;
-      }
-
-      if (pid == OXYGEN_SENSOR_5_A) {
-        oxygenSensor5Voltage = resultBuffer[5] / 200.0;
-        shortTermFuelTrim5 = (100.0 / 128) * resultBuffer[6] - 100.0;
-      }
-
-      if (pid == OXYGEN_SENSOR_6_A) {
-        oxygenSensor6Voltage = resultBuffer[5] / 200.0;
-        shortTermFuelTrim6 = (100.0 / 128) * resultBuffer[6] - 100.0;
-      }
-
-      if (pid == OXYGEN_SENSOR_7_A) {
-        oxygenSensor7Voltage = resultBuffer[5] / 200.0;
-        shortTermFuelTrim7 = (100.0 / 128) * resultBuffer[6] - 100.0;
-      }
-
-      if (pid == OXYGEN_SENSOR_8_A) {
-        oxygenSensor8Voltage = resultBuffer[5] / 200.0;
-        shortTermFuelTrim8 = (100.0 / 128) * resultBuffer[6] - 100.0;
-      }
-
-      if (pid == OBD_STANDARDS)
-        obdStandards = resultBuffer[5];
-
-      if (pid == OXYGEN_SENSORS_PRESENT_4_BANKS)
-        oxygenSensorsPresent4Banks = resultBuffer[5];
-
-      if (pid == AUX_INPUT_STATUS)
-        auxiliaryInputStatus = resultBuffer[5];
-
-      if (pid == RUN_TIME_SINCE_ENGINE_START)
-        runTimeSinceEngineStart = 256 * resultBuffer[5] + resultBuffer[6];
-
-      if (pid == DISTANCE_TRAVELED_WITH_MIL_ON)
-        distanceWithMilOn = 256 * resultBuffer[5] + resultBuffer[6];
-    }
+    case 0x33:                            // Absolute Barometric Pressure (kPa)
+      return A;                           //
+    case 0x34:                            // Oxygen Sensor 1C (current)
+    case 0x35:                            // Oxygen Sensor 2C
+    case 0x36:                            // Oxygen Sensor 3C
+    case 0x37:                            // Oxygen Sensor 4C
+    case 0x38:                            // Oxygen Sensor 5C
+    case 0x39:                            // Oxygen Sensor 6C
+    case 0x3A:                            // Oxygen Sensor 7C
+    case 0x3B:                            // Oxygen Sensor 8C
+      return ((A * 256) + B) * 0.000488;  //
+    case 0x3C:                            // Catalyst Temperature Bank 1 Sensor 1 (°C)
+    case 0x3D:                            // Catalyst Temperature Bank 2 Sensor 1 (°C)
+    case 0x3E:                            // Catalyst Temperature Bank 1 Sensor 2 (°C)
+    case 0x3F:                            // Catalyst Temperature Bank 2 Sensor 2 (°C)
+      return (A * 256) + B - 40;          //
+    default:                              //
+      return -4;                          // Unknown PID
   }
 }
 
-void getFreezeFrame(const byte pid) {
-  // example Request: C3 33 F1 02 05 00 EE
-  // example Response: 84 F1 11 42 05 00 8A 57
-  writeData(read_FreezeFrame, pid);
-
-  if (readData()) {
-    if (resultBuffer[4] == pid) {
-      if (pid == VEHICLE_SPEED)
-        freeze_SPEED = resultBuffer[6];
-      if (pid == ENGINE_RPM)
-        freeze_RPM = (resultBuffer[6] * 256 + resultBuffer[7]) / 4;
-      if (pid == ENGINE_COOLANT_TEMP)
-        freeze_COOLANT_TEMP = resultBuffer[6] - 40;
-      if (pid == ENGINE_LOAD)
-        freeze_ENGINELOAD = resultBuffer[6] / 2.55;
-    }
-  }
-}
-
-void get_DTCs() {
+int get_DTCs(byte mode) {
   // Request: C2 33 F1 03 F3
   // example Response: 87 F1 11 43 01 70 01 34 00 00 72
-  int dtcs = 0;
-  char dtcBytes[2];
+  int dtcCount = 0;
+  String* targetArray = nullptr;
 
-  writeData(read_DTCs, 0x00);
+  if (mode == readStoredDTCs) {
+    targetArray = storedDTCBuffer;
+  } else if (mode == readPendingDTCs) {
+    targetArray = pendingDTCBuffer;
+  } else {
+    return;  // Invalid mode
+  }
 
-  if (readData()) {
-    int length = sizeof(resultBuffer);
-    for (int i = 0; i < length; i++) {
-      dtcBytes[0] = resultBuffer[4 + i * 2];
-      dtcBytes[1] = resultBuffer[4 + i * 2 + 1];
+  writeData(mode, 0x00);
 
-      if (dtcBytes[0] == 0 && dtcBytes[1] == 0) {
-        break;
-      } else {
-        String ErrorCode = decodeDTC(dtcBytes[0], dtcBytes[1]);
-        dtcBuffer[dtcs++] = ErrorCode;
-      }
+  int len = readData();
+  if (len >= 3) {
+    for (int i = 0; i < len - 5; i += 2) {
+      byte b1 = resultBuffer[4 + i];
+      byte b2 = resultBuffer[4 + i + 1];
+
+      if (b1 == 0 && b2 == 0) break;
+
+      targetArray[dtcCount++] = decodeDTC(b1, b2);
     }
   }
+
+  return dtcCount;
 }
 
 String decodeDTC(char input_byte1, char input_byte2) {
@@ -426,11 +445,20 @@ String decodeDTC(char input_byte1, char input_byte2) {
   return ErrorCode;
 }
 
-void clear_DTC() {
-  writeData(clear_DTCs, 0x00);
+bool clear_DTC() {
+  writeData(clearStoredDTCs, 0x00);
+  int len = readData();
+  if (len >= 3) {
+    if (resultBuffer[3] == 0x44) {
+      memset(storedDTCBuffer, 0, sizeof(storedDTCBuffer));
+      memset(pendingDTCBuffer, 0, sizeof(pendingDTCBuffer));
+      return true;
+    }
+  }
+  return false;
 }
 
-void getVIN() {
+String getVehicleInfo(byte pid) {
   // Request: C2 33 F1 09 02 F1
   // example Response: 87 F1 11 49 02 01 00 00 00 31 06
   //                   87 F1 11 49 02 02 41 31 4A 43 D5
@@ -438,160 +466,115 @@ void getVIN() {
   //                   87 F1 11 49 02 04 52 37 32 35 C8
   //                   87 F1 11 49 02 05 32 33 36 37 E6
 
-  byte VIN_Array[17];
+  byte dataArray[64];
+  int messageCount;
   int arrayNum = 0;
 
-  writeData(read_VehicleInfo, read_VIN);
+  if (pid == 0x02) {
+    messageCount = 5;
+  } else if (pid == 0x04 || pid == 0x06) {
+    if (pid == 0x04) {
+      writeData(readVehicleInfo, read_ID_Length);
+    } else if (pid == 0x06) {
+      writeData(readVehicleInfo, read_ID_Num_Length);
+    } else {
+      return "";
+    }
+
+    if (readData()) {
+      messageCount = resultBuffer[5];
+    } else {
+      return "";
+    }
+  }
+
+  writeData(readVehicleInfo, pid);
 
   if (readData()) {
-    VIN_Array[arrayNum++] = resultBuffer[9];
-    for (int j = 0; j < 4; j++) {
+    for (int j = 0; j < messageCount; j++) {
+      if (pid == 0x02 && j == 0) {
+        dataArray[arrayNum++] = resultBuffer[9];
+        continue;
+      }
       for (int i = 1; i <= 4; i++) {
-        VIN_Array[arrayNum++] = resultBuffer[i + 16 + j * 11];
+        dataArray[arrayNum++] = resultBuffer[i + 5 + j * 11];
       }
     }
   }
 
-  Vehicle_VIN = convertHexToAscii(VIN_Array, sizeof(VIN_Array));
-}
-
-void getCalibrationID() {
-  // Request: C2 33 F1 09 04 F3
-  // example Response: 87 F1 11 49 04 01 4F 32 43 44 DF
-  //                   87 F1 11 49 04 02 31 30 31 41 AB
-  //                   87 F1 11 49 04 03 00 00 00 00 D9
-  //                   87 F1 11 49 04 04 00 00 00 00 DA
-
-  byte ID_Array[64];
-  int ID_messageCount;
-  int arrayNum = 0;
-
-  writeData(read_VehicleInfo, read_ID_Length);
-
-  if (readData()) {
-    ID_messageCount = resultBuffer[5];
-
-    writeData(read_VehicleInfo, read_ID);
-
-    if (readData()) {
-      for (int j = 0; j < ID_messageCount; j++) {
-        for (int i = 1; i <= 4; i++) {
-          ID_Array[arrayNum++] = resultBuffer[i + 5 + j * 11];
-        }
-      }
-    }
+  if (pid == 0x02 || pid == 0x04) {
+    return convertHexToAscii(dataArray, arrayNum);
+  } else if (pid == 0x06) {
+    return convertBytesToHexString(dataArray, arrayNum);
   }
-
-  Vehicle_ID = convertHexToAscii(ID_Array, arrayNum);
+  return "";
 }
 
-void getCalibrationIDNum() {
-  // Request: C2 33 F1 09 06 F5
-  // example Response: 87 F1 11 49 06 01 00 00 67 0C 4C
-
-  byte IDNum_Array[16];
-  int ID_messageCount;
-  int arrayNum = 0;
-
-  writeData(read_VehicleInfo, read_ID_Num_Length);
-
-  if (readData()) {
-    ID_messageCount = resultBuffer[5];
-
-    writeData(read_VehicleInfo, read_ID_Num);
-
-    if (readData()) {
-      for (int j = 0; j < ID_messageCount; j++) {
-        for (int i = 1; i <= 4; i++) {
-          IDNum_Array[arrayNum++] = resultBuffer[i + 5 + j * 11];
-        }
-      }
-    }
-  }
-
-  Vehicle_ID_Num = convertBytesToHexString(IDNum_Array, arrayNum);
-}
-
-void getSupportedPIDs(const byte option) {
-  int pidIndex = 0;
+int readSupportedData(byte mode) {
   int supportedCount = 0;
+  int pidIndex = 0;
+  int startByte = 0;
+  int arraySize = 32;  // Size of supported data arrays
+  byte* targetArray = nullptr;
 
-  if (option == 0x01) {
-    writeData(read_LiveData, SUPPORTED_PIDS_1_20);
+  if (mode == readLiveData) {
+    startByte = 5;
+    targetArray = supportedLiveData;
+  } else if (mode == readFreezeFrameData) {
+    startByte = 6;
+    targetArray = supportedFreezeFrame;
+  } else if (mode == readVehicleInfo) {
+    startByte = 6;
+    targetArray = supportedVehicleInfo;
+  } else if (mode == testOtherComponents) {
+    startByte = 6;
+    targetArray = supportedComponentMonitoring;
+  } else {
+    return -1;  // Invalid mode
+  }
 
-    if (readData()) {
-
-      for (int i = 5; i < 9; i++) {
-        byte value = resultBuffer[i];
-        for (int bit = 7; bit >= 0; bit--) {
-          if ((value >> bit) & 1) {
-            supportedLiveData[supportedCount++] = pidIndex + 1;
-          }
-          pidIndex++;
+  writeData(mode, SUPPORTED_PIDS_1_20);
+  if (readData()) {
+    for (int i = 0; i < 4; i++) {
+      byte value = resultBuffer[i + startByte];
+      for (int bit = 7; bit >= 0; bit--) {
+        if ((value >> bit) & 1) {
+          targetArray[supportedCount++] = pidIndex + 1;
         }
-      }
-    }
-
-    if (isInArray(supportedLiveData, sizeof(supportedLiveData), 0x20)) {
-      writeData(read_LiveData, SUPPORTED_PIDS_21_40);
-
-      if (readData()) {
-        for (int i = 5; i < 9; i++) {
-          byte value = resultBuffer[i];
-          for (int bit = 7; bit >= 0; bit--) {
-            if ((value >> bit) & 1) {
-              supportedLiveData[supportedCount++] = pidIndex + 1;
-            }
-            pidIndex++;
-          }
-        }
-      }
-    }
-
-    if (isInArray(supportedLiveData, sizeof(supportedLiveData), 0x40)) {
-      writeData(read_LiveData, SUPPORTED_PIDS_41_60);
-
-      if (readData()) {
-        for (int i = 5; i < 9; i++) {
-          byte value = resultBuffer[i];
-          for (int bit = 7; bit >= 0; bit--) {
-            if ((value >> bit) & 1) {
-              supportedLiveData[supportedCount++] = pidIndex + 1;
-            }
-            pidIndex++;
-          }
-        }
+        pidIndex++;
       }
     }
   }
-  if (option == 0x02) {
-    writeData(read_FreezeFrame, SUPPORTED_PIDS_1_20);
 
+  if (isInArray(targetArray, arraySize, 0x20)) {
+    writeData(mode, SUPPORTED_PIDS_21_40);
     if (readData()) {
-      for (int i = 6; i < 10; i++) {
-        byte value = resultBuffer[i];
+      for (int i = 0; i < 4; i++) {
+        byte value = resultBuffer[i + startByte];
         for (int bit = 7; bit >= 0; bit--) {
           if ((value >> bit) & 1) {
-            supportedFreezeFrame[supportedCount++] = pidIndex + 1;
+            targetArray[supportedCount++] = pidIndex + 1;
           }
           pidIndex++;
         }
       }
     }
   }
-  if (option == 0x09) {
-    writeData(read_VehicleInfo, supported_VehicleInfo);
 
+  if (isInArray(targetArray, arraySize, 0x40)) {
+    writeData(mode, SUPPORTED_PIDS_41_60);
     if (readData()) {
-      for (int i = 6; i < 10; i++) {
-        byte value = resultBuffer[i];
+      for (int i = 0; i < 4; i++) {
+        byte value = resultBuffer[i + startByte];
         for (int bit = 7; bit >= 0; bit--) {
           if ((value >> bit) & 1) {
-            supportedVehicleInfo[supportedCount++] = pidIndex + 1;
+            targetArray[supportedCount++] = pidIndex + 1;
           }
           pidIndex++;
         }
       }
     }
   }
+
+  return supportedCount;
 }
