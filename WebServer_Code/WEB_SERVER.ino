@@ -324,35 +324,34 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
   if (type == WS_EVT_DATA) {
     AwsFrameInfo *info = (AwsFrameInfo *)arg;
     if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
-      data[len] = 0;
-      const char *message = (const char *)data;
+      String message = String((char *)data).substring(0, len);
 
-      if (strcmp(message, "clear_dtc") == 0) {
+      if (message == "clear_dtc") {
         Melody2();
         clear_DTC();
       }
-      if (strcmp(message, "beep") == 0) {
+      if (message == "beep") {
         Melody2();
       }
-      if (strcmp(message, "page0") == 0) {
+      if (message == "page0") {
         page = 0;
       }
-      if (strcmp(message, "page1") == 0) {
+      if (message == "page1") {
         page = 1;
       }
-      if (strcmp(message, "page2") == 0) {
+      if (message == "page2") {
         page = 2;
       }
-      if (strcmp(message, "page3") == 0) {
+      if (message == "page3") {
         page = 3;
       }
-      if (strcmp(message, "page4") == 0) {
+      if (message == "page4") {
         page = 4;
       }
-      if (strcmp(message, "page5") == 0) {
+      if (message == "page5") {
         page = 5;
       }
-      if (strcmp(message, "page6") == 0) {
+      if (message == "page6") {
         page = 6;
       }
     }
