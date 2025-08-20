@@ -266,8 +266,8 @@ int readData() {
   errors++;
   if (errors > 2) {
     errors = 0;
-    if (KLineStatus) {
-      KLineStatus = false;
+    if (conectionStatus) {
+      conectionStatus = false;
     }
   }
   return 0;

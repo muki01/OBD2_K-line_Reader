@@ -36,7 +36,7 @@ int runTimeSinceEngineStart = 0, distanceWithMilOn = 0;
 int freeze_SPEED = 0, freeze_RPM = 0, freeze_COOLANT_TEMP = 0, freeze_ENGINELOAD = 0;
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
-bool KLineStatus = false;
+bool conectionStatus = false;
 int errors = 0;
 
 void setup() {
@@ -52,13 +52,13 @@ void setup() {
 }
 
 void loop() {
-  if (KLineStatus == false) {
+  if (conectionStatus == false) {
     Serial.println("Initialising...");
     bool init_success = init_OBD2();
 
     if (init_success) {
       Serial.println("Init Success !!");
-      KLineStatus = true;
+      conectionStatus = true;
       digitalWrite(Led, HIGH);
     }
   } else {

@@ -15,14 +15,6 @@ bool isInArray(byte arr[], int size, byte value) {
   return false;
 }
 
-// int getArrayLength(byte arr[]) {
-//   int count = 0;
-//   while (arr[count] != 0) {
-//     count++;
-//   }
-//   return count;
-// }
-
 String convertHexToAscii(byte* hexBytes, size_t length) {
   String asciiString = "";
   for (int i = 0; i < length; i++) {
