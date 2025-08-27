@@ -12,11 +12,11 @@ void obdTask() {
   if (page == -1 || page == 0 || page == 2 || page == 3 || page == 5 || page == 6) {
     if (page != -1) {
       if (millis() - lastDTCTime >= 1000) {
-        get_DTCs(readStoredDTCs);
+        get_DTCs(read_storedDTCs);
         lastDTCTime = millis();
       }
     } else {
-      get_DTCs(readStoredDTCs);
+      get_DTCs(read_storedDTCs);
     }
   }
 
@@ -27,7 +27,7 @@ void obdTask() {
         return;
       }
       if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
-        getPID(readLiveData, mapping.pid);
+        getPID(read_LiveData, mapping.pid);
       }
     }
   }
@@ -35,7 +35,7 @@ void obdTask() {
   else if (page == 2) {
     if (storedDTCBuffer[0] != "") {
       if (isInArray(supportedLiveData, sizeof(supportedLiveData), DISTANCE_TRAVELED_WITH_MIL_ON)) {
-        getPID(readLiveData, DISTANCE_TRAVELED_WITH_MIL_ON);
+        getPID(read_LiveData, DISTANCE_TRAVELED_WITH_MIL_ON);
       }
     }
   }
@@ -47,7 +47,7 @@ void obdTask() {
           return;
         }
         if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
-          getPID(readFreezeFrameData, mapping.pid);
+          getPID(read_FreezeFrame, mapping.pid);
         }
       }
     }
@@ -55,7 +55,7 @@ void obdTask() {
   //Get Speed data in page 4
   else if (page == 4) {
     if (isInArray(supportedLiveData, sizeof(supportedLiveData), VEHICLE_SPEED)) {
-      getPID(readLiveData, VEHICLE_SPEED);
+      getPID(read_LiveData, VEHICLE_SPEED);
     }
   }
   //Get VIN, ID, ID_Num data in page 5
@@ -162,14 +162,14 @@ void send5baud(uint8_t data) {
 void writeData(const byte mode, const byte pid) {
   debugPrintln("Writing Data");
   byte message[7] = { 0 };
-  size_t length = (mode == readFreezeFrameData || mode == testOxygenSensor) ? 7 : (mode == init_OBD || mode == readStoredDTCs || mode == clearStoredDTCs || mode == readPendingDTCs) ? 5
+  size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
                                                                                                                                                                                      : 6;
 
   if (protocol == "ISO9141") {
-    message[0] = (mode == readFreezeFrameData || mode == testOxygenSensor) ? 0x69 : 0x68;
+    message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0x69 : 0x68;
     message[1] = 0x6A;
   } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
-    message[0] = (mode == readFreezeFrameData || mode == testOxygenSensor) ? 0xC3 : (mode == init_OBD || mode == readStoredDTCs || mode == clearStoredDTCs || mode == readPendingDTCs) ? 0xC1
+    message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0xC3 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 0xC1
                                                                                                                                                                                        : 0xC2;
     message[1] = 0x33;
   }
@@ -478,12 +478,12 @@ int get_DTCs(byte mode) {
   int dtcCount = 0;
   String* targetArray = nullptr;
 
-  if (mode == readStoredDTCs) {
+  if (mode == read_storedDTCs) {
     targetArray = storedDTCBuffer;
-  } else if (mode == readPendingDTCs) {
+  } else if (mode == read_pendingDTCs) {
     targetArray = pendingDTCBuffer;
   } else {
-    return;  // Invalid mode
+    return -1;  // Invalid mode
   }
 
   writeData(mode, 0x00);
@@ -519,7 +519,7 @@ String decodeDTC(char input_byte1, char input_byte2) {
 }
 
 bool clear_DTC() {
-  writeData(clearStoredDTCs, 0x00);
+  writeData(clear_DTCs, 0x00);
   int len = readData();
   if (len >= 3) {
     if (resultBuffer[3] == 0x44) {
@@ -547,9 +547,9 @@ String getVehicleInfo(byte pid) {
     messageCount = 5;
   } else if (pid == 0x04 || pid == 0x06) {
     if (pid == 0x04) {
-      writeData(readVehicleInfo, read_ID_Length);
+      writeData(read_VehicleInfo, read_ID_Length);
     } else if (pid == 0x06) {
-      writeData(readVehicleInfo, read_ID_Num_Length);
+      writeData(read_VehicleInfo, read_ID_Num_Length);
     } else {
       return "";
     }
@@ -561,7 +561,7 @@ String getVehicleInfo(byte pid) {
     }
   }
 
-  writeData(readVehicleInfo, pid);
+  writeData(read_VehicleInfo, pid);
 
   if (readData()) {
     for (int j = 0; j < messageCount; j++) {
@@ -588,15 +588,15 @@ int readSupportedData(byte mode) {
   int pidIndex = 0;
   int startByte = 0;
   int arraySize = 32;  // Size of supported data arrays
-  byte* targetArray = nullptr;
+  uint8_t *targetArray = nullptr;
 
-  if (mode == readLiveData) {
+  if (mode == read_LiveData) {  // Mode 01
     startByte = 5;
     targetArray = supportedLiveData;
-  } else if (mode == readFreezeFrameData) {
+  } else if (mode == read_FreezeFrame) {  // Mode 02
     startByte = 6;
     targetArray = supportedFreezeFrame;
-  } else if (mode == readVehicleInfo) {
+  } else if (mode == test_OxygenSensors) {  // Mode 05
     startByte = 6;
     targetArray = supportedVehicleInfo;
   } else if (mode == testOtherComponents) {
@@ -649,7 +649,7 @@ int readSupportedData(byte mode) {
     }
   }
 
-  if (mode == readLiveData) {
+  if (mode == read_LiveData) {
     memcpy(desiredLiveData, supportedLiveData, sizeof(supportedLiveData));
   }
 
