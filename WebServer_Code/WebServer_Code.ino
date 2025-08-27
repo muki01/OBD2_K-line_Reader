@@ -48,7 +48,7 @@ AsyncWebSocket ws("/ws");
 #define DATA_REQUEST_INTERVAL 60  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
 
 String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol, connectedProtocol = "";
-int page = -1, errors = 0;
+int page = -1, unreceivedDataCount = 0;
 
 int oxygenSensor1Voltage = 0, shortTermFuelTrim1 = 0, oxygenSensor2Voltage = 0, shortTermFuelTrim2 = 0;
 int oxygenSensor3Voltage = 0, shortTermFuelTrim3 = 0, oxygenSensor4Voltage = 0, shortTermFuelTrim4 = 0;

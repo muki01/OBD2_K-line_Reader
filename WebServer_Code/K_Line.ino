@@ -199,7 +199,7 @@ int readData() {
     if (K_Serial.available() > 0) {           // If the first byte is received
       unsigned long lastByteTime = millis();  // Get the last received byte time
       memset(resultBuffer, 0, sizeof(resultBuffer));
-      errors = 0;
+      unreceivedDataCount = 0;
 
       // Inner loop: Read all data
       debugPrint("Received Data: ");
@@ -228,9 +228,9 @@ int readData() {
 
   // If no data is received within 1 seconds
   debugPrintln("Timeout: Not Received Data.");
-  errors++;
-  if (errors > 2) {
-    errors = 0;
+  unreceivedDataCount++;
+  if (unreceivedDataCount > 2) {
+    unreceivedDataCount = 0;
     if (conectionStatus) {
       conectionStatus = false;
     }
