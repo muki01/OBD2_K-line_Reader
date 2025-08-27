@@ -4,8 +4,10 @@ String pendingDTCBuffer[32];
 byte supportedLiveData[32];
 byte desiredLiveData[32];
 byte supportedFreezeFrame[32];
+byte supportedOxygenSensor[32];
+byte supportedOtherComponents[32];
+byte supportedControlComponents[32];
 byte supportedVehicleInfo[32];
-byte supportedComponentMonitoring[32];
 
 void obdTask() {
   //Check DTCs in page -1, 0, 2, 3, 5, 6
@@ -576,10 +578,16 @@ int readSupportedData(byte mode) {
     targetArray = supportedFreezeFrame;
   } else if (mode == test_OxygenSensors) {  // Mode 05
     startByte = 6;
-    targetArray = supportedVehicleInfo;
-  } else if (mode == testOtherComponents) {
+    targetArray = supportedOxygenSensor;
+  } else if (mode == test_OtherComponents) {  // Mode 06
     startByte = 6;
-    targetArray = supportedComponentMonitoring;
+    targetArray = supportedOtherComponents;
+  } else if (mode == control_OnBoardComponents) {  // Mode 08
+    startByte = 5;
+    targetArray = supportedControlComponents;
+  } else if (mode == read_VehicleInfo) {  // Mode 09
+    startByte = 6;
+    targetArray = supportedVehicleInfo;
   } else {
     return -1;  // Invalid mode
   }
