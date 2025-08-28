@@ -435,17 +435,6 @@ float getPIDValue(uint8_t mode, uint8_t pid) {
   }
 }
 
-void updatePIDMapping(uint8_t mode, uint8_t pid, float value) {
-  PidMapping* mappings = (mode == read_LiveData) ? liveDataMappings : freezeFrameMappings;
-
-  for (int i = 0; i < 64; i++) {
-    if (mappings[i].pid == pid) {
-      mappings[i].value = value;
-      break;
-    }
-  }
-}
-
 int get_DTCs(byte mode) {
   // Request: C2 33 F1 03 F3
   // example Response: 87 F1 11 43 01 70 01 34 00 00 72
@@ -476,20 +465,6 @@ int get_DTCs(byte mode) {
 
   sendDataToServer();
   return dtcCount;
-}
-
-String decodeDTC(char input_byte1, char input_byte2) {
-  String ErrorCode = "";
-  const static char type_lookup[4] = { 'P', 'C', 'B', 'U' };
-  const static char digit_lookup[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-
-  ErrorCode += type_lookup[(input_byte1 >> 6) & 0b11];
-  ErrorCode += digit_lookup[(input_byte1 >> 4) & 0b11];
-  ErrorCode += digit_lookup[input_byte1 & 0b1111];
-  ErrorCode += digit_lookup[input_byte2 >> 4];
-  ErrorCode += digit_lookup[input_byte2 & 0b1111];
-
-  return ErrorCode;
 }
 
 bool clear_DTC() {

@@ -1,3 +1,17 @@
+String decodeDTC(char input_byte1, char input_byte2) {
+  String ErrorCode = "";
+  const static char type_lookup[4] = { 'P', 'C', 'B', 'U' };
+  const static char digit_lookup[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
+  ErrorCode += type_lookup[(input_byte1 >> 6) & 0b11];
+  ErrorCode += digit_lookup[(input_byte1 >> 4) & 0b11];
+  ErrorCode += digit_lookup[input_byte1 & 0b1111];
+  ErrorCode += digit_lookup[input_byte2 >> 4];
+  ErrorCode += digit_lookup[input_byte2 & 0b1111];
+
+  return ErrorCode;
+}
+
 byte calculateChecksum(const byte data[], int length) {
   byte checksum = 0;
   for (int i = 0; i < length; i++) {
@@ -14,14 +28,6 @@ bool isInArray(byte arr[], int size, byte value) {
   }
   return false;
 }
-
-// int getArrayLength(byte arr[]) {
-//   int count = 0;
-//   while (arr[count] != 0) {
-//     count++;
-//   }
-//   return count;
-// }
 
 String convertHexToAscii(byte* hexBytes, size_t length) {
   String asciiString = "";
@@ -95,8 +101,6 @@ void setSerial(bool enabled) {
     delay(3000);
   }
 }
-
-
 
 
 void connectMelody() {
@@ -344,11 +348,13 @@ PidMapping freezeFrameMappings[] = {
   { 0x5F, "Emission Requirements", 0, "BIT" }
 };
 
-void updatePidValue(byte pid, int newValue) {
+void updatePIDMapping(uint8_t mode, uint8_t pid, float value) {
+  PidMapping* mappings = (mode == read_LiveData) ? liveDataMappings : freezeFrameMappings;
+
   for (int i = 0; i < 64; i++) {
-    if (liveDataMappings[i].pid == pid) {
-      liveDataMappings[i].value = newValue;
-      return;
+    if (mappings[i].pid == pid) {
+      mappings[i].value = value;
+      break;
     }
   }
 }
