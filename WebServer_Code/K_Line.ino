@@ -10,6 +10,11 @@ byte supportedControlComponents[32];
 byte supportedVehicleInfo[32];
 
 void obdTask() {
+  if (clearDTC_Flag == true) {
+    debugPrintln("Clearing DTCs");
+    clearDTCs();
+    clearDTC_Flag = false;
+  }
   //Check DTCs in page -1, 0, 2, 3, 5, 6
   if (page == -1 || page == 0 || page == 2 || page == 3 || page == 5 || page == 6) {
     if (page != -1) {
@@ -467,7 +472,7 @@ int get_DTCs(byte mode) {
   return dtcCount;
 }
 
-bool clear_DTC() {
+bool clearDTCs() {
   writeData(clear_DTCs, 0x00);
   int len = readData();
   if (len >= 3) {

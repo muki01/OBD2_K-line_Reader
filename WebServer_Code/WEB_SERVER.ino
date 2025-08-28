@@ -131,7 +131,7 @@ void initWebServer() {
   });
   server.on("/api/clearDTCs", HTTP_GET, [](AsyncWebServerRequest *request) {
     Melody2();
-    clear_DTC();
+    clearDTC_Flag = true;
     request->send(200, "text/plain", "Succesfully");
   });
   server.on("/wifiOptions", HTTP_POST, [](AsyncWebServerRequest *request) {
@@ -328,7 +328,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
 
       if (message == "clear_dtc") {
         Melody2();
-        clear_DTC();
+        clearDTC_Flag = true;
       }
       if (message == "beep") {
         Melody2();
