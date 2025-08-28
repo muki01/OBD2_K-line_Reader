@@ -17,13 +17,9 @@ void obdTask() {
   }
   //Check DTCs in page -1, 0, 2, 3, 5, 6
   if (page == -1 || page == 0 || page == 2 || page == 3 || page == 5 || page == 6) {
-    if (page != -1) {
-      if (millis() - lastDTCTime >= 1000) {
-        get_DTCs(read_storedDTCs);
-        lastDTCTime = millis();
-      }
-    } else {
-      get_DTCs(read_storedDTCs);
+    if (millis() - lastDTCTime >= 1000) {
+      readDTCs(read_storedDTCs);
+      lastDTCTime = millis();
     }
   }
 
@@ -164,14 +160,14 @@ void writeData(const byte mode, const byte pid) {
   debugPrintln("Writing Data");
   byte message[7] = { 0 };
   size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
-                                                                                                                                                                                     : 6;
+                                                                                                                                                                                 : 6;
 
   if (protocol == "ISO9141") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0x69 : 0x68;
     message[1] = 0x6A;
   } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0xC3 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 0xC1
-                                                                                                                                                                                       : 0xC2;
+                                                                                                                                                                                   : 0xC2;
     message[1] = 0x33;
   }
 
@@ -263,15 +259,10 @@ void getPID(uint8_t mode, uint8_t pid) {
 
 float getPIDValue(uint8_t mode, uint8_t pid) {
   writeData(mode, pid);
-
   int len = readData();
-  if (len <= 0) {
-    return -1;  // Data not received
-  }
 
-  if (resultBuffer[4] != pid) {
-    return -2;  // Unexpected PID
-  }
+  if (len <= 0) return -1;                // Data not received
+  if (resultBuffer[4] != pid) return -2;  // Unexpected PID
 
   uint8_t A = 0, B = 0, C = 0, D = 0;
 
@@ -440,7 +431,7 @@ float getPIDValue(uint8_t mode, uint8_t pid) {
   }
 }
 
-int get_DTCs(byte mode) {
+int readDTCs(byte mode) {
   // Request: C2 33 F1 03 F3
   // example Response: 87 F1 11 43 01 70 01 34 00 00 72
   int dtcCount = 0;
@@ -534,6 +525,7 @@ String getVehicleInfo(byte pid) {
   } else if (pid == 0x06) {
     return convertBytesToHexString(dataArray, arrayNum);
   }
+  sendDataToServer();
   return "";
 }
 
@@ -542,7 +534,7 @@ int readSupportedData(byte mode) {
   int pidIndex = 0;
   int startByte = 0;
   int arraySize = 32;  // Size of supported data arrays
-  uint8_t *targetArray = nullptr;
+  uint8_t* targetArray = nullptr;
 
   if (mode == read_LiveData) {  // Mode 01
     startByte = 5;
@@ -566,7 +558,7 @@ int readSupportedData(byte mode) {
     return -1;  // Invalid mode
   }
 
-  uint8_t pidCmds[] = {SUPPORTED_PIDS_1_20, SUPPORTED_PIDS_21_40, SUPPORTED_PIDS_41_60, SUPPORTED_PIDS_61_80, SUPPORTED_PIDS_81_100};
+  uint8_t pidCmds[] = { SUPPORTED_PIDS_1_20, SUPPORTED_PIDS_21_40, SUPPORTED_PIDS_41_60, SUPPORTED_PIDS_61_80, SUPPORTED_PIDS_81_100 };
 
   for (int n = 0; n < 5; n++) {
     // Group 0 is always processed, others must be checked
