@@ -74,19 +74,16 @@ void obdTask() {
   }
 }
 
-bool init_OBD2() {
+bool initOBD2() {
   // Request: C1 33 F1 81 66
   // Response: 83 F1 11 C1 8F EF C4
 
   if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
     debugPrintln("Trying ISO9141 or ISO14230_Slow");
-    K_Serial.end();
-    pinMode(K_line_RX, INPUT_PULLUP);
-    pinMode(K_line_TX, OUTPUT);
-    digitalWrite(K_line_TX, HIGH), delay(3000);
+    setSerial(false);
     send5baud(0x33);
 
-    begin_K_Serial();
+    setSerial(true);
     if (readData()) {
       if (resultBuffer[0] == 0x55) {
         if (resultBuffer[1] == resultBuffer[2]) {
@@ -112,14 +109,11 @@ bool init_OBD2() {
 
   if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
     debugPrintln("Trying ISO14230_Fast");
-    K_Serial.end();
-    pinMode(K_line_RX, INPUT_PULLUP);
-    pinMode(K_line_TX, OUTPUT);
-    digitalWrite(K_line_TX, HIGH), delay(3000);
+    setSerial(false);
     digitalWrite(K_line_TX, LOW), delay(25);
     digitalWrite(K_line_TX, HIGH), delay(25);
 
-    begin_K_Serial();
+    setSerial(true);
     writeData(init_OBD, 0x00);
     if (readData()) {
       if (resultBuffer[3] == 0xC1) {

@@ -82,14 +82,14 @@ void setup() {
   initWebSocket();
   initWebServer();
 
-  begin_K_Serial();
+  //setSerial(true);
 }
 
 void loop() {
   if (conectionStatus == false) {
     debugPrintln("Initialising...");
     Melody3();
-    bool init_success = init_OBD2();
+    bool init_success = initOBD2();
 
     if (init_success) {
       debugPrintln("Init Success !!");

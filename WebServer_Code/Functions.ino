@@ -78,13 +78,22 @@ String joinStringsWithComma(String arr[], int length) {
   return result;
 }
 
-
-void begin_K_Serial() {
-#ifdef ESP32
-  K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+void setSerial(bool enabled) {
+  if (enabled) {
+#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
+    K_Serial.begin(10400);
 #elif defined(ESP8266)
-  K_Serial.begin(10400, SERIAL_8N1);
+    K_Serial.begin(10400, SERIAL_8N1);
+#elif ESP32
+    K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
 #endif
+  } else {
+    K_Serial.end();
+    pinMode(K_line_RX, INPUT_PULLUP);
+    pinMode(K_line_TX, OUTPUT);
+    digitalWrite(K_line_TX, HIGH);
+    delay(3000);
+  }
 }
 
 
