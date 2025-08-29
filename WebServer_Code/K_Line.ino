@@ -79,7 +79,7 @@ bool initOBD2() {
   // Request: C1 33 F1 81 66
   // Response: 83 F1 11 C1 8F EF C4
 
-  if (protocol == "Automatic" || protocol == "ISO14230_Slow" || protocol == "ISO9141") {
+  if (selectedProtocol == "Automatic" || selectedProtocol == "ISO14230_Slow" || selectedProtocol == "ISO9141") {
     debugPrintln("Trying ISO9141 or ISO14230_Slow");
     setSerial(false);
     send5baud(0x33);
@@ -89,16 +89,17 @@ bool initOBD2() {
       if (resultBuffer[0] == 0x55) {
         if (resultBuffer[1] == resultBuffer[2]) {
           debugPrintln("Your Protocol is ISO9141");
-          protocol = "ISO9141";
+          connectedProtocol = "ISO9141";
         } else {
           debugPrintln("Your Protocol is ISO14230_Slow");
-          protocol = "ISO14230_Slow";
+          connectedProtocol = "ISO14230_Slow";
         }
         debugPrintln("Writing KW2 Reversed");
         K_Serial.write(~resultBuffer[2]);  //0xF7
 
         if (readData()) {
           if (resultBuffer[0]) {
+            conectionStatus = true;
             return true;
           } else {
             debugPrintln("No Data Retrieved from Car");
@@ -108,7 +109,7 @@ bool initOBD2() {
     }
   }
 
-  if (protocol == "Automatic" || protocol == "ISO14230_Fast") {
+  if (selectedProtocol == "Automatic" || selectedProtocol == "ISO14230_Fast") {
     debugPrintln("Trying ISO14230_Fast");
     setSerial(false);
     digitalWrite(K_line_TX, LOW), delay(25);
@@ -119,7 +120,8 @@ bool initOBD2() {
     if (readData()) {
       if (resultBuffer[3] == 0xC1) {
         debugPrintln("Your Protocol is ISO14230_Fast");
-        protocol = "ISO14230_Fast";
+        connectedProtocol = "ISO14230_Fast";
+        conectionStatus = true;
         return true;
       }
     }
@@ -162,10 +164,10 @@ void writeData(const byte mode, const byte pid) {
   size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
                                                                                                                                                                                  : 6;
 
-  if (protocol == "ISO9141") {
+  if (selectedProtocol == "ISO9141") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0x69 : 0x68;
     message[1] = 0x6A;
-  } else if (protocol == "ISO14230_Fast" || protocol == "ISO14230_Slow") {
+  } else if (selectedProtocol == "ISO14230_Fast" || selectedProtocol == "ISO14230_Slow") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0xC3 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 0xC1
                                                                                                                                                                                    : 0xC2;
     message[1] = 0x33;

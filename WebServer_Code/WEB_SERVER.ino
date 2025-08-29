@@ -312,7 +312,7 @@ String JsonData() {
     }
   }
 
-  jsonDoc["selectedProtocol"] = protocol;
+  jsonDoc["selectedProtocol"] = selectedProtocol;
   jsonDoc["connectedProtocol"] = connectedProtocol;
   jsonDoc["Voltage"] = VOLTAGE;
   jsonDoc["vehicleStatus"] = conectionStatus;
