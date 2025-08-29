@@ -82,7 +82,7 @@ void setup() {
   initWebSocket();
   initWebServer();
 
-  //setSerial(true);
+  setSerial(true);
 }
 
 void loop() {

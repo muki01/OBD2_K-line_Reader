@@ -78,6 +78,7 @@ void obdTask() {
 bool initOBD2() {
   // Request: C1 33 F1 81 66
   // Response: 83 F1 11 C1 8F EF C4
+  debugPrintln("Initialising...");
 
   if (selectedProtocol == "Automatic" || selectedProtocol == "ISO14230_Slow" || selectedProtocol == "ISO9141") {
     debugPrintln("Trying ISO9141 or ISO14230_Slow");

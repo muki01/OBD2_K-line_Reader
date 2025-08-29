@@ -90,7 +90,7 @@ void setSerial(bool enabled) {
     K_Serial.begin(10400);
 #elif defined(ESP8266)
     K_Serial.begin(10400, SERIAL_8N1);
-#elif ESP32
+#elif defined(ESP32)
     K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
 #endif
   } else {
