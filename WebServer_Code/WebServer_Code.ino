@@ -59,6 +59,7 @@ float VOLTAGE = 0;
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
 bool conectionStatus = false;
+bool clearDTC_Flag = false;
 
 static unsigned long lastWsTime = 100, lastDTCTime = 1000;
 
