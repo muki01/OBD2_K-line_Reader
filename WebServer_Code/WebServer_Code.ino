@@ -55,7 +55,7 @@ int oxygenSensor3Voltage = 0, shortTermFuelTrim3 = 0, oxygenSensor4Voltage = 0, 
 int oxygenSensor5Voltage = 0, shortTermFuelTrim5 = 0, oxygenSensor6Voltage = 0, shortTermFuelTrim6 = 0;
 int oxygenSensor7Voltage = 0, shortTermFuelTrim7 = 0, oxygenSensor8Voltage = 0, shortTermFuelTrim8 = 0;
 
-double VOLTAGE = 0;
+float VOLTAGE = 0;
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
 bool conectionStatus = false;
@@ -101,7 +101,7 @@ void loop() {
     obdTask();
   }
 
-  VOLTAGE = (double)analogRead(voltagePin) / 4096.0 * 20.4;
+  VOLTAGE = (float)analogRead(voltagePin) / 4096.0 * 19.4;
 
   if (millis() - lastWsTime >= 100) {
     sendDataToServer();
