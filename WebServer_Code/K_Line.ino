@@ -201,8 +201,8 @@ int readData() {
   unsigned long startMillis = millis();  // Start time for waiting the first byte
   int bytesRead = 0;
 
-  // Wait up to 1 second for the first byte
-  while (millis() - startMillis < 1000) {
+  // Wait for data for the specified timeout
+  while (millis() - startMillis < READ_TIMEOUT) {
     if (K_Serial.available() > 0) {           // If the first byte is received
       unsigned long lastByteTime = millis();  // Get the last received byte time
       memset(resultBuffer, 0, sizeof(resultBuffer));
