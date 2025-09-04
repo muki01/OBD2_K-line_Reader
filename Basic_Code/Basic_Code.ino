@@ -16,11 +16,14 @@ AltSoftSerial Alt_Serial;
 
 #define WRITE_DELAY 5             // Delay between each byte of the transmitted data (5ms - 20ms)
 #define DATA_REQUEST_INTERVAL 60  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
+#define READ_TIMEOUT 1000  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
 
-String protocol = "Automatic";
-// String protocol = "ISO9141";
-// String protocol = "ISO14230_Slow";
-// String protocol = "ISO14230_Fast";
+String selectedProtocol = "Automatic";
+// String selectedProtocol = "ISO9141";
+// String selectedProtocol = "ISO14230_Slow";
+// String selectedProtocol = "ISO14230_Fast";
+
+String connectedProtocol;
 
 int fuelSystemStatus = 0, engineLoadValue = 0, engineCoolantTemp = 0, shortTermFuelTrimBank1 = 0;
 int longTermFuelTrimBank1 = 0, shortTermFuelTrimBank2 = 0, longTermFuelTrimBank2 = 0, fuelPressureValue = 0;
@@ -37,7 +40,7 @@ int freeze_SPEED = 0, freeze_RPM = 0, freeze_COOLANT_TEMP = 0, freeze_ENGINELOAD
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
 bool conectionStatus = false;
-int errors = 0;
+int unreceivedDataCount = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -46,18 +49,16 @@ void setup() {
   pinMode(Led, OUTPUT);
 
   Serial.print("Selected Protocol: ");
-  Serial.println(protocol);
+  Serial.println(selectedProtocol);
 
-  begin_K_Serial();
+  setSerial(true);
 }
 
 void loop() {
   if (conectionStatus == false) {
-    Serial.println("Initialising...");
-    bool init_success = init_OBD2();
+    bool init_success = initOBD2();
 
     if (init_success) {
-      Serial.println("Init Success !!");
       conectionStatus = true;
       digitalWrite(Led, HIGH);
     }

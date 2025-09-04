@@ -5,16 +5,16 @@
 const byte init_OBD = 0x81;     // Init ISO14230
 
 // Modes
-const byte readLiveData = 0x01;              // Show current live data
-const byte readFreezeFrameData = 0x02;       // Show freeze frame data
-const byte readStoredDTCs = 0x03;            // Show stored Diagnostic Trouble Codes (DTCs)
-const byte clearStoredDTCs = 0x04;           // Clear Diagnostic Trouble Codes and stored values
-const byte testOxygenSensor = 0x05;          // Test results, oxygen sensor monitoring (non-CAN only)
-const byte testOtherComponents = 0x06;       // Test results, other component/system monitoring (for CAN)
-const byte readPendingDTCs = 0x07;           // Show pending Diagnostic Trouble Codes
-const byte controlOnBoardComponents = 0x08;  // Control operation of on-board component/system
-const byte readVehicleInfo = 0x09;           // Request vehicle information
-const byte readPermanentDTCs = 0x0A;         // Show permanent Diagnostic Trouble Codes
+const uint8_t read_LiveData = 0x01;              // Show current live data
+const uint8_t read_FreezeFrame = 0x02;           // Show freeze frame data
+const uint8_t read_storedDTCs = 0x03;            // Show stored Diagnostic Trouble Codes (DTCs)
+const uint8_t clear_DTCs = 0x04;                 // Clear Diagnostic Trouble Codes and stored values
+const uint8_t test_OxygenSensors = 0x05;         // Test results, oxygen sensor monitoring (non-CAN only)
+const uint8_t test_OtherComponents = 0x06;       // Test results, other component/system monitoring (for CAN)
+const uint8_t read_pendingDTCs = 0x07;           // Show pending Diagnostic Trouble Codes
+const uint8_t control_OnBoardComponents = 0x08;  // Control operation of on-board component/system
+const uint8_t read_VehicleInfo = 0x09;           // Request vehicle information
+const uint8_t read_PermanentDTCs = 0x0A;         // Show permanent Diagnostic Trouble Codes
 
 // PIDs for Vehicle Info
 const byte supported_VehicleInfo = 0x00;  // Read Supported Vehicle Info
@@ -131,3 +131,5 @@ const byte ACTUAL_ENGINE_TORQUE             = 0x62;  // %
 const byte ENGINE_REFERENCE_TORQUE          = 0x63;  // Nm
 const byte ENGINE_PERCENT_TORQUE_DATA       = 0x64;  // %
 const byte AUX_INPUT_OUTPUT_SUPPORTED       = 0x65;  // bit encoded
+
+const byte SUPPORTED_PIDS_81_100 = 0x80;            // bit encoded
