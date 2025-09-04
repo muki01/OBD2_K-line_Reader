@@ -88,12 +88,13 @@ bool initOBD2() {
     setSerial(true);
     if (readData()) {
       if (resultBuffer[0] == 0x55) {
+        String detectedProtocol;
         if (resultBuffer[1] == resultBuffer[2]) {
-          debugPrintln("Your Protocol is ISO9141");
-          connectedProtocol = "ISO9141";
+          debugPrintln("✅ Protocol Detected: ISO9141");
+          detectedProtocol = "ISO9141";
         } else {
-          debugPrintln("Your Protocol is ISO14230_Slow");
-          connectedProtocol = "ISO14230_Slow";
+          debugPrintln("✅ Protocol Detected: ISO14230_Slow");
+          detectedProtocol = "ISO14230_Slow";
         }
         debugPrintln("Writing KW2 Reversed");
         K_Serial.write(~resultBuffer[2]);  //0xF7
@@ -101,6 +102,8 @@ bool initOBD2() {
         if (readData()) {
           if (resultBuffer[0]) {
             conectionStatus = true;
+            connectedProtocol = detectedProtocol;
+            debugPrintln(F("✅ Connection established with car"));
             return true;
           } else {
             debugPrintln("No Data Retrieved from Car");
@@ -120,9 +123,10 @@ bool initOBD2() {
     writeData(init_OBD, 0x00);
     if (readData()) {
       if (resultBuffer[3] == 0xC1) {
-        debugPrintln("Your Protocol is ISO14230_Fast");
-        connectedProtocol = "ISO14230_Fast";
+        debugPrintln("✅ Protocol Detected: ISO14230_Fast");
+        debugPrintln(F("✅ Connection established with car"));
         conectionStatus = true;
+        connectedProtocol = "ISO14230_Fast";
         return true;
       }
     }
@@ -160,7 +164,6 @@ void send5baud(uint8_t data) {
 }
 
 void writeData(const byte mode, const byte pid) {
-  debugPrintln("Writing Data");
   byte message[7] = { 0 };
   size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
                                                                                                                                                                                  : 6;
@@ -181,10 +184,14 @@ void writeData(const byte mode, const byte pid) {
 
   message[length - 1] = calculateChecksum(message, length - 1);
 
+  debugPrint(F("Sending Data: "));
   for (size_t i = 0; i < length; i++) {
     K_Serial.write(message[i]);
+    debugPrintHex(message[i]);
+    debugPrint(F(" "));
     delay(WRITE_DELAY);
   }
+  debugPrintln(F(""));
 
   clearEcho();
 }
