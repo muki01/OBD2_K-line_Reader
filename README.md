@@ -75,11 +75,8 @@ Additionally, I have observed that many test devices use a **1kΩ** value for **
 🔗 [Check out PCBWay](https://www.pcbway.com/)
 
 ## 🔧 The Device I Made
-I am currently assembling the final version of the device using this PCB.
-The board is designed to work with the ESP32-S3 Zero module, which will serve as the core of the system.
+<img width=60% src="https://github.com/user-attachments/assets/262a9871-beb2-41da-b0f4-117eae2c9fd5" />
 
-In the coming days, I will upload photos and detailed information about the completed hardware.
-📷 Stay tuned — real-world images of the working device are on the way!
 
 In the future, I may also design new versions of the PCB or explore alternative microcontrollers, depending on the project's evolution.
 
