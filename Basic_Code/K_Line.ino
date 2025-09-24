@@ -1,166 +1,174 @@
-byte resultBuffer[64];
+uint8_t resultBuffer[64];
 String storedDTCBuffer[32];
 String pendingDTCBuffer[32];
-byte supportedLiveData[32];
-byte supportedFreezeFrame[32];
-byte supportedOxygenSensor[32];
-byte supportedOtherComponents[32];
-byte supportedControlComponents[32];
-byte supportedVehicleInfo[32];
+uint8_t supportedLiveData[32];
+uint8_t supportedFreezeFrame[32];
+uint8_t supportedOxygenSensor[32];
+uint8_t supportedOtherComponents[32];
+uint8_t supportedControlComponents[32];
+uint8_t supportedVehicleInfo[32];
 
 void obdTask() {
-  Serial.println();
-  Serial.println("Live Data: ");
+  debugPrintln("");
+  debugPrintln("Live Data: ");
   vehicleSpeedValue = getPID(read_LiveData, VEHICLE_SPEED);
-  Serial.print("Speed: "), Serial.println(vehicleSpeedValue);
+  debugPrint("Speed: "), debugPrintln(vehicleSpeedValue);
   engineRpmValue = getPID(read_LiveData, ENGINE_RPM);
-  Serial.print("Engine RPM: "), Serial.println(engineRpmValue);
+  debugPrint("Engine RPM: "), debugPrintln(engineRpmValue);
   engineCoolantTemp = getPID(read_LiveData, ENGINE_COOLANT_TEMP);
-  Serial.print("Coolant Temp: "), Serial.println(engineCoolantTemp);
+  debugPrint("Coolant Temp: "), debugPrintln(engineCoolantTemp);
   intakeAirTempValue = getPID(read_LiveData, INTAKE_AIR_TEMP);
-  Serial.print("Intake Air Temp: "), Serial.println(intakeAirTempValue);
+  debugPrint("Intake Air Temp: "), debugPrintln(intakeAirTempValue);
   throttlePositionValue = getPID(read_LiveData, THROTTLE_POSITION);
-  Serial.print("Throttle: "), Serial.println(throttlePositionValue);
+  debugPrint("Throttle: "), debugPrintln(throttlePositionValue);
   timingAdvanceValue = getPID(read_LiveData, TIMING_ADVANCE);
-  Serial.print("Timing Advance: "), Serial.println(timingAdvanceValue);
+  debugPrint("Timing Advance: "), debugPrintln(timingAdvanceValue);
   engineLoadValue = getPID(read_LiveData, ENGINE_LOAD);
-  Serial.print("Engine Load: "), Serial.println(engineLoadValue);
+  debugPrint("Engine Load: "), debugPrintln(engineLoadValue);
   mafAirFlowRate = getPID(read_LiveData, MAF_FLOW_RATE);
-  Serial.print("MAF Flow Rate: "), Serial.println(mafAirFlowRate);
-  Serial.println();
+  debugPrint("MAF Flow Rate: "), debugPrintln(mafAirFlowRate);
+  debugPrintln("");
 
-  Serial.println("Stored DTCs: ");
+  debugPrintln("Stored DTCs: ");
   int storedDTCsLength = readDTCs(read_storedDTCs);
   if (storedDTCsLength) {
     for (int i = 0; i < storedDTCsLength; i++) {
-      Serial.print(storedDTCBuffer[i]);
-      Serial.print(", ");
+      debugPrint(storedDTCBuffer[i]);
+      debugPrint(", ");
     }
-    Serial.println();
+    debugPrintln("");
   } else {
-    Serial.println("No Stored DTCs Found.");
+    debugPrintln("No Stored DTCs Found.");
   }
-  Serial.println();
+  debugPrintln("");
 
-  Serial.println("Pending DTCs: ");
+  debugPrintln("Pending DTCs: ");
   int pendingDTCsLength = readDTCs(read_pendingDTCs);
   if (pendingDTCsLength) {
     for (int i = 0; i < pendingDTCsLength; i++) {
-      Serial.print(pendingDTCBuffer[i]);
-      Serial.print(", ");
+      debugPrint(pendingDTCBuffer[i]);
+      debugPrint(", ");
     }
-    Serial.println();
+    debugPrintln("");
   } else {
-    Serial.println("No Pending DTCs Found.");
+    debugPrintln("No Pending DTCs Found.");
   }
-  Serial.println();
+  debugPrintln("");
 
-  Serial.println("Freeze Frame: ");
+  debugPrintln("Freeze Frame: ");
   if (readDTCs(read_storedDTCs)) {
     freeze_SPEED = getPID(read_FreezeFrame, VEHICLE_SPEED);
-    Serial.print("Speed: "), Serial.println(freeze_SPEED);
+    debugPrint("Speed: "), debugPrintln(freeze_SPEED);
     freeze_RPM = getPID(read_FreezeFrame, ENGINE_RPM);
-    Serial.print("Engine RPM: "), Serial.println(freeze_RPM);
+    debugPrint("Engine RPM: "), debugPrintln(freeze_RPM);
     freeze_COOLANT_TEMP = getPID(read_FreezeFrame, ENGINE_COOLANT_TEMP);
-    Serial.print("Coolant Temp: "), Serial.println(freeze_COOLANT_TEMP);
+    debugPrint("Coolant Temp: "), debugPrintln(freeze_COOLANT_TEMP);
     freeze_ENGINELOAD = getPID(read_FreezeFrame, ENGINE_LOAD);
-    Serial.print("Engine Load: "), Serial.println(freeze_ENGINELOAD);
+    debugPrint("Engine Load: "), debugPrintln(freeze_ENGINELOAD);
   } else {
-    Serial.println("No Stored DTCs Found for Freeze Frame.");
+    debugPrintln("No Stored DTCs Found for Freeze Frame.");
   }
-  Serial.println();
+  debugPrintln("");
 
-  Serial.println("Supported LiveData: ");
+  debugPrintln("Supported LiveData: ");
   int supportedLiveDataLength = readSupportedData(0x01);
   if (supportedLiveDataLength) {
     for (int i = 0; i < supportedLiveDataLength; i++) {
-      Serial.print(supportedLiveData[i], HEX);
-      Serial.print(", ");
+      debugPrintHex(supportedLiveData[i]);
+      debugPrint(", ");
     }
-    Serial.println();
+    debugPrintln("");
   } else {
-    Serial.println("No Supported LiveData Found.");
+    debugPrintln("No Supported LiveData Found.");
   }
-  Serial.println();
+  debugPrintln("");
 
-  Serial.println("Supported FreezeFrame: ");
+  debugPrintln("Supported FreezeFrame: ");
   int supportedFreezeFrameLength = readSupportedData(0x02);
   if (supportedFreezeFrameLength) {
     for (int i = 0; i < supportedFreezeFrameLength; i++) {
-      Serial.print(supportedFreezeFrame[i], HEX);
-      Serial.print(", ");
+      debugPrintHex(supportedFreezeFrame[i]);
+      debugPrint(", ");
     }
-    Serial.println();
+    debugPrintln("");
   } else {
-    Serial.println("No Supported FreezeFrame Found.");
+    debugPrintln("No Supported FreezeFrame Found.");
   }
-  Serial.println();
+  debugPrintln("");
 
-  Serial.println("Supported VehicleInfo: ");
+  debugPrintln("Supported VehicleInfo: ");
   int supportedVehicleInfoLength = readSupportedData(0x09);
   if (supportedVehicleInfoLength) {
     for (int i = 0; i < supportedVehicleInfoLength; i++) {
-      Serial.print(supportedVehicleInfo[i], HEX);
-      Serial.print(", ");
+      debugPrintHex(supportedVehicleInfo[i]);
+      debugPrint(", ");
     }
-    Serial.println();
+    debugPrintln("");
   } else {
-    Serial.println("No Supported VehicleInfo Found.");
+    debugPrintln("No Supported VehicleInfo Found.");
   }
-  Serial.println();
+  debugPrintln("");
 }
 
 
 bool initOBD2() {
   // Request: C1 33 F1 81 66
   // Response: 83 F1 11 C1 8F EF C4
-  Serial.println("Initialising...");
+  debugPrintln("Initialising...");
 
   if (selectedProtocol == "Automatic" || selectedProtocol == "ISO14230_Slow" || selectedProtocol == "ISO9141") {
-    Serial.println("Trying ISO9141 or ISO14230_Slow");
+    debugPrintln("Trying ISO9141 or ISO14230_Slow");
     setSerial(false);
     send5baud(0x33);
 
     setSerial(true);
+    DATA_REQUEST_INTERVAL = 30;
+
     if (readData()) {
       if (resultBuffer[0] == 0x55) {
         String detectedProtocol;
         if (resultBuffer[1] == resultBuffer[2]) {
-          Serial.println("✅ Protocol Detected: ISO9141");
+          debugPrintln("✅ Protocol Detected: ISO9141");
           detectedProtocol = "ISO9141";
         } else {
-          Serial.println("✅ Protocol Detected: ISO14230_Slow");
+          debugPrintln("✅ Protocol Detected: ISO14230_Slow");
           detectedProtocol = "ISO14230_Slow";
         }
-        Serial.println("Writing KW2 Reversed");
+        debugPrintln("Writing KW2 Reversed");
         K_Serial.write(~resultBuffer[2]);  //0xF7
+        delay(WRITE_DELAY);
+        clearEcho();
+
+        DATA_REQUEST_INTERVAL = 60;
 
         if (readData()) {
-          if (resultBuffer[0]) {
+          if (resultBuffer[0] == 0xCC) {
             conectionStatus = true;
             connectedProtocol = detectedProtocol;
-            Serial.println("✅ Connection established with car");
+            debugPrintln("✅ Connection established with car");
             return true;
           } else {
-            Serial.println("No Data Retrieved from Car");
+            debugPrintln("No Data Retrieved from Car");
           }
         }
       }
+    } else {
+      DATA_REQUEST_INTERVAL = 60;
     }
   }
 
   if (selectedProtocol == "Automatic" || selectedProtocol == "ISO14230_Fast") {
-    Serial.println("Trying ISO14230_Fast");
+    debugPrintln("Trying ISO14230_Fast");
     setSerial(false);
     digitalWrite(K_line_TX, LOW), delay(25);
     digitalWrite(K_line_TX, HIGH), delay(25);
 
     setSerial(true);
-    writeData(init_OBD, 0x00);
+    writeRawData(initMsg, sizeof(initMsg));
     if (readData()) {
       if (resultBuffer[3] == 0xC1) {
-        Serial.println("✅ Protocol Detected: ISO14230_Fast");
-        Serial.println("✅ Connection established with car");
+        debugPrintln("✅ Protocol Detected: ISO14230_Fast");
+        debugPrintln("✅ Connection established with car");
         conectionStatus = true;
         connectedProtocol = "ISO14230_Fast";
         return true;
@@ -168,13 +176,13 @@ bool initOBD2() {
     }
   }
 
-  Serial.println("No Protocol Found");
+  debugPrintln("No Protocol Found");
   return false;
 }
 
 void send5baud(uint8_t data) {
-  byte even = 1;  // Variable to calculate the parity bit
-  byte bits[10];
+  uint8_t even = 1;  // Variable to calculate the parity bit
+  uint8_t bits[10];
 
   bits[0] = 0;  // Start bit
   bits[9] = 1;  // Stop bit
@@ -188,28 +196,48 @@ void send5baud(uint8_t data) {
   bits[8] = (even == 0) ? 1 : 0;  // Set parity bit
 
   // Transmit bits sequentially (5 baud = 1 bit per 200 ms)
-  Serial.print("5 Baud Init for Module 0x");
-  Serial.print(data, HEX);
-  Serial.print(": ");
+  debugPrint("5 Baud Init for Module 0x");
+  debugPrintHex(data);
+  debugPrint(": ");
   for (int i = 0; i < 10; i++) {
-    Serial.print(bits[i]);
+    debugPrint(bits[i]);
     digitalWrite(K_line_TX, bits[i] ? HIGH : LOW);
     delay(200);
   }
-  Serial.println();
+  debugPrintln("");
 }
 
-void writeData(const byte mode, const byte pid) {
-  byte message[7] = { 0 };
-  size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
-                                                                                                                                                                                 : 6;
+void writeRawData(const uint8_t* dataArray, uint8_t length) {
+  uint8_t sendData[length + 1];
+  memcpy(sendData, dataArray, length);
+  sendData[length] = calculateChecksum(dataArray, length);
+
+  debugPrint("Sending Raw Data: ");
+  for (size_t i = 0; i < length + 1; i++) {
+    debugPrintHex(sendData[i]);
+    debugPrint(" ");
+  }
+  debugPrintln("");
+
+  for (size_t i = 0; i < length + 1; i++) {
+    K_Serial.write(sendData[i]);
+    delay(WRITE_DELAY);
+  }
+
+  clearEcho();
+}
+
+void writeData(const uint8_t mode, const uint8_t pid) {
+  uint8_t message[7] = { 0 };
+  size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
+                                                                                                                                                             : 6;
 
   if (selectedProtocol == "ISO9141") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0x69 : 0x68;
     message[1] = 0x6A;
   } else if (selectedProtocol == "ISO14230_Fast" || selectedProtocol == "ISO14230_Slow") {
-    message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0xC3 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 0xC1
-                                                                                                                                                                                   : 0xC2;
+    message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0xC3 : (mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 0xC1
+                                                                                                                                                               : 0xC2;
     message[1] = 0x33;
   }
 
@@ -220,20 +248,23 @@ void writeData(const byte mode, const byte pid) {
 
   message[length - 1] = calculateChecksum(message, length - 1);
 
-  Serial.println("Sending Data: ");
+  debugPrint("Sending Data: ");
+  for (size_t i = 0; i < length; i++) {
+    debugPrintHex(message[i]);
+    debugPrint(" ");
+  }
+  debugPrintln("");
+
   for (size_t i = 0; i < length; i++) {
     K_Serial.write(message[i]);
-    Serial.print(message[i], HEX);
-    Serial.print(" ");
     delay(WRITE_DELAY);
   }
-  Serial.println("");
 
   clearEcho();
 }
 
 int readData() {
-  Serial.println("Reading...");
+  debugPrintln("Reading...");
   unsigned long startMillis = millis();  // Start time for waiting the first byte
   int bytesRead = 0;
 
@@ -245,30 +276,30 @@ int readData() {
       unreceivedDataCount = 0;
 
       // Inner loop: Read all data
-      Serial.print("Received Data: ");
+      debugPrint("Received Data: ");
       while (millis() - lastByteTime < DATA_REQUEST_INTERVAL) {  // Wait up to 60ms for new data
         if (K_Serial.available() > 0) {                          // If new data is available, read it
-          if (bytesRead >= sizeof(resultBuffer)) {
-            Serial.println("\nBuffer is full. Stopping data reception.");
+          if (bytesRead >= sizeof(resultBuffer)) {               // If buffer is full, stop reading and print message
+            debugPrintln("\nBuffer is full. Stopping data reception.");
             return bytesRead;
           }
 
           resultBuffer[bytesRead] = K_Serial.read();
-          Serial.print(resultBuffer[bytesRead], HEX);
-          Serial.print(" ");
+          debugPrintHex(resultBuffer[bytesRead]);
+          debugPrint(" ");
           bytesRead++;
           lastByteTime = millis();  // Reset timer
         }
       }
 
       // If no new data is received within 60ms, exit the loop
-      Serial.println("\nData reception completed.");
+      debugPrintln("\nData reception completed.");
       return bytesRead;
     }
   }
 
   // If no data is received within 1 seconds
-  Serial.println("Timeout: Not Received Data.");
+  debugPrintln("Timeout: Not Received Data.");
   unreceivedDataCount++;
   if (unreceivedDataCount > 2) {
     unreceivedDataCount = 0;
@@ -282,19 +313,19 @@ int readData() {
 void clearEcho() {
   int result = K_Serial.available();
   if (result > 0) {
-    Serial.print("Cleared Echo Data: ");
+    debugPrint("Cleared Echo Data: ");
     for (int i = 0; i < result; i++) {
-      byte receivedByte = K_Serial.read();
-      Serial.print(receivedByte);
-      Serial.print(" ");
+      uint8_t receivedByte = K_Serial.read();
+      debugPrintHex(receivedByte);
+      debugPrint(" ");
     }
-    Serial.println();
+    debugPrintln("");
   } else {
-    Serial.println("Not Received Echo Data");
+    debugPrintln("Not Received Echo Data");
   }
 }
 
-float getPID(byte mode, byte pid) {
+float getPID(uint8_t mode, uint8_t pid) {
   // example Request: C2 33 F1 01 0C F3
   // example Response: 84 F1 11 41 0C 1F 40 32
   if (mode != read_LiveData && mode != read_FreezeFrame) return -1;
@@ -472,7 +503,7 @@ float getPID(byte mode, byte pid) {
   }
 }
 
-int readDTCs(byte mode) {
+int readDTCs(uint8_t mode) {
   // Request: C2 33 F1 03 F3
   // example Response: 87 F1 11 43 01 70 01 34 00 00 72
   int dtcCount = 0;
@@ -491,8 +522,8 @@ int readDTCs(byte mode) {
   int len = readData();
   if (len >= 3) {
     for (int i = 0; i < len - 5; i += 2) {
-      byte b1 = resultBuffer[4 + i];
-      byte b2 = resultBuffer[4 + i + 1];
+      uint8_t b1 = resultBuffer[4 + i];
+      uint8_t b2 = resultBuffer[4 + i + 1];
 
       if (b1 == 0 && b2 == 0) break;
 
@@ -516,7 +547,7 @@ bool clearDTCs() {
   return false;
 }
 
-String getVehicleInfo(byte pid) {
+String getVehicleInfo(uint8_t pid) {
   // Request: C2 33 F1 09 02 F1
   // example Response: 87 F1 11 49 02 01 00 00 00 31 06
   //                   87 F1 11 49 02 02 41 31 4A 43 D5
@@ -524,7 +555,7 @@ String getVehicleInfo(byte pid) {
   //                   87 F1 11 49 02 04 52 37 32 35 C8
   //                   87 F1 11 49 02 05 32 33 36 37 E6
 
-  byte dataArray[64];
+  uint8_t dataArray[64];
   int messageCount;
   int arrayNum = 0;
 
@@ -568,7 +599,7 @@ String getVehicleInfo(byte pid) {
   return "";
 }
 
-int readSupportedData(byte mode) {
+int readSupportedData(uint8_t mode) {
   int supportedCount = 0;
   int pidIndex = 0;
   int startByte = 0;

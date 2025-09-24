@@ -52,6 +52,11 @@ String convertBytesToHexString(byte* buffer, int length) {
   return hexString;
 }
 
+void printHex(uint8_t val) {
+  if (val < 0x10) Serial.print("0");
+  Serial.print(val, HEX);
+}
+
 
 
 void setSerial(bool enabled) {
@@ -68,7 +73,7 @@ void setSerial(bool enabled) {
     pinMode(K_line_RX, INPUT_PULLUP);
     pinMode(K_line_TX, OUTPUT);
     digitalWrite(K_line_TX, HIGH);
-    delay(3000);
+    delay(5000);
   }
 }
 
