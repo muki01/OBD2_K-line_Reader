@@ -1,13 +1,13 @@
-byte resultBuffer[64];
+uint8_t resultBuffer[64];
 String storedDTCBuffer[32];
 String pendingDTCBuffer[32];
-byte supportedLiveData[32];
-byte desiredLiveData[32];
-byte supportedFreezeFrame[32];
-byte supportedOxygenSensor[32];
-byte supportedOtherComponents[32];
-byte supportedControlComponents[32];
-byte supportedVehicleInfo[32];
+uint8_t supportedLiveData[32];
+uint8_t desiredLiveData[32];
+uint8_t supportedFreezeFrame[32];
+uint8_t supportedOxygenSensor[32];
+uint8_t supportedOtherComponents[32];
+uint8_t supportedControlComponents[32];
+uint8_t supportedVehicleInfo[32];
 
 void obdTask() {
   if (clearDTC_Flag == true) {
@@ -109,7 +109,7 @@ bool initOBD2() {
           if (resultBuffer[0] == 0xCC) {
             conectionStatus = true;
             connectedProtocol = detectedProtocol;
-            debugPrintln(F("✅ Connection established with car"));
+            debugPrintln("✅ Connection established with car");
             return true;
           } else {
             debugPrintln("No Data Retrieved from Car");
@@ -132,7 +132,7 @@ bool initOBD2() {
     if (readData()) {
       if (resultBuffer[3] == 0xC1) {
         debugPrintln("✅ Protocol Detected: ISO14230_Fast");
-        debugPrintln(F("✅ Connection established with car"));
+        debugPrintln("✅ Connection established with car");
         conectionStatus = true;
         connectedProtocol = "ISO14230_Fast";
         return true;
@@ -145,8 +145,8 @@ bool initOBD2() {
 }
 
 void send5baud(uint8_t data) {
-  byte even = 1;  // Variable to calculate the parity bit
-  byte bits[10];
+  uint8_t even = 1;  // Variable to calculate the parity bit
+  uint8_t bits[10];
 
   bits[0] = 0;  // Start bit
   bits[9] = 1;  // Stop bit
@@ -168,20 +168,20 @@ void send5baud(uint8_t data) {
     digitalWrite(K_line_TX, bits[i] ? HIGH : LOW);
     delay(200);
   }
-  debugPrintln();
+  debugPrintln("");
 }
 
-void writeRawData(const uint8_t *dataArray, uint8_t length) {
+void writeRawData(const uint8_t* dataArray, uint8_t length) {
   uint8_t sendData[length + 1];
   memcpy(sendData, dataArray, length);
   sendData[length] = calculateChecksum(dataArray, length);
 
-  debugPrint(F("Sending Raw Data: "));
+  debugPrint("Sending Raw Data: ");
   for (size_t i = 0; i < length + 1; i++) {
     debugPrintHex(sendData[i]);
-    debugPrint(F(" "));
+    debugPrint(" ");
   }
-  debugPrintln(F(""));
+  debugPrintln("");
 
   for (size_t i = 0; i < length + 1; i++) {
     K_Serial.write(sendData[i]);
@@ -191,17 +191,17 @@ void writeRawData(const uint8_t *dataArray, uint8_t length) {
   clearEcho();
 }
 
-void writeData(const byte mode, const byte pid) {
-  byte message[7] = { 0 };
+void writeData(const uint8_t mode, const uint8_t pid) {
+  uint8_t message[7] = { 0 };
   size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
-                                                                                                                                                                                 : 6;
+                                                                                                                                                             : 6;
 
   if (selectedProtocol == "ISO9141") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0x69 : 0x68;
     message[1] = 0x6A;
   } else if (selectedProtocol == "ISO14230_Fast" || selectedProtocol == "ISO14230_Slow") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0xC3 : (mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 0xC1
-                                                                                                                                                                                   : 0xC2;
+                                                                                                                                                               : 0xC2;
     message[1] = 0x33;
   }
 
@@ -212,19 +212,17 @@ void writeData(const byte mode, const byte pid) {
 
   message[length - 1] = calculateChecksum(message, length - 1);
 
-
-  debugPrint(F("Sending Data: "));
+  debugPrint("Sending Data: ");
   for (size_t i = 0; i < length; i++) {
     debugPrintHex(message[i]);
-    debugPrint(F(" "));
+    debugPrint(" ");
   }
-  debugPrintln(F(""));
+  debugPrintln("");
 
   for (size_t i = 0; i < length; i++) {
     K_Serial.write(message[i]);
     delay(WRITE_DELAY);
   }
-  debugPrintln(F(""));
 
   clearEcho();
 }
@@ -245,7 +243,7 @@ int readData() {
       debugPrint("Received Data: ");
       while (millis() - lastByteTime < DATA_REQUEST_INTERVAL) {  // Wait up to 60ms for new data
         if (K_Serial.available() > 0) {                          // If new data is available, read it
-          if (bytesRead >= sizeof(resultBuffer)) {
+          if (bytesRead >= sizeof(resultBuffer)) {               // If buffer is full, stop reading and print message
             debugPrintln("\nBuffer is full. Stopping data reception.");
             return bytesRead;
           }
@@ -255,8 +253,6 @@ int readData() {
           debugPrint(" ");
           bytesRead++;
           lastByteTime = millis();  // Reset timer
-
-          // If buffer is full, stop reading and print message
         }
       }
 
@@ -283,11 +279,11 @@ void clearEcho() {
   if (result > 0) {
     debugPrint("Cleared Echo Data: ");
     for (int i = 0; i < result; i++) {
-      byte receivedByte = K_Serial.read();
+      uint8_t receivedByte = K_Serial.read();
       debugPrintHex(receivedByte);
       debugPrint(" ");
     }
-    debugPrintln();
+    debugPrintln("");
   } else {
     debugPrintln("Not Received Echo Data");
   }
@@ -301,6 +297,10 @@ void getPID(uint8_t mode, uint8_t pid) {
 }
 
 float getPIDValue(uint8_t mode, uint8_t pid) {
+  // example Request: C2 33 F1 01 0C F3
+  // example Response: 84 F1 11 41 0C 1F 40 32
+  if (mode != read_LiveData && mode != read_FreezeFrame) return -1;
+
   writeData(mode, pid);
   int len = readData();
 
@@ -310,13 +310,13 @@ float getPIDValue(uint8_t mode, uint8_t pid) {
   uint8_t A = 0, B = 0, C = 0, D = 0;
 
   if (mode == read_LiveData) {
-    int dataBytesLen = len - 6;
+    uint8_t dataBytesLen = len - 6;
     A = (dataBytesLen >= 1) ? resultBuffer[5] : 0;
     B = (dataBytesLen >= 2) ? resultBuffer[6] : 0;
     C = (dataBytesLen >= 3) ? resultBuffer[7] : 0;
     D = (dataBytesLen >= 4) ? resultBuffer[8] : 0;
   } else if (mode == read_FreezeFrame) {
-    int dataBytesLen = len - 7;
+    uint8_t dataBytesLen = len - 7;
     A = (dataBytesLen >= 1) ? resultBuffer[6] : 0;
     B = (dataBytesLen >= 2) ? resultBuffer[7] : 0;
     C = (dataBytesLen >= 3) ? resultBuffer[8] : 0;
@@ -474,7 +474,7 @@ float getPIDValue(uint8_t mode, uint8_t pid) {
   }
 }
 
-int readDTCs(byte mode) {
+int readDTCs(uint8_t mode) {
   // Request: C2 33 F1 03 F3
   // example Response: 87 F1 11 43 01 70 01 34 00 00 72
   int dtcCount = 0;
@@ -493,8 +493,8 @@ int readDTCs(byte mode) {
   int len = readData();
   if (len >= 3) {
     for (int i = 0; i < len - 5; i += 2) {
-      byte b1 = resultBuffer[4 + i];
-      byte b2 = resultBuffer[4 + i + 1];
+      uint8_t b1 = resultBuffer[4 + i];
+      uint8_t b2 = resultBuffer[4 + i + 1];
 
       if (b1 == 0 && b2 == 0) break;
 
@@ -519,7 +519,7 @@ bool clearDTCs() {
   return false;
 }
 
-String getVehicleInfo(byte pid) {
+String getVehicleInfo(uint8_t pid) {
   // Request: C2 33 F1 09 02 F1
   // example Response: 87 F1 11 49 02 01 00 00 00 31 06
   //                   87 F1 11 49 02 02 41 31 4A 43 D5
@@ -527,7 +527,7 @@ String getVehicleInfo(byte pid) {
   //                   87 F1 11 49 02 04 52 37 32 35 C8
   //                   87 F1 11 49 02 05 32 33 36 37 E6
 
-  byte dataArray[64];
+  uint8_t dataArray[64];
   int messageCount;
   int arrayNum = 0;
 
@@ -572,7 +572,7 @@ String getVehicleInfo(byte pid) {
   return "";
 }
 
-int readSupportedData(byte mode) {
+int readSupportedData(uint8_t mode) {
   int supportedCount = 0;
   int pidIndex = 0;
   int startByte = 0;

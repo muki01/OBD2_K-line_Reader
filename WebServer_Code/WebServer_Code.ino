@@ -44,9 +44,9 @@ AsyncWebSocket ws("/ws");
 #define debugPrintHex(x) ((void)0)
 #endif
 
-#define WRITE_DELAY 5             // Delay between each byte of the transmitted data (5ms - 20ms)
-#define DATA_REQUEST_INTERVAL 60  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
-#define READ_TIMEOUT 1000
+int WRITE_DELAY = 5;             // Delay between each byte of the transmitted data (5ms - 20ms)
+int DATA_REQUEST_INTERVAL = 60;  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
+int READ_TIMEOUT = 1000;
 
 String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, selectedProtocol, connectedProtocol = "";
 int page = -1, unreceivedDataCount = 0;
