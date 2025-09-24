@@ -128,7 +128,7 @@ bool initOBD2() {
     digitalWrite(K_line_TX, HIGH), delay(25);
 
     setSerial(true);
-    writeData(init_OBD, 0x00);
+    writeRawData(initMsg, sizeof(initMsg));
     if (readData()) {
       if (resultBuffer[3] == 0xC1) {
         debugPrintln("✅ Protocol Detected: ISO14230_Fast");
@@ -171,16 +171,36 @@ void send5baud(uint8_t data) {
   debugPrintln();
 }
 
+void writeRawData(const uint8_t *dataArray, uint8_t length) {
+  uint8_t sendData[length + 1];
+  memcpy(sendData, dataArray, length);
+  sendData[length] = calculateChecksum(dataArray, length);
+
+  debugPrint(F("Sending Raw Data: "));
+  for (size_t i = 0; i < length + 1; i++) {
+    debugPrintHex(sendData[i]);
+    debugPrint(F(" "));
+  }
+  debugPrintln(F(""));
+
+  for (size_t i = 0; i < length + 1; i++) {
+    K_Serial.write(sendData[i]);
+    delay(WRITE_DELAY);
+  }
+
+  clearEcho();
+}
+
 void writeData(const byte mode, const byte pid) {
   byte message[7] = { 0 };
-  size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
+  size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
                                                                                                                                                                                  : 6;
 
   if (selectedProtocol == "ISO9141") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0x69 : 0x68;
     message[1] = 0x6A;
   } else if (selectedProtocol == "ISO14230_Fast" || selectedProtocol == "ISO14230_Slow") {
-    message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0xC3 : (mode == init_OBD || mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 0xC1
+    message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0xC3 : (mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 0xC1
                                                                                                                                                                                    : 0xC2;
     message[1] = 0x33;
   }

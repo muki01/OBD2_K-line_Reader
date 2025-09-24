@@ -2,7 +2,8 @@
 // PIDs (https://en.wikipedia.org/wiki/OBD-II_PIDs)
 //-------------------------------------------------------------------------------------//
 
-const byte init_OBD = 0x81;  // Init ISO14230
+// ISO14230-Fast init message
+const uint8_t initMsg[4] = {0xC1, 0x33, 0xF1, 0x81};
 
 // Modes
 const uint8_t read_LiveData = 0x01;              // Show current live data
