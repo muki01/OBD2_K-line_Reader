@@ -86,6 +86,8 @@ bool initOBD2() {
     send5baud(0x33);
 
     setSerial(true);
+    int DATA_REQUEST_INTERVAL = 30;
+
     if (readData()) {
       if (resultBuffer[0] == 0x55) {
         String detectedProtocol;
@@ -98,9 +100,13 @@ bool initOBD2() {
         }
         debugPrintln("Writing KW2 Reversed");
         K_Serial.write(~resultBuffer[2]);  //0xF7
+        delay(WRITE_DELAY);
+        clearEcho();
+
+        int DATA_REQUEST_INTERVAL = 60;
 
         if (readData()) {
-          if (resultBuffer[0]) {
+          if (resultBuffer[0] == 0xCC) {
             conectionStatus = true;
             connectedProtocol = detectedProtocol;
             debugPrintln(F("✅ Connection established with car"));
@@ -110,6 +116,8 @@ bool initOBD2() {
           }
         }
       }
+    } else {
+      int DATA_REQUEST_INTERVAL = 60;
     }
   }
 
