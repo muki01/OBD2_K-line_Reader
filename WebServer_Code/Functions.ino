@@ -1,3 +1,17 @@
+String decodeDTC(char input_byte1, char input_byte2) {
+  String ErrorCode = "";
+  const static char type_lookup[4] = { 'P', 'C', 'B', 'U' };
+  const static char digit_lookup[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
+  ErrorCode += type_lookup[(input_byte1 >> 6) & 0b11];
+  ErrorCode += digit_lookup[(input_byte1 >> 4) & 0b11];
+  ErrorCode += digit_lookup[input_byte1 & 0b1111];
+  ErrorCode += digit_lookup[input_byte2 >> 4];
+  ErrorCode += digit_lookup[input_byte2 & 0b1111];
+
+  return ErrorCode;
+}
+
 byte calculateChecksum(const byte data[], int length) {
   byte checksum = 0;
   for (int i = 0; i < length; i++) {
@@ -14,14 +28,6 @@ bool isInArray(byte arr[], int size, byte value) {
   }
   return false;
 }
-
-// int getArrayLength(byte arr[]) {
-//   int count = 0;
-//   while (arr[count] != 0) {
-//     count++;
-//   }
-//   return count;
-// }
 
 String convertHexToAscii(byte* hexBytes, size_t length) {
   String asciiString = "";
@@ -78,16 +84,28 @@ String joinStringsWithComma(String arr[], int length) {
   return result;
 }
 
-
-void begin_K_Serial() {
-#ifdef ESP32
-  K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
-#elif defined(ESP8266)
-  K_Serial.begin(10400, SERIAL_8N1);
-#endif
+void printHex(uint8_t val) {
+  if (val < 0x10) Serial.print("0");
+  Serial.print(val, HEX);
 }
 
-
+void setSerial(bool enabled) {
+  if (enabled) {
+#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
+    K_Serial.begin(10400);
+#elif defined(ESP8266)
+    K_Serial.begin(10400, SERIAL_8N1);
+#elif defined(ESP32)
+    K_Serial.begin(10400, SERIAL_8N1, K_line_RX, K_line_TX);
+#endif
+  } else {
+    K_Serial.end();
+    pinMode(K_line_RX, INPUT_PULLUP);
+    pinMode(K_line_TX, OUTPUT);
+    digitalWrite(K_line_TX, HIGH);
+    delay(5000);
+  }
+}
 
 
 void connectMelody() {
@@ -203,7 +221,39 @@ PidMapping liveDataMappings[] = {
   { 0x3C, "Catalyst Temp Bank 1 Sensor 1", 0, "°C" },
   { 0x3D, "Catalyst Temp Bank 2 Sensor 1", 0, "°C" },
   { 0x3E, "Catalyst Temp Bank 1 Sensor 2", 0, "°C" },
-  { 0x3F, "Catalyst Temp Bank 2 Sensor 2", 0, "°C" }
+  { 0x3F, "Catalyst Temp Bank 2 Sensor 2", 0, "°C" },
+
+  { 0x41, "Monitor Status This Drive Cycle", 0, "BIT" },
+  { 0x42, "Control Module Voltage", 0, "V" },
+  { 0x43, "Absolute Load Value", 0, "%" },
+  { 0x44, "Commanded Fuel/Air Equivalence Ratio", 0, "ratio" },
+  { 0x45, "Relative Throttle Position", 0, "%" },
+  { 0x46, "Ambient Air Temperature", 0, "°C" },
+  { 0x47, "Absolute Throttle Position B", 0, "%" },
+  { 0x48, "Absolute Throttle Position C", 0, "%" },
+  { 0x49, "Absolute Throttle Position D", 0, "%" },
+  { 0x4A, "Absolute Throttle Position E", 0, "%" },
+  { 0x4B, "Absolute Throttle Position F", 0, "%" },
+  { 0x4C, "Commanded Throttle Actuator", 0, "%" },
+  { 0x4D, "Time Run with MIL On", 0, "min" },
+  { 0x4E, "Time Since Trouble Codes Cleared", 0, "min" },
+  { 0x4F, "Max Values: Equiv Ratio, Voltage, Current, Pressure", 0, "ratio V mA kPa" },
+  { 0x50, "Max MAF Flow Rate", 0, "g/s" },
+  { 0x51, "Fuel Type", 0, "ref table" },
+  { 0x52, "Ethanol Fuel Percentage", 0, "%" },
+  { 0x53, "Absolute Evap System Vapor Pressure", 0, "kPa" },
+  { 0x54, "Evap System Vapor Pressure", 0, "Pa" },
+  { 0x55, "Short Term Secondary O2 Sensor Trim Bank 1–3", 0, "%" },
+  { 0x56, "Long Term Secondary O2 Sensor Trim Bank 1–3", 0, "%" },
+  { 0x57, "Short Term Secondary O2 Sensor Trim Bank 2–4", 0, "%" },
+  { 0x58, "Long Term Secondary O2 Sensor Trim Bank 2–4", 0, "%" },
+  { 0x59, "Fuel Rail Absolute Pressure", 0, "kPa" },
+  { 0x5A, "Relative Accelerator Pedal Position", 0, "%" },
+  { 0x5B, "Hybrid Battery Remaining Life", 0, "%" },
+  { 0x5C, "Engine Oil Temperature", 0, "°C" },
+  { 0x5D, "Fuel Injection Timing", 0, "°" },
+  { 0x5E, "Engine Fuel Rate", 0, "L/h" },
+  { 0x5F, "Emission Requirements", 0, "BIT" }
 };
 
 PidMapping freezeFrameMappings[] = {
@@ -237,13 +287,79 @@ PidMapping freezeFrameMappings[] = {
   { 0x1D, "Oxygen Sensors Present 4 Banks", 0, "BIT" },
   { 0x1E, "Aux Input Status", 0, "BIT" },
   { 0x1F, "Run Time Since Engine Start", 0, "sec" },
+
+  { 0x21, "Distance Traveled With MIL On", 0, "km" },
+  { 0x22, "Fuel Rail Pressure", 0, "kPa" },
+  { 0x23, "Fuel Rail Guage Pressure", 0, "kPa" },
+  { 0x24, "Oxygen Sensor 1B", 0, "ratio V" },
+  { 0x25, "Oxygen Sensor 2B", 0, "ratio V" },
+  { 0x26, "Oxygen Sensor 3B", 0, "ratio V" },
+  { 0x27, "Oxygen Sensor 4B", 0, "ratio V" },
+  { 0x28, "Oxygen Sensor 5B", 0, "ratio V" },
+  { 0x29, "Oxygen Sensor 6B", 0, "ratio V" },
+  { 0x2A, "Oxygen Sensor 7B", 0, "ratio V" },
+  { 0x2B, "Oxygen Sensor 8B", 0, "ratio V" },
+  { 0x2C, "Commanded EGR", 0, "%" },
+  { 0x2D, "EGR Error", 0, "%" },
+  { 0x2E, "Commanded Evaporative Purge", 0, "%" },
+  { 0x2F, "Fuel Tank Level Input", 0, "%" },
+  { 0x30, "Warm UPS Since Codes Cleared", 0, "count" },
+  { 0x31, "Dist Trav Since Codes Cleared", 0, "km" },
+  { 0x32, "Evap System Vapor Pressure", 0, "Pa" },
+  { 0x33, "ABS Barometric Pressure", 0, "kPa" },
+  { 0x34, "Oxygen Sensor 1C", 0, "ratio mA" },
+  { 0x35, "Oxygen Sensor 2C", 0, "ratio mA" },
+  { 0x36, "Oxygen Sensor 3C", 0, "ratio mA" },
+  { 0x37, "Oxygen Sensor 4C", 0, "ratio mA" },
+  { 0x38, "Oxygen Sensor 5C", 0, "ratio mA" },
+  { 0x39, "Oxygen Sensor 6C", 0, "ratio mA" },
+  { 0x3A, "Oxygen Sensor 7C", 0, "ratio mA" },
+  { 0x3B, "Oxygen Sensor 8C", 0, "ratio mA" },
+  { 0x3C, "Catalyst Temp Bank 1 Sensor 1", 0, "°C" },
+  { 0x3D, "Catalyst Temp Bank 2 Sensor 1", 0, "°C" },
+  { 0x3E, "Catalyst Temp Bank 1 Sensor 2", 0, "°C" },
+  { 0x3F, "Catalyst Temp Bank 2 Sensor 2", 0, "°C" },
+
+  { 0x41, "Monitor Status This Drive Cycle", 0, "BIT" },
+  { 0x42, "Control Module Voltage", 0, "V" },
+  { 0x43, "Absolute Load Value", 0, "%" },
+  { 0x44, "Commanded Fuel/Air Equivalence Ratio", 0, "ratio" },
+  { 0x45, "Relative Throttle Position", 0, "%" },
+  { 0x46, "Ambient Air Temperature", 0, "°C" },
+  { 0x47, "Absolute Throttle Position B", 0, "%" },
+  { 0x48, "Absolute Throttle Position C", 0, "%" },
+  { 0x49, "Absolute Throttle Position D", 0, "%" },
+  { 0x4A, "Absolute Throttle Position E", 0, "%" },
+  { 0x4B, "Absolute Throttle Position F", 0, "%" },
+  { 0x4C, "Commanded Throttle Actuator", 0, "%" },
+  { 0x4D, "Time Run with MIL On", 0, "min" },
+  { 0x4E, "Time Since Trouble Codes Cleared", 0, "min" },
+  { 0x4F, "Max Values: Equiv Ratio, Voltage, Current, Pressure", 0, "ratio V mA kPa" },
+  { 0x50, "Max MAF Flow Rate", 0, "g/s" },
+  { 0x51, "Fuel Type", 0, "ref table" },
+  { 0x52, "Ethanol Fuel Percentage", 0, "%" },
+  { 0x53, "Absolute Evap System Vapor Pressure", 0, "kPa" },
+  { 0x54, "Evap System Vapor Pressure", 0, "Pa" },
+  { 0x55, "Short Term Secondary O2 Sensor Trim Bank 1–3", 0, "%" },
+  { 0x56, "Long Term Secondary O2 Sensor Trim Bank 1–3", 0, "%" },
+  { 0x57, "Short Term Secondary O2 Sensor Trim Bank 2–4", 0, "%" },
+  { 0x58, "Long Term Secondary O2 Sensor Trim Bank 2–4", 0, "%" },
+  { 0x59, "Fuel Rail Absolute Pressure", 0, "kPa" },
+  { 0x5A, "Relative Accelerator Pedal Position", 0, "%" },
+  { 0x5B, "Hybrid Battery Remaining Life", 0, "%" },
+  { 0x5C, "Engine Oil Temperature", 0, "°C" },
+  { 0x5D, "Fuel Injection Timing", 0, "°" },
+  { 0x5E, "Engine Fuel Rate", 0, "L/h" },
+  { 0x5F, "Emission Requirements", 0, "BIT" }
 };
 
-void updatePidValue(byte pid, int newValue) {
+void updatePIDMapping(uint8_t mode, uint8_t pid, float value) {
+  PidMapping* mappings = (mode == read_LiveData) ? liveDataMappings : freezeFrameMappings;
+
   for (int i = 0; i < 64; i++) {
-    if (liveDataMappings[i].pid == pid) {
-      liveDataMappings[i].value = newValue;
-      return;
+    if (mappings[i].pid == pid) {
+      mappings[i].value = value;
+      break;
     }
   }
 }

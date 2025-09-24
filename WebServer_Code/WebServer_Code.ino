@@ -21,9 +21,9 @@ AsyncWebSocket ws("/ws");
 #define K_Serial Serial1
 #define K_line_RX 10
 #define K_line_TX 11
-#define Led 7
-#define Buzzer 9
-#define voltagePin 8
+#define Led 6
+#define Buzzer 8
+#define voltagePin 1
 #define DEBUG_Serial
 #elif defined(ESP8266)
 #define K_Serial Serial
@@ -37,28 +37,30 @@ AsyncWebSocket ws("/ws");
 #ifdef DEBUG_Serial
 #define debugPrint(x) Serial.print(x)
 #define debugPrintln(x) Serial.println(x)
-#define debugPrintHex(x) Serial.print(x, HEX)
+#define debugPrintHex(x) printHex(x)
 #else
 #define debugPrint(x) ((void)0)
 #define debugPrintln(x) ((void)0)
 #define debugPrintHex(x) ((void)0)
 #endif
 
-#define WRITE_DELAY 5             // Delay between each byte of the transmitted data (5ms - 20ms)
-#define DATA_REQUEST_INTERVAL 60  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
+int WRITE_DELAY = 5;             // Delay between each byte of the transmitted data (5ms - 20ms)
+int DATA_REQUEST_INTERVAL = 60;  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
+int READ_TIMEOUT = 1000;
 
-String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, protocol, connectedProtocol = "";
-int page = -1, errors = 0;
+String STA_ssid, STA_password, IP_address, SubnetMask, Gateway, selectedProtocol, connectedProtocol = "";
+int page = -1, unreceivedDataCount = 0;
 
 int oxygenSensor1Voltage = 0, shortTermFuelTrim1 = 0, oxygenSensor2Voltage = 0, shortTermFuelTrim2 = 0;
 int oxygenSensor3Voltage = 0, shortTermFuelTrim3 = 0, oxygenSensor4Voltage = 0, shortTermFuelTrim4 = 0;
 int oxygenSensor5Voltage = 0, shortTermFuelTrim5 = 0, oxygenSensor6Voltage = 0, shortTermFuelTrim6 = 0;
 int oxygenSensor7Voltage = 0, shortTermFuelTrim7 = 0, oxygenSensor8Voltage = 0, shortTermFuelTrim8 = 0;
 
-double VOLTAGE = 0;
+float VOLTAGE = 0;
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
 bool conectionStatus = false;
+bool clearDTC_Flag = false;
 
 static unsigned long lastWsTime = 100, lastDTCTime = 1000;
 
@@ -76,36 +78,32 @@ void setup() {
   initSpiffs();
   readSettings();
   debugPrint("Selected Protocol: ");
-  debugPrintln(protocol);
+  debugPrintln(selectedProtocol);
 
   initWiFi();
   initWebSocket();
   initWebServer();
 
-  begin_K_Serial();
+  setSerial(true);
 }
 
 void loop() {
   if (conectionStatus == false) {
-    debugPrintln("Initialising...");
     Melody3();
-    bool init_success = init_OBD2();
+    bool init_success = initOBD2();
 
     if (init_success) {
-      debugPrintln("Init Success !!");
-      conectionStatus = true;
-      connectedProtocol = protocol;
       digitalWrite(Led, LOW);
       connectMelody();
-      getSupportedPIDs(0x01);
-      getSupportedPIDs(0x02);
-      getSupportedPIDs(0x09);
+      readSupportedData(0x01);
+      readSupportedData(0x02);
+      readSupportedData(0x09);
     }
   } else {
     obdTask();
   }
 
-  VOLTAGE = (double)analogRead(voltagePin) / 4096.0 * 20.4;
+  VOLTAGE = (float)analogRead(voltagePin) / 4096.0 * 19.4;
 
   if (millis() - lastWsTime >= 100) {
     sendDataToServer();

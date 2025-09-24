@@ -54,6 +54,43 @@
         <div class="mainContainer">
             <div class="settings">
                 <div class="card">
+                    <h1>Communication Protocol</h1>
+                    <form id="protocolChange_Form">
+                        <div class="row">
+                            <label for="protocol">Protocol:</label>
+                            <select name="protocol" id="protocol" required>
+                                <option disabled selected value="">Select Protocol</option>
+                                <option value="Automatic">Automatic</option>
+                                <option value="ISO9141">ISO9141</option>
+                                <option value="ISO14230_Slow">ISO14230 Slow</option>
+                                <option value="ISO14230_Fast">ISO14230 Fast</option>
+                            </select>
+                        </div>
+                        <button class="submit-btn">Change Protocol</button>
+                    </form>
+                    <div class="row">
+                        <h2>Selected Protocol: </h2>
+                        <p id="selectedProtocol">Waiting...</p>
+                    </div>
+                    <div class="row">
+                        <h2>Connected Protocol: </h2>
+                        <p id="connectedProtocol">Waiting...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h1>Select Live Data</h1>
+                    <p id="selectPID_Status">Waiting...</p>
+                    <form id="selectPID_Form">
+                        <div class="selectPID_Boxes" id="selectPID_Boxes">
+                            <!--<div class="box">
+                                <label for="Speed">Speed: </label>
+                                <input type="checkbox" name="Speed" value="13" checked="">
+                            </div>-->
+                        </div>
+                        <button class="submit-btn">Save</button>
+                    </form>
+                </div>
+                <div class="card">
                     <h1>Wifi Info</h1>
                     <form id="wifiChange_Form">
                         <div class="row">
@@ -83,30 +120,6 @@
                     </form>
                 </div>
                 <div class="card">
-                    <h1>Communication Protocol</h1>
-                    <form id="protocolChange_Form">
-                        <div class="row">
-                            <label for="protocol">Protocol:</label>
-                            <select name="protocol" id="protocol" required>
-                                <option disabled selected value="">Select Protocol</option>
-                                <option value="Automatic">Automatic</option>
-                                <option value="ISO9141">ISO9141</option>
-                                <option value="ISO14230_Slow">ISO14230 Slow</option>
-                                <option value="ISO14230_Fast">ISO14230 Fast</option>
-                            </select>
-                        </div>
-                        <button class="submit-btn">Change Protocol</button>
-                    </form>
-                    <div class="row">
-                        <h2>Selected Protocol: </h2>
-                        <p id="selectedProtocol">Waiting...</p>
-                    </div>
-                    <div class="row">
-                        <h2>Connected Protocol: </h2>
-                        <p id="connectedProtocol">Waiting...</p>
-                    </div>
-                </div>
-                <div class="card">
                     <h1>OTA Update</h1>
                     <form id="firmwareUpdate_Form">
                         <h2>Firmware</h2>
@@ -124,19 +137,6 @@
                             <input type='file' accept=".bin" name='spiffs' required>
                         </div>
                         <button class="submit-btn">Update</button>
-                    </form>
-                </div>
-                <div class="card">
-                    <h1>Select Live Data</h1>
-                    <p id="selectPID_Status">Waiting...</p>
-                    <form id="selectPID_Form">
-                        <div class="selectPID_Boxes" id="selectPID_Boxes">
-                            <!--<div class="box">
-                                <label for="Speed">Speed: </label>
-                                <input type="checkbox" name="Speed" value="13" checked="">
-                            </div>-->
-                        </div>
-                        <button class="submit-btn">Save</button>
                     </form>
                 </div>
             </div>
