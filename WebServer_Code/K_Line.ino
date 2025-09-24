@@ -11,7 +11,7 @@ uint8_t supportedVehicleInfo[32];
 
 void obdTask() {
   if (clearDTC_Flag == true) {
-    debugPrintln("Clearing DTCs");
+    debugPrintln(F("Clearing DTCs"));
     clearDTCs();
     clearDTC_Flag = false;
   }
@@ -78,10 +78,10 @@ void obdTask() {
 bool initOBD2() {
   // Request: C1 33 F1 81 66
   // Response: 83 F1 11 C1 8F EF C4
-  debugPrintln("Initialising...");
+  debugPrintln(F("Initialising..."));
 
   if (selectedProtocol == "Automatic" || selectedProtocol == "ISO14230_Slow" || selectedProtocol == "ISO9141") {
-    debugPrintln("Trying ISO9141 or ISO14230_Slow");
+    debugPrintln(F("Trying ISO9141 or ISO14230_Slow"));
     setSerial(false);
     send5baud(0x33);
 
@@ -92,13 +92,13 @@ bool initOBD2() {
       if (resultBuffer[0] == 0x55) {
         String detectedProtocol;
         if (resultBuffer[1] == resultBuffer[2]) {
-          debugPrintln("✅ Protocol Detected: ISO9141");
+          debugPrintln(F("✅ Protocol Detected: ISO9141"));
           detectedProtocol = "ISO9141";
         } else {
-          debugPrintln("✅ Protocol Detected: ISO14230_Slow");
+          debugPrintln(F("✅ Protocol Detected: ISO14230_Slow"));
           detectedProtocol = "ISO14230_Slow";
         }
-        debugPrintln("Writing KW2 Reversed");
+        debugPrintln(F("Writing KW2 Reversed"));
         K_Serial.write(~resultBuffer[2]);  //0xF7
         delay(WRITE_DELAY);
         clearEcho();
@@ -109,10 +109,10 @@ bool initOBD2() {
           if (resultBuffer[0] == 0xCC) {
             conectionStatus = true;
             connectedProtocol = detectedProtocol;
-            debugPrintln("✅ Connection established with car");
+            debugPrintln(F("✅ Connection established with car"));
             return true;
           } else {
-            debugPrintln("No Data Retrieved from Car");
+            debugPrintln(F("No Data Retrieved from Car"));
           }
         }
       }
@@ -122,7 +122,7 @@ bool initOBD2() {
   }
 
   if (selectedProtocol == "Automatic" || selectedProtocol == "ISO14230_Fast") {
-    debugPrintln("Trying ISO14230_Fast");
+    debugPrintln(F("Trying ISO14230_Fast"));
     setSerial(false);
     digitalWrite(K_line_TX, LOW), delay(25);
     digitalWrite(K_line_TX, HIGH), delay(25);
@@ -131,8 +131,8 @@ bool initOBD2() {
     writeRawData(initMsg, sizeof(initMsg));
     if (readData()) {
       if (resultBuffer[3] == 0xC1) {
-        debugPrintln("✅ Protocol Detected: ISO14230_Fast");
-        debugPrintln("✅ Connection established with car");
+        debugPrintln(F("✅ Protocol Detected: ISO14230_Fast"));
+        debugPrintln(F("✅ Connection established with car"));
         conectionStatus = true;
         connectedProtocol = "ISO14230_Fast";
         return true;
@@ -140,7 +140,7 @@ bool initOBD2() {
     }
   }
 
-  debugPrintln("No Protocol Found");
+  debugPrintln(F("No Protocol Found"));
   return false;
 }
 
@@ -160,15 +160,15 @@ void send5baud(uint8_t data) {
   bits[8] = (even == 0) ? 1 : 0;  // Set parity bit
 
   // Transmit bits sequentially (5 baud = 1 bit per 200 ms)
-  debugPrint("5 Baud Init for Module 0x");
+  debugPrint(F("5 Baud Init for Module 0x"));
   debugPrintHex(data);
-  debugPrint(": ");
+  debugPrint(F(": "));
   for (int i = 0; i < 10; i++) {
     debugPrint(bits[i]);
     digitalWrite(K_line_TX, bits[i] ? HIGH : LOW);
     delay(200);
   }
-  debugPrintln("");
+  debugPrintln(F(""));
 }
 
 void writeRawData(const uint8_t* dataArray, uint8_t length) {
@@ -176,12 +176,12 @@ void writeRawData(const uint8_t* dataArray, uint8_t length) {
   memcpy(sendData, dataArray, length);
   sendData[length] = calculateChecksum(dataArray, length);
 
-  debugPrint("Sending Raw Data: ");
+  debugPrint(F("Sending Raw Data: "));
   for (size_t i = 0; i < length + 1; i++) {
     debugPrintHex(sendData[i]);
-    debugPrint(" ");
+    debugPrint(F(" "));
   }
-  debugPrintln("");
+  debugPrintln(F(""));
 
   for (size_t i = 0; i < length + 1; i++) {
     K_Serial.write(sendData[i]);
@@ -212,12 +212,12 @@ void writeData(const uint8_t mode, const uint8_t pid) {
 
   message[length - 1] = calculateChecksum(message, length - 1);
 
-  debugPrint("Sending Data: ");
+  debugPrint(F("Sending Data: "));
   for (size_t i = 0; i < length; i++) {
     debugPrintHex(message[i]);
-    debugPrint(" ");
+    debugPrint(F(" "));
   }
-  debugPrintln("");
+  debugPrintln(F(""));
 
   for (size_t i = 0; i < length; i++) {
     K_Serial.write(message[i]);
@@ -228,7 +228,7 @@ void writeData(const uint8_t mode, const uint8_t pid) {
 }
 
 int readData() {
-  debugPrintln("Reading...");
+  debugPrintln(F("Reading..."));
   unsigned long startMillis = millis();  // Start time for waiting the first byte
   int bytesRead = 0;
 
@@ -240,30 +240,30 @@ int readData() {
       unreceivedDataCount = 0;
 
       // Inner loop: Read all data
-      debugPrint("Received Data: ");
+      debugPrint(F("Received Data: "));
       while (millis() - lastByteTime < DATA_REQUEST_INTERVAL) {  // Wait up to 60ms for new data
         if (K_Serial.available() > 0) {                          // If new data is available, read it
           if (bytesRead >= sizeof(resultBuffer)) {               // If buffer is full, stop reading and print message
-            debugPrintln("\nBuffer is full. Stopping data reception.");
+            debugPrintln(F("\nBuffer is full. Stopping data reception."));
             return bytesRead;
           }
 
           resultBuffer[bytesRead] = K_Serial.read();
           debugPrintHex(resultBuffer[bytesRead]);
-          debugPrint(" ");
+          debugPrint(F(" "));
           bytesRead++;
           lastByteTime = millis();  // Reset timer
         }
       }
 
       // If no new data is received within 60ms, exit the loop
-      debugPrintln("\nData reception completed.");
+      debugPrintln(F("\nData reception completed."));
       return bytesRead;
     }
   }
 
   // If no data is received within 1 seconds
-  debugPrintln("Timeout: Not Received Data.");
+  debugPrintln(F("Timeout: Not Received Data."));
   unreceivedDataCount++;
   if (unreceivedDataCount > 2) {
     unreceivedDataCount = 0;
@@ -277,15 +277,15 @@ int readData() {
 void clearEcho() {
   int result = K_Serial.available();
   if (result > 0) {
-    debugPrint("Cleared Echo Data: ");
+    debugPrint(F("Cleared Echo Data: "));
     for (int i = 0; i < result; i++) {
       uint8_t receivedByte = K_Serial.read();
       debugPrintHex(receivedByte);
-      debugPrint(" ");
+      debugPrint(F(" "));
     }
-    debugPrintln("");
+    debugPrintln(F(""));
   } else {
-    debugPrintln("Not Received Echo Data");
+    debugPrintln(F("Not Received Echo Data"));
   }
 }
 
