@@ -86,7 +86,7 @@ bool initOBD2() {
     send5baud(0x33);
 
     setSerial(true);
-    int DATA_REQUEST_INTERVAL = 30;
+    DATA_REQUEST_INTERVAL = 30;
 
     if (readData()) {
       if (resultBuffer[0] == 0x55) {
@@ -103,7 +103,7 @@ bool initOBD2() {
         delay(WRITE_DELAY);
         clearEcho();
 
-        int DATA_REQUEST_INTERVAL = 60;
+        DATA_REQUEST_INTERVAL = 60;
 
         if (readData()) {
           if (resultBuffer[0] == 0xCC) {
@@ -117,7 +117,7 @@ bool initOBD2() {
         }
       }
     } else {
-      int DATA_REQUEST_INTERVAL = 60;
+      DATA_REQUEST_INTERVAL = 60;
     }
   }
 
