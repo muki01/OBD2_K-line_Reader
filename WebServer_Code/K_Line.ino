@@ -212,11 +212,16 @@ void writeData(const byte mode, const byte pid) {
 
   message[length - 1] = calculateChecksum(message, length - 1);
 
+
   debugPrint(F("Sending Data: "));
   for (size_t i = 0; i < length; i++) {
-    K_Serial.write(message[i]);
     debugPrintHex(message[i]);
     debugPrint(F(" "));
+  }
+  debugPrintln(F(""));
+
+  for (size_t i = 0; i < length; i++) {
+    K_Serial.write(message[i]);
     delay(WRITE_DELAY);
   }
   debugPrintln(F(""));

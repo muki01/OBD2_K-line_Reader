@@ -84,6 +84,11 @@ String joinStringsWithComma(String arr[], int length) {
   return result;
 }
 
+void printHex(uint8_t val) {
+  if (val < 0x10) Serial.print("0");
+  Serial.print(val, HEX);
+}
+
 void setSerial(bool enabled) {
   if (enabled) {
 #if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__)
@@ -98,7 +103,7 @@ void setSerial(bool enabled) {
     pinMode(K_line_RX, INPUT_PULLUP);
     pinMode(K_line_TX, OUTPUT);
     digitalWrite(K_line_TX, HIGH);
-    delay(3000);
+    delay(5000);
   }
 }
 
