@@ -329,30 +329,10 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       if (message == "clear_dtc") {
         Melody2();
         clearDTC_Flag = true;
-      }
-      if (message == "beep") {
+      } else if (message == "beep") {
         Melody2();
-      }
-      if (message == "page0") {
-        page = 0;
-      }
-      if (message == "page1") {
-        page = 1;
-      }
-      if (message == "page2") {
-        page = 2;
-      }
-      if (message == "page3") {
-        page = 3;
-      }
-      if (message == "page4") {
-        page = 4;
-      }
-      if (message == "page5") {
-        page = 5;
-      }
-      if (message == "page6") {
-        page = 6;
+      } else if (message.startsWith("page")) {
+        page = message.substring(4).toInt();
       }
     }
   }
