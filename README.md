@@ -52,7 +52,7 @@ Additionally, I have observed that many test devices use a **1kΩ** value for **
 
 ## 🧩 PCB Design and Sponsorship
 
-<a href="https://www.pcbway.com/">
+<a href="https://pcbway.com/g/SD5aQu">
   <img align="left" src="https://github.com/user-attachments/assets/793d8b14-11d8-4dde-9778-d24fd80c78ea" alt="PCBWay" width="18%" />
 </a>
 <p>
@@ -73,7 +73,7 @@ Additionally, I have observed that many test devices use a **1kΩ** value for **
 </br>
 
 👉 If you're looking for professional PCB manufacturing for your own projects: </br>
-🔗 [Check out PCBWay](https://www.pcbway.com/)
+🔗 [Check out PCBWay](https://pcbway.com/g/SD5aQu)
 
 ## 🔧 The Device I Made
 <img width=60% src="https://github.com/user-attachments/assets/262a9871-beb2-41da-b0f4-117eae2c9fd5" />
