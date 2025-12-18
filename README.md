@@ -91,7 +91,13 @@ If you enjoy my projects and want to support me, you can do so through the links
 [![PayPal](https://img.shields.io/badge/-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?hosted_button_id=SAAH5GHAH6T72)
 [![GitHub Sponsors](https://img.shields.io/badge/-Sponsor%20Me%20on%20GitHub-181717?style=for-the-badge&logo=github)](https://github.com/sponsors/muki01)
 
-📧 **Contact:** `muksin.muksin04@gmail.com`
+---
+
+## 📬 Contact
+
+For information, job offers, collaboration, sponsorship, or purchasing my devices, you can contact me via email.
+
+📧 Email: muksin.muksin04@gmail.com
 
 ---
 
