@@ -36,15 +36,39 @@ You can also see my other car projects:
 
 
 ## 🛠️Schematics for communication
-#### This is the schematic with Transistors
+### 🔹 Transistor-Based Schematic
 <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/Transistor%20Schematic.png" width=70%>
+
+This schematic uses a discrete transistor-based approach to interface the K-Line with a microcontroller.
+It is a simple and low-cost solution suitable for basic implementations and prototyping.
 
 The **R6** resistor in this schematic is designed for **3.3V** microcontrollers. If you are using a **5V** microcontroller, you need to change the **R6** value to **5.3kΩ**.
 
-Additionally, I have observed that many test devices use a **1kΩ** value for **R4**. However, according to the K-Line documentation, the recommended value for **R4** is **510Ω**. It is advisable to follow this value. That being said, using **1kΩ** for **R4** will not cause any issues in the circuit. However, if you prefer to adhere to the documentation, **510Ω** is the recommended value.
+### 🔹 Comparator-Based Schematic
+<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/Comparator.png" width=70%>
 
-#### This is the schematic with L9637D
-<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/L9637D.png" width=70%>
+This design uses a low-cost comparator IC to process the K-Line signal and convert it into a clean digital level for the microcontroller.
+It offers a good balance between cost, simplicity, and signal reliability.
+
+- Can be implemented using cheap and widely available comparators such as LM393
+- Better noise immunity than discrete transistor-based designs
+- Provides well-defined logic thresholds
+- Suitable for low-budget projects that require improved signal stability
+- Slightly higher component count compared to the transistor solution, but still cost-effective
+
+### 🔹 Dedicated Automotive IC Schematic
+<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/L9637D.png" width=40%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/MC33290.png" width=40%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/Si9241.png" width=40%>
+<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/SN65HVDA195.png" width=40%>
+
+
+This schematic category uses dedicated automotive communication ICs (e.g. L9637D, MCZ33290, Si9241, SN65HVDA195 etc.) specifically designed for K-Line / ISO 9141 applications.
+
+- Built-in voltage level shifting and protection
+- Fully compliant with automotive communication standards
+- Highest reliability and signal stability
+- Recommended for production-grade and long-term use designs
 
 <!--## The device I made with ESP32 C3 SuperMini.
 <img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/e6de1715-fa77-4e7f-b723-4eebebad2242" width=70%>
