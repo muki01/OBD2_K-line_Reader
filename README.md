@@ -57,10 +57,15 @@ It offers a good balance between cost, simplicity, and signal reliability.
 - Slightly higher component count compared to the transistor solution, but still cost-effective
 
 ### 🔹 Dedicated Automotive IC Schematic
-<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/L9637D.png" width=40%>
-<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/MC33290.png" width=40%>
-<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/Si9241.png" width=40%>
-<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/SN65HVDA195.png" width=40%>
+<p align="start">
+  <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/L9637D.png" width="45%" />
+  <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/MC33290.png" width="42%" />
+</p>
+
+<p align="start">
+  <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/Si9241.png" width="43%" />
+  <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/SN65HVDA195.png" width="45%" />
+</p>
 
 
 This schematic category uses dedicated automotive communication ICs (e.g. L9637D, MCZ33290, Si9241, SN65HVDA195 etc.) specifically designed for K-Line / ISO 9141 applications.
