@@ -36,6 +36,12 @@ You can also see my other car projects:
 
 
 ## 🛠️Schematics for communication
+
+These schematics are essential because K-Line communication operates at different voltage and signal levels than microcontroller pins.
+The circuits ensure proper level shifting and protection for safe, stable operation.
+
+You can choose one of the following approaches depending on your project:
+
 ### 🔹 Transistor-Based Schematic
 <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/Transistor%20Schematic.png" width=70%>
 
