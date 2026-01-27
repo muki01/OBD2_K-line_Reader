@@ -117,12 +117,13 @@ bool initOBD2() {
   debugPrintln(F("Initialising..."));
 
   if (selectedProtocol == "Automatic" || selectedProtocol == "ISO14230_Slow" || selectedProtocol == "ISO9141") {
-    debugPrintln(F("Trying ISO9141 or ISO14230_Slow"));
+    debugPrintln(F("🔁 Trying ISO9141 or ISO14230_Slow"));
     setSerial(false);
+    delay(5500);
     send5baud(0x33);
 
     setSerial(true);
-    DATA_REQUEST_INTERVAL = 30;
+    _interByteTimeout = 30;
 
     if (readData()) {
       if (resultBuffer[0] == 0x55) {
@@ -134,12 +135,11 @@ bool initOBD2() {
           debugPrintln(F("✅ Protocol Detected: ISO14230_Slow"));
           detectedProtocol = "ISO14230_Slow";
         }
-        debugPrintln(F("Writing KW2 Reversed"));
+        debugPrintln(F("Writing inverted KW2"));
         K_Serial.write(~resultBuffer[2]);  //0xF7
-        delay(WRITE_DELAY);
-        clearEcho();
+        clearEcho(1);
 
-        DATA_REQUEST_INTERVAL = 60;
+        _interByteTimeout = 60;
 
         if (readData()) {
           if (resultBuffer[0] == 0xCC) {
@@ -148,18 +148,19 @@ bool initOBD2() {
             debugPrintln(F("✅ Connection established with car"));
             return true;
           } else {
-            debugPrintln(F("No Data Retrieved from Car"));
+            debugPrintln(F("❌ No response after KW2 write"));
           }
         }
       }
     } else {
-      DATA_REQUEST_INTERVAL = 60;
+      _interByteTimeout = 60;
     }
   }
 
   if (selectedProtocol == "Automatic" || selectedProtocol == "ISO14230_Fast") {
-    debugPrintln(F("Trying ISO14230_Fast"));
+    debugPrintln(F("🔁 Trying ISO14230_Fast"));
     setSerial(false);
+    delay(5500);
     digitalWrite(K_line_TX, LOW), delay(25);
     digitalWrite(K_line_TX, HIGH), delay(25);
 
@@ -176,7 +177,8 @@ bool initOBD2() {
     }
   }
 
-  debugPrintln(F("No Protocol Found"));
+  debugPrintln(F("❌ No Protocol Matched. Initialization Failed."));
+  debugPrintln(F(""));
   return false;
 }
 
@@ -208,23 +210,24 @@ void send5baud(uint8_t data) {
 }
 
 void writeRawData(const uint8_t* dataArray, uint8_t length) {
-  uint8_t sendData[length + 1];
+  uint8_t fullLength = length + 1;
+  uint8_t sendData[fullLength];
   memcpy(sendData, dataArray, length);
   sendData[length] = calculateChecksum(dataArray, length);
 
-  debugPrint(F("Sending Raw Data: "));
-  for (size_t i = 0; i < length + 1; i++) {
+  debugPrint(F("\n➡️ Sending Raw Data: "));
+  for (size_t i = 0; i < fullLength; i++) {
     debugPrintHex(sendData[i]);
     debugPrint(F(" "));
   }
   debugPrintln(F(""));
 
-  for (size_t i = 0; i < length + 1; i++) {
+  for (size_t i = 0; i < fullLength; i++) {
     K_Serial.write(sendData[i]);
-    delay(WRITE_DELAY);
+    if (i < fullLength - 1) delay(_byteWriteInterval);
   }
 
-  clearEcho();
+  clearEcho(fullLength);
 }
 
 void writeData(const uint8_t mode, const uint8_t pid) {
@@ -232,10 +235,10 @@ void writeData(const uint8_t mode, const uint8_t pid) {
   size_t length = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 7 : (mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 5
                                                                                                                                                              : 6;
 
-  if (selectedProtocol == "ISO9141") {
+  if (connectedProtocol == "ISO9141") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0x69 : 0x68;
     message[1] = 0x6A;
-  } else if (selectedProtocol == "ISO14230_Fast" || selectedProtocol == "ISO14230_Slow") {
+  } else if (connectedProtocol == "ISO14230_Fast" || connectedProtocol == "ISO14230_Slow") {
     message[0] = (mode == read_FreezeFrame || mode == test_OxygenSensors) ? 0xC3 : (mode == read_storedDTCs || mode == clear_DTCs || mode == read_pendingDTCs) ? 0xC1
                                                                                                                                                                : 0xC2;
     message[1] = 0x33;
@@ -248,7 +251,7 @@ void writeData(const uint8_t mode, const uint8_t pid) {
 
   message[length - 1] = calculateChecksum(message, length - 1);
 
-  debugPrint(F("Sending Data: "));
+  debugPrint(F("\n➡️ Sending Data: "));
   for (size_t i = 0; i < length; i++) {
     debugPrintHex(message[i]);
     debugPrint(F(" "));
@@ -257,30 +260,30 @@ void writeData(const uint8_t mode, const uint8_t pid) {
 
   for (size_t i = 0; i < length; i++) {
     K_Serial.write(message[i]);
-    delay(WRITE_DELAY);
+    if (i < length - 1) delay(_byteWriteInterval);
   }
 
-  clearEcho();
+  clearEcho(length);
 }
 
 int readData() {
-  debugPrintln(F("Reading..."));
+  debugPrint(F("Reading Data ... "));
   unsigned long startMillis = millis();  // Start time for waiting the first byte
   int bytesRead = 0;
 
   // Wait for data for the specified timeout
-  while (millis() - startMillis < READ_TIMEOUT) {
+  while (millis() - startMillis < _readTimeout) {
     if (K_Serial.available() > 0) {           // If the first byte is received
       unsigned long lastByteTime = millis();  // Get the last received byte time
       memset(resultBuffer, 0, sizeof(resultBuffer));
       unreceivedDataCount = 0;
 
       // Inner loop: Read all data
-      debugPrint(F("Received Data: "));
-      while (millis() - lastByteTime < DATA_REQUEST_INTERVAL) {  // Wait up to 60ms for new data
-        if (K_Serial.available() > 0) {                          // If new data is available, read it
-          if (bytesRead >= sizeof(resultBuffer)) {               // If buffer is full, stop reading and print message
-            debugPrintln(F("\nBuffer is full. Stopping data reception."));
+      debugPrint(F("✅ Received Data: "));
+      while (millis() - lastByteTime < _interByteTimeout) {  // Wait up to 60ms for new data
+        if (K_Serial.available() > 0) {                      // If new data is available, read it
+          if (bytesRead >= sizeof(resultBuffer)) {           // If buffer is full, stop reading and print message
+            debugPrintln(F("\n⚠️ Buffer is full. Stopping data reception."));
             return bytesRead;
           }
 
@@ -293,13 +296,14 @@ int readData() {
       }
 
       // If no new data is received within 60ms, exit the loop
-      debugPrintln(F("\nData reception completed."));
+      debugPrintln(F(""));
+      //debugPrintln(F("\nData reception completed."));
       return bytesRead;
     }
   }
 
   // If no data is received within 1 seconds
-  debugPrintln(F("Timeout: Not Received Data."));
+  debugPrintln(F("❌ Timeout: Not Received Data."));
   unreceivedDataCount++;
   if (unreceivedDataCount > 2) {
     unreceivedDataCount = 0;
@@ -310,19 +314,40 @@ int readData() {
   return 0;
 }
 
-void clearEcho() {
-  int result = K_Serial.available();
-  if (result > 0) {
-    debugPrint(F("Cleared Echo Data: "));
-    for (int i = 0; i < result; i++) {
-      uint8_t receivedByte = K_Serial.read();
-      debugPrintHex(receivedByte);
-      debugPrint(F(" "));
+void clearEcho(uint8_t length) {
+  const unsigned long byteTimeoutMs = 100;
+
+  // Wait for the first byte
+  unsigned long startTime = millis();
+  while (K_Serial.available() == 0) {
+    if (millis() - startTime >= byteTimeoutMs) {
+      debugPrintln(F("❌ Echo not received"));
+      return;
     }
-    debugPrintln(F(""));
-  } else {
-    debugPrintln(F("Not Received Echo Data"));
+    delayMicroseconds(100);
   }
+
+  // First byte received, now read the rest
+  debugPrint(F("🗑️ Cleared Echo Data: "));
+
+  uint8_t readedByte;
+  for (size_t readCount = 0; readCount < length; readCount++) {
+    startTime = millis();
+
+    while (K_Serial.available() == 0) {
+      if (millis() - startTime >= byteTimeoutMs) {
+        debugPrintln(F("\n❌ Echo incomplete"));
+        return;
+      }
+      delayMicroseconds(100);
+    }
+
+    readedByte = K_Serial.read();
+    debugPrintHex(readedByte);
+    debugPrint(F(" "));
+  }
+
+  debugPrintln(F(""));
 }
 
 float getPID(uint8_t mode, uint8_t pid) {
