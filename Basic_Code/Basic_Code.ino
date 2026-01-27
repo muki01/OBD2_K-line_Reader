@@ -26,9 +26,9 @@ AltSoftSerial Alt_Serial;
 #define debugPrintHex(x) ((void)0)
 #endif
 
-int WRITE_DELAY = 5;             // Delay between each byte of the transmitted data (5ms - 20ms)
-int DATA_REQUEST_INTERVAL = 60;  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
-int READ_TIMEOUT = 1000;
+int _byteWriteInterval = 5;  // Delay between each byte of the transmitted data (5ms - 20ms)
+int _interByteTimeout = 60;  // Time to wait before sending a new request after receiving a response (55ms - 5000ms)
+int _readTimeout = 1000;
 
 String selectedProtocol = "Automatic";
 // String selectedProtocol = "ISO9141";
