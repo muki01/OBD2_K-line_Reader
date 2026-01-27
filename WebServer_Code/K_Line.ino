@@ -100,8 +100,7 @@ bool initOBD2() {
         }
         debugPrintln(F("Writing KW2 Reversed"));
         K_Serial.write(~resultBuffer[2]);  //0xF7
-        delay(WRITE_DELAY);
-        clearEcho();
+        clearEcho(1);
 
         DATA_REQUEST_INTERVAL = 60;
 
@@ -172,23 +171,24 @@ void send5baud(uint8_t data) {
 }
 
 void writeRawData(const uint8_t* dataArray, uint8_t length) {
-  uint8_t sendData[length + 1];
+  uint8_t fullLength = length + 1;
+  uint8_t sendData[fullLength];
   memcpy(sendData, dataArray, length);
   sendData[length] = calculateChecksum(dataArray, length);
 
-  debugPrint(F("Sending Raw Data: "));
-  for (size_t i = 0; i < length + 1; i++) {
+  debugPrint(F("\n➡️ Sending Raw Data: "));
+  for (size_t i = 0; i < fullLength; i++) {
     debugPrintHex(sendData[i]);
     debugPrint(F(" "));
   }
   debugPrintln(F(""));
 
-  for (size_t i = 0; i < length + 1; i++) {
+  for (size_t i = 0; i < fullLength; i++) {
     K_Serial.write(sendData[i]);
     delay(WRITE_DELAY);
   }
 
-  clearEcho();
+  clearEcho(fullLength);
 }
 
 void writeData(const uint8_t mode, const uint8_t pid) {
@@ -224,7 +224,7 @@ void writeData(const uint8_t mode, const uint8_t pid) {
     delay(WRITE_DELAY);
   }
 
-  clearEcho();
+  clearEcho(length);
 }
 
 int readData() {
@@ -274,19 +274,40 @@ int readData() {
   return 0;
 }
 
-void clearEcho() {
-  int result = K_Serial.available();
-  if (result > 0) {
-    debugPrint(F("Cleared Echo Data: "));
-    for (int i = 0; i < result; i++) {
-      uint8_t receivedByte = K_Serial.read();
-      debugPrintHex(receivedByte);
-      debugPrint(F(" "));
+void clearEcho(uint8_t length) {
+  const unsigned long byteTimeoutMs = 200;
+
+  // Wait for the first byte
+  unsigned long startTime = millis();
+  while (K_Serial.available() == 0) {
+    if (millis() - startTime >= byteTimeoutMs) {
+      debugPrintln(F("❌ Echo not received"));
+      return;
     }
-    debugPrintln(F(""));
-  } else {
-    debugPrintln(F("Not Received Echo Data"));
+    delayMicroseconds(100);
   }
+
+  // First byte received, now read the rest
+  debugPrint(F("🗑️ Cleared Echo Data: "));
+
+  uint8_t readedByte;
+  for (size_t readCount = 0; readCount < length; readCount++) {
+    startTime = millis();
+
+    while (K_Serial.available() == 0) {
+      if (millis() - startTime >= byteTimeoutMs) {
+        debugPrintln(F("\n❌ Echo incomplete"));
+        return;
+      }
+      delayMicroseconds(100);
+    }
+
+    readedByte = K_Serial.read();
+    debugPrintHex(readedByte);
+    debugPrint(F(" "));
+  }
+
+  debugPrintln(F(""));
 }
 
 void getPID(uint8_t mode, uint8_t pid) {
