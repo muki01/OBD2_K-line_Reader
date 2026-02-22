@@ -5,272 +5,1163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
     <title>OBD2 Master</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-    <div class="banner">
-        <div class="mainContainer">
-            <div class="logoArea">
-                <svg id="car" viewBox="0 0 440 1000">
-                    <g transform="translate(-340,-50) scale(1.1)">
-                        <path
-                            d="m549 52.75 1 9.25 12 1 27 6 16 5 17 7 17 9 9 7 10 9 7 11 5 13 4 18 3 22 1 22 5 55 2 29-1 46 6 2 10 8 6 12 .25 6.75L677 347v118l5 6 2 10v16l-2 9-4.75 6 .25 116.5 3.3 3.1 1.6 4.7.1 23.7-2.3 5.5.8 11.5 2.25 47-1.75 59.25-.25 15.75-3.25 11-5 7-4 25-5 21-1 20-2 11-3 7-7 8-5 3-4 6-9 8-16 8-21 6-23 4-29 3-20 1h-26l-25-1-30-3-22-4-21-6-16-8-8-6-5-8v-2l-5-2-6-5-4-9-2-12-1-21-4-15-5-28-5-9-3-7-2-10-1-10v-42l1-32 2-28v-14l-2-8v-20l5.5-11.25L339 512l-3-4-2-6-1-18 2-12 2.25-3.25L339 466l1-119-23 3h-5l-.25-3.75L313 339l6-9 13.5-8-.5-10v-28l2-35 5-53 2-33 1.75-13.75L346 134l6-17 7-11 11-10 15-10 19-9 24-8 27-6 12-1 .5-9.25H549z"
-                            fill="#FBCC49" />
-                        <path
-                            d="M492 389h32l28 3 28 7 19 8 10 6 6.5 5-1.1 26-2.4 52 1.1 120 .9 56 .6 18-17.1 3.5-24.1 4.55-33.4 3.8-60.4-.3L472 391l20-2z"
-                            fill="#FEC62C" />
-                        <path
-                            d="M487.4 59h36l20 3 18 5 10 5 10 3 6 3 5 3 11 6 8 4 15 6 13 9 7 7 7 13 4 14 3 24v32l2 16 1 20 1 18-3 14-3.6 7.6-3.8 4.6-4.6 2.8-13-10-16-9-17-7-23-7-31-6-18-2-12-1h-26l-20 2-32 6-24 7-20 8-15 8-15.6 14.4-3.4-3.4-5-7-4-8-2.2-11.8.2-26.2 3-35 1-35 2-17-9 14-6.75 16-.25-12 4-20 5-20 7-11 11-10 15-10 19-9 24-8 27-6 25-3 8-1z"
-                            fill="#FDC62C" />
-                        <path
-                            d="M494.25 241.75H518l24 2.75 27.75 3.5 18 4.5 20.25 7.25 17 8.25 15 9.5 7 9 4.5 6.5-36.75 122.5-15.5-10.75-21.5-10.5L555 388l-26-3.5-23.75-.25L479 385l-24 4.25-25.5 7.5-23.5 12-38.5-113.5 4.75-13.75 15.25-11.25 25.75-12.75 26.25-8.75 30-5.5 24.75-1.5z"
-                            fill="#325564" />
-                        <path
-                            d="M492 389h21.5l1.5 7 2 44 1 48v48l-1 52-1 32-2 28-1 24-3 30.2-29.65-.3-28.25-2.8-11.5-1.8L446 396l26-5 20-2z"
-                            fill="#FECE49" />
-                        <path
-                            d="m466 64 6.6-1.4L471 69l44 1 3.4 9.4L521 92l4 24 2 16 3 32 1 31 1 42h-38l-20 2-32 6-24 7-20 8-15 8-15 13-9-9-6-16v-30l3-35 1-35 3-20 6-16 8-11 10-8 16-8 10-2.6-8 8.6-8 11 10-3-2 6-7 14-5 11-6 18-5 18-4 26-1 16v19l2 25 3-36 5-30 4-16 5-18 4-10 4-10 7-16 9-16 8-12 8-11 12-12 9-5 12-4z"
-                            fill="#FECD48" />
-                        <path
-                            d="M403.5 711.75 423 713l36.25 6.25 38 3L539 721l42.75-5.75 30.05-6.65 10.7 79.15-21.25 6.25-24.5 5-27 3.75L519 804.5l-38-1-28-2.25-24.75-4.75-20.5-5-12.75-5.25 8.5-74.5z"
-                            fill="#2E505E" />
-                        <path
-                            d="m494.5 239.75 26.75.5 23.5 3.25 27.25 4.75 22.25 6L613 260.5l15.25 8 11 9 9 7 6.2 6.65L615.9 419l-13.4-9-17.25-8-16-5-17-4-28-3h-32l-20 2-26 5-22 8-12.25 6.75-10.8 6.4L363.5 295l4.5-6 5.75-7.25 10.5-7.75L397 263.75l17.25-6.75 25.25-8.5 36.25-6.25 18.75-2.5zm-13 17.5-25.5 3.5-26.15 6.6-32.45 12.6-22.8 14.55 24.9 71.25 10.25 30.5 7.7-4.1 35.67-13.02 23.13-4.13 2-7.33c1.06-2.45 1.88-4.41 5.44-5.11l49.56-.28c3.24.29 6.23 2.07 6.72 4.61l1.28 8.11 23 4 18 4 13 5 11.75 7 32.25-98.75-16-11.25-21-10-18-6-21.75-5.75-19.5-5.5-17.25-1.5-44.25 1z"
-                            fill="#15292F" />
-                        <path
-                            d="M626.5 788.25 630 799l3 13v16l-4 48-3 26-14 6-29 8-31 5-12 1-31-1 1-17v-72l-1.1-25.6L546 805l30-4 28-6 22.5-6.75z"
-                            fill="#FEC62D" />
-                        <path
-                            d="M358 340h10v3h-3l12 35 13 40 2 34 2 73v99l-2 44-3 24-5 21-8 24-13.5 26.75L360 736l-3-60-1-48V345l-44 5v-4l15-2 31-4z"
-                            fill="#152B2F" />
-                        <path
-                            d="M472 62.75 467 77l-6 11-7 18-6 18-4 17-4 19-2 23-.4 21.8L436 246l-13.75 4.5-19.5 7.25L386 266l-11 8-7 7-4-2-5-7-4-8-2.6-11 .6-27 3-35 1-35 3-20 6-16 8-11 10-8 16-8 10.6-3.2L402 99l-8 11 10-3-9 20-5 11-6 18-5 18-4 26-1 16v19l2 25 3-36 5-30 4-16 5-18 4-10 4-10 7-16 9-16 8-12 8-11 10.6-10.8L452 69l20-6.25z"
-                            fill="#FED35B" />
-                        <path d="m448 802 32.7 3.6 28.4.9L511 832v72l-2 17-23 1-23-2-21-3-33-12 .85-111 38.15 8z"
-                            fill="#FECD49" />
-                        <path
-                            d="m661 894-3 7-7 8-5 3-4 6-9 8-16 8-21 6-23 4-29 3-20 1h-26l-25-1-30-3-22-4-21-6-16-8-8-6-4.25-6.25L371 910l-5-2-6-5-4-9-2-12v-16l8 12 9 10 8 6 15 8 27 9 17.67 5 24.33 3 23 2h54l20-2 32-6 16-5 16-6 6-2 9-6 6-5 6-5 5-6 7.25-9.75L661 894z"
-                            fill="#D9A204" />
-                        <path
-                            d="m550 62 12 1 27 6 16 5 17 7 17 9 9 7 10 9 7 11 5 13 4 18 3 22 1 22 5 55 2 29v38l-1 8 6 2 10 8 6 14h-8l-21-2.25.75 283 3.34 49.03 3.34 49.03-.6 70.01-1.1 3.51-3.2 9.52-6.98 10.38-9.23 50.13c-9.49 15.04-23.23 27.59-37.48 33.63l5.27-46.37 1.74-26.47-.61-17.47-5.36-21.72-12.41-100.97-1.13-192.88 2.88-76.38 38.05-128.2-3.3-5.3-8.5-10.25-5.25-55-4.5-28.25-8-28.5-11-29-9-17.25-16.25-25.25-10.25-14-7.25-6.75-13-5-22.5-5.5 14.5.5.03.02z"
-                            fill="#D59E04" />
-                        <path
-                            d="M454.85 395.15c1.8 100.28 3.6 201.07-5.35 302.85l-23.5-3.95c7.95-96.07 5.15-193.38-3.9-288.2l32.75-10.7z"
-                            fill="#FED462" />
-                        <path
-                            d="m616.75 699.5 10.5 89.5-11 4-20 5-20 4-30 4-18 1-51.25-1.75-34.95-4 .4-3.75c11.33 1.77 27.82 4.08 49.8 4.5h32l28-2 29-4 27-6 5-2h3l-1-3-29 6-6 1h-8v-1l32-6 8-2 4-5-26 6-38 5-12 1h-56v-1l48-1 24-2 24-3 26-5 9-1v-5l-19 4h-8l4-2 19-4h3v-5l-10 3h-8l4-2 13-2-1-4-13 2-15 3h-8l4-2 26-5 6-1v-4l-12 3h-8l4-2 15-3v-4l-23 5-36 5-12 1h-52v-1l44-1 32-3 26-4 20-4v-4l-18 4h-8v-1l24-5h2l-1-5-3-1h2v-4l-12 3h-8l4-2 16-3-1-3h-7l4-2 2-1 1-4-21 5-18 3-54.5 3.5-37.25-1.75-30.5-3-31.75-5.5-9.75 70.13 7.5 2.34-.75 3.34-20.75-5.16 11.1-88.51 64.65 11.6c24.17 4.08 47.58 4.67 70.75 3l41.25-7 38.5-8.5v.01z"
-                            fill="#162D33" />
-                        <path d="m425.75 707 21 2.75-4.5 91.25-32-7.5 15.5-86.5z" fill="#6A93A1" />
-                        <path d="m442.4 801.2-.3 115.3c-12.58-.42-18.77-4.83-28.1-6.5l-5-3 .8-112.9 32.6 7.1z"
-                            fill="#FED461" />
-                        <path
-                            d="M472 61h6l-10 3-12.61 3.72L441 77l-7 8-13 18-9 15-6 13-11 27-5 16-4 15-5 28-3 27-2 18-3-27v-19l2-24 3-18 5-18 7-21 6-13 8-15-11 5 2-5 8-10 6-6-16 6-12 7-8 7-6 9-7 18-10 15-7 16v-12l4-20 5-20 7-11 11-10 15-10 19-9 24-8 27-6 17-2z"
-                            fill="#FCC325" />
-                        <path d="m363 534 24 2-1.5 124-21.5 13-1-139z" fill="#315563" />
-                        <path
-                            d="m649 339.75 29 2 28.5 4.25-.25 4.5-22.25-2.75-22-2-2.75 339.75-2.5 78.5L639 731.75l-5-15-5-21-5-23.25v-22.75l1-164 1-52 1-17 12-35 13-38.5-3-.5v-3z"
-                            fill="#152b2f" />
-                        <path d="m654 534-1.3 140.5L631 664V536l23-2z" fill="#1F4D61" />
-                        <path d="m363.75 358.75 20.75 62L387 517l-23.5-3.25.25-155z" fill="#325564" />
-                        <path d="m653.5 359.9-.5 153.35-22 3.75 2.25-98.25 20.25-58.85z" fill="#1F4D61" />
-                        <path d="M358 340h10v3l-4 1v309l-1 31-5.4 2.5-.6-10.5-1-48V345l-43.75 5.25L312 346l15-2 31-4z"
-                            fill="#15292C" />
-                        <path
-                            d="m550 61.4 12 1.4 27 6 16 5 17 7 17 9 9 7 10 9 7 11 5 13 4 18 3 22 1 22.25 7.06 83.19-.44 47.19-9.38-3.63.25-123.25-2.75-25.75-4.75-14-5-10-7-10-4-12-6-11-7-7-12-8-17-7-11.8-6.4-10.2-5.4-9-4.2-8-3-13-5-22.75-5.25 14.75-.15h.01z"
-                            fill="#93740F" />
-                        <path
-                            d="M568.8 264.75c-70.45 7.57-133.91 24.15-169.86 100.47l-22.69-67.97c44.85-40.75 133.95-42 192.55-32.5z"
-                            fill="#406676" />
-                        <path d="m453.09 379.18-35.08 12.91L384 290.99c16.5-10.92 39.75-20.33 54.75-23.5l14.34 111.69z"
-                            fill="#6A94A5" />
-                        <path
-                            d="m654.1 288.65.2 2.7c-75.83-62.83-226.72-61.02-291.05 2.9l-.2-2.4c48.25-77.08 246.3-77.37 291.05-3.2z"
-                            fill="#050708" />
-                        <path
-                            d="M568.5 264.75c-30.5-5.36-139-14.47-192.25 32.92l23.15 67.03-7.65 21.3-28.5-92c44.88-45.25 144.45-67.2 237.33-32.7l-32.08 3.45z"
-                            fill="#243b3d" />
-                        <path
-                            d="m402 691 10 2 28 6 22 3 26 2h44l32-3 37-7 14-3v9l-13 4-24 5-10 2-28 3c-22.08 2.75-39.92 3.25-64 0l-31-4-30.75-6.5-12.75-3 .5-9.5z"
-                            fill="#F7CD51" />
-                        <path
-                            d="M472 61h6.83L468 64l-16 5-9 4-23 11-6.22 3.56L408 91l-19 8-10 7-6 5-6 9-7 18-8 14.5-6.75 13.25-4.5 11.75.75-20.75 4-20.25L352 117l7-11 11-10 15-10 19-9 24-8 27-6 17-2z"
-                            fill="#D9AC18" />
-                        <path
-                            d="m437 253.5 1.9 14.3c-10.78 3.4-30.56 7.55-54.84 23.45l-4.31-12c13.67-8.33 41.83-21.17 57.25-25.75z"
-                            fill="#5D818C" />
-                        <path
-                            d="M410.2 90c-23.98 25.75-41.22 56.25-53.2 90l-.75-.5c-1.3-69.75 24.15-78.25 53.1-89.25l.85-.25zM609 91l.5.1c28.75 9.13 52.75 19.77 51 86.65l-.5.25c-15.75-37.5-30.75-63.75-51-87z"
-                            fill="#e5e5e5" />
-                        <path d="m659.35 681.3 16.05 5.3.2-14.6h3.4l2 32 1 79-3 21-7 11 1-47 2.1-78.4-15.75-4.9v-3.4z"
-                            fill="#A27903" />
-                        <path
-                            d="m353.5 866 8.5 12 9 10 8 6 15 8 30 10.75-44.5-.25L366 908c-3.58-1.67-6.92-4.58-10-14l-2-12-.5-16z"
-                            fill="#AF3023" />
-                        <path
-                            d="m664 867-1 16-2 11-3 7-7 8-5 3-16 2-31.5-.25-5.5-1 12-3.75 11-4 14-5 9-6 6-5 9.83-9.33 5.83-8.44 3.33-4.22.01-.01z"
-                            fill="#AE2D27" />
-                        <path
-                            d="m615 691 1.65 8.5L602 704l-24 5-19.75 3.25L540 714.5l-31-.6.7-9.7L544 703l20-2 36.5-6 14.5-4z"
-                            fill="#FAC42D" />
-                        <path
-                            d="M339 672h2v19l16.05-7.45.4 2.05-15.95 7.45L343 716l1 52 1 46-7.08-11.19L336 796l-1-13v-43l2-45 2-23z"
-                            fill="#EEAF02" />
-                        <path d="M467 921h83v9h-83v-9z" fill="#111714" />
-                        <path d="m549.83 52 .37 9.6-15.89-.2-7.96-1.15h-38.71l-12.59 1.25-8.53.5V51.89l83.33.11h-.02z"
-                            fill="#050708" />
-                        <path d="m341.25 204 2.25 114.75L335 321l-1-9 1-48 3-37 3.25-23z" fill="#EFB104" />
-                        <path
-                            d="m446.45 724.25 32.3 2.75 35.5 1.75-10 9-18.13 18.38-15.69 19.06-13.94 24.06-14.13-1.88 4.07-73.13.02.01z"
-                            fill="#3F6272" />
-                        <path d="m453.25 379.15 2 16.25-14.6 3.8-18 6.65-4.45-13.6c8.02-4.23 21.88-9.47 35.05-13.1z"
-                            fill="#54747B" />
-                        <path d="m386 676.25-6.25 29.25-7.75 24.75-5.5 8.75-.5-50.25 20-12.5z" fill="#325561" />
-                        <path d="m631 675.75 20.5 9.05-1 56.7L642 720l-5-18-6-26.25z" fill="#1F4C5F" />
-                        <path
-                            d="m435.9 243.9 1.1 9.85c-23.67 7.83-38.08 14.42-57 26.25l-1.85-5.75c12.87-12.03 36.38-24.82 57.75-30.35z"
-                            fill="#4A5F61" />
-                        <path d="M614 765v5l-16 4-30 5-32 3h-28l-4.5-.75L500 778l36-2 24-2 27-4 21-4 6-1z"
-                            fill="#325562" />
-                        <path
-                            d="m484 789 40.25 1.25-8.25.75v2.75l24 .25 22-2 11-.75 6.25.75-31.25 4-16 1h-48l-24-2 3.75-4.5L484 789z"
-                            fill="#274958" />
-                        <path d="m607 717-1 5-12 3-30 5-32 3h-21l3-4 11-1 43-4 18-3 21-4z" fill="#335360" />
-                        <path
-                            d="M616.5 419.8 615 460l-.4 44 .52 185.08 1.63 10.57 10.76 89.8c5.93 15.48 9.66 22.92-.01 111.9h-1.41c.59-5.47 11.59-80.83.58-111.5L615 699.65l-1.6-12.85-1.1-99.7-.45-84.42 2.75-83.93 1.9 1.05z"
-                            fill="#BF8C00" />
-                        <path d="m604 724.25 4-.25v3l-16 4-24 4-28 3-29 1-1-4 30-2 26-3 30-5 8-.75z" fill="#335563" />
-                        <path d="M606 741h4v4l-16 4-22 4-15 2-22 1-11-1 1-2 7-1v-1l36-3 34-6 4-1z" fill="#325462" />
-                        <path d="m476.5 769 15.5 1h56l1 4-5 1-20 1h-36l-15-2 3.5-5z" fill="#335563" />
-                        <path d="m425.95 705.95 21.05 4.3-1 13.5-22.5-3.75 2.45-14.05z" fill="#5F828B" />
-                        <path d="m339.2 626.9 2.8.1v44h-2.9c-7.67-10.33-12.33-30.67.1-44.1z" fill="#142C32" />
-                        <path d="m338.9 466.3 3.1-.1v45.7h-3c-12.53-15.3-6.27-41.9-.1-45.6z" fill="#15292F" />
-                        <path d="M679.25 466c4.17 7.25 11.83 26.25-.25 45h-3v-45h3.25z" fill="#122630" />
-                        <path d="m675.25 626 2.75.25c7 8.67 9.25 28.78 0 44.45l-2.5.3-.25-45z" fill="#152931" />
-                        <path d="m411.05 790.25 31.2 7v4l-32.1-7.1.9-3.9z" fill="#5F828B" />
-                        <path
-                            d="M402.8 417.3c7.04 49.51 7.53 176.47 1.07 272.23l1 .39c49.47 11.33 127.33 20.96 209.2-.21l.3 1.68c-40.6 9.99-120.31 23.07-210.61-.04l-.82 9.52-11.83 88.04-2.49 15.55c-.32 4.23.16 19.92 8.99 99.15l-2.16-1c-6.66-64.97-8.91-92.83-8.67-99.25l2.58-15.45 11.65-86.85c4.65-94.68 7.55-191.37-.3-283.8l1.65 2.55.44-2.51z"
-                            fill="#d69f04" />
-                    </g>
-                </svg>
+    <div id="overlay">
+        <div class="savedBox">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="120px" height="120px">
+                <linearGradient id="c0yjGprCnv9Gl20e9Vf6Cb" x1="32" x2="32" y1="6" y2="56"
+                    gradientUnits="userSpaceOnUse" spreadMethod="reflect">
+                    <stop offset="0" stop-color="#42d778" />
+                    <stop offset=".996" stop-color="#34b171" />
+                    <stop offset="1" stop-color="#34b171" />
+                </linearGradient>
+                <path fill="url(#c0yjGprCnv9Gl20e9Vf6Cb)"
+                    d="M57,31c0,13.805-11.195,25-25,25S7,44.805,7,31S18.195,6,32,6S57,17.195,57,31z" />
+                <path fill="#fff"
+                    d="M42.695,21.733L27.5,36.946l-5.235-5.22c-0.977-0.974-2.558-0.973-3.533,0.003l0,0 c-0.977,0.977-0.976,2.562,0.002,3.538l7.002,6.985c0.977,0.975,2.559,0.973,3.534-0.003l16.962-16.982 c0.975-0.977,0.975-2.559-0.001-3.535l0,0C45.254,20.756,43.671,20.756,42.695,21.733z" />
+            </svg>
+            <h1>Settings Saved Successfully</h1>
+            <p id="overlayParagraph">Your device will reboot, please reconnect to the Wi-Fi connection of the device
+                and
+                click the OK button.
+            </p>
+            <a id="hideOverlayBtn">Ok</a>
+        </div>
+    </div>
+    <header id="header">
+        <div class="mainContainer2">
+            <div class="btnArea">
+                <a id="backBtn">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </a>
             </div>
             <div class="textArea">
-                <div class="title">
-                    <h1><span class="orange">OBD2</span> Master</h1>
+                <div class="text">
+                    <span id="orangeText">OBD2</span>
+                    <span id="normalText"> Master</span>
                 </div>
-                <div class="status">
-                    <h2>Device Connection:</h2>
-                    <h3 style="color:red" id="ws">Not Connected</h3>
+            </div>
+            <div class="connectionArea">
+                <svg id="wsStatusSVG" viewBox="0 0 512 512">
+                    <path
+                        d="M176 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64c-35.3 0-64 28.7-64 64H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64c0 35.3 28.7 64 64 64v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448c35.3 0 64-28.7 64-64h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448V280h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448V176h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448c0-35.3-28.7-64-64-64V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H280V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H176V24zM160 128H352c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H160c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32zm192 32H160V352H352V160z" />
+                </svg>
+                <svg id="vehicleStatusSVG" viewBox="0 0 512 512">
+                    <path
+                        d="M135.2 117.4L109.1 192H402.9l-26.1-74.6C372.3 104.6 360.2 96 346.6 96H165.4c-13.6 0-25.7 8.6-30.2 21.4zM39.6 196.8L74.8 96.3C88.3 57.8 124.6 32 165.4 32H346.6c40.8 0 77.1 25.8 90.6 64.3l35.2 100.5c23.2 9.6 39.6 32.5 39.6 59.2V400v48c0 17.7-14.3 32-32 32H448c-17.7 0-32-14.3-32-32V400H96v48c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V400 256c0-26.7 16.4-49.6 39.6-59.2zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm288 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z" />
+                </svg>
+            </div>
+        </div>
+    </header>
+    <div id="menu1">
+        <div class="mainContainer2">
+            <div class="statusBox" id="statusBoxLiveData">
+                <h1 class="status" id="statusLiveData">Waiting Live Data...</h1>
+            </div>
+            <div class="dataBox" id="dataBoxLiveData">
+                <!-- <div class="live-card">
+                    <div class="label">Speed</div>
+                    <div class="value-area">
+                        <span class="value">0</span>
+                        <span class="unit">KM/h</span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div id="menu2">
+        <div class="mainContainer2">
+            <div class="statusBox" id="statusBoxErrorCodes">
+                <h1 class="status" id="statusErrorCodes">Waiting Error Codes...</h1>
+            </div>
+            <div class="dataBox" id="dataBoxErrorCodes">
+                <div id="errorCodesList">
+                    <div class="error-card">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 9V14M12 17.5V17.51M21.1 14.5L14.7 3.4C13.5 1.3 10.5 1.3 9.3 3.4L2.9 14.5C1.7 16.6 3.2 19.3 5.6 19.3H18.4C20.8 19.3 22.3 16.6 21.1 14.5Z"
+                                    stroke="#ff3b30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="details">
+                            <h1 class="errorCode">P0100</h1>
+                            <p class="errorMeaning">Mass or Volume Air Flow Circuit Malfunction</p>
+                        </div>
+                    </div>
+                    <div class="error-card">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 9V14M12 17.5V17.51M21.1 14.5L14.7 3.4C13.5 1.3 10.5 1.3 9.3 3.4L2.9 14.5C1.7 16.6 3.2 19.3 5.6 19.3H18.4C20.8 19.3 22.3 16.6 21.1 14.5Z"
+                                    stroke="#ff3b30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="details">
+                            <h1 class="errorCode">P0102</h1>
+                            <p class="errorMeaning">Mass or Volume Air Flow Circuit Low Input</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btnArea" id="btnArea">
+                <a id="clearDTC_Btn">Clear Error Codes</a>
+            </div>
+        </div>
+    </div>
+    <div id="menu3">
+        <div class="mainContainer2">
+            <div class="statusBox" id="statusBoxFreezeFrame">
+                <h1 class="status" id="statusFreezeFrame">Waiting Freeze Frame Data...</h1>
+            </div>
+
+            <div class="freeze-dashboard dataBox" id="dataBoxFreezeFrame">
+                <!-- Data cards will be injected here -->
+            </div>
+
+            <!-- Modernized Info Card -->
+            <div class="info-card info-id modern">
+                <div class="left-content">
+                    <div class="icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </div>
+                    <div class="text-group">
+                        <span class="label">What is Freeze Frame?</span>
+                    </div>
+                </div>
+                <p>
+                    Freeze Frame is a snapshot of sensor or component readings captured at the exact moment the engine
+                    control unit (ECU) detected a fault code.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="menu4">
+        <div class="mainContainer2">
+            <div class="statusBox" id="statusBoxSpeedTest">
+                <h1 class="status" id="statusSpeedTest">Waiting Speed Data...</h1>
+            </div>
+
+            <div class="speed-dashboard" id="dataBoxSpeedTest">
+                <!-- Speed Gauge Section -->
+                <div class="speed-card">
+                    <div class="speed-header">Current Speed</div>
+                    <div class="speed-value">
+                        <span id="Speed">0</span>
+                        <span class="unit">KM/H</span>
+                    </div>
+                </div>
+
+                <!-- Timer Section -->
+                <div class="timer-card">
+                    <div class="timer-display" id="timerDisplay">
+                        00 : 00 : 000
+                    </div>
+                    <div class="timer-controls">
+                        <button id="start-timer" class="timer-btn start">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Start
+                        </button>
+                        <button id="reset-timer" class="timer-btn reset">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 4v6h6"></path>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                            </svg>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- How it Works Card (Reuse info-card styles for consistency) -->
+                <div class="info-card info-speed modern">
+                    <div class="left-content">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        </div>
+                        <div class="text-group">
+                            <span class="label">Instructions</span>
+                        </div>
+                    </div>
+                    <div class="instructions-list">
+                        <span>1.</span> Stop the car completely.<br>
+                        <span>2.</span> Click <strong>Start</strong> to
+                        arm.<br>
+                        <span>3.</span> Timer starts
+                        <strong>automatically</strong> at >0 KM/H.<br>
+                        <span>4.</span> It stops
+                        <strong>automatically</strong> at 100 KM/H.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="menu5">
+        <div class="mainContainer2">
+            <div class="dataBox">
+                <div class="info-card info-vin">
+                    <div class="left-content">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-group">
+                            <span class="label">VIN Number</span>
+                        </div>
+                    </div>
+                    <span class="value" id="VIN">Waiting...</span>
+                </div>
+
+                <div class="info-card info-id">
+                    <div class="left-content">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                                <rect x="9" y="9" width="6" height="6"></rect>
+                                <line x1="9" y1="1" x2="9" y2="4"></line>
+                                <line x1="15" y1="1" x2="15" y2="4"></line>
+                                <line x1="9" y1="20" x2="9" y2="23"></line>
+                                <line x1="15" y1="20" x2="15" y2="23"></line>
+                                <line x1="20" y1="9" x2="23" y2="9"></line>
+                                <line x1="20" y1="15" x2="23" y2="15"></line>
+                                <line x1="1" y1="9" x2="4" y2="9"></line>
+                                <line x1="1" y1="15" x2="4" y2="15"></line>
+                            </svg>
+                        </div>
+                        <div class="text-group">
+                            <span class="label">Calibration ID</span>
+                        </div>
+                    </div>
+                    <span class="value" id="ID">Waiting...</span>
+                </div>
+
+                <div class="info-card info-version">
+                    <div class="left-content">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-group">
+                            <span class="label">Calibration Version</span>
+                        </div>
+                    </div>
+                    <span class="value" id="IDNum">Waiting...</span>
+                </div>
+
+                <div class="info-card info-pids">
+                    <div class="left-content">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            </svg>
+                        </div>
+                        <div class="text-group">
+                            <span class="label">Supported PIDs</span>
+                        </div>
+                    </div>
+                    <span class="value" id="liveData">Waiting...</span>
+                </div>
+
+                <div class="info-card info-freeze">
+                    <div class="left-content">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="text-group">
+                            <span class="label">Freeze Frame Support</span>
+                        </div>
+                    </div>
+                    <span class="value" id="freezeFrame">Waiting...</span>
+                </div>
+
+                <div class="info-card info-support">
+                    <div class="left-content">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                        </div>
+                        <div class="text-group">
+                            <span class="label">Vehicle Info Support</span>
+                        </div>
+                    </div>
+                    <span class="value" id="vehicleInfo">Waiting...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="menu6">
+        <div class="mainContainer2">
+            <div class="dataBox">
+                <div class="card card-protocol">
+                    <h1>
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                        </svg>
+                        Communication Protocol
+                    </h1>
+                    <form id="protocolChange_Form">
+                        <div class="row">
+                            <label for="protocol">Select Interface Protocol:</label>
+                            <select name="protocol" id="protocol" required>
+                                <option disabled selected value="">Select Protocol</option>
+                                <option value="Automatic">Automatic Detection</option>
+                                <option value="ISO9141">ISO 9141-2</option>
+                                <option value="ISO14230_Slow">ISO 14230-4 KWP (Slow)</option>
+                                <option value="ISO14230_Fast">ISO 14230-4 KWP (Fast)</option>
+                                <option value="11b250">ISO 15765-4 CAN (11bit/250k)</option>
+                                <option value="11b500">ISO 15765-4 CAN (11bit/500k)</option>
+                                <option value="29b250">ISO 15765-4 CAN (29bit/250k)</option>
+                                <option value="29b500">ISO 15765-4 CAN (29bit/500k)</option>
+                            </select>
+                        </div>
+                        <button class="submit-btn">Apply Protocol</button>
+                    </form>
+                    <div class="protocol-status">
+                        <div class="row">
+                            <h2>Selected Protocol</h2>
+                            <p id="selectedProtocol">Waiting...</p>
+                        </div>
+                        <div class="row">
+                            <h2>Connected Protocol</h2>
+                            <p id="connectedProtocol">Waiting...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-parameters">
+                    <h1>
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                        Monitor Parameters
+                    </h1>
+                    <p id="selectPID_Status" class="pid-status">
+                        Waiting...</p>
+                    <form id="selectPID_Form">
+                        <div class="selectPID_Boxes" id="selectPID_Boxes">
+                            <!-- JS Injection -->
+                        </div>
+                        <button class="submit-btn">Update PID List</button>
+                    </form>
+                </div>
+
+                <div class="card card-network">
+                    <h1>
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                            <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                            <path d="M8.58 16.11a7 7 0 0 1 6.84 0"></path>
+                            <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                        </svg>
+                        Network Configuration
+                    </h1>
+                    <form id="wifiChange_Form">
+                        <div class="row">
+                            <label for="SSID">Wireless SSID:</label>
+                            <input type="text" name="SSID" required placeholder="Network Name">
+                        </div>
+                        <div class="row">
+                            <label for="WifiPassword">Security Key:</label>
+                            <input type="password" name="WifiPassword" placeholder="Minimum 8 characters"
+                                pattern=".{8,}" title="Minimum 8 characters required">
+                        </div>
+                        <div class="row">
+                            <label>IP Assignment:</label>
+                            <div class="radioBtns">
+                                <div class="radioBtn">
+                                    <input type="radio" id="dynamicIp" name="ipType" checked="checked">
+                                    <label for="dynamicIp">DHCP</label>
+                                </div>
+                                <div class="radioBtn">
+                                    <input type="radio" id="staticIp" name="ipType">
+                                    <label for="staticIp">Static</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="staticIP-menu">
+                            <h2 style="margin: 10px 0 15px 0; color: var(--primary-color);">Static IP Configuration</h2>
+                            <div class="row">
+                                <label for="ipAddr">IP Address</label>
+                                <input type="text" id="ipAddr" name="ipAddr" minlength="7" maxlength="15"
+                                    placeholder="e.g. 192.168.4.100" inputmode="decimal"
+                                    pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                                    title="Please enter a valid IP address (e.g. 192.168.4.100)">
+                            </div>
+                            <div class="row">
+                                <label for="subnetMask">Subnet Mask</label>
+                                <input type="text" id="subnetMask" minlength="7" maxlength="15" name="subnetMask"
+                                    placeholder="e.g. 255.255.255.0" inputmode="decimal"
+                                    pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                                    title="Please enter a valid subnet mask (e.g. 255.255.255.0)">
+                            </div>
+                            <div class="row">
+                                <label for="gateway">Default Gateway</label>
+                                <input type="text" id="gateway" name="gateway" minlength="7" maxlength="15"
+                                    placeholder="e.g. 192.168.4.1" inputmode="decimal"
+                                    pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                                    title="Please enter a valid gateway IP (e.g. 192.168.4.1)">
+                            </div>
+                        </div>
+                        <button class="submit-btn">Update Network</button>
+                    </form>
+                </div>
+
+                <div class="card card-system">
+                    <h1>
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        System Maintenance
+                    </h1>
+                    <form id="firmwareUpdate_Form">
+                        <div class="row">
+                            <h2 style="margin-bottom: 12px;">Core Firmware (.bin)</h2>
+                            <input type='file' accept=".bin" name='firmware' required>
+                        </div>
+                        <button class="submit-btn btn-flash">Flash
+                            Firmware</button>
+                    </form>
                     <hr>
-                    <h2>Vehicle Connection:</h2>
-                    <h3 style="color:red" id="vehicleStatus">Not Connected</h3>
-                </div>
-                <div class="data">
-                    <svg id="battery" xmlns="http://www.w3.org/2000/svg" viewBox="251 155 795 596" width="30"
-                        height="30">
-                        <g class="layer">
-                            <path
-                                d="M415 155h119l15 5 8 6 8 8 6 11 3 15v5l148-1 3-17 6-12 8-9 11-7 13-4h119l12 4 10 6 8 8 6 10 3 10 1 12h36l21 5 16 7 13 9 12 11 10 13 8 15 5 16 2 10 1 9v356l-3 19-6 18-8 14-8 10-4 5-11 9-10 7-15 7-18 5-7 1H341l-16-3-17-6-14-8-14-12-12-14-6-10-7-17-4-20V294l4-19 6-15 8-13 8-10 10-10 10-7 15-8 16-5 11-2h36v-8l3-12 5-10 7-8 10-7 11-4 4-1zm-69 124-11 4-7 8-2 5-1 6v352l3 10 6 8 10 4 4 1h600l13-4 7-7 3-8V298l-3-8-4-5-7-4-6-2H346z" />
-                            <path
-                                d="M817 329h10l10 4 5 5 4 8 1 4v53h51l9 2 9 6 5 10 1 8-2 9-5 8-7 4-10 3h-51v54l-3 9-6 7-10 4h-12l-9-4-5-5-3-5-2-10v-50h-52l-10-3-6-4-5-9-1-4v-10l4-10 8-7 11-3h51v-53l2-6 5-8 5-4 8-3zM399 403h151l9 2 9 6 5 10 1 9-3 11-7 8-7 3-5 1H397l-10-3-8-7-4-11v-8l4-11 7-6 7-3 6-1z" />
-                        </g>
-                    </svg>
-                    <h1 id="voltage">0 V</h1>
+                    <form id="fileSystemUpdate_Form">
+                        <div class="row">
+                            <h2 style="margin-bottom: 12px;">Resource Pack (SPIFFS)</h2>
+                            <input type='file' accept=".bin" name='spiffs' required>
+                        </div>
+                        <button class="submit-btn btn-assets">Update Assets</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <main>
-        <div class="mainContainer">
-            <nav>
-                <a href="liveData.html">
-                    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="grad1" y2="100%">
-                                <stop offset="0" stop-color="#00d4ff" />
-                                <stop offset="1" stop-color="#005fff" />
-                            </linearGradient>
-                        </defs>
-                        <g transform="translate(2 0) scale(.1)" fill="url(#grad1)">
-                            <path
-                                d="M1130 23C587 82 153 478 38 1020c-24 112-24 352 0 464 53 248 168 464 337 633 176 177 380 288 625 342 132 30 367 31 495 4 253-54 464-168 640-346 364-367 462-919 244-1379-169-358-477-605-864-692-84-19-207-44-385-23m348 119c320 67 591 260 760 542 116 192 171 443 148 672-28 285-138 510-347 712-183 176-407 280-671 310-258 29-542-45-768-202-85-58-232-207-287-291-85-127-154-296-179-438-17-96-17-294 0-390 40-228 158-448 329-612 198-191 393-281 697-322 140-12 244 4 318 19" />
-                            <path
-                                d="m1093 327c-237 43-438 161-591 365-82 111-112 194-126 227-47 122-55 183-56 328 12 166 24 236 72 376 36 86 63 124 90 124s172-90 178-110c7-23-8-55-31-64-9-4-39 6-70 23l-54 29-14-26c-22-44-53-144-60-192-4-25-9-57-12-73-6-27-5-27 50-27 43 0 61-5 76-20 45-45 8-90-75-90-30 0-55-4-55-9 0-71 71-301 93-301 7 0 27 9 45 20 43 26 88 26 102 0 17-32 3-57-51-88l-49-28 28-40c35-47 158-166 189-182 20-11 24-8 49 33 34 59 57 72 90 50 30-20 30-42-1-96-14-24-25-47-25-51 0-16 175-71 268-83l52-7v59c0 65 11 83 50 83s50-18 50-83v-59l53 7c96 12 267 67 267 85 0 4-11 28-25 51-29 52-23 65-9 83 43 23 59 21 96-34 28-45 33-48 52-38 30 16 154 136 188 182l28 40-49 28c-54 31-68 56-51 88 14 26 59 26 102 0 18-11 38-20 45-20 22 0 93 230 93 301 0 5-25 9-55 9-83 0-120 45-75 90 15 15 33 20 76 20h55l-6 47c-15 106-66 263-85 263-5 0-30-11-57-25-53-28-79-19-92 9-14 37 0 55 81 102 107 61 118 58 168-49 84-180 111-400 72-587-72-348-327-621-673-720-142-44-325-36-411-20" />
-                            <path
-                                d="M953 738c-33 19-19 62 71 218l89 153-23 35c-88 129 7 302 167 303 50 1 54 3 80 40 30 44 48 45 81 22 26-18 21-34-3-82-14-27-16-41-9-46 6-3 20-25 30-48 60-132-35-276-183-276h-53l-89-155c-98-172-115-190-158-164m357 435c36 23 49 74 32 116-30 72-134 76-171 7-47-87 55-178 139-123z" />
-                            <path
-                                d="M915 1816c-6 11-10 88-10 180 0 132 3 162 16 175 13 14 58 16 339 16 310 0 325-1 335-19 6-11 10-87 10-176s-4-165-10-176c-10-18-25-19-340-19s-330 1-340 19m590 176v95h-500v-190h500v95" />
+    <div id="mainMenu">
+        <div class="banner">
+            <div class="mainContainer1">
+                <div class="logoArea">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="38.0672 314.5728 962.56 440.32" width="962.56"
+                        height="220">
+                        <g>
+                            <g id="svg_1">
+                                <path id="svg_2" fill="#0c0b0a"
+                                    d="m934,502l9,0l4,2l5.28,3.33l2.72,3.67l5,12l2,9l1,2l1,26l0,38l-2,15l-4,15l-5,12l18,0l8,2l0,3l-433,94l-41,4l-129,3l-88,-4l-149,-12l-71,-11l-5,-3l1,-5l9,-2l35,-4l10,-1l-1,-2l-10,-4l-2,-3l2,-2l12,-3l19,1l11,2l36,4l23,1l18,2l21,1l48,1l11,2l8,4l12,5l70,0l37,-2l27,-3l15,-1l2,-2l3,-8l1,-11l1,-3l1,-31l2,-11l3,-9l2,-11l5,-13l4,-15l3,-10l8,-14l9,-13l9,-10l9,-8l9,-6l12,-4l14,0l8,3l12,7l9,10l5,8l3,8l3,7l8,33l2,20l0,11l-1,18l-2,14l-5,16l-1.75,5l274.75,-59l2,-5l0,-11l-1,-7l5,-18l7,-29l9,-27l8,-16l7,-8l5,-4l5,-2zm-2,14l-6,4l-7,9l-2,4l-3,15l0,2l-1,1l-3,19l-0.72,11.69l0.72,11.31l0.69,11.03l4.31,19.97l11,17l5,3l7,0l9,-6l5,-9l6,-17l2,-10l1,-12l0,-19l-1,-16l-3,-14l-5,-13l-9,-10l-4,-2l-7,0zm-382,32l-12,4l-11,7l-7,7l-9,13l-7,14l-5,17l-2,12l0,23l3,19l6,17l7,14l9,11l10,8l9,4l6,2l12,0l9,-2l11,-6l12,-11l8,-11l6,-12l4,-11l3,-18l1,-8l0,-24l-4,-18l-5,-13l-7,-13l-8,-10l-8,-7l-8,-5l-10,-3l-13,0z" />
+                                <path id="svg_3" fill="#f3da4d"
+                                    d="m378,446l73,0l80,2l38,2l38,3l20,2l1,3l-8,4l-21,7l-27,6l-25,6l-15,4l-30,9l-26,9l-28,12l-25,12l-8,6l-30.13,-0.11l-44.87,-0.89l-25,4l-12,6l-5,4l-8,14l-4,9l-6,13l-0.67,6l-7.33,1l-14,1l-49,0l-33,-1l-37,-4l-7,-2l-4,-4l-13,-46l-6,-4l-16,-3l-14,-1l0,-1l9,-1l7,-6l14,-7l17,-6l47,-17l31,-12l21,-7l21,-6l30,-8l18,-4l6,-1l17,-1l61,-2z" />
+                                <path id="svg_4" fill="#e9b51c"
+                                    d="m46,585l232,4l157.81,-2.64l66.32,-1.38l-8.13,29.02l-4,10l-5,20l-2,17l0,22l-2,14l-4,9l-4.5,2.42l-20.5,1.58l-33,3l-23,1l-70,0l-10.25,-3.08l-8.67,-6.5l-11.08,-3.42l-64,-1l-47,-2l-44,-5l-6,-1l-16,-1l-17,3l-8,1l-36.81,-7.6l-0.19,-27.4l-11,-58l0,-17z" />
+                                <path id="svg_5" fill="#4f4e4d"
+                                    d="m678.62,337.43l-44.23,118.86l-51.39,-4.83l-34.83,-2.28l-57.17,-1.72l-98,-3l-59.5,-4.71l4.5,-8.29l11,-11l10,-8l12,-10l16,-12l24,-16l27,-16l17,-8l20.14,-10.29l203.47,-2.74z" />
+                                <path id="svg_6" fill="#f6e365"
+                                    d="m634,455l1,2l17,0l9.68,10.42l3.26,40.77l-8.94,0.81l-13,-3l-43,13l2,5l7,9l2,6l0,5l-5,1l-12,-11l-9,-6l-11,-3l-6,-1l-10,0l-13,4l-10,6l-12,11l-6,8l-2,0l-2,5l-10,15l-5,9l0,3l-41,0l1,-11l3,-4l-1,-9l-4,-9l-4,-6l-9,-8l-5,-2l-20,-3l5,-5l21,-10l15,-7l14,-6l41,-13l24,-7l17,-5l26,-6l18,-4l16,-5l14,-7l5,-3z" />
+                                <path id="svg_7" fill="#8d8d8c"
+                                    d="m731,341l29,0l20,2l12,23l7,17l6,16l8,29l3.11,12.67l-36.11,2.33l-30,3l-71,-9l-8,-26l-4,1l3,-9l7,-20l3,-3l7,-16l6,-10l7,-6l10,-4l21,-3z" />
+                                <path id="svg_8" fill="#e7ac15"
+                                    d="m846,484.95l0,37.05l-7.39,85.11l-176.67,31.89l4.06,-132.58l180,-21.47z" />
+                                <path id="svg_9" fill="#9e9e9e"
+                                    d="m516,354l3,1l-2,5l-6,1l-4,10l0,6l4,3l-10,17l-8,15l-4,7l-4,10l-3,4l-36,1l-40,1l-15,2l-24,1l-26,-2l5,-5l15,-13l14,-10l19,-14l19,-13l15,-9l23,-12l18,-4l10,-1l37,-1z" />
+                                <path id="svg_10" fill="#12110d"
+                                    d="m102.5,626.55l180.5,9l7,4l2,3l0,10l-5,14l-7,13l-5,4l-31.29,0.71l-43.71,-1.36l-58.93,-5.57l-13,-6.43l-17.18,-16.61l-10.39,-25.18l2,-2.57z" />
+                                <path id="svg_11" fill="#e7b118"
+                                    d="m974,487l0,14l-3,3l-13,5l-3.22,2.11l-3.89,-3.89l-4.89,-3.22l-6.33,-1.28l-5.67,0.28l-8,4l-7,7l-8,16l-7,19l-6,21l-5,23l-2,5l-38,7l-24,5l-13,3l-5,0l4,-3l10,-3l5,-5l2,-3l3,-12l7,-22l3,-14l2,-11l1,-54.94l121.06,-21.28l4.94,23.22z" />
+                                <path id="svg_12" fill="#e8b118"
+                                    d="m890.39,600l-0.44,6.5l0.06,9.5l0,8l-2,5l-275.59,59.53l4.59,-19.53l3.83,-21.56l270.56,-53.94l-1.01,6.5z" />
+                                <path id="svg_13" fill="#f4e26b"
+                                    d="m716.06,325.49l20.94,1.51l36,3l24,5l18,6l16,8l15,9l17,12l16,13l10,8l12,11l11,9l3,3l35,9l8,4l4,5l4,12l0,8l-58,6l-63,7l-3,-3l-5,-9l0,-2l-4,-2l-5,-7l11,-2l30,-3l26,-24l-7,-11l-13,-13l-8,-7l-15,-12l-15,-10l-21,-11l0,-2l-10,-3l-19,-5l-22,-3l-46,0l-15,3l-10,6l-11,12l-5,14l-9,23l-4,12l-8,25l-8,24l-16,1l3,-11l35,-91l4,-12l-2.77,-2.03l10.85,-11.01l32.98,-3.47z" />
+                                <path id="svg_14" fill="#5d5d5c"
+                                    d="m779,341l18,3l20,7l21,11l17,12l14,11l13,12l8,10l4,9l1,4l0,15l-79.78,5l-7.22,-27l-10,-30l-9,-21l-9,-17l-1,-4z" />
+                                <path id="svg_15" fill="#e4ae19"
+                                    d="m664,508l1.94,48l1.61,82.05l-45.52,9.77l-2.18,-42.18l-7.69,-33.25l-8.83,-19.22l-13.78,-13.28l-17.56,-7.83l-15.39,-0.83l-10.61,1.78l-14,10l-10,10l-9,13l-11,19l-5.83,0.39l10.83,-20.39l8,-12l7.16,-9.26l6.84,-5.74l12,-9l12,-5l5,-1l10,0l14,3l9,5l10,9l5,4l5,0l-3,-11l-9,-12l1,-3l9.33,-7.22l47.67,-2.78l7,-0.01z" />
+                                <path id="svg_16" fill="#f4e26b"
+                                    d="m828.75,442l15.5,17.62l3,25.12l-182,24l-1.25,-27.75l-7,-25l171.75,-13.99z" />
+                                <path id="svg_17" fill="#f6e56e"
+                                    d="m967.19,452.87l0.81,11.13l-4,4l-8,4l-13,5l-6,2l1,3l6,4l7,8l4,5l-1,3l-4,-1l-7,-2l-8,0l-8,2l-6.62,5.06l-5.38,5.94l-7,9l-6,0l-1.38,-6.53l0.75,-5.96l1.62,-6.51l2,-7l5,-10l-0.75,-2.19l-2.25,-0.81l-19,0l-19,3l-9,1l-13,0l-3,-14l0,-5l21,-3l19,-2l83.2,-9.13z" />
+                                <path id="svg_18" fill="#191818"
+                                    d="m209.36,533.38l18.64,-0.38l18,1l20.3,2.75l8.72,13.21l-13.75,21.74l-17.26,9.3l-33,0l-9.55,-3.85l-4.45,-10.15l0,-10l1,-12l3.19,-6.19l8.17,-5.43l-0.01,0z" />
+                                <path id="svg_19" fill="#1b1813"
+                                    d="m398,644l12,5l6,8l0.42,9.5l-3.42,7.5l-9,6l-71,0l-4.75,-9l0.42,-11l4.58,-9.58l5.59,-4.84l6.46,-1.42l52.71,-0.17z" />
+                                <path transform="translate(550 548)" id="svg_20" fill="#d0d0d0"
+                                    d="m0,0l13,0l12,4l12,9l8,9l8,14l5,12l4,15l1,6l0,24l-3,21l-3,9l-4,11l-6,11l-7,9l-7,7l-7,5l-8,4l-9,2l-12,0l-13,-5l-8,-6l-5,-4l-9,-12l-7,-14l-4,-12l0,-10l3,3l3,13l6,12l9,13l8,7l11,6l5,1l14,0l13,-5l10,-9l-4,-10l-4,-5l1,-2l2,1l2,-5l3,0l2,4l-3,4l1,6l3,3l7,-9l2,-7l3,-3l5,-16l2,-9l1,-12l0,-16l-2,-12l-3,-13l-6,-14l-8,-11l-7,-7l-10,-6l-8,-3l-13,0l-8,2l-10,5l-10,9l-9,14l-6,13l-1,4l2,1l-3,0l-3,26l-1,17l-2,-3l0,-25l2,-13l5,-15l7,-14l10,-13l9,-8l12,-6l7,-2z" />
+                                <path id="svg_21" fill="#f7df65"
+                                    d="m103,646l3,4l8,14l8,10l5,4l16,4l18,2l45,3l18,1l42,0l8,-3l5,-1l22,0l14,-1l7,-4l9,-1l18,5l42,-1l13,-3l6,-3l2,0l-1,4l-5,3l-11,3l-17,3l-33,3l-29,1l-73,1l-34,-1l-26,-2l-31,-2l-35,-5l-21,-5l-25,-7l-9,-6l-5,-6l-2,-5l0,-6l6,9l14,7l12,3l13.5,2.5l14.5,3.75l-5.5,-10.25l-8,-16l1.5,-2z" />
+                                <path id="svg_22" fill="#e2c245"
+                                    d="m705,414l27,0l8,2l5,5l2,6l0,9l-3,7l-4.5,5l-8.5,1l-75,6l5.75,-17l17.25,-2l3,0l4,-10l3,-7l7,-3l9,-2z" />
+                                <path id="svg_23" fill="#acadaf"
+                                    d="m460,344l9,0l-4,3l-32,16l-17,10l-16,10l-14,10l-12,9l-9,7l-14,12l-7.64,7l-8.79,9.79l-31.57,3.21l17,-16l30,-23l25.79,-18.79l48.21,-29.21l8,-4l5,-2l23,-4z" />
+                                <path id="svg_24" fill="#221f1b"
+                                    d="m327,533l78,0l4,15l0,13l-4,8l-8,7l-4,3l-16,0l-8,-2l-9,-5l-16,0l-9,2l-6,2l-10,0l-6,-4l-27,-1l1,-5l4,-10l7,-11l8,-6l9,-4l12,-2z" />
+                                <path id="svg_25" fill="#f0da63"
+                                    d="m594.55,324.57l97.45,-0.57l21,1l-29,5l-14.44,9l-38.56,-1.14l-99,1.14l-55.85,2.54l-25.37,2.39l12,-4.72l20.21,-4.21l39,-6l72.55,-4.43z" />
+                                <path id="svg_26" fill="#191818"
+                                    d="m150,531l26,0l11.57,4.21l0.96,38.21l-8.53,5.58l-19,1.13l-17.47,-3.7l-5.53,-12.43l-4,-13l0.57,-15.15l15.43,-4.85z" />
+                                <path id="svg_27" fill="#cdcccb"
+                                    d="m576,568l1,2l-4,10l-10,20l0,10l7,1l5,-4l8,-15l3,-1l-3,9l-5,9l1,4l25,0l-2,2l-26,5l-4,4l0,9l2,4l2,1l16,0l14,-1l-2,2l-23,5l-3,9l-11,0l-1,2l0,8l5,10l5,8l-3,0l-6,-8l-2,0l-2,6l-2,13l-1,0l-1,-20l-4,-6l-5,-1l-2,2l-1,4l-1,15l-2,0l0,-12l-7,1l-6,6l1,5l2,2l0,2l-14,0l6,-8l8,-8l5,-8l1,-9l6,-4l0,4l3,0l-1,-5l4,1l2,3l4,0l0,-6l-1,-5l4,-5l2,0l1,-3l3,-2l0,-6l-5,-1l-1,5l-2,-3l-3,-6l-5,-3l-2,-13l1,-4l4,-3l1,-3l0,-26l2,1l2,15l2,5l7,-10l8,-15z" />
+                                <path id="svg_28" fill="#f7e568"
+                                    d="m64,574l5,1l11,7l7,3l10,2l26,3l24,3l26,2l52,1l38,2l18,-1l32,1l19,2l8.5,1l1.5,2l-80,-1l-46,-1l-71,-3l-25,-2l-21,-1l-28,-4l-21,-4l-4,-2l5,-5l13,-6z" />
+                                <path id="svg_29" fill="#bf8a11"
+                                    d="m101.5,626.5l4.29,0.36l6.21,13.14l3,6l8,13l8,10l9,6l30,4l21,2l9,1l43,1l32,1l-3,3l-6,2l-42,0l-37,-2l-26,-2l-24,-3l-10,-3l-8,-7l-9,-13l-8,-16l-3.29,-8.64l0,-5.5l2.79,-2.36z" />
+                                <path id="svg_30" fill="#c1c0bf"
+                                    d="m403,537l34,1l10,5l2,2l2,7l4,20l2,2l-33,3l-28,0l5,-5l6,-8l1,-3l0,-13l-5,-11z" />
+                                <path id="svg_31" fill="#f7e674"
+                                    d="m885,609l4,1l1,6l-3,2l-175,36.58l-3.84,-2.63l0.47,-4.11l176.37,-38.84z" />
+                                <path transform="translate(395 697)" id="svg_32" fill="#f8e16e"
+                                    d="m0,0l10,1l9,3l-1,5l-12,5l-10,1l-25,1l-36,0l-12,-1l-4,-3l1,-6l5,-2l22,-2l13,0l40,-2z" />
+                                <path id="svg_33" fill="#ecbb23"
+                                    d="m955,511l3,0l3,6l0,2l11,-2l13,-5l2,0l-2,4l-16,6l18,-6l0,8l-4,16l-1,14l-4,13l-2,5l-6.5,7.5l-4.25,3l-1.25,-23.5l-2,-25l-5,-17l-2,-3l0,-3z" />
+                                <path id="svg_34" fill="#9d9e9d"
+                                    d="m562,364l7,4l8,9l9,14l5,13l-3,0l-4,-7l-4,-4l-6,-2l-27,0l-9,2l-3.72,2.83l-2.28,4.17l-5,14l-1,4l0,11l1,4l-11,1l2,-9l5,-13l15,-30l2,-3l19,-2l2,-1l1,-12z" />
+                                <path id="svg_35" fill="#f4e585"
+                                    d="m175,480l37.25,-9.5l-0.25,2.5l-49,18l-13,7l-12,8l-8,9l-5,8l-2,-1l1,-9l4,-9l-24,9l-13,8l-3,3l-9,0l5,-6l13,-8l25,-12l27,-10l26,-8z" />
+                                <path id="svg_36" fill="#e9bf25"
+                                    d="m350.44,571l11.56,1l9,5l6,1l51,0l28,-2l0,10l-27,1l-148.22,0l6,-16.44l26.39,1.06l5.17,3.94l11.22,-0.06l9.17,-3.5l11.72,-1l-0.01,0z" />
+                                <path id="svg_37" fill="#1b1712"
+                                    d="m61,627l9,1l13,4l7,12l5,14l2,8l-9,-2l-22,-5l-5,-5l-4,-9l-1,-5l0,-8l5,-5z" />
+                                <path id="svg_38" fill="#b4b3b2"
+                                    d="m537,563l2,0l3,19l2,19l2,4l4,1l1,15l-5,2l-3,6l0,14l-6,2l-3,-6l0,-2l4,-4l0,-6l-4,0l-1,-10l-14,-7l-12,-5l3,-1l1,-6l3,-3l3,0l0,4l2,0l0,-2l3,1l0,3l-7,4l9,4l6,2l7,-1l-1,-7l-8,-10l-11,-11l1,-3l17,17l5,1l-2,-21l-1,-5l0,-8z" />
+                                <path id="svg_39" fill="#f7e266"
+                                    d="m797.58,602.74c42.47,-5.3 26,0.46 21.11,2.53l-196.9,34.8l-0.61,-6.83l176.4,-30.49z" />
+                                <path transform="translate(504 604)" id="svg_40" fill="#434141"
+                                    d="m0,0l5,1l21,9l4,3l0,10l4,0l1,6l-3,4l-3,-1l-1,-2l-2,2l-9,-1l2,-7l0,-11l-1,-1l-4,11l0,6l-7,-2l-6,-1l-4,-1l0,-10l2,-13l1,-2z" />
+                                <path id="svg_41" fill="#a4a4a5"
+                                    d="m659,358l-1,6l-13,29l-4,-2l-19,-26l0,-2l5,-2l32,-3z" />
+                                <path id="svg_42" fill="#cd9010"
+                                    d="m671,456l7,1l4,3l7,0l1,1l0,6l-6,8l-7,4l-5.89,1.62l-7.11,0.38l-9,-24l16,-1z" />
+                                <path id="svg_43" fill="#0d0d09"
+                                    d="m357.17,436.55l23.83,6.45l1.19,2.75l-92.19,3.25l0,-7l9.38,-3.94l57.79,-1.51z" />
+                                <path transform="translate(549 555)" id="svg_44" fill="#3d3d3c"
+                                    d="m0,0l3,1l4,25l0,17l-3,5l-5,3l-3,-1l-1,-2l0,-6l2,-3l0,-12l-4,-2l-3,-12l0,-6l2,0l0,-2l2,0l-1,-3l7,-2z" />
+                                <path id="svg_45" fill="#d8ae23"
+                                    d="m137,588l9,1l5,1l58,3l48,0l8,-1l13,0l9,3l0.5,3.39l-14.75,0.36l-32.75,-0.75l-16.67,-0.17l-50.33,-1.83l-27.28,-1.89l-10,-1.28l1.28,-4.83z" />
+                                <path transform="translate(553 555)" id="svg_46" fill="#4d4b49"
+                                    d="m0,0l9,0l14,6l12,11l4,5l-1,2l-2,-1l-1,5l-1,-3l-11,2l-3,-2l3,-11l-10,19l-4,6l-3,-3l-1,-7l2,0l2,-3l2,0l2,-4l1,-3l-2,-3l2,-6l-8,-4l-6,-2l0,-4z" />
+                                <path id="svg_47" fill="#503c08"
+                                    d="m367,448l65,0l6,6l-111,-1l0.25,-2.75l5.75,-1.25l34,-1z" />
+                                <path id="svg_48" fill="#111111"
+                                    d="m728,336l26,0l24,2l20,4l15,5l0,2l-7,-1l-13,-4l-21,-3l-9,-1l-37,0l-17,3l-9,4l-6,4l-8,13l-25.04,67.52l-2.13,-0.74l13.17,-42.78l8,-21l8,-15l8,-8l11,-5l10,-2l11,-1z" />
+                                <path id="svg_49" fill="#9a9897"
+                                    d="m79,529l20,0l6,2l-1,6l1,4l-2,7l-13,-1l-2,-1l3,7l1,2l-4,-2l-3,-5l0,-3l-11,-1l1,-8l4,-7z" />
+                                <path id="svg_50" fill="#e7bb25"
+                                    d="m87.06,560.49l9.96,0.19l25.98,4.32l4.19,15.7l-30.21,-2.38l-29.74,-5l0.75,-8.32l19.07,-4.51z" />
+                                <path transform="translate(550 664)" id="svg_51" fill="#646362"
+                                    d="m0,0l5,1l4,5l1,2l0,23l-2,18l-12,0l-2,-1l0,-3l3,0l0,-4l6,-4l0,-17l-1,-2l-4,3l-2,0l0,-14l2,-5l2,-2z" />
+                                <path id="svg_52" fill="#18160d"
+                                    d="m629.69,337.48l22.86,1.43l-5.14,1.86l-14.86,0.14l-143.71,0.86l5.71,-2.43l135.14,-1.86z" />
+                                <path id="svg_53" fill="#f2dd5e"
+                                    d="m304,417l11,0l6,2l0,2l-23,20l-2.89,1.25l-4.11,-0.25l-1,-5l2,-10l4,-6l4,-3l4,-1z" />
+                                <path transform="translate(541 557)" id="svg_54" fill="#656563"
+                                    d="m0,0l2,1l0,2l-2,0l0,2l-4,1l3,19l1,15l-4,1l-8,-7l-11,-11l-3,0l3,-4l15,0l-1,-10l-7,2l5,-5l6,-4l5,-2z" />
+                                <path id="svg_55" fill="#eed864"
+                                    d="m735,550l165.44,-25.83l-0.56,4.78l-148.89,25.06l-60,9l-44,5.89l-8.89,-4.28l76.72,-11.67l20.17,-2.94z" />
+                                <path transform="translate(581 580)" id="svg_56" fill="#483736"
+                                    d="m0,0l6,0l-1,8l-10,19l-6,5l-5,-1l-3,-3l0,-8l6,-12l4,2l1,7l-1,2l2,0l2,-5l3,-7l-3,-5l5,-2z" />
+                                <path transform="translate(533 640)" id="svg_57" fill="#4c4c4a"
+                                    d="m0,0l3,1l2,3l5,1l1,5l-3,7l-1,9l-6,9l-8,8l-5,6l12,1l0,1l-13,1l-2,2l-3,-5l5,-5l6,-8l3,-7l2,-4l0,-8l-3,-4l2,-2l7,0l-2,-6l-2,-5z" />
+                                <path id="svg_58" fill="#f0efef"
+                                    d="m452,552l2,0l5,10l0,8l-2,3l-13,-2l-14.67,-0.67l-2.33,-4l2,-7.33l2,-3.33l5.33,-0.67l7.67,3l8,0l0,-6z" />
+                                <path id="svg_59" fill="#f9e470"
+                                    d="m61,678l8,1l22,7l4.25,2.08l1.33,2.92l-3.58,3l-13,0l-21,-7l0,-7l2,-2z" />
+                                <path transform="translate(955 553)" id="svg_61" fill="#6e6d6c"
+                                    d="m0,0l1,0l2,18l0,23l-2,1l0,-20l-4,2l-2,4l-3,0l-2,9l-4,-4l0,-3l2,0l-1,-4l-4,-2l3,-2l5,-3l-2,-3l-1,-6l7,-8l2,1l0,1l2,-1l1,-3z" />
+                                <path id="svg_62" fill="#f4e26a"
+                                    d="m670,410l3,3l6,21l0,2l-7,1l2,9l-10,3l-3,-2l0,-7l5,-17l4,-13z" />
+                                <path id="svg_63" fill="#8f6c1b"
+                                    d="m795,471l14,0l-2,2l-37,5l-49,7l-36,5l-11,0l2,-2l20,-3l39,-6l39,-5l21,-3z" />
+                                <path id="svg_64" fill="#c2c2c2"
+                                    d="m932,516l7,0l6,4l7,8l6,16l2,11l1,16l0,19l-1,12l-1,0l-3,-41l-3,-17l-8,-16l-5,-5l-3,-2l-10,0l5,-5z" />
+                                <path id="svg_65" fill="#51504d"
+                                    d="m604,638l2,0l0,12l-4,17l-5,12l-3,-1l-3,-7l2,-10l3,-11l1,-7l-6,-1l0,-1l13,-3z" />
+                                <path transform="translate(567 652)" id="svg_66" fill="#423635"
+                                    d="m0,0l9,0l5,5l9,13l1,6l-6,0l-2,-4l1,-3l-3,-1l0,-2l-5,3l-4,4l-3,-1l-4,-9l0,-8l2,-3z" />
+                                <path transform="translate(515 580)" id="svg_67" fill="#3c3c3a"
+                                    d="m0,0l7,6l10,10l4,6l0,2l-2,0l-1,-2l-3,1l0,4l-2,1l-9,0l-5,-2l4,-4l4,-1l-1,-3l-2,-1l-1,2l0,-8l-3,-4l-2,0l-4,11l3,-2l-2,8l-5,-1l1,-6l8,-16l1,-1z" />
+                                <path transform="translate(942 527)" id="svg_68" fill="#676663"
+                                    d="m0,0l5,2l7,15l1,5l0,9l-6,0l0,-1l-3,3l-5,-1l-2,-3l2,-12l0,-11l1,-6z" />
+                                <path id="svg_69" fill="#797879"
+                                    d="m368,537l9,0l-2,11l0,12l-13,1l-3,6l-1,-3l2,-5l0,-21l8,-1z" />
+                                <path id="svg_70" fill="#626063"
+                                    d="m330,537.67l-2,7.33l-1,10l-8,-1l-20,-1l1,-4l5,-5l8,-4l9.67,-1.67l7.33,-0.66z" />
+                                <path id="svg_71" fill="#c1a12a"
+                                    d="m879,433l12,0l0,2.94l-11.28,0.78l-50.72,5.78l14,17l0.5,5l-8.5,-10.5l-9,-10.75l-12,1.75l-9,1l0,-4.5l38,-5.5l36,-3z" />
+                                <path transform="translate(388 543)" id="svg_72" fill="#a3a1a0"
+                                    d="m0,0l9,1l4,5l1,5l-2,1l-2,7l-1,1l-5,0l4,-6l-6,3l-5,0l-1,2l-4,-1l-1,-2l0,-8l5,-6l4,-2z" />
+                                <path id="svg_73" fill="#43403a"
+                                    d="m83,545l2,0l4,8l0,-1l-1,-6l15,2l3,8l3,5l2,1l13,2l-1,2l-14,-1l-4,2l-4,-1l-7,-3l-1,-4l-6,-3l-4,-5l0,-6z" />
+                                <path id="svg_74" fill="#eac324"
+                                    d="m69,575l16,4l40,4l12.17,2.94l-0.56,6.83l-22.61,-2.78l-22,-3l-10,-3l-12,-7l-1,-2z" />
+                                <path transform="translate(539 673)" id="svg_75" fill="#616060"
+                                    d="m0,0l5,1l0,17l-2,20l-5,-1l-10,-6l-3,-4l10,3l3,1l2,-15l-5,1l-4,-6l1,-4l8,-7z" />
+                                <path transform="translate(377 537)" id="svg_76" fill="#898788"
+                                    d="m0,0l20,0l7,6l2,7l0,9l-3,5l-6,1l3,-4l1,-10l-4,-6l-9,-1l-6,4l-2,1l0,-3l-1,2l-1,13l-2,-2l0,-16l-1,-3l2,-3z" />
+                                <path transform="translate(604 613)" id="svg_77" fill="#514d4d"
+                                    d="m0,0l2,0l1,9l0,16l-15,1l-16,0l1,-3l6,-1l9,0l-1,-3l0,-14l-6,0l0,-1l17,-3l2,-1zm-10,4l-2,1l0,9l1,8l5,0l0,-18l-4,0z" />
+                                <path transform="translate(591 579)" id="svg_78" fill="#4b4947"
+                                    d="m0,0l3,1l6,12l4,12l1,9l-20,0l0,-1l11,-1l-8,-24l3,-8z" />
+                                <path id="svg_79" fill="#3b3732"
+                                    d="m77,530l1,2l-3,7l-1,5l9,0l-1,4l0,-3l-2,1l4,11l4,5l-5,5l-8,0l-7,-2l0,5l-1,0l0,-15l1,0l1,7l6,3l-2,-4l-1,-6l0,-14l4,-10l1,-1z" />
+                                <path transform="translate(928 518)" id="svg_80" fill="#8b8a8b"
+                                    d="m0,0l2,1l-2,3l2,4l2,14l0,8l-1,5l-2,0l-2,5l0,4l-4,0l-1,-8l1,-1l0,-25l-3,1l2,-4l6,-7z" />
+                                <path id="svg_81" fill="#5c430d"
+                                    d="m281.67,587l28.33,0l108,1l0,1l-14,1l-117,0l-9.33,-0.67l4,-2.33z" />
+                                <path transform="translate(923 607)" id="svg_82" fill="#636261"
+                                    d="m0,0l3,0l1,3l0,12l-3,12l2,0l1,-3l1,3l3,-3l0,4l-2,0l0,2l4,0l0,-8l3,-2l-2,10l6,-3l2,1l-6,4l-7,0l-9,-6l-3,-4l-2,-5l1,-7l6,-9l1,-1z" />
+                                <path id="svg_83" fill="#292621"
+                                    d="m468.59,334.97l5.46,1.79l-9.94,2.12l-12.76,4.68l45.92,-4.37l-7.28,2.8l-30.25,3.5l-22.75,3.5l-19,9l-37.75,23.31l-54.19,39.89l-1.34,-3.06l55.16,-41.06l35.12,-21.97l29,-14.11l24.59,-6.03z" />
+                                <path transform="translate(501 629)" id="svg_84" fill="#111010"
+                                    d="m0,0l5,2l2,2l2,14l4,10l-2,4l-7,6l-2,-7l-2,-8l0,-23z" />
+                                <path id="svg_85" fill="#9d680c"
+                                    d="m667,565l8,1l-3,2l-5,1l0.28,54l1.72,13l-3.05,1l-2.12,-14.67l0.17,-32.33l1,-21l-2,1l-21,3l-12,0l1,-2l11.39,-2l10.44,-1.44l12.17,-1.56l2,-1z" />
+                                <path id="svg_86" fill="#685f43"
+                                    d="m846.75,356.25l23.75,17.75l13.5,11l11,9l12,11l8,7l26,6l15,5l5,4l7,14l1,4l0,9l-3,-3l-3,-14l-4,-8l-6,-4l-23,-6l-15,-4l-12,-11l-8,-7l-18.75,-15.25l-31,-23.25l-22.53,-13.39l-20.03,-7.89l2.44,-2.28l21.12,8.94l20.5,12.37z" />
+                                <path transform="translate(958 591)" id="svg_87" fill="#d8d8da"
+                                    d="m0,0l1,0l0,15l-3,12l-5,14l-6,8l-7,4l-7,0l-8,-6l-3,-4l1,-2l8,6l7,0l7,-4l6,-10l4,-10l5,-23z" />
+                                <path id="svg_88" fill="#f2c82d"
+                                    d="m338,575l22,0l3,3l1,5l-3,2l-23,0l-5,-1l0,-4l5,-5z" />
+                                <path transform="translate(333 537)" id="svg_89" fill="#81807f"
+                                    d="m0,0l20,1l1,5l2,0l2,4l-1,5l-3,-1l2,0l-2,-5l-2,-1l-12,0l0,8l-9,0l1,5l-2,1l-1,-11l2,-7l2,-4z" />
+                                <path id="svg_90" fill="#857d62"
+                                    d="m590,322l113.38,0.19l-1.89,2.7l-94.49,0.11l-20,0.43l-28.57,1.83l0.57,-3.26l31,-2z" />
+                                <path id="svg_91" fill="#d3d3d3"
+                                    d="m502,628l9,2l13,5l6,0l2,-2l3,6l0,4l2,3l0,5l-7,1l-21,21l0,-3l10,-11l7,-10l1,-7l-5,-4l-18,-7l-2,-3z" />
+                                <path id="svg_92" fill="#ac7d0d"
+                                    d="m335.08,680l65.92,0l0,1l-10,2l-42,1l-24,0l-2,-2l12.08,-2z" />
+                                <path id="svg_93" fill="#38393b"
+                                    d="m322.86,437.07l34.14,-1.07l27,2l7,2l2,3l0,2l-11,0l-6,-2l-16,-3l-36,-1l-1.14,-1.93z" />
+                                <path transform="translate(573 682)" id="svg_94" fill="#403f3e"
+                                    d="m0,0l4,2l4,6l3,8l-8,8l-10,5l-5,1l-2,-5l12,-9l1,-3l-4,-2l2,-2l7,2l-2,-6l-2,-5z" />
+                                <path id="svg_95" fill="#bfbebd"
+                                    d="m934,538l1,0l0,10l-3,10l-1,2l6,1l3,-6l2,4l4,2l-7,8l-2,5l-3,1l-2,-3l-10,2l-1,-5l4,-2l2,1l2,-7l-3,0l1,-4l2,-4l3,0l2,-15z" />
+                                <path transform="translate(268 557)" id="svg_96" fill="#959593"
+                                    d="m0,0l3,0l-1,6l-7,13l-6,5l-12,2l-8,1l-16,0l-1,-2l20,-1l11,-4l6,-5l7,-13l4,-2z" />
+                                <path id="svg_97" fill="#a4831e"
+                                    d="m534,455l9.2,-0.8l-3.2,2.8l-39,8l-67.8,14.8l-82,22.8l-42.4,15.9l-20,10.75l0,-2.91l20.8,-12.51l36,-13.02l84.4,-23.8l61,-13l43,-9l0,-0.01z" />
+                                <path id="svg_98" fill="#646363"
+                                    d="m341,537l27,0l0,1l-8,0l1,4l0,17l-3,9l-10,0l4,-1l1,-4l5,-2l-1,-4l-12,2l-5,0l1,-5l16,-3l-1,-8l-2,0l-1,-4l-12,-1l0,-1z" />
+                                <path id="svg_99" fill="#352404"
+                                    d="m180,590l30,0l62.65,-0.43l-7.65,3.43l-8,1l-48,0l-38.67,-2l9.67,-2z" />
+                                <path id="svg_100" fill="#745118"
+                                    d="m820.11,607.17l0.83,2l-151.94,30.83l-26,5l-22.11,3.56l0.56,-14.67l1.56,12.11l18,-2.89l179.11,-35.94z" />
+                                <path id="svg_101" fill="#af8b1a"
+                                    d="m564,476l1,3l-14.04,3.43l-12.96,3.57l-24,7l-32,10l-7,2l-6.33,-0.33l24.33,-8.67l28,-9l18,-5l16,-4l9,-2z" />
+                                <path id="svg_102" fill="#766748"
+                                    d="m130,545l2,0l3,17l3,6l0,2l-2,0l5,5l4,3l14,3l23,0l5,-5l1,-6l-1,-3l2,-6l2,4l0,8l-5,8l-7,3l-18,0l-11,-2l-8,-3l-7,-6l-5,-10l-1,-5l0,-11l1,-2z" />
+                                <path transform="translate(914 548)" id="svg_103" fill="#717170"
+                                    d="m0,0l6,2l3,9l0,3l6,-1l-2,7l-5,1l0,7l-5,1l-6,-8l4,-1l0,-10l-2,-2l0,-5l3,0l-2,-1l0,-2z" />
+                                <path transform="translate(927 601)" id="svg_104" fill="#8f8e8b"
+                                    d="m0,0l4,2l2,3l2,22l-1,1l-1,8l-4,0l0,-2l2,0l-1,-2l-3,2l0,-3l-1,2l-2,0l2,-12l0,-15l-2,-1l2,0l1,-5z" />
+                                <path id="svg_105" fill="#f7eb82" d="m975,503l9,2l3,2l-1,3l-17,7l-7,1l-3,-8l16,-7z" />
+                                <path id="svg_106" fill="#7a7978"
+                                    d="m931.86,589.14l-6.86,7.86l-7,10l-3,-10l7,-10l3.43,-3.43l6.43,5.57z" />
+                                <path transform="translate(516 665)" id="svg_107" fill="#5d5d5b"
+                                    d="m0,0l1,2l4,2l4,3l-1,5l-8,10l-4,-2l-4,-8l1,-5l7,-7z" />
+                                <path transform="translate(62 630)" id="svg_108" fill="#818388"
+                                    d="m0,0l5,2l4,6l1,5l0,10l-1,1l-5,0l-4,-5l-2,-7l0,-8l2,-4z" />
+                                <path id="svg_109" fill="#4e4b40"
+                                    d="m212,506l8,0l2,2l-1,6l-8,6l-8,2l-6.79,-0.61l-2.39,-3.61l0.61,-4.3l9.58,-5.48l6,-2z" />
+                                <path transform="translate(536 689)" id="svg_110" fill="#090809"
+                                    d="m0,0l3,0l0,9l-2,6l-10,-2l-6,-4l-2,-3l1,-4l13,-1l3,-1z" />
+                                <path transform="translate(521 641)" id="svg_111" fill="#605f5e"
+                                    d="m0,0l7,1l-1,7l-8,11l-10,11l-1,4l-2,-2l-1,-6l8,-8l2,-5l2,0l3,-11l1,-2z" />
+                                <path transform="translate(954 602)" id="svg_112" fill="#888684"
+                                    d="m0,0l2,0l-2,12l-4,10l-6,10l-7,3l-3,0l0,-6l2,-4l-2,0l0,-4l3,1l0,3l6,0l-1,-10l3,2l4,-2l3,-6l2,-9z" />
+                                <path id="svg_113" fill="#504d46"
+                                    d="m104,548l7,0l2,3l7,1l3,5l1,7l-13,-1l-5,-5l-2,-10z" />
+                                <path transform="translate(562 627)" id="svg_114" fill="#696663"
+                                    d="m0,0l5,1l1,1l0,6l-7,6l-3,4l1,11l-5,1l-2,-2l0,-6l-4,-1l-1,-3l8,-2l3,-6l1,-7l3,-3z" />
+                                <path id="svg_115" fill="#eaeae9"
+                                    d="m248,532l10,0l10,3l3.21,3.64l2.07,2.36l0.71,7l-4,4l-5,2l-1,-11l-5,-5l-5,-3l-6,-1l0,-2z" />
+                                <path id="svg_116" fill="#9b6d14"
+                                    d="m846,491l1,0l1,33l-1,7l2,6l5,0l-1,2l-5,1l-3,16l-3,3l2,-18l-21,3l-6,0l2,-2l21,-4l6,-1l0,-3l-2,-1l1,-11l1,-31z" />
+                                <path id="svg_117" fill="#be8c14"
+                                    d="m58,652l3,0l3,5l2,1l22,6l7,1l2,1l-1,-4l2,1l0,6l-11,0l-12,-3l-9,-4l-8,-6l-1,-3l1,-1z" />
+                                <path transform="translate(105 531)" id="svg_119" fill="#b2b0ad"
+                                    d="m0,0l7,2l5,7l0,8l-13,0l2,8l-2,-1l-1,-3l0,-9l1,-4l-1,-3l2,-5z" />
+                                <path id="svg_120" fill="#533806"
+                                    d="m130.67,583l24.33,3l21,2l104,-0.33l-5.17,2.33l-66.17,1.33l-39.67,0.67l-18,-1l-15,-3l-5.33,-5l0.01,0z" />
+                                <path transform="translate(346 445)" id="svg_121" fill="#705c23"
+                                    d="m0,0l118,0l23,1l0,1l-172,0l0,-1l31,-1z" />
+                                <path transform="translate(590 672)" id="svg_123" fill="#403332"
+                                    d="m0,0l4,4l1,7l-6,9l-4,3l-4,-6l1,-5l2,-5l-3,-4l3,-2l1,3l6,0l-1,-4z" />
+                                <path id="svg_124" fill="#585651"
+                                    d="m937,593l4,2l4,5l3,-5l3,0l0,4l5,1l0,2l-8,0l1,15l-5,3l-3,-6l-1,-8l-2,-6l0,-5l-2,-1l1,-1z" />
+                                <path id="svg_125" fill="#926615"
+                                    d="m664,508l2,0l0,43l-1,8l40,-6l10,-1l0,2l-39,6l-10,0l0,2l-6,-1l3,-5l1,-48z" />
+                                <path transform="translate(580 618)" id="svg_126" fill="#873138"
+                                    d="m0,0l5,0l-3,2l1,15l-1,1l-5,0l0,2l-4,-1l-2,-4l0,-9l5,-5l4,-1z" />
+                                <path id="svg_127" fill="#6c6146"
+                                    d="m197,549l1,0l0,18l1,4l-2,0l3,7l8,4l6,1l28,0l7,-2l8,0l-4,3l-10,2l-30,0l-10,-3l-5,-4l-3,-8l0,-15l2,-7z" />
+                                <path id="svg_128" fill="#81734d"
+                                    d="m216,528l26,0l18,2l9,3l4.93,4.64l1.36,4.86l-1.43,17.29l-1.93,0l0.71,-18.79l-4.64,-5l-10,-3l-15,-2l-30,0l-10,2l3,-3l10,-2z" />
+                                <path transform="translate(552 681)" id="svg_129" fill="#0c0c0c"
+                                    d="m0,0l2,3l0,17l-5,4l-4,0l0,-19l7,-5z" />
+                                <path id="svg_130" fill="#1a180f"
+                                    d="m643,504.72l10.19,-0.94l4.02,7.81l-0.15,8.92l-27.78,4.83l-14.78,1.61l-6.83,-5.83l-0.83,-6.61l3,-3.94l33.17,-5.83l-0.01,-0.02z" />
+                                <path id="svg_131" fill="#816533"
+                                    d="m66,559l1,0l1,13l8,1l0,2l8,0l2,1l25,2l0,1l-6,1l0,1l-20,-1l-17,-5l-6,1l-13,6l-2,-2l14,-7l5,-1l0,-13z" />
+                                <path id="svg_132" fill="#40403e"
+                                    d="m933.14,589l1.71,0l7.14,20l1,18l-6,0l-1,-3l-2,-1l0,-14l4,1l-3,-8l0,-6l-1.86,-7z" />
+                                <path id="svg_133" fill="#e7e7e7"
+                                    d="m935,574l3,1l5,6l0,2l-2,0l4,9l-1,3l1,6l-3,-3l-3,-4l-4,1l-4,-6l1,-4l3,-5l0,-6z" />
+                                <path id="svg_134" fill="#2d2d2d"
+                                    d="m840.57,360.71l20.43,15.29l12,11l8,7l8,8l7,11l2,8l0,11l-3,0l-2,-16l-6,-12l-10,-11l-8,-7l-15,-12l-14.5,-11l-29.11,-14.54l4.02,-1.38l26.16,13.63z" />
+                                <path id="svg_135" fill="#865806"
+                                    d="m213,699l19,0l65,1l8.76,2.39l2.82,2.7l-13.58,-2.09l-48,-1l-34,-2l0,-1z" />
+                                <path id="svg_136" fill="#8b8162"
+                                    d="m702.91,322.37l57.9,4.2l29.19,4.43l15,4l-2,2l-30,-6l-72.16,-6.13l2.07,-2.5z" />
+                                <path transform="translate(585 618)" id="svg_137" fill="#0d0303"
+                                    d="m0,0l6,0l1,14l1,4l-10,0l-2,-11l0,-5l4,-2z" />
+                                <path transform="translate(458 570)" id="svg_138" fill="#8a6d35"
+                                    d="m0,0l3,0l-2,4l-5,3l-26,2l-35,0l2,-1l1,-2l28,0l9,-2l5,-3l2,1l-2,3l19,-1l1,-4z" />
+                                <path id="svg_139" fill="#917227"
+                                    d="m975.21,491l1.3,11.79l-15.52,7.21l1.91,7.7l24.09,-8.7l2.52,0.79l-1.09,6.61l-18.42,6.61l-1.39,-1.3l16.39,-6.7l2,-3l-26,8.82l-3,-7.82l-5,-2l20.21,-9.3l2,-10.7z" />
+                                <path transform="translate(589 578)" id="svg_140" fill="#b2b1ad"
+                                    d="m0,0l2,0l-2,11l6,15l1,7l-6,0l-3,-8l-2,-11l-1,-2l5,-12z" />
+                                <path transform="translate(669 410)" id="svg_141" fill="#8a6922"
+                                    d="m0,0l1,3l-6,19l-5,16l-3,7l-2,0l0,-8l5,-16l2,0l3,-12l4,-8l1,-1z" />
+                                <path transform="translate(594 642)" id="svg_142" fill="#dfdfde"
+                                    d="m0,0l4,1l-3,16l-3,9l2,8l-4,-4l-3,-5l0,-7l3,-6l1,-11l3,-1z" />
+                                <path id="svg_143" fill="#b99328"
+                                    d="m655,491l7.06,2.25l-69.78,11.87l0.72,-3.11l62,-11.01z" />
+                                <path id="svg_144" fill="#9e6d0e"
+                                    d="m55,594l18,2l19,2l48,3l84.33,4.67l130.17,3.33l84.04,0.17l39.52,0.75l-35.15,1.42l-88.25,0.33l-137.33,-3.67l-74.5,-3.67l-59.83,-4.33l-28,-4l0,-2z" />
+                                <path transform="translate(930 527)" id="svg_145" fill="#575655"
+                                    d="m0,0l10,1l-1,3l-1,1l-2,18l-2,10l5,-4l-1,5l-5,1l-3,-2l3,-7l0,-2l-2,2l0,-13l-1,-4l0,-9z" />
+                                <path id="svg_146" fill="#876110"
+                                    d="m735,447l9.3,-0.42l-0.3,3.42l-12,1l-12,2l-24,2l-13,0l-0.36,-2.79l40.36,-3.21l12,-2z" />
+                                <path transform="translate(747 425)" id="svg_147" fill="#574c28"
+                                    d="m0,0l2,1l1,10l-3,8l-1,1l21,-1l0,1l9,1l0,1l-29,2l-11,0l9,-9l2,-15z" />
+                                <path transform="translate(187 541)" id="svg_149" fill="#282726"
+                                    d="m0,0l1,0l0,26l-3,9l-1,0l-1,-5l0,-25l1,-4l3,-1z" />
+                                <path id="svg_150" fill="#735317"
+                                    d="m123,566l2,0l5,15l3,2l13,2l0,1l-14,0l-5,-1l-4,5l0,-4l2,-3l-19,-1l-3,-3l23,-1l-3,-12z" />
+                                <path transform="translate(331 553)" id="svg_151" fill="#4d4b4b"
+                                    d="m0,0l9,0l1,4l2,6l9,1l0,1l-9,2l-2,2l-4,-1l-4,-4l-2,-3l0,-8z" />
+                                <path transform="translate(563 677)" id="svg_152" fill="#11110f"
+                                    d="m0,0l2,0l4,6l3,2l-1,5l-6,7l-4,2l0,-13l2,-9z" />
+                                <path id="svg_153" fill="#5f4e36"
+                                    d="m967,448l1,0l5,21l1.5,9.5l0.5,14.32l-6,-10.82l-2,-26l-1,-5l1,-3z" />
+                                <path id="svg_154" fill="#926615"
+                                    d="m787,540l7,0l-3,2l-36,6l-45.76,7.12l1.91,-2.91l57.85,-9.21l18,-3z" />
+                                <path id="svg_155" fill="#a4a3a3"
+                                    d="m76,528l2,0l-2,5l-3,8l0,14l2,10l-6,-2l-1,-1l-0.5,-12l2.25,-10.5l2.75,-7.5l3.5,-4z" />
+                                <path transform="translate(953 575)" id="svg_156" fill="#90908d"
+                                    d="m0,0l3,0l1,25l-6,-1l-1,-4l0,-15l3,-5z" />
+                                <path id="svg_157" fill="#967515"
+                                    d="m821.25,459.75l5.75,-0.75l6.5,0.75l8.75,2.25l-7.25,1l-11.5,0.75l-8.5,4.25l-5,2l1,-3l5,-5l5.25,-2.25z" />
+                                <path transform="translate(800 440)" id="svg_158" fill="#463d22"
+                                    d="m0,0l18,0l0,1l-27,4l-11,1l-16,0l3,-2l13,-2l20,-2z" />
+                                <path id="svg_159" fill="#7c5a24"
+                                    d="m55,681l1,0l2,7l15,5l6,1l19,0l14,-3l5,0l-4,2l-7,2l-5,2l-6,1l-10,0l-16,-3l-10,-4l-4,-3l0,-7z" />
+                                <path id="svg_160" fill="#7c7c7b"
+                                    d="m923,527l1,4l0,22l-4,0l0,-3l-2,0l-1,-5l0,-12l2,-4l4,-2z" />
+                                <path transform="translate(508 632)" id="svg_161" fill="#343333"
+                                    d="m0,0l16,6l3,3l-1,3l-1,-2l-4,-1l-3,11l-2,2l-1,-12l-6,-4l0,5l-1,0l-1,-10l1,-1z" />
+                                <path transform="translate(342 544)" id="svg_162" fill="#f3f4f3"
+                                    d="m0,0l10,0l4,4l0,3l-12,3l-4,0l-1,-7l3,-3z" />
+                                <path id="svg_163" fill="#e5e6e8"
+                                    d="m147,529l31,0l1,2l-29,1l-9,2l-5,4l-3,8l-2,-1l0,-7l5,-6l5,-2l6,-1z" />
+                                <path transform="translate(726 339)" id="svg_164" fill="#323131"
+                                    d="m0,0l37,0l16,2l1,2l-20,-1l-29,0l-15,1l3,-3l7,-1z" />
+                                <path id="svg_166" fill="#9f7113"
+                                    d="m897.58,527.79l1.42,3.21l-46.52,8.21l-4.7,-2.52l49.79,-8.91z" />
+                                <path id="svg_167" fill="#9c761b"
+                                    d="m963,550l1,0l1,9l1.25,22.25l6.75,-6.25l4.25,0.5l-1.25,3.5l-7,9l-2,2l-3,0l-1,-40z" />
+                                <path transform="translate(585 595)" id="svg_168" fill="#181918"
+                                    d="m0,0l1,0l4,17l-7,2l-5,-1l-1,-4l8,-14z" />
+                                <path transform="translate(548 624)" id="svg_169" fill="#212425"
+                                    d="m0,0l2,1l-3,4l0,9l2,2l3,0l1,-3l2,0l0,-2l4,-2l-1,5l-3,6l-10,0l-3,-8l0,-7l2,-4l4,-1z" />
+                                <path id="svg_171" fill="#8c6d1e"
+                                    d="m471,504l4,1l-27,12l-23,11l-7.67,5.67l-4.33,0l10,-7.67l29,-14l19,-8z" />
+                                <path id="svg_172" fill="#af861b"
+                                    d="m658.68,466.49l1.47,-0.98l2.23,4.3l2.62,19.19l20,0l18,-2l-2,2l-15,2l-21,1l1.13,17.06c-0.67,-1 -1.52,0.45 -2.19,-0.55l-0.94,-15.51l-5,0l-2.77,-2.19l6.77,-0.81l-1.43,-11l-1.89,-12.51z" />
+                                <path transform="translate(147 527)" id="svg_173" fill="#7f7b68"
+                                    d="m0,0l29,0l9,2l0,1l-38,0l-9,2l-5,4l-3,11l-2,1l0,-6l5,-10l4,-3l10,-2z" />
+                                <path id="svg_174" fill="#baa346"
+                                    d="m706.06,325.62l13.4,0.68l-20.45,3.7l-15.26,4.03l-7.74,3.97l-3.23,3l-4.26,-1.49l8.74,-7.26l6.74,-2.49l22.05,-4.15z" />
+                                <path id="svg_175" fill="#976e15"
+                                    d="m657,676l3.06,0.56l-0.5,2l-47.72,10.56l1.28,-5l15.89,-2.11l27.99,-6.01z" />
+                                <path id="svg_176" fill="#1b1c1b"
+                                    d="m527,654l4,2l1,1l0,8l-4,7l-3,7l-8,10l-3,-1l1,-2l5,-5l4,-6l-1,-4l-6,-4l0,-3l9,3l2,1l1,-6l-2,-4l-2,-2l2,-2z" />
+                                <path id="svg_177" fill="#4e4832"
+                                    d="m106,503l4,1l-22,12l-8,7l-1,2l14,0l0,1l-17,0l-1,6l-3,4l1,-8l4,-7l11,-8l14,-8l4,-2z" />
+                                <path id="svg_178" fill="#dac246"
+                                    d="m354,446l24,0l16,1l0,1l-27,1l-28,0l-18,-1l0,-1l33,-1z" />
+                                <path id="svg_179" fill="#bebcbb" d="m927,595l4,0l-4,6l-11,19l-2,0l0,-6l13,-19z" />
+                                <path transform="translate(555 567)" id="svg_180" fill="#0a0a0a"
+                                    d="m0,0l6,1l7,6l-4,7l-5,5l-3,-13l-1,-6z" />
+                                <path transform="translate(585 642)" id="svg_181" fill="#0c0c0c"
+                                    d="m0,0l8,0l-2,2l-2,11l-2,4l-3,-1l-3,-5l0,-7l4,-4z" />
+                                <path id="svg_182" fill="#8c887f"
+                                    d="m138,569l8,6l7,2l19,2l-1,3l-12,0l-14,-3l-9,-7l0,-2l2,-1z" />
+                                <path transform="translate(930 520)" id="svg_183" fill="#434342"
+                                    d="m0,0l7,0l8,6l1,4l-3,-2l-1,4l0,3l-3,1l1,-8l-9,0l-3,-4l2,-4z" />
+                                <path transform="translate(551 555)" id="svg_184" fill="#999795"
+                                    d="m0,0l2,0l1,4l9,3l5,3l-2,6l-5,-2l-5,-1l-1,8l-1,0l-3,-21z" />
+                                <path transform="translate(432 536)" id="svg_185" fill="#32291f"
+                                    d="m0,0l11,1l10,9l5,7l4,12l0,5l-3,0l-2,-10l-8,-14l-7,-5l-10,-4l0,-1z" />
+                                <path id="svg_186" fill="#746e52"
+                                    d="m719,335l46,0l3,2l-40,0l-16,2l-10,3l-8,5l-4,3l2,-4l5,-4l7,-4l15,-3z" />
+                                <path id="svg_187" fill="#9d7f1d"
+                                    d="m628.57,455.87l3.89,0.06l-12.45,8.08l-14,5l-41.68,9.89l-2.11,-2.38l31.79,-7.51l17,-5l17.56,-8.14z" />
+                                <path id="svg_188" fill="#4fb6f7"
+                                    d="m549.5,625l4.25,1l3.25,5l-2,6l-3,4l-4,-1l-2,-2l0,-9l3.5,-4z" />
+                                <path transform="translate(938 529)" id="svg_190" fill="#8b8987"
+                                    d="m0,0l1,0l0,7l2,0l1,2l-1,11l-3,9l-4,2l1,-10l2,-18l1,-3z" />
+                                <path id="svg_191" fill="#322d28"
+                                    d="m251,458.75l4,0.75l-7,2.25l-19.5,5.5l-15.5,5.75l-4,-1l2,-2l1,-2l29,-7l10,-2.25z" />
+                                <path transform="translate(528 566)" id="svg_192" fill="#0b0a0a"
+                                    d="m0,0l4,0l1,3l0,7l-2,1l-13,0l2,-5l4,-4l4,-2z" />
+                                <path id="svg_194" fill="#8c7736"
+                                    d="m209.5,471.25l3.25,1.25l-34.75,13.5l-13,6l-14,7l-2,-1l10,-6l16,-8l27,-10l7.5,-2.75z" />
+                                <path transform="translate(560 692)" id="svg_195" fill="#bab8b7"
+                                    d="m0,0l1,0l1,6l5,-4l5,0l0,4l-9,7l-3,2l1,5l-3,1l0,-12l2,-9z" />
+                                <path id="svg_196" fill="#a07008"
+                                    d="m54.83,627.25l6.17,-0.25l-4,5l0,8l3,12l-3,1l-3,-1l-2,-15l-1,-6l3.83,-3.75z" />
+                                <path id="svg_197" fill="#685631"
+                                    d="m987,520l2,0.25l-1,8.75l-3,12l-1,13l-7,22l-5.5,0.75l4.25,-9.25l4.25,-11.5l1,-5l1,-11l4,-16l1,-4z" />
+                                <path id="svg_198" fill="#71674b"
+                                    d="m514,328l10.36,-1.07l4.64,2.07l-38,5l-17.28,3l-4.72,-1l0,-1l20,-4l25,-3z" />
+                                <path id="svg_199" fill="#85580d"
+                                    d="m800.44,544.61l-0.44,3.39l-82.33,13.67l-1.06,-3.83l83.83,-13.23z" />
+                                <path id="svg_200" fill="#5b5237"
+                                    d="m321,418l5,0l1,3l-10,8l-11,10l-5,-1l12,-12l6,-5l2,-3z" />
+                                <path id="svg_201" fill="#b38419" d="m843,531l1,2l2,1l-22,3l-29,5l-4,-1l2,-2l50,-8z" />
+                                <path id="svg_202" fill="#7c7b71"
+                                    d="m657.71,512l0,7l-3,0l0.17,-5l-2.28,-4.39l-8.89,1.39l-36.29,5.86l-0.57,-1.86l15.86,-3l32,-5l3,5z" />
+                                <path id="svg_203" fill="#8b6a20"
+                                    d="m908,457.38l57.94,-6.42l1.25,2.62l-83.19,9.42l-39,3.75l0.75,-2.5l62.25,-6.87z" />
+                                <path id="svg_204" fill="#c89e33"
+                                    d="m54.81,661.43l2.19,2.57l1,20l1,3l11,3l9,2l16,1l-1,2l-15,0l-16,-4l-6,-3l-2.32,-2.38l0.13,-19.62l0,-4.57z" />
+                                <path id="svg_206" fill="#a88728"
+                                    d="m932,431l17,-0.25l0,1.25l-24,2l-45.25,2.75l3.5,-3.75l48.75,-2z" />
+                                <path id="svg_207" fill="#464848"
+                                    d="m713,341l4,1l-1,2l-12,3l-8,5l-6,8l-8,17l-3,7l-1,-3l6,-15l7,-12l4,-5l8,-5l10,-3z" />
+                                <path transform="translate(578 666)" id="svg_208" fill="#0a0a08"
+                                    d="m0,0l3,0l3,3l-1,4l-5,9l-2,0l-5,-9l7,-7z" />
+                                <path id="svg_209" fill="#926615"
+                                    d="m842,559l2.94,-3.06l-2.94,13.06l-8,24l-2,7l-4,6l-7,3l-2,-2l9,-4l6,-20l5,-15l3,-9z" />
+                                <path transform="translate(310 587)" id="svg_210" fill="#6a4f12"
+                                    d="m0,0l108,0l0,1l-108,0l0,-1z" />
+                                <path id="svg_211" fill="#6c510e"
+                                    d="m432,448.25l33.25,0.25l-0.25,4.5l-12.75,1.5l-16.5,-0.25l-3.75,-6z" />
+                                <path transform="translate(666 400)" id="svg_212" fill="#ad9851"
+                                    d="m0,0l2,4l-8,23l-4,17l-3,12l-3,0l3,-11l2,-9l3,-11l6,-19l2,-6z" />
+                                <path transform="translate(565 672)" id="svg_214" fill="#656460"
+                                    d="m0,0l3,1l6,9l2,5l1,1l0,5l-6,0l0,-8l-5,-5l-1,-3l-2,0l2,-5z" />
+                                <path id="svg_215" fill="#a37c23"
+                                    d="m655,436l1,3l-5,15l-1,2l3,0l0,-5l1,0l0,5l17,0l0,1l-15,1l4,7l-1,2l-5,-8l-2,-1l-17,-1l0,-2l14,0l2,-9l4,-10z" />
+                                <path transform="translate(418 587)" id="svg_216" fill="#6a4f12"
+                                    d="m0,0l37,0l-2,2l-17,1l-32,0l0,-1l14,0l0,-2z" />
+                                <path id="svg_217" fill="#5f4f28"
+                                    d="m405,532l26,2l11,2.67l-5,0.33l-3,1l-11,0l-20,-2l2,-1l0,-3z" />
+                                <path id="svg_218" fill="#5c5c53"
+                                    d="m615,517l11.81,-1.39l-0.68,2.58l-13.41,1.82l0.58,2.11l20.7,-2.13l0,1.57l-12,1.43l-9.43,0.57l1.43,2.43l7.83,0l-0.83,1l-8,0l-5,-5l-1,-4l7.99,-0.99z" />
+                                <path transform="translate(676 452)" id="svg_219" fill="#6a4406"
+                                    d="m0,0l17,0l-1,2l-12,1l1,5l-5,-3l-22,-1l4,-2l18,-2z" />
+                                <path id="svg_220" fill="#7e5b1b"
+                                    d="m47,608l1,0l5,29l2,15l2,6l0,6l-2,-2l-3,-13l-5,-29l-1,-10l1,-2z" />
+                                <path id="svg_221" fill="#9e6b0e" d="m715,558l4,1l2,2l-36,5l-8,0l2,-2l36,-6z" />
+                                <path id="svg_222" fill="#b48e21"
+                                    d="m360,575l4,2l1,1l0,7l-2,2l-32,0.39l0.72,-3.06l29.28,-0.33l2,-1l-2,-6l-1,-2z" />
+                                <path transform="translate(572 580)" id="svg_223" fill="#0c0908"
+                                    d="m0,0l4,1l4,7l-6,11l-2,0l0,-7l-3,-3l3,-9z" />
+                                <path transform="translate(922 574)" id="svg_224" fill="#a1a09e"
+                                    d="m0,0l3,1l-1,12l-5,5l-5,8l-3,1l2,-4l5,-8l1,-4l-5,1l0,-4l5,0l-1,-6l4,0l0,-2z" />
+                                <path id="svg_225" fill="#bf910f" d="m812,473l20,0l1,4l-3,3l-9,0l-4,-4l-5,-2l0,-1z" />
+                                <path transform="translate(76 525)" id="svg_226" fill="#32291c"
+                                    d="m0,0l22,1l11,2l0,3l-10,-1l-21,0l0,-2l-3,0l1,-3z" />
+                                <path transform="translate(594 617)" id="svg_228" fill="#c7c8cd"
+                                    d="m0,0l4,0l0,18l-5,0l-1,-8l0,-9l2,-1z" />
+                                <path id="svg_229" fill="#d0d3d0"
+                                    d="m213,530l30,0l0,1l-6,1l-4,1l-18,0l-11,4l-4,0l5.71,-4.29l7.29,-2.71z" />
+                                <path id="svg_230" fill="#b3861b"
+                                    d="m895,522l4.88,0.3l3.12,2.7l-2,5.91l-6.92,0.11l-2.08,-2.02l7.18,-2l-0.91,-2.61l-52.6,9.34l1.41,-3.22l47.91,-8.52z" />
+                                <path id="svg_231" fill="#82733e"
+                                    d="m689,349l0,3l-9,17l-9,25l-3,9l-2.71,0l2.71,-9l11,-29l4,-9l6,-7z" />
+                                <path transform="translate(88 566)" id="svg_233" fill="#f2c92d"
+                                    d="m0,0l7,0l4,4l1,4l-3,1l-12,-2l1,-5l2,-2z" />
+                                <path id="svg_234" fill="#8b836e"
+                                    d="m205.93,530.21l-3.93,7.79l-4,11l-1,7l-2,0l0.25,-11.25l1.75,-6.75l3.75,-4.96l5.18,-2.82z" />
+                                <path transform="translate(509 638)" id="svg_235" fill="#706e6d"
+                                    d="m0,0l5,2l2,2l0,12l-3,3l-4,-10l0,-9z" />
+                                <path transform="translate(178 529)" id="svg_236" fill="#c0bebf"
+                                    d="m0,0l7,1l5,5l1,4l0,17l-2,0l-2,-15l-3,-6l-8,-3l2,-3z" />
+                                <path id="svg_237" fill="#957726"
+                                    d="m457,575l2,4l-1,5l41,1l0,1l-40,1l-4,1l-26,-1l0,-1l27,0l0,-10l1,-1z" />
+                                <path id="svg_238" fill="#0c0b09" d="m354,556l4,1l0,4l-5,3l-10,0l-2,-2l0,-3l13,-3z" />
+                                <path id="svg_239" fill="#f6e577" d="m641,565l8,0l-1,3l-18,3l-8,0l0,-4l19,-2z" />
+                                <path id="svg_240" fill="#bf9b21"
+                                    d="m276,590l17,6l42,1l0,1l-54.28,0.56l3.28,-3.56l-6,-2l-9,-1l0,-1l7,-1z" />
+                                <path transform="translate(933 593)" id="svg_241" fill="#d3d2d3"
+                                    d="m0,0l3,3l0,6l4,9l-1,2l-2,-3l-3,-1l0,10l-1,0l-1,-13l-3,-4l2,-8l2,-1z" />
+                                <path transform="translate(499 585)" id="svg_242" fill="#4e360a"
+                                    d="m0,0l3,1l-1,4l0,-2l-42,0l-2,-2l42,-1z" />
+                                <path transform="translate(109 529)" id="svg_245" fill="#7b6a4a"
+                                    d="m0,0l5,2l3,4l3,9l1,9l-8,-1l-2,-4l6,0l-2,-10l-5,-5l-4,-2l3,0l0,-2z" />
+                                <path id="svg_246" fill="#8f641b"
+                                    d="m891.94,596.89l-1.56,2.56l-270.72,55.23l0.78,-6.55l3.17,-0.5l-0.44,3.67l268.77,-54.4z" />
+                                <path id="svg_247" fill="#7e7a75"
+                                    d="m197,571l2,0l4,6l8,3l29,1l0,1l-19,2l-13,-1l-8,-4l-3,-5l0,-3z" />
+                                <path id="svg_248" fill="#7b6f53"
+                                    d="m303,415l14,0l8.15,2.57l-5.15,1.43l-5,-1l-11,0l-7,3.57l-4,5.43l-2,10l0,5l-2,0l0,-12l4,-8l7,-6l3,-1z" />
+                                <path id="svg_249" fill="#8d6516"
+                                    d="m843,464l3.42,-0.13l1.06,2.32l-2.91,0.81l3.43,19l0,31l-1,0l-1,-26l-3,-16l0,-4l-5,-1l1,-2l3,-1l1,-3z" />
+                                <path transform="translate(521 615)" id="svg_250" fill="#090808"
+                                    d="m0,0l3,2l0,11l-1,6l-5,-1l-1,-6l4,-12z" />
+                                <path id="svg_251" fill="#9a9995"
+                                    d="m398.58,653.5l4.42,-1.5l6,4l2,4l-1,6l-3.75,7.5l-6.25,0.75l-4.33,-3.67l-0.58,-11.92l3.5,-5.17l-0.01,0.01z" />
+                                <path transform="translate(497 622)" id="svg_252" fill="#979694"
+                                    d="m0,0l1,0l1,22l1,-14l1,0l1,22l1,6l-1,0l-1,6l-1,0l-3,-19l0,-23z" />
+                                <path transform="translate(543 640)" id="svg_253" fill="#858381"
+                                    d="m0,0l2,4l8,0l0,1l-6,0l2,3l3,1l-1,4l-3,-1l1,5l-3,0l-1,-3l-4,2l2,-6l-1,-5l-2,-2l3,0l0,-3z" />
+                                <path transform="translate(532 601)" id="svg_255" fill="#626261"
+                                    d="m0,0l2,1l0,2l3,-1l1,7l-3,2l-7,-1l-7,-2l0,-1l9,-1l0,-4l2,0l0,-2z" />
+                                <path id="svg_256" fill="#4e4c4c"
+                                    d="m931.02,573.12l1.93,1.66l1.66,3l0.43,4.66l-0.68,4.57l-2.5,2.43l-3.43,-1.43l-3.43,-4.43l0.71,-7.14l2,-3l3.31,-0.31z" />
+                                <path id="svg_257" fill="#81795e"
+                                    d="m549,325l10.81,-0.94l5.74,2.75l-36.55,2.19l-6,-1l0,-1l26,-2z" />
+                                <path transform="translate(915 598)" id="svg_258" fill="#464544"
+                                    d="m0,0l2,1l1,10l-4,8l-2,-4l-2,-12l5,-3z" />
+                                <path id="svg_259" fill="#dfc035" d="m800,443l5,0l0,3l-23,3l-7,0l1,-3l15,-2l9,-1z" />
+                                <path transform="translate(581 643)" id="svg_260" fill="#9e9c9c"
+                                    d="m0,0l2,0l-1,3l0,7l3,5l2,0l2,-6l1,-8l1,0l0,10l-3,6l-1,6l-8,-10l0,-2l-2,-1l3,-9l1,-1z" />
+                                <path transform="translate(947 580)" id="svg_261" fill="#7e7d7b"
+                                    d="m0,0l3,1l0,15l-2,0l-3,4l-2,-7l2,-5l1,-7l1,-1z" />
+                                <path id="svg_262" fill="#b48e21"
+                                    d="m344,571l12,0l6.5,1.06l-1.94,2.94l-22.56,0l-5.89,12.06l-2.89,-0.78l1.72,-6.78l4.06,-6.5l9,-2z" />
+                                <path transform="translate(376 541)" id="svg_263" fill="#656261"
+                                    d="m0,0l1,3l0,15l1,-11l3,-6l1,3l-2,6l0,8l1,3l-4,1l6,9l-4,-2l-4,-6l-1,-7l0,-9l2,-7z" />
+                                <path transform="translate(524 657)" id="svg_265" fill="#51524f"
+                                    d="m0,0l4,1l2,4l-1,6l-3,0l-7,-3l-1,-2l5,-5l1,-1z" />
+                                <path transform="translate(97 567)" id="svg_266" fill="#bf8e13"
+                                    d="m0,0l4,4l0,5l3,2l-18,-1l-10,-2l0,-1l7,0l1,-5l1,4l14,1l-2,-7z" />
+                                <path id="svg_267" fill="#676b6e"
+                                    d="m648.44,512.83l8.56,-0.39l0,6.11l-25.06,3.39l1.22,-2.28l21.28,-2.94l0.28,-1.89l-29.17,3.28l0.39,-2.56l22.5,-2.72z" />
+                                <path id="svg_268" fill="#4fb6f7"
+                                    d="m212.33,508.67l4.81,0.25l-0.3,3.81l-8.6,5.24l-4.3,0.67l-3.61,-1.97l2,-4l10,-4z" />
+                                <path transform="translate(541 578)" id="svg_269" fill="#7f7c78"
+                                    d="m0,0l1,2l5,2l0,12l-3,7l-1,0l-2,-23z" />
+                                <path id="svg_270" fill="#b5b5b5"
+                                    d="m331,538l2,0l-3,10l1,11l4,8l2,3l-4,-2l-5,-8l-1,-3l0,-12l2,-5l2,-2z" />
+                                <path id="svg_271" fill="#daba2e"
+                                    d="m494,523l3,0l-1,3l-24,6l-10,3l-4,0l0,-2l25,-7l11,-3z" />
+                                <path transform="translate(913 583)" id="svg_272" fill="#656463"
+                                    d="m0,0l1,3l5,-1l-1,6l-7,10l-1,0l0,-8l3,-10z" />
+                                <path id="svg_273" fill="#4e4c4e"
+                                    d="m160.57,534l1,4l-1,9l0,29l-2,-1l-1,-10l0,-22l3,-9z" />
+                                <path transform="translate(236 531)" id="svg_274" fill="#b6b7b6"
+                                    d="m0,0l17,0l0,1l-5,0l0,2l6,0l2,2l-41,-3l0,-1l21,0l0,-1z" />
+                                <path transform="translate(513 586)" id="svg_275" fill="#919290"
+                                    d="m0,0l4,2l2,3l-1,8l-1,-4l-7,3l-2,1l3,-10l2,-3z" />
+                                <path id="svg_276" fill="#4b350a"
+                                    d="m287.33,564.67l0,5l0.67,2.33l-7,17.67l-6,0.33l4,-8l8.33,-17.33z" />
+                                <path id="svg_277" fill="#615f5f"
+                                    d="m449,546l3,3l1,3l-1,6l-2,1l-6,0l-3,-3l2,0l6,-2.67l0,-7.33z" />
+                                <path transform="translate(180 537)" id="svg_278" fill="#4a4949"
+                                    d="m0,0l1,2l-1,6l0,30l-2,0l-1,-5l0,-23l1,-8l2,-2z" />
+                                <path id="svg_279" fill="#4f493d"
+                                    d="m212.75,468.25l-1.75,3l-25,6.75l-12.5,2.75l0.5,-2.75l24,-6l14.75,-3.75z" />
+                                <path id="svg_280" fill="#565857"
+                                    d="m548,621l6,0l5,6l0,6l-3,2l-1.25,-7.75l-4,-2.25l-5.75,0l1,-3l2,-1z" />
+                                <path transform="translate(948 601)" id="svg_281" fill="#a5a5a3"
+                                    d="m0,0l6,0l-1,10l-2,5l-2,-1l-2,-8l0,-5l1,-1z" />
+                                <path transform="translate(79 545)" id="svg_282" fill="#262321"
+                                    d="m0,0l3,0l4,9l4,3l4,2l0,3l-7,0l-6,-9l-2,-8z" />
+                                <path id="svg_283" fill="#908f8c"
+                                    d="m402,536l15,0l11,1.67l-6.33,2.33l-10,0.33l-6,-1.33l-3.67,-3z" />
+                                <path id="svg_284" fill="#867964"
+                                    d="m974.8,482.7l2.2,17.3l10,5l3,3l0,9l-1,6l-2,-0.25l-1,-15.75l-12.52,-4.3l1.32,-20z" />
+                                <path id="svg_285" fill="#f6db5a"
+                                    d="m480,661l3,0l0,4l-8.79,1.64l-9.21,0.36l1,-3l6,-2l8,-1z" />
+                                <path id="svg_287" fill="#5f4824"
+                                    d="m47.11,580.17l1.89,1.83l-2,2l0,8l8,2l1.39,2.11l-8.39,-1.11l-2,-1l2.11,16.28l-1.72,3.28l-2.39,-11.56l0,-19l3.11,-2.83z" />
+                                <path id="svg_288" fill="#6c624e"
+                                    d="m174.25,477.75l0,2.75l-29.25,9.25l-36,14.75l-3.5,-1.25l42.5,-17.25l26.25,-8.25z" />
+                                <path id="svg_289" fill="#b79221"
+                                    d="m842,464l1,3l-2,2l-4,1.75l-25,0.25l0,-1l17,-2l7.75,-1.25l5.25,-2.75z" />
+                                <path id="svg_290" fill="#61615f"
+                                    d="m910,569.66l4,2l5,5l1,5l-2,1l-8.72,-4.07l0.72,-8.93z" />
+                                <path transform="translate(335 532)" id="svg_291" fill="#5f4f28"
+                                    d="m0,0l70,0l0,1l-70,0l0,-1z" />
+                                <path transform="translate(811 469)" id="svg_292" fill="#573f0d"
+                                    d="m0,0l1,2l29,-1l0,2l-5,2l-26,-1l-1,-3l2,-1z" />
+                                <path transform="translate(188 568)" id="svg_293" fill="#a09a8c"
+                                    d="m0,0l1,0l0,6l-4,6l-3,2l-11,0l1,-3l10,-2l3,-3l3,-6z" />
+                                <path id="svg_294" fill="#926615" d="m654,560l6,0l-1,2l-37,6l-2,4l-1,-3l4,-4l31,-5z" />
+                                <path id="svg_295" fill="#5e5d5d"
+                                    d="m252.29,540.57l2,0l-1,10l-1,7l0,13l-2,1l-1,-4l0,-14l2,-10l1,-3z" />
+                                <path transform="translate(942 564)" id="svg_296" fill="#1a1a19"
+                                    d="m0,0l2,0l1,7l2,1l-6,4l-4,-1l1,-6l4,-5z" />
+                                <path id="svg_297" fill="#736746"
+                                    d="m185,530l4,1l3,4l-0.5,27.5l-0.75,-2l-0.75,-21.5l-2,-7l-3,-1l0,-1zm3,15l1,0l0,11l2,-0.25l0,9.25l-3,-3l0,-17z" />
+                                <path id="svg_298" fill="#5d5135"
+                                    d="m270,551l4,0l-1,11l-6,11l-6,7l-4,1l5,-5l8,-15l1,-4l-2,-1l3,-1l1,-3l-3,-1z" />
+                                <path id="svg_299" fill="#a17412"
+                                    d="m817.17,541.83l7.83,-1.11l1.11,2.67l-8.78,1.89l-16.33,1.72l-6,0.11l0,-1.83l22.17,-3.44z" />
+                                <path id="svg_300" fill="#726238"
+                                    d="m276,452l5,0l-2,2l-27,6.75l-2,-1.75l13,-4l13,-3z" />
+                                <path id="svg_301" fill="#252728" d="m447,432l17,0l4.25,1l-1.25,2l-26,0l0,-1l6,-2z" />
+                                <path id="svg_302" fill="#746e52"
+                                    d="m768,336l19,2l19,5l10,4l-3,1l-18,-6l-17,-3l-10,-1l0,-2z" />
+                                <path transform="translate(400 554)" id="svg_303" fill="#595553"
+                                    d="m0,0l1,0l0,7l-3,4l-2,2l-3,-1l2,-1l-10,-3l0,-3l8,-1l3,-1l-2,4l-1,1l5,-1l2,-7z" />
+                                <path id="svg_304" fill="#bebbba"
+                                    d="m133,542l1,0l2,13l2.14,8l3.86,9l-5,-4l-4,-10l-1,-12l1,-4z" />
+                                <path id="svg_305" fill="#a19464"
+                                    d="m315,447l6,0l-4,2l-17,1l-19,3l-3,-2l12,-3l25,-1z" />
+                                <path transform="translate(544 686)" id="svg_306" fill="#9e9d9d"
+                                    d="m0,0l1,0l0,19l2,0l0,4l-3,0l0,3l-3,-1l3,-25z" />
+                                <path id="svg_307" fill="#4e4c4e"
+                                    d="m170.45,534.29l1,4l-1,9l0,29l-2,-1l-1,-10l0,-22l3,-9z" />
+                                <path id="svg_308" fill="#4e4c4e"
+                                    d="m150.45,532.86l1,4l-1,9l0,29l-2,-1l-1,-10l0,-22l3,-9z" />
+                                <path id="svg_309" fill="#4e4c4e"
+                                    d="m215,536.24l1,4l-1,9l0,29l-2,-1l-1,-10l0,-22l3,-9z" />
+                                <path id="svg_310" fill="#4e4c4e"
+                                    d="m226.43,536.71l1,4l-1,9l0,29l-2,-1l-1,-10l0,-22l3,-9z" />
+                                <path id="svg_311" fill="#4e4c4e"
+                                    d="m238.33,536.71l1,4l-1,9l0,29l-2,-1l-1,-10l0,-22l3,-9z" />
+                            </g>
                         </g>
                     </svg>
-                    <h2>Live Data</h2>
-                </a>
-                <a href="errorCodes.html">
-                    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-                        <g transform="translate(2 30) scale(.1)" fill="url(#grad1)">
-                            <path
-                                d="M819 41c-27 30-29 36-29 120 0 55 5 94 12 102s38 13 70 13 58 4 58 11-38 11-95 11c-52 0-106 6-120 13-14 6-43 42-65 78-22 37-51 75-65 85-18 13-68 22-173 30l-147 12-3 194-2 194-33-3-32-3-3-180c-3-206-3-207-85-207-87 0-87 0-87 173 1 110 5 158 15 177 19 36 18 42-5 42-19 0-20 8-20 102 0 92 2 102 20 107s18 7 5 36c-11 22-15 68-15 178 0 141 1 149 22 164 26 20 87 22 123 4l25-12V1297 1114h34c33 0 34 1 45 61 12 66 84 211 137 276 31 39 34 40 117 45l85 6 146 134c80 72 165 142 189 156l42 23 512-2 513-3 27-30 28-29 6-435h25c23 0 24 3 24 67 0 111 3 113 179 113 141 0 148-1 169-24 22-24 22-28 22-477 0-439-1-454-20-474-18-19-33-21-169-21-179 0-181 1-181 119 0 70-1 72-25 72-23 0-25-5-25-48 0-55-21-105-49-122-11-6-38-11-60-11-63 0-84-14-157-104-38-46-79-89-92-96s-54-12-93-12c-44 0-68-5-64-11 3-7 29-11 56-11 83 0 89-7 89-109 0-92-11-119-57-144-15-8-143-12-408-12H848L819 42m805 50c9 9 16 21 16 27s-159 10-395 10c-338 0-395-2-395-16 0-33 36-36 397-37 316 0 364 2 377 17m16 105c0 12-12 16-48 16-57 0-92 22-92 59v25H1245 990V273c0-42-28-61-92-61-54 0-68-7-51-24 3-4 183-7 400-7 343 0 393 2 393 16m105 248c77 95 129 130 191 130 78 0 74-34 74 581 0 479-2 551-16 572l-15 23H1495c-266 0-494-5-508-10-13-5-91-70-173-144-145-131-192-164-234-164-20 0-20-4-20-438V557l34-13c36-14 69-50 123-133l33-50h464 465l66 82m-1618 295 2 169-24-48c-21-42-24-61-25-166 0-116 5-133 35-126 6 2 11 70 12 172m373 260c0 409-1 434-17 431-21-5-78-90-125-188l-33-69-3-299-3-300 28-4c15-2 56-5 91-6l62-1v436m1770-1v435h-45-45v-79c0-89-9-101-74-101h-36V998 743l53-3 52-3 3-88 3-87h44 45v435m155 1v429l-47 3-48 3V997 562l48 3 47 3v429m-2165 11v42H160 60v-42-42H160 260v42m-130 271v165l-22-3c-22-3-23-9-26-120-3-105-1-121 20-162 12-25 24-45 25-45 2 0 3 74 3 165" />
-                            <path
-                                d="M885 468C732 522 630 672 630 842c0 130 43 221 142 302 29 23 184 121 343 220 552 340 491 306 571 310 79 4 127-14 176-69 58-64 76-187 39-273-19-44-600-740-667-798-66-59-117-79-207-83-64-3-96 0-142 17m257 82c41 25 104 93 273 292 121 142 264 311 319 375 112 132 130 167 124 240-11 113-121 188-218 148-69-29-818-503-857-542-24-25-56-71-70-103-22-50-25-70-21-130 17-240 261-391 450-280" />
-                            <path
-                                d="M918 556c-26 9-55 22-65 29-91 73-123 140-123 254 0 98 20 148 82 208s121 83 205 76 137-34 190-98c47-56 63-107 63-198-1-110-56-207-143-252-56-29-149-37-209-19m168 75c140 69 169 257 57 369-133 134-356 30-356-166 0-93 47-165 133-206 58-25 101-21 166 3" />
-                            <path
-                                d="M950 736c-34 18-63 55-54 119 3 17 19 44 35 60 69 52 174 11 169-76 0-55-22-78-50-101-35-19-67-20-100-2m81 72c13 12 15 29 6 45-19 31-56 30-73 2-9-17-8-32 2-46 20-22 47-20 65-1" />
-                            <path
-                                d="M1634 1273c-121 40-134 242-18 293 133 59 256-71 200-212-26-67-110-104-182-81m93 74c81 52 32 183-62 165-86-17-100-147-10-177 25-5 46-5 72 12" />
-                        </g>
-                    </svg>
-                    <h2>Error Codes</h2>
-                </a>
-                <a href="freezeFrame.html">
-                    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-                        <g transform="translate(0 0) scale(.1)" fill="url(#grad1)">
-                            <path
-                                d="M1107 17c-4 3-7 18-7 32 0 19 18 43 71 91l71 65-4 62-3 63-93-56c-109-65-129-62-150-17-3 31 0 34 122 105l126 73v67 68h-48c-27 0-91 3-142 7l-93 6 6-74c6-83-3-109-37-109-35 0-43 17-51 107l-7 82-40 6c-31 6-49 2-82-16-41-21-44-27-73-113l-29-91h-35c-30 0-34 3-37 28-2 16 1 42 7 59 9 27 9 29-7 23-66-28-70-29-86-16-26 22-20 60 14 79 39 22 38 28-7 37-59 15-75 22-71 58 7 26 22 36 43 32 22 0 55-4 74-8l35-7-21 22c-38 42-76 112-120 218-36 89-43 99-43 70 0-56-10-60-147-60-134 0-164 8-202 56-67 85-11 220 98 239l41 7-43 33c-29 22-51 51-65 84-21 48-22 61-22 501 0 505 0 509 64 535 50 21 295 21 336 0 49-25 60-51 60-142v-83h765 765v83c0 138 28 157 230 157 90 0 141-4 165-14 65-28 65-24 65-537 0-450-1-464-21-506-12-24-41-59-65-77l-44-34 40-7c139-23 176-203 58-275-28-17-51-20-160-20-140 0-147 3-148 67-1 20-10 3-34-57-41-108-66-155-112-216-47-62-67-76-123-89l-44-11 25-16c25-16 31-16 118 9 103 29 125 25 125-22 0-31-11-40-75-56l-45-11 25-17c60-39 73-57 66-84-5-22-12-27-37-27-17 0-44 9-59 20l-28 20 5-59c6-58 5-60-21-67-15-3-32-1-40 5-7 6-23 54-35 105l-22 94-62 41c-34 22-64 38-67 35s-8-51-11-105c-7-117-20-141-65-120l-27 12 14 224-150-9-151-9v-66-66l115-70c63-39 117-78 120-87 9-26-13-58-38-58-13 0-62 25-110 55l-87 54v-67l1-67 64-55c63-54 83-86 71-115-9-25-59-18-96 14l-35 29-12-29c-19-45-65-47-83 13 0 26-12 22-45-12-27-28-72-40-88-23m131 737c2 57-1 96-6 94-44-16-282-155-282-164 0-8 29-14 83-18 119-9 181-12 192-11 6 1 11 44 13 99m338-81c3 3-84 64-218 151l-28 18v-93-94l121 7c66 3 123 8 125 11m-796 32c17 9 30 17 30 20 0 2-38 27-85 55-93 56-112 78-95 110 18 33 55 23 164-45 57-36 108-65 113-65 14 0 274 147 274 155 1 4-48 41-107 81-73 50-117 74-136 74-16 0-78-25-137-56-112-58-144-63-156-25-8 26 4 50 34 66 24 13 15 14-96 15-68 0-123-2-123-4 0-17 69-193 96-248 48-95 86-136 132-141 20-2 43-4 50-5s26 5 42 13m1138 19c48 43 143 237 166 338l6 28h-86-87l34-23c37-25 47-50 29-72-21-25-52-17-150 40-66 38-106 55-130 55-26 0-76-23-182-81l-148-82 147-99c80-55 151-102 157-104s61 25 121 61c114 67 133 73 153 53 25-25 13-57-30-84-24-14-56-35-73-45l-30-18 40 6c22 3 50 15 63 27M300 1055v65h-78c-54 0-84-5-100-16-36-25-25-92 18-107 8-3 48-6 88-6l72-1v65m2120-52c19 9 26 22 28 49 5 53-22 68-120 68h-78v-65-65h73c39 0 83 6 97 13m-1180 47v40h-57-56l54-39c30-22 55-40 57-40 1-1 2 17 2 39m155-4c36 20 65 38 65 40s-31 4-70 4h-70v-40c0-22 2-40 5-40 2 0 34 16 70 36m-643 182-72 49-93-18c-115-22-112-22-131-3-36 36-9 69 65 79 44 6 49 9 37 22-13 12-25 11-90-7-128-35-189-28-224 25-23 35-20 88 10 148 50 103 46 101 289 105l212 4 28-26c48-45 27-117-43-146-16-7-30-14-30-17 0-2 5-23 11-46 9-37 20-48 87-95 43-28 80-52 83-52 2 0 1 46-4 102-10 130-6 148 33 148 40 0 46-17 54-165 4-66 10-128 12-138 5-15 20-17 130-17h125l-3 107-3 108-122 63c-115 59-123 65-123 92 0 19 7 33 20 40 17 9 37 3 120-39 54-28 101-51 104-51s6 34 6 75c0 69-2 77-31 110l-31 35H941c-226 0-238 1-286 24-56 25-117 88-139 140-8 19-17 64-21 100l-7 66H330c-131 0-161-3-174-16-14-13-16-58-16-339v-323l26-32c31-36 95-81 179-127l60-33h210 210l-73 48m890 99c-3 133-2 142 17 152 27 15 37 14 55-5 12-12 16-38 16-112 0-53 4-103 9-110 6-10 23-5 74 23 57 31 68 42 77 73 16 60 13 67-42 93-95 44-123 85-97 143 20 43 52 48 268 45 197-4 200-4 226-29 37-35 77-117 79-162 2-77-64-122-158-106-41 6-58 5-83-9-18-10-33-21-33-24 0-4 15-11 33-14 39-9 57-22 57-44-1-48-41-55-145-23l-60 19-100-52 153-3c146-2 155-1 203 23 52 26 138 81 175 113 43 36 44 48 44 381 0 277-2 322-16 335-13 13-43 16-173 16h-158l-6-64c-3-36-13-82-22-103-22-53-81-111-140-139-48-23-59-24-282-24h-231l-31-39c-28-35-31-46-31-105 0-38 4-66 10-66s51 20 100 45c102 51 130 50 130-5 0-28-7-33-120-90l-120-60v-110-110l163 2 162 3-3 142m-1225 99c37 8 75 22 84 30 8 8 26 14 38 14 40 0 58 16 53 48l-4 30-106-5c-59-2-112-6-118-8-17-5-57-93-50-110 7-19 19-19 103 1m1821 7c2 10-8 37-22 61l-25 44-157 7c-168 8-203 0-144-30 29-15 33-15 49-1 33 30 71 13 71-31 0-23-3-22 140-62 50-14 84-9 88 12m-1151 396c-8 23-8 33 2 45 23 27 56 19 95-24 20-22 40-40 45-40 6 0 11 19 13 41 6 80 70 80 76 0 2-22 6-41 11-41 4 0 25 18 46 40 29 30 47 40 65 38 23-3 25-7 24-46l-1-44 186 4c148 3 192 7 216 20 65 35 105 102 105 178v50h-695-695v-48c1-85 60-173 128-188 15-3 32-7 37-9 6-2 87-4 182-4l171-1-11 29m-786 311h130l-3 72-3 73h-140-140l-3-79c-3-69-1-78 13-72 9 3 75 6 146 6m2109 70v81l-142-3-143-3-6-144 138-4c76-1 141-4 146-5 4-1 7 34 7 78" />
-                        </g>
-                    </svg>
-                    <h2>Freeze Frame</h2>
-                </a>
-                <a href="speedTest.html">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-                        <g transform="translate(2 16) scale(.1)" fill="url(#grad1)">
-                            <path d="M640 1680a70 70 90 000-140H270a70 70 90 100 140Z" />
-                            <path d="M550 1280a70 70 90 100-140H70a70 70 90 000 140Z" />
-                            <path d="M630 890a70 70 90 100-140H260a70 70 90 000 140Z" />
-                            <path
-                                d="M940 1390a720 720 90 01-10-320 720 720 90 1110 320Zm-70-780a1380 1380 90 01270-240c-90-40-190-40-250 30-50 60-50 140-20 220Zm1530 0A1370 1370 90 002130 370c90-40 190-40 250 30 50 60 50 140 20 220Zm-700 470V750a70 70 90 10-140 0v330a140 140 90 10140 0Zm-810 550A850 850 90 101730 370V220c0-10 0-10 0-10h160a50 50 90 0050-50V40a50 50 90 00-50-50H1410a50 50 90 00-50 50V160a50 50 90 0050 50h160c0 10 0 10 0 10V360A850 850 90 00890 1620Z" />
-                        </g>
-                    </svg>
-                    <h2>Speed Test</h2>
-                </a>
-                <a href="vehicleInfo.html">
-                    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-                        <g transform="translate(5 0) scale(.1)" fill="url(#grad1)">
-                            <path
-                                d="M1115 20C697 63 324 320 137 695 52 865 12 1040 12 1240c0 154 18 266 64 398 151 428 514 736 959 813 106 18 316 16 422-5 509-99 900-496 989-1006 17-96 17-304 0-400-30-173-110-365-210-507C1985 177 1544-25 1115 20m332 176c356 73 647 319 781 659 151 382 67 813-218 1114-424 448-1119 450-1546 5C73 1565 72 923 462 509c170-179 405-298 653-328 90-11 240-4 332 15" />
-                            <path d="M1189 501c-104 31-146 168-77 249 92 110 264 60 280-82 12-109-98-199-203-167" />
-                            <path
-                                d="M1155 1052c-18 13-43 36-54 51-20 27-21 41-24 388-3 339-2 362 17 404 51 116 216 122 279 10 22-40 22-42 20-407-3-354-4-368-24-395-35-48-82-73-134-73-32 0-57 7-80 22" />
-                        </g>
-                    </svg>
-                    <h2>Vehicle Info</h2>
-                </a>
-                <a href="settings.html">
-                    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-                        <g transform="translate(0 0) scale(.1)" fill="url(#grad1)">
-                            <path
-                                d="M1375 1635c-65 16-119 18-178 4-103-24-207-109-254-208-37-78-43-193-15-274 43-121 141-212 264-243 211-54 423 86 458 303 30 187-89 369-275 418m-219 159c266 64 540-85 630-342 69-197 21-405-127-553-241-243-643-199-829 90-96 151-106 360-23 530 59 123 210 241 349 275" />
-                            <path
-                                d="M1384 2332c-7 11-214 11-214 0 0-28-40-223-49-240-6-12-36-29-73-41-35-12-94-37-132-56-39-19-81-35-95-35-16 0-64 28-121 69l-95 69-154-152 34-48c19-26 51-70 70-97 42-59 43-85 6-159-15-31-38-86-50-122s-25-70-29-76c-14-21-48-32-154-49l-108-18v-108-107l98-17c168-29 161-24 201-138 11-31 34-84 51-117 16-33 30-68 30-78s-31-63-70-117l-70-100 72-72c40-40 77-73 82-73s49 29 99 65c104 75 121 78 206 36 32-17 88-39 125-51 41-14 72-30 81-44 7-11 21-72 31-133l18-113h107 107l6 27c3 16 10 60 17 98 21 137 19 134 139 175 36 13 91 36 122 52 39 20 64 27 79 23 12-4 62-36 112-71s94-64 97-64c4 0 39 33 79 74l72 75-71 98c-38 53-70 108-70 120 0 13 15 54 34 91 18 37 43 97 55 133 14 44 29 70 44 77 12 7 72 20 132 30l110 18 6 212-53 11c-29 6-82 15-118 21-35 7-72 16-81 21-10 5-27 39-40 76-12 38-37 98-55 135-19 37-34 76-34 87 0 18 54 105 116 187l23 30-77 77-77 76-90-65c-49-35-100-67-113-71-16-4-52 8-110 35-48 22-111 48-140 57-30 10-59 26-67 38-7 12-21 69-30 126-9 58-18 108-21 113m-280 149c33 15 66 19 166 19 152 0 188-9 232-58 30-33 36-50 52-140 15-87 21-102 39-108 12-3 48-17 79-31l58-26 55 39c97 69 128 84 173 84 60 0 73-9 185-119 112-109 127-132 127-195 0-38-9-58-61-136l-62-90 27-59c14-32 26-63 26-69 0-18 30-28 119-43 94-15 135-37 165-89 19-31 21-52 21-185s-2-154-21-185c-30-51-74-77-157-89-113-18-115-19-143-86-14-33-28-68-31-77-3-11 16-46 51-93 59-81 73-122 61-182-5-30-28-59-108-141-56-57-114-110-129-118-33-17-111-18-141-2-12 6-52 33-89 60l-67 49-78-33-77-34-17-95c-20-113-27-129-76-166-35-27-40-28-181-31-230-5-266 18-298 200l-17 97-36 12c-20 6-53 20-73 30l-37 19-77-55c-149-106-189-101-338 44-105 102-126 136-126 201 0 48 6 62 73 153l49 68-34 77-35 77-99 17c-102 18-132 33-168 82-19 24-21 45-24 174-4 167 4 209 49 246 32 27 65 38 172 58l68 13 30 70c16 38 29 73 29 78s-27 49-60 99c-94 140-85 182 72 334 140 138 189 145 324 48 87-62 86-62 193-10l45 21 17 97c20 112 42 151 103 179" />
-                        </g>
-                    </svg>
-                    <h2>Settings</h2>
-                </a>
-            </nav>
+                </div>
+                <div class="textArea">
+                    <div class="title">
+                        <h1>OBD2 <span class="orange">Diagnostic</span></h1>
+                        <p class="subtitle">Universal Car Monitoring System</p>
+                    </div>
+                    <div class="battery-pill">
+                        <div class="pill-icon">
+                            <svg id="battery" xmlns="http://www.w3.org/2000/svg" viewBox="251 155 795 596">
+                                <g class="layer">
+                                    <path
+                                        d="M415 155h119l15 5 8 6 8 8 6 11 3 15v5l148-1 3-17 6-12 8-9 11-7 13-4h119l12 4 10 6 8 8 6 10 3 10 1 12h36l21 5 16 7 13 9 12 11 10 13 8 15 5 16 2 10 1 9v356l-3 19-6 18-8 14-8 10-4 5-11 9-10 7-15 7-18 5-7 1H341l-16-3-17-6-14-8-14-12-12-14-6-10-7-17-4-20V294l4-19 6-15 8-13 8-10 10-10 10-7 15-8 16-5 11-2h36v-8l3-12 5-10 7-8 10-7 11-4 4-1zm-69 124-11 4-7 8-2 5-1 6v352l3 10 6 8 10 4 4 1h600l13-4 7-7 3-8V298l-3-8-4-5-7-4-6-2H346z" />
+                                    <path
+                                        d="M817 329h10l10 4 5 5 4 8 1 4v53h51l9 2 9 6 5 10 1 8-2 9-5 8-7 4-10 3h-51v54l-3 9-6 7-10 4h-12l-9-4-5-5-3-5-2-10v-50h-52l-10-3-6-4-5-9-1-4v-10l4-10 8-7 11-3h51v-53l2-6 5-8 5-4 8-3zM399 403h151l9 2 9 6 5 10 1 9-3 11-7 8-7 3-5 1H397l-10-3-8-7-4-11v-8l4-11 7-6 7-3 6-1z" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="pill-content">
+                            <span class="pill-label">Battery Status</span>
+                            <span id="voltage" class="pill-value">0 V</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </main>
+
+
+        <div class="menu">
+            <div class="mainContainer1">
+                <nav>
+                    <a id="liveDataBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 3v18h18" />
+                            <path d="M18 9l-5 5-2-2-5 5" />
+                        </svg>
+                        <h2>Live Data</h2>
+                    </a>
+                    <a id="errorCodesBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                            <line x1="12" y1="9" x2="12" y2="13" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        <h2>Error Codes</h2>
+                    </a>
+                    <a id="freezeFrameBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <line x1="12" y1="2" x2="12" y2="22"></line>
+                            <path d="m20 16-4-4 4-4"></path>
+                            <path d="m4 8 4 4-4 4"></path>
+                            <path d="m16 4-4 4-4-4"></path>
+                            <path d="m8 20 4-4 4 4"></path>
+                        </svg>
+                        <h2>Freeze Frame</h2>
+                    </a>
+                    <a id="speedTestBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="13" r="8" />
+                            <path d="M12 9v4l2 2" />
+                            <path d="M12 2v2" />
+                            <path d="M7 2h10" />
+                        </svg>
+                        <h2>Speed Test</h2>
+                    </a>
+                    <a id="vehicleInfoBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 13.1V16c0 .6.4 1 1 1h2" />
+                            <circle cx="7" cy="17" r="2" />
+                            <path d="M9 17h6" />
+                            <circle cx="17" cy="17" r="2" />
+                        </svg>
+                        <h2>Vehicle Info</h2>
+                    </a>
+                    <a id="settingsBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                        <h2>Settings</h2>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
 </body>
-<script type="module" src="js/script.js"></script>
+<script type="module" src="./js/script.js"></script>
 
 </html>
