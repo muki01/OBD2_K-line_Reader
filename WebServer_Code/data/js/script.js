@@ -1,4 +1,5 @@
 import { InitWebSocket, setMessageHandler, sendData } from "./webSocket.js";
+import { errorCodes } from "./errorCodes.js";
 
 let page = 0;
 
@@ -457,7 +458,7 @@ function handleWebSocketMessage(wsMessage) {
                     </div>
                     <div class="details">
                         <h1 class="errorCode">${code}</h1>
-                        <p class="errorMeaning">Example Meaning for ${code}</p>
+                        <p class="errorMeaning">${errorCodes[code] || "Description not found for this error code."}</p>
                     </div>
                 `;
                 errorCodesList.appendChild(box);
