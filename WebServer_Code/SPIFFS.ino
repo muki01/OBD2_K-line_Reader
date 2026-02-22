@@ -54,7 +54,7 @@ void changeWifiSettings(String ssid, String password, String ipAddress, String s
 void changeCommunicationProtocol(String communicationProtocol) {
   updateSetting("protocol", communicationProtocol);
   selectedProtocol = communicationProtocol;
-  if (conectionStatus) {
-    conectionStatus = false;
+  if (connectionStatus) {
+    connectionStatus = false;
   }
 }

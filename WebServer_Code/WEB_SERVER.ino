@@ -249,7 +249,7 @@ String JsonData() {
   jsonDoc["selectedProtocol"] = selectedProtocol;
   jsonDoc["connectedProtocol"] = connectedProtocol;
   jsonDoc["Voltage"] = VOLTAGE;
-  jsonDoc["vehicleStatus"] = conectionStatus;
+  jsonDoc["vehicleStatus"] = connectionStatus;
   serializeJson(jsonDoc, JSONtxt);
   return JSONtxt;
 }
