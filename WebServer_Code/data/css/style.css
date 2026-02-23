@@ -131,6 +131,7 @@ header #vehicleStatusSVG {
     width: 24px;
     height: 24px;
     fill: red;
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.2));
 }
 
 /* Banner */
@@ -185,7 +186,7 @@ header #vehicleStatusSVG {
     line-height: 1.1;
     margin-bottom: 4px;
     letter-spacing: -0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .banner .textArea .title h1 .orange {
@@ -198,6 +199,7 @@ header #vehicleStatusSVG {
     font-weight: 500;
     margin-bottom: 15px;
     letter-spacing: 0.2px;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
 }
 
 .banner .textArea .battery-pill {
@@ -244,6 +246,7 @@ header #vehicleStatusSVG {
     letter-spacing: 0.5px;
     line-height: 1;
     margin-bottom: 2px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .banner .textArea .pill-value {
@@ -251,6 +254,7 @@ header #vehicleStatusSVG {
     color: #fff;
     font-weight: 800;
     line-height: 1.1;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
 }
 
 .banner .textArea .data {
@@ -593,7 +597,7 @@ header #vehicleStatusSVG {
 
 /* Speed Test Dashboard */
 .speed-dashboard {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 20px;
 }

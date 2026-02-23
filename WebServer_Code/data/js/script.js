@@ -348,7 +348,7 @@ selectPID_Form.addEventListener('submit', function (event) {
 });
 
 function updateConnectionStatus(isWsConnected, isVehicleConnected) {
-    const colorConnected = "#00ff00";
+    const colorConnected = "#00de00";
     const colorDisconnected = "#ff0000";
 
     wsStatusSVG.style.fill = isWsConnected ? colorConnected : colorDisconnected;
@@ -389,7 +389,7 @@ function handleWebSocketMessage(wsMessage) {
         } else if (batteryVoltage < 12.0) {
             voltage.style.color = "red";
         } else if (batteryVoltage > 12.6) {
-            voltage.style.color = "#00ff00";
+            voltage.style.color = "#00de00";
         }
     }
     else if (page == 1) {
@@ -521,7 +521,7 @@ function handleWebSocketMessage(wsMessage) {
     } else if (page == 4) {
         if (wsMessage.vehicleStatus == true) {
             statusBoxSpeedTest.style.display = "none";
-            dataBoxSpeedTest.style.display = "grid";
+            dataBoxSpeedTest.style.display = "flex";
             Speed.innerHTML = wsMessage.Speed;
 
             if (counterEnabled == true && wsMessage.Speed > 0) {
