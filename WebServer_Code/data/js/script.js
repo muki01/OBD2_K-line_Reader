@@ -164,15 +164,19 @@ let [milliseconds, seconds, minutes] = [0, 0, 0];
 let interval = null;
 let counterEnabled = false;
 let stoperEnabled = false;
+let isArmed = false;
 
 startBtn.addEventListener("click", () => {
     sendData("beep");
     counterEnabled = true;
     stoperEnabled = false;
+    isArmed = true;
+    startBtn.disabled = true;
 });
 
 resetBtn.addEventListener("click", () => {
     sendData("beep");
+    isArmed = false;
     resetTimer();
 });
 
@@ -189,6 +193,8 @@ function resetTimer() {
     clearInterval(interval);
     [milliseconds, seconds, minutes] = [0, 0, 0];
     timeRef.innerHTML = "00 : 00 : 000";
+    counterEnabled = false;
+    stoperEnabled = false;
 }
 
 function displayTimer() {
@@ -523,6 +529,9 @@ function handleWebSocketMessage(wsMessage) {
             statusBoxSpeedTest.style.display = "none";
             dataBoxSpeedTest.style.display = "flex";
             Speed.innerHTML = wsMessage.Speed;
+
+            // Updated button state logic
+            startBtn.disabled = isArmed || wsMessage.Speed > 0;
 
             if (counterEnabled == true && wsMessage.Speed > 0) {
                 counterEnabled = false;
