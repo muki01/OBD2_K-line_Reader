@@ -50,80 +50,14 @@ void initWiFi() {
 void initWebServer() {
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/index.html", "text/html");
-    page = 0;
   });
-  server.on("/liveData.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/liveData.html", "text/html");
-    page = 1;
+  server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/index.html", "text/html");
   });
-  server.on("/errorCodes.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/errorCodes.html", "text/html");
-    page = 2;
-  });
-  server.on("/freezeFrame.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/freezeFrame.html", "text/html");
-    page = 3;
-  });
-  server.on("/speedTest.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/speedTest.html", "text/html");
-    page = 4;
-  });
-  server.on("/vehicleInfo.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/vehicleInfo.html", "text/html");
-    page = 5;
-  });
-  server.on("/settings.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/settings.html", "text/html");
-    page = 6;
-  });
-  server.on("/css/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/css/style.css", "text/css");
-  });
-  server.on("/css/liveData.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/css/liveData.css", "text/css");
-  });
-  server.on("/css/errorCodes.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/css/errorCodes.css", "text/css");
-  });
-  server.on("/css/freezeFrame.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/css/freezeFrame.css", "text/css");
-  });
-  server.on("/css/speedTest.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/css/speedTest.css", "text/css");
-  });
-  server.on("/css/vehicleInfo.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/css/vehicleInfo.css", "text/css");
-  });
-  server.on("/css/settings.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/css/settings.css", "text/css");
-  });
-  server.on("/js/script.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/script.js", "text/javascript");
-  });
-  server.on("/js/liveData.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/liveData.js", "text/javascript");
-  });
-  server.on("/js/errorCodes.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/errorCodes.js", "text/javascript");
-  });
-  server.on("/js/freezeFrame.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/freezeFrame.js", "text/javascript");
-  });
-  server.on("/js/speedTest.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/speedTest.js", "text/javascript");
-  });
-  server.on("/js/vehicleInfo.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/vehicleInfo.js", "text/javascript");
-  });
-  server.on("/js/settings.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/settings.js", "text/javascript");
-  });
-  server.on("/js/webSocket.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/js/webSocket.js", "text/javascript");
-  });
-  server.on("/fonts/Montserrat-Bold.woff2", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/fonts/Montserrat-Bold.woff2", "application/font-woff2");
-  });
+  server.serveStatic("/css", SPIFFS, "/css").setCacheControl("max-age=86400");
+  server.serveStatic("/js", SPIFFS, "/js").setCacheControl("no-cache");
+  server.serveStatic("/fonts", SPIFFS, "/fonts").setCacheControl("max-age=86400");
+
   server.on("/api/getData", HTTP_GET, [](AsyncWebServerRequest *request) {
     page = -1;
     Melody2();
@@ -315,7 +249,7 @@ String JsonData() {
   jsonDoc["selectedProtocol"] = selectedProtocol;
   jsonDoc["connectedProtocol"] = connectedProtocol;
   jsonDoc["Voltage"] = VOLTAGE;
-  jsonDoc["vehicleStatus"] = conectionStatus;
+  jsonDoc["vehicleStatus"] = connectionStatus;
   serializeJson(jsonDoc, JSONtxt);
   return JSONtxt;
 }

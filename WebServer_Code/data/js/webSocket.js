@@ -37,9 +37,9 @@ function onError(error) {
 export function sendData(data) {
     if (ws && ws.readyState === WebSocket.OPEN) {
         ws.send(data);
-        //console.log("Sending Data: ", data);
+        console.log("Sending Data: ", data);
     } else {
-        console.log("WebSocket is not open. Data not sent.");
+        console.log(`WebSocket is not open. Data "${data}" not sent.`);
     }
 }
 

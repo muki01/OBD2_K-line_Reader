@@ -59,7 +59,7 @@ int oxygenSensor7Voltage = 0, shortTermFuelTrim7 = 0, oxygenSensor8Voltage = 0, 
 float VOLTAGE = 0;
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
-bool conectionStatus = false;
+bool connectionStatus = false;
 bool clearDTC_Flag = false;
 
 static unsigned long lastWsTime = 100, lastDTCTime = 1000;
@@ -88,7 +88,7 @@ void setup() {
 }
 
 void loop() {
-  if (conectionStatus == false) {
+  if (connectionStatus == false) {
     Melody3();
     bool init_success = initOBD2();
 

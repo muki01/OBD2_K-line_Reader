@@ -26,7 +26,7 @@ void obdTask() {
   //Get Desired LiveData in page -1 and 1
   if (page == -1 || page == 1) {
     for (const auto& mapping : liveDataMappings) {
-      if (conectionStatus == false) {
+      if (connectionStatus == false) {
         return;
       }
       if (isInArray(desiredLiveData, sizeof(desiredLiveData), mapping.pid)) {
@@ -46,7 +46,7 @@ void obdTask() {
   else if (page == 3) {
     if (storedDTCBuffer[0] != "") {
       for (const auto& mapping : freezeFrameMappings) {
-        if (conectionStatus == false) {
+        if (connectionStatus == false) {
           return;
         }
         if (isInArray(supportedFreezeFrame, sizeof(supportedFreezeFrame), mapping.pid)) {
@@ -107,7 +107,7 @@ bool initOBD2() {
 
         if (readData()) {
           if (resultBuffer[0] == 0xCC) {
-            conectionStatus = true;
+            connectionStatus = true;
             connectedProtocol = detectedProtocol;
             debugPrintln(F("✅ Connection established with car"));
             return true;
@@ -134,7 +134,7 @@ bool initOBD2() {
       if (resultBuffer[3] == 0xC1) {
         debugPrintln(F("✅ Protocol Detected: ISO14230_Fast"));
         debugPrintln(F("✅ Connection established with car"));
-        conectionStatus = true;
+        connectionStatus = true;
         connectedProtocol = "ISO14230_Fast";
         return true;
       }
@@ -271,8 +271,8 @@ int readData() {
   unreceivedDataCount++;
   if (unreceivedDataCount > 2) {
     unreceivedDataCount = 0;
-    if (conectionStatus) {
-      conectionStatus = false;
+    if (connectionStatus) {
+      connectionStatus = false;
     }
   }
   return 0;
