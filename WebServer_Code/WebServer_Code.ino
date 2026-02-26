@@ -84,7 +84,7 @@ void setup() {
 
   initSpiffs();
   readSettings();
-  debugPrint("Selected Protocol: ");
+  debugPrint(F("Selected Protocol: "));
   debugPrintln(selectedProtocol);
 
   initWiFi();

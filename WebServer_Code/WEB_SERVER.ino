@@ -17,30 +17,30 @@ void initWiFi() {
     if (WiFi.config(STA_ip, STA_gateway, STA_subnet))
       ;
   }
-  debugPrintln("WiFi Mode: STA");
+  debugPrintln(F("WiFi Mode: STA"));
   WiFi.mode(WIFI_STA);
-// #ifdef ESP32
-//   WiFi.setTxPower(WIFI_POWER_5dBm);
-// #endif
+  // #ifdef ESP32
+  //   WiFi.setTxPower(WIFI_POWER_5dBm);
+  // #endif
   WiFi.begin(STA_ssid.c_str(), STA_password.c_str());
   unsigned long previousMillis = millis();
-  debugPrint("Trying to connect to ");
+  debugPrint(F("Trying to connect to "));
   debugPrintln(STA_ssid.c_str());
   while (WiFi.status() != WL_CONNECTED && millis() - previousMillis <= 3000) {
-    debugPrint(". ");
+    debugPrint(F(". "));
     delay(500);
   }
-  debugPrintln("");
+  debugPrintln(F(""));
 
   if (WiFi.status() == WL_CONNECTED) {
-    debugPrint("Connect to ");
+    debugPrint(F("Connect to "));
     debugPrintln(STA_ssid.c_str());
     BlinkLed(100, 5);
   } else {
     // if (WiFi.softAPConfig(AP_ip, AP_gateway, AP_subnet));
-    debugPrint("Not connected to ");
+    debugPrint(F("Not connected to "));
     debugPrintln(STA_ssid.c_str());
-    debugPrintln("WiFi Mode: AP");
+    debugPrintln(F("WiFi Mode: AP"));
     WiFi.mode(WIFI_AP);
     WiFi.softAP(AP_ssid, AP_password);
     BlinkLed(300, 1);
