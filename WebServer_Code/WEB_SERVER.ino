@@ -49,10 +49,15 @@ void initWiFi() {
 
 void initWebServer() {
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/index.html", "text/html");
+    AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/index.html.gz", "text/html");
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
   });
+
   server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/index.html", "text/html");
+    AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/index.html.gz", "text/html");
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
   });
   server.serveStatic("/css", SPIFFS, "/css").setCacheControl("max-age=86400");
   server.serveStatic("/js", SPIFFS, "/js").setCacheControl("no-cache");
