@@ -56,7 +56,14 @@ int oxygenSensor3Voltage = 0, shortTermFuelTrim3 = 0, oxygenSensor4Voltage = 0, 
 int oxygenSensor5Voltage = 0, shortTermFuelTrim5 = 0, oxygenSensor6Voltage = 0, shortTermFuelTrim6 = 0;
 int oxygenSensor7Voltage = 0, shortTermFuelTrim7 = 0, oxygenSensor8Voltage = 0, shortTermFuelTrim8 = 0;
 
+// Voltage Measurement Settings
 float VOLTAGE = 0;
+float smoothedVoltage = -1.0;
+const float R1 = 47000.0;                // Adjust this value if needed
+const float R2 = 10000.0;                // Adjust this value if needed
+const float CALIBRATION_FACTOR = 1.017;  // Adjust this value if needed
+const float VOLTAGE_RATIO = ((R1 + R2) / R2) * CALIBRATION_FACTOR;
+
 String Vehicle_VIN = "", Vehicle_ID = "", Vehicle_ID_Num = "";
 
 bool connectionStatus = false;
@@ -77,7 +84,7 @@ void setup() {
 
   initSpiffs();
   readSettings();
-  debugPrint("Selected Protocol: ");
+  debugPrint(F("Selected Protocol: "));
   debugPrintln(selectedProtocol);
 
   initWiFi();
@@ -88,6 +95,7 @@ void setup() {
 }
 
 void loop() {
+  readBatteryVoltage();
   if (connectionStatus == false) {
     Melody3();
     bool init_success = initOBD2();
@@ -103,10 +111,23 @@ void loop() {
     obdTask();
   }
 
-  VOLTAGE = (float)analogRead(voltagePin) / 4096.0 * 19.4;
-
   if (millis() - lastWsTime >= 100) {
     sendDataToServer();
     lastWsTime = millis();
   }
+}
+
+void readBatteryVoltage() {
+  // Voltage Measurement (Oversampling + EMA Filter)
+  uint32_t mvSum = 0;
+  for (int i = 0; i < 16; i++) {
+    mvSum += analogReadMilliVolts(voltagePin);
+  }
+  float currentReading = ((float)mvSum / 16.0 / 1000.0) * VOLTAGE_RATIO;
+
+  if (smoothedVoltage < 0) smoothedVoltage = currentReading;
+
+  const float alpha = 0.01;
+  smoothedVoltage = (alpha * currentReading) + ((1.0 - alpha) * smoothedVoltage);
+  VOLTAGE = smoothedVoltage;
 }
