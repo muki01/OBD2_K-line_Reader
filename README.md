@@ -10,6 +10,9 @@
 This code is for reading the K-Linke in Cars. With this code you can read sensor values, troubleshoot codes and more. It is compatible with ISO9141 and ISO14230(KWP slow and fast) protocols.
 I have shared schematics to communicate with the car. You can use these schematics or you can make another one. I used Arduino nano and ESP32 C3 as microcontrollers, but you can use another microcontrollers like STM32, ESP8266 and much more.
 
+🔗 **Looking for the Web UI?** You can explore the dedicated user interface repository here: [OBD2 K-Line Web UI Project](https://github.com/muki01/OBD2-Diagnostic-UI)
+
+
 I will share more information about K-Line protocols and communication later. Stay tuned 😉.
 
 You can also see my other car projects:
@@ -31,8 +34,14 @@ You can also see my other car projects:
 
 
 ## 📱Pictures of the application I made
-<img width=90% src="https://github.com/user-attachments/assets/5a3e0540-b56d-4c3a-a0bf-8c1affcda00c" />
-<img width=90% src="https://github.com/user-attachments/assets/8544df16-cf62-4a80-8f19-cbd0daadfb51" />
+<a href="https://github.com/muki01/OBD2-Diagnostic-UI" target="_blank">
+  <img width=90% src="https://github.com/user-attachments/assets/5a3e0540-b56d-4c3a-a0bf-8c1affcda00c" />
+</a>
+<a href="https://github.com/muki01/OBD2-Diagnostic-UI" target="_blank">
+  <img width=90% src="https://github.com/user-attachments/assets/8544df16-cf62-4a80-8f19-cbd0daadfb51" />
+</a>
+
+📂 *The UI for this application has been moved to a separate repository. You can check out the source code and details here:* **[Explore the Web UI Repository](https://github.com/muki01/OBD2-Diagnostic-UI)**
 
 
 ## 🛠️Schematics for communication
