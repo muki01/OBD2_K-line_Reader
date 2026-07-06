@@ -154,7 +154,7 @@ void BlinkLed(int time, int count) {
 struct PidMapping {
   byte pid;
   const char* jsonKey;
-  int value;
+  float value;
   const char* unit;
 };
 
@@ -358,7 +358,7 @@ void updatePIDMapping(uint8_t mode, uint8_t pid, float value) {
   for (int i = 0; i < 64; i++) {
     if (mappings[i].pid == pid) {
       mappings[i].value = value;
-      break;
+      return;
     }
   }
 }

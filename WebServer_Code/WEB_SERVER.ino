@@ -111,31 +111,50 @@ void initWebServer() {
     },
     [](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final) {
       if (!index) {
-        size_t freeSpace = ESP.getFlashChipSize() - ESP.getSketchSize();
-        if (request->contentLength() > freeSpace) {
-          request->send(413, "text/plain", "File too large for flash memory.");
-          return;
-        }
-
-        if (!Update.begin(UPDATE_SIZE_UNKNOWN, U_FLASH)) {
-          request->send(500, "text/plain", "Firmware update failed to begin.");
-          return;
+        bool isSpiffs = (filename.indexOf("spiffs") >= 0) || (filename.indexOf("SPIFFS") >= 0);
+        if (isSpiffs) {
+          size_t freeSpace = ESP.getFlashChipSize() - ESP.getSketchSize() - SPIFFS.usedBytes();
+          if (request->contentLength() > freeSpace) {
+            request->send(413, "text/plain", "SPIFFS file too large."); return;
+          }
+          if (!Update.begin(UPDATE_SIZE_UNKNOWN, U_SPIFFS)) {
+            request->send(500, "text/plain", "SPIFFS update failed to begin."); return;
+          }
+          request->_tempObject = (void*)1;
+        } else {
+          size_t freeSpace = ESP.getFlashChipSize() - ESP.getSketchSize();
+          if (request->contentLength() > freeSpace) {
+            request->send(413, "text/plain", "Firmware file too large."); return;
+          }
+          if (!Update.begin(UPDATE_SIZE_UNKNOWN, U_FLASH)) {
+            request->send(500, "text/plain", "Firmware update failed to begin."); return;
+          }
+          request->_tempObject = (void*)2;
         }
       }
 
-      if (Update.write(data, len) != len) {
-        request->send(500, "text/plain", "Firmware update failed during writing.");
+      if (request->_tempObject != NULL && Update.write(data, len) != len) {
+        request->send(500, "text/plain", "Update failed during writing.");
         return;
       }
 
-      if (final) {
-        if (Update.end(true)) {
-          request->send(200, "text/plain", "Firmware updated successfully. Restarting...");
+      if (final && request->_tempObject != NULL) {
+        if (!Update.end(true)) {
+          request->send(500, "text/plain", "Update failed to finalize.");
+          return;
+        }
+
+        bool isSpiffs = (filename.indexOf("spiffs") >= 0) || (filename.indexOf("SPIFFS") >= 0);
+        if (isSpiffs) {
+          request->_tempObject = (void*)1;
+        } else {
+          String msg = (request->_tempObject == (void*)1)
+            ? "Firmware and SPIFFS updated successfully. Restarting..."
+            : "Firmware updated successfully. Restarting...";
+          request->send(200, "text/plain", msg);
           connectMelody();
           delay(1000);
           ESP.restart();
-        } else {
-          request->send(500, "text/plain", "Firmware update failed to end.");
         }
       }
     });
