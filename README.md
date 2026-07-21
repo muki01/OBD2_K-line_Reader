@@ -1,132 +1,155 @@
-# 🚗OBD2 K-line Reader
+<div align="center">
 
-![GitHub forks](https://img.shields.io/github/forks/muki01/OBD2_K-line_Reader?style=flat)
+# 🚗 OBD2 K-Line Reader — Car Diagnostics (ISO 9141 / ISO 14230)
+
+**Read live sensor data, read & clear trouble codes (DTCs), view freeze-frame data, vehicle info (VIN) and battery voltage from older K-Line vehicles — supporting ISO 9141-2 and ISO 14230 / KWP2000 (slow & fast init) on Arduino, ESP32, ESP8266, STM32 and Raspberry Pi Pico. Comes with multiple hardware interface schematics and an optional WiFi web dashboard with OTA updates.**
+
 ![GitHub Repo stars](https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat)
+![GitHub forks](https://img.shields.io/github/forks/muki01/OBD2_K-line_Reader?style=flat)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/muki01/OBD2_K-line_Reader?style=flat)
 ![GitHub License](https://img.shields.io/github/license/muki01/OBD2_K-line_Reader?style=flat)
 ![GitHub last commit](https://img.shields.io/github/last-commit/muki01/OBD2_K-line_Reader)
+![ESP32](https://img.shields.io/badge/ESP32-000000?logo=espressif&logoColor=red)
+![Arduino](https://img.shields.io/badge/Arduino-00979D?logo=arduino&logoColor=white)
 [![Sponsor](https://img.shields.io/badge/Sponsor-PCBWay-blue)](https://www.pcbway.com/)
 
-This code is for reading the K-Linke in Cars. With this code you can read sensor values, troubleshoot codes and more. It is compatible with ISO9141 and ISO14230(KWP slow and fast) protocols.
-I have shared schematics to communicate with the car. You can use these schematics or you can make another one. I used Arduino nano and ESP32 C3 as microcontrollers, but you can use another microcontrollers like STM32, ESP8266 and much more.
+</div>
 
-🔗 **Looking for the Web UI?** You can explore the dedicated user interface repository here: [OBD2 K-Line Web UI Project](https://github.com/muki01/OBD2-Diagnostic-UI)
+---
 
+## 📌 Overview
 
-I will share more information about K-Line protocols and communication later. Stay tuned 😉.
+**OBD2 K-Line Reader** is a complete diagnostic firmware for communicating with a vehicle's ECU over the **K-Line** interface. Through the standard OBD-II connector it can read **live sensor data**, read and **clear diagnostic trouble codes (DTCs)**, capture **freeze-frame** snapshots, retrieve **vehicle info (VIN & ECU IDs)**, run an **acceleration/speed test**, and measure **battery voltage** — no dedicated scan tool required.
 
-You can also see my other car projects:
-1. [Тhis](https://github.com/muki01/I-K_Bus) project is for BMW with I/K bus system. 
-2. [Тhis](https://github.com/muki01/OBD2_CAN_Bus_Reader) project is for Cars with CAN Bus.
-3. [Тhis](https://github.com/muki01/OBD2_K-line_Reader) project is for Cars with ISO9141 and ISO14230 protocols.
-4. [Тhis](https://github.com/muki01/OBD2_CAN_Bus_Library) is my OBD2 CAN Bus Communication Library for Arduino IDE.
-5. [Тhis](https://github.com/muki01/OBD2_KLine_Library) is my OBD2 K-Line Communication Library for Arduino IDE.
-6. [Тhis](https://github.com/muki01/VAG_KW1281) project is for VAG Cars with KW1281 protocol.
-<!--7. [Тhis](https://github.com/muki01/I-K_Bus_Library) is my I/K Bus Communication Library for Arduino IDE.-->
+It supports the **ISO 9141-2** and **ISO 14230 (KWP2000, slow & fast init)** protocols used by most European and Asian vehicles built roughly between **2000 and 2010**, with runtime protocol switching and auto-detection. Tested on **Arduino** and **ESP32**, it also runs on STM32, ESP8266, Raspberry Pi Pico and similar microcontrollers.
 
+Two builds are included: a lightweight **Serial Monitor** version (`Basic_Code`) for quick testing, and a **WebServer** version (`WebServer_Code`) that turns an ESP32 / ESP8266 into a standalone WiFi diagnostic tool — running as a **Station or Access Point**, updatable **over-the-air (OTA)**, and served through a browser-based dashboard. Full hardware schematics are included so you can build the interface yourself.
 
-## ⚙️Instalation
-* If you just want to test, you can use the [Basic_Code](https://github.com/muki01/OBD2_K-line_Reader/tree/main/Basic_Code). This code extracts the data to the serial monitor. It is compatible with Arduino and ESP32. [Here](https://github.com/muki01/OBD2_K-line_Reader/blob/main/Basic_Code/README.md) are the instructions on how this code works and how to install.
-* If you want to see the retreaved data in the Web Site you can use [WebServer_Code](https://github.com/muki01/OBD2_K-line_Reader/tree/main/WebServer_Code). It is compatible with All ESP32 and ESP8266 board. [Here](https://github.com/muki01/OBD2_K-line_Reader/tree/main/WebServer_Code/README.md) are the instructions on how this code works and how to install.
+This project is part of a larger **OBD2 diagnostics toolkit** — libraries, a CAN-bus reader and a web dashboard. See [Related Projects](#-related-projects).
 
-> [!WARNING] 
-> I am not responsible for any issues or damages that may occur during your testing. Please proceed with caution and at your own risk.
+🔗 **Looking for the Web UI?** See the dedicated front-end: [OBD2 Diagnostic UI](https://github.com/muki01/OBD2-Diagnostic-UI).
 
+## 💼 Hire Me
+
+I design custom automotive diagnostic tools, firmware and apps — this is what I do professionally. Whether you need a full product or just the communication layer, I can help.
+
+- **Custom protocol implementation** — K-Line (ISO 9141-2 / KWP2000), CAN bus, and manufacturer-specific protocols (BMW I/K-Bus, VAG KW1281, and more)
+- **Custom bus & protocol communication code** — low-level drivers and communication routines for any automotive bus or proprietary/custom protocol you need
+- **ECU security access** — seed-key (security access) algorithms and unlock routines for KWP2000 / UDS ECUs
+- **Custom mobile & desktop apps** — Android / iOS / web companion apps to visualize, log and control your device
+- **Bespoke hardware** — diagnostic shields & PCBs designed around your requirements
+- **ECU communication & reverse engineering** — PID logging, DTC handling, freeze-frame, VIN, undocumented buses
+- **Embedded firmware** — Arduino, ESP32, ESP8266, STM32, Raspberry Pi Pico
+
+Need something else related to **automotive communication or electronics**? Just reach out — if it involves cars, buses or embedded hardware, I can most likely help.
+
+**Have a project in this space?** → 📧 **[muksin.muksin04@gmail.com](mailto:muksin.muksin04@gmail.com)**
+
+## ✨ Features
+
+**Diagnostics**
+- 📊 **Live sensor data** — read real-time PIDs from the ECU.
+- ⚠️ **Trouble codes** — read **and clear** DTCs.
+- ❄️ **Freeze-frame data** — snapshot of sensor values captured when a fault occurred.
+- 🚗 **Vehicle info** — read VIN and ECU identification data.
+- 🚦 **Acceleration test** — measure vehicle performance (speed test).
+- 🔋 **Battery voltage** — read directly from the OBD-II connector.
+
+**Connectivity & Firmware**
+- 🔀 **Selectable protocols** — ISO 9141-2 and ISO 14230 (KWP2000 slow & fast init), switchable at runtime.
+- 📶 **WiFi — STA or AP mode** — connect to your network or host its own access point *(WebServer build)*.
+- 🔄 **OTA updates** — update the firmware over the air, no cable needed *(WebServer build)*.
+- 🔌 **Multi-platform** — Arduino, ESP32, ESP8266, STM32, Raspberry Pi Pico and more.
+- 🌐 **Two builds** — Serial-monitor `Basic_Code` and browser-based `WebServer_Code`.
+- 🛠️ **Multiple schematics** — transistor, comparator and dedicated automotive-IC options.
 
 ## 📱Pictures of the application I made
+
 <a href="https://github.com/muki01/OBD2-Diagnostic-UI" target="_blank">
-  <img width=90% src="https://github.com/user-attachments/assets/5a3e0540-b56d-4c3a-a0bf-8c1affcda00c" />
+  <img width="90%" src="https://github.com/user-attachments/assets/5a3e0540-b56d-4c3a-a0bf-8c1affcda00c" />
 </a>
 <a href="https://github.com/muki01/OBD2-Diagnostic-UI" target="_blank">
-  <img width=90% src="https://github.com/user-attachments/assets/8544df16-cf62-4a80-8f19-cbd0daadfb51" />
+  <img width="90%" src="https://github.com/user-attachments/assets/8544df16-cf62-4a80-8f19-cbd0daadfb51" />
 </a>
 
 📂 *The UI for this application has been moved to a separate repository. You can check out the source code and details here:* **[Explore the Web UI Repository](https://github.com/muki01/OBD2-Diagnostic-UI)**
 
+## 📡 Supported Protocols
 
-## 🛠️Schematics for communication
+| Protocol | Standard | Initialization | Status |
+|----------|----------|----------------|--------|
+| ISO 9141-2 | ISO 9141-2 | 5-baud slow init | ✅ Tested |
+| KWP2000 (slow init) | ISO 14230-4 | 5-baud slow init | ✅ Tested |
+| KWP2000 (fast init) | ISO 14230-4 | Fast init | ✅ Tested |
+| Auto-detect | — | Tries all of the above | ✅ Default |
 
-These schematics are essential because K-Line communication operates at different voltage and signal levels than microcontroller pins.
-The circuits ensure proper level shifting and protection for safe, stable operation.
+## 🚀 Quick Start
 
-You can choose one of the following approaches depending on your project:
+First, build a hardware interface from one of the [Schematics](#-schematics-for-communication) below. Then choose the build that fits your goal — each has its own step-by-step setup guide:
 
-### 🔹 Transistor-Based Schematic
-<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/Transistor%20Schematic.png" width=70%>
+### 🖥️ Just testing? → `Basic_Code`
+Serial-monitor version for Arduino & ESP32 — wire it up, upload, and read live data in the Serial Monitor.
 
-This schematic uses a discrete transistor-based approach to interface the K-Line with a microcontroller.
-It is a simple and low-cost solution suitable for basic implementations and prototyping.
+👉 **Setup guide:** [Basic_Code README](Basic_Code/README.md)
 
-The **R6** resistor in this schematic is designed for **3.3V** microcontrollers. If you are using a **5V** microcontroller, you need to change the **R6** value to **5.3kΩ**.
+### 🌐 Want the web dashboard? → `WebServer_Code`
+For ESP32 / ESP8266 — turns the board into a standalone WiFi diagnostic tool with a browser dashboard (STA/AP) and OTA updates.
 
-### 🔹 Comparator-Based Schematic
-<img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/Comparator.png" width=70%>
+👉 **Setup guide:** [WebServer_Code README](WebServer_Code/README.md)
 
-This design uses a low-cost comparator IC to process the K-Line signal and convert it into a clean digital level for the microcontroller.
-It offers a good balance between cost, simplicity, and signal reliability.
+> ⚠️ **Disclaimer:** This is a hobby / development project. I am not responsible for any issues or damage that may occur during testing. Never use it while the vehicle is in motion — proceed at your own risk.
 
-- Can be implemented using cheap and widely available comparators such as LM393
-- Better noise immunity than discrete transistor-based designs
-- Provides well-defined logic thresholds
-- Suitable for low-budget projects that require improved signal stability
-- Slightly higher component count compared to the transistor solution, but still cost-effective
+## 🔗 Related Projects
 
-### 🔹 Dedicated Automotive IC Schematic
+Part of a full OBD2 / automotive diagnostics ecosystem:
+
+| Firmware & Readers | Libraries | Manufacturer Protocols | UI |
+|--------------------|-----------|------------------------|-----|
+| [OBD2 K-line Reader](https://github.com/muki01/OBD2_K-line_Reader) | [OBD2 K-Line Library](https://github.com/muki01/OBD2_KLine_Library) | [BMW I/K Bus](https://github.com/muki01/I-K_Bus) | [OBD2 Diagnostic UI](https://github.com/muki01/OBD2-Diagnostic-UI) |
+| [OBD2 CAN Bus Reader](https://github.com/muki01/OBD2_CAN_Bus_Reader) | [OBD2 CAN Bus Library](https://github.com/muki01/OBD2_CAN_Bus_Library) | [VAG KW1281](https://github.com/muki01/VAG_KW1281) | |
+
+## 🛠️ Schematics for Communication
+
+K-Line communication operates at different voltage and signal levels than microcontroller pins. These circuits provide the required level shifting and protection for safe, stable operation. Pick the approach that suits your project:
+
+### 🔹 Transistor-based
+<img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/Transistor%20Schematic.png" width="70%">
+
+A simple, low-cost discrete-transistor interface, ideal for basic implementations and prototyping. The **R6** resistor is sized for **3.3V** microcontrollers — for a **5V** MCU, change **R6** to **5.3 kΩ**.
+
+### 🔹 Comparator-based
+<img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/Comparator.png" width="70%">
+
+Uses a cheap comparator IC (e.g. **LM393**) to produce a clean digital level. Better noise immunity and well-defined logic thresholds than the transistor design, at a slightly higher component count — a great balance of cost and reliability.
+
+### 🔹 Dedicated automotive IC
 <p align="start">
-  <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/L9637D.png" width="45%" />
-  <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/MC33290.png" width="42%" />
+  <img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/L9637D.png" width="45%" />
+  <img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/MC33290.png" width="42%" />
+</p>
+<p align="start">
+  <img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/Si9241.png" width="43%" />
+  <img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/SN65HVDA195.png" width="45%" />
 </p>
 
-<p align="start">
-  <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/Si9241.png" width="43%" />
-  <img src="https://github.com/muki01/OBD2_K-line_Reader/blob/main/Schematics/SN65HVDA195.png" width="45%" />
-</p>
+Uses purpose-built K-Line / ISO 9141 transceiver ICs (**L9637D, MC33290, Si9241, SN65HVDA195**, etc.) with built-in level shifting and protection. Fully standards-compliant with the highest reliability — recommended for production-grade, long-term designs.
 
-
-This schematic category uses dedicated automotive communication ICs (e.g. L9637D, MCZ33290, Si9241, SN65HVDA195 etc.) specifically designed for K-Line / ISO 9141 applications.
-
-- Built-in voltage level shifting and protection
-- Fully compliant with automotive communication standards
-- Highest reliability and signal stability
-- Recommended for production-grade and long-term use designs
-
-<!--## The device I made with ESP32 C3 SuperMini.
-<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/e6de1715-fa77-4e7f-b723-4eebebad2242" width=70%>
-<img src="https://github.com/muki01/OBD2_K-line_Reader/assets/75759731/39cb36cf-74dd-46c8-902c-27799c8c8f58" width=70%>
--->
-
-## 🧩 PCB Design and Sponsorship
+## 🧩 PCB Design & Sponsorship
 
 <a href="https://pcbway.com/g/SD5aQu">
   <img align="left" src="https://github.com/user-attachments/assets/793d8b14-11d8-4dde-9778-d24fd80c78ea" alt="PCBWay" width="18%" />
 </a>
 <p>
    <strong>The custom-designed PCBs used in this project were manufactured with sponsorship from <a href="https://www.pcbway.com/" target="_blank">PCBWay</a>.</strong>
-   PCBWay is a well-established company that provides high-quality and reliable PCB manufacturing services to electronics developers worldwide.
-</p>
-<p>
-   I was thoroughly satisfied with the board quality and customer support throughout the production process.
-   I'd like to thank PCBWay for their excellent manufacturing, fast delivery, and affordable pricing that truly added value to this project.
+   PCBWay provides high-quality, reliable PCB manufacturing services to electronics developers worldwide. I was thoroughly satisfied with the board quality and support, and I'd like to thank them for the excellent manufacturing, fast delivery and affordable pricing that truly added value to this project.
 </p>
 
-#### 📷 Below are photos of the PCBs manufactured for this project:
+**📷 PCBs manufactured for this project:**
 
-<img width=36% src="https://github.com/user-attachments/assets/3a34b38d-cd39-4f5f-b4dd-d671399bff53" />
-<img width=39% src="https://github.com/user-attachments/assets/1a794aea-b9b8-4cdd-bebb-17b25fe7fd7b" />
+<img width="36%" src="https://github.com/user-attachments/assets/3a34b38d-cd39-4f5f-b4dd-d671399bff53" />
+<img width="39%" src="https://github.com/user-attachments/assets/1a794aea-b9b8-4cdd-bebb-17b25fe7fd7b" />
 
-</br>
-</br>
-
-👉 If you're looking for professional PCB manufacturing for your own projects: </br>
-🔗 [Check out PCBWay](https://pcbway.com/g/SD5aQu)
-
-## 🔧 The Device I Made
-<img width=60% src="https://github.com/user-attachments/assets/262a9871-beb2-41da-b0f4-117eae2c9fd5" />
-
-
-In the future, I may also design new versions of the PCB or explore alternative microcontrollers, depending on the project's evolution.
-
----
+👉 Need professional PCB manufacturing for your own projects? 🔗 [Check out PCBWay](https://pcbway.com/g/SD5aQu)
 
 ## ☕ Support My Work
 
@@ -140,9 +163,14 @@ If you enjoy my projects and want to support me, you can do so through the links
 
 ## 📬 Contact
 
-For information, job offers, collaboration, sponsorship, or purchasing my devices, you can contact me via email.
+For custom development, job offers, collaboration, sponsorship, or purchasing my devices, feel free to reach out.
 
-📧 Email: muksin.muksin04@gmail.com
+📧 **Email:** [muksin.muksin04@gmail.com](mailto:muksin.muksin04@gmail.com)
 
 ---
 
+<div align="center">
+
+Created by [**Muki**](https://github.com/muki01) · If you find this useful, consider giving it a ⭐
+
+</div>
