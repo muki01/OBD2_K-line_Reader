@@ -136,18 +136,25 @@ Uses purpose-built K-Line / ISO 9141 transceiver ICs (**L9637D, MC33290, Si9241,
 
 ## 🧩 PCB Design & Sponsorship
 
-<a href="https://pcbway.com/g/SD5aQu">
-  <img align="left" src="https://github.com/user-attachments/assets/793d8b14-11d8-4dde-9778-d24fd80c78ea" alt="PCBWay" width="18%" />
-</a>
-<p>
-   <strong>The custom-designed PCBs used in this project were manufactured with sponsorship from <a href="https://www.pcbway.com/" target="_blank">PCBWay</a>.</strong>
-   PCBWay provides high-quality, reliable PCB manufacturing services to electronics developers worldwide. I was thoroughly satisfied with the board quality and support, and I'd like to thank them for the excellent manufacturing, fast delivery and affordable pricing that truly added value to this project.
-</p>
+<table>
+  <tr>
+    <td width="20%" valign="middle">
+      <a href="https://pcbway.com/g/SD5aQu">
+        <img src="https://github.com/user-attachments/assets/793d8b14-11d8-4dde-9778-d24fd80c78ea" alt="PCBWay" width="100%" />
+      </a>
+    </td>
+    <td width="80%" valign="middle">
+      <strong>The custom-designed PCBs used in this project were manufactured with sponsorship from <a href="https://www.pcbway.com/" target="_blank">PCBWay</a>.</strong>
+      PCBWay provides high-quality, reliable PCB manufacturing services to electronics developers worldwide. I was thoroughly satisfied with the board quality and support, and I'd like to thank them for the excellent manufacturing, fast delivery and affordable pricing that truly added value to this project.
+    </td>
+  </tr>
+</table>
 
-**📷 PCBs manufactured for this project:**
+### 📷 PCBs manufactured for this project:
 
-<img width="36%" src="https://github.com/user-attachments/assets/3a34b38d-cd39-4f5f-b4dd-d671399bff53" />
-<img width="39%" src="https://github.com/user-attachments/assets/1a794aea-b9b8-4cdd-bebb-17b25fe7fd7b" />
+<img width="27%" src="https://github.com/user-attachments/assets/3a34b38d-cd39-4f5f-b4dd-d671399bff53" />
+<img width="29%" src="https://github.com/user-attachments/assets/1a794aea-b9b8-4cdd-bebb-17b25fe7fd7b" />
+<img width="36%" src="https://github.com/user-attachments/assets/f2bfb41b-f75f-4a12-8223-ec67dbc38678" />
 
 👉 Need professional PCB manufacturing for your own projects? 🔗 [Check out PCBWay](https://pcbway.com/g/SD5aQu)
 
