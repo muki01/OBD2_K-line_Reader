@@ -66,7 +66,7 @@ Need something else related to **automotive communication or electronics**? Just
 ## 📱Pictures of the application I made
 
 <a href="https://github.com/muki01/OBD2-Diagnostic-UI" target="_blank">
-  <img width="90%" src="https://github.com/user-attachments/assets/5a3e0540-b56d-4c3a-a0bf-8c1affcda00c" />
+  <img width="90%" src="https://github.com/user-attachments/assets/9b3aebe5-998d-4731-85bc-a0d7666fd116" />
 </a>
 <a href="https://github.com/muki01/OBD2-Diagnostic-UI" target="_blank">
   <img width="90%" src="https://github.com/user-attachments/assets/8544df16-cf62-4a80-8f19-cbd0daadfb51" />
