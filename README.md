@@ -152,9 +152,9 @@ Uses purpose-built K-Line / ISO 9141 transceiver ICs (**L9637D, MC33290, Si9241,
 
 ### 📷 PCBs manufactured for this project:
 
-<img width="27%" src="https://github.com/user-attachments/assets/3a34b38d-cd39-4f5f-b4dd-d671399bff53" />
-<img width="29%" src="https://github.com/user-attachments/assets/1a794aea-b9b8-4cdd-bebb-17b25fe7fd7b" />
-<img width="36%" src="https://github.com/user-attachments/assets/f2bfb41b-f75f-4a12-8223-ec67dbc38678" />
+<img width="26%" src="https://github.com/user-attachments/assets/3a34b38d-cd39-4f5f-b4dd-d671399bff53" />
+<img width="35%" src="https://github.com/user-attachments/assets/935a801a-722a-49b1-afa2-417eeee0fc73" />
+<img width="35%" src="https://github.com/user-attachments/assets/f2bfb41b-f75f-4a12-8223-ec67dbc38678" />
 
 👉 Need professional PCB manufacturing for your own projects? 🔗 [Check out PCBWay](https://pcbway.com/g/SD5aQu)
 
