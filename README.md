@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚗 OBD2 K-Line Reader — Car Diagnostics (ISO 9141 / ISO 14230)
+# 🚗 OBD2 K-Line Reader — Car Diagnostics <br>(ISO 9141 / ISO 14230)
 
 **Read live sensor data, read & clear trouble codes (DTCs), view freeze-frame data, vehicle info (VIN) and battery voltage from older K-Line vehicles — supporting ISO 9141-2 and ISO 14230 / KWP2000 (slow & fast init) on Arduino, ESP32, ESP8266, STM32 and Raspberry Pi Pico. Comes with multiple hardware interface schematics and an optional WiFi web dashboard with OTA updates.**
 
