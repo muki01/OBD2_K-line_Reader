@@ -1,0 +1,62 @@
+name: 🚗 Vehicle compatibility report
+description: Tell us whether OBD2 K-Line Reader works with your car
+title: "[Vehicle] <make> <model> <year>"
+labels: ["vehicle-report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Real-world test reports help everyone find out whether their car is supported. Thank you! 🙌
+  - type: input
+    id: vehicle
+    attributes:
+      label: Vehicle
+      placeholder: Make, model, year (e.g. Toyota Corolla 2004)
+    validations:
+      required: true
+  - type: input
+    id: engine
+    attributes:
+      label: Engine / ECU
+      placeholder: e.g. 1.4 VVT-i petrol, Bosch ME7.9.10
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - ✅ Works
+        - ⚠️ Partially works
+        - ❌ Does not connect
+    validations:
+      required: true
+  - type: dropdown
+    id: protocol
+    attributes:
+      label: Detected protocol
+      options:
+        - ISO 9141-2
+        - ISO 14230 KWP2000 (slow init)
+        - ISO 14230 KWP2000 (fast init)
+        - Not detected
+    validations:
+      required: true
+  - type: checkboxes
+    id: features
+    attributes:
+      label: Working features
+      options:
+        - label: Live data
+        - label: Read DTCs
+        - label: Clear DTCs
+        - label: Freeze frame
+        - label: VIN / vehicle info
+  - type: input
+    id: hardware
+    attributes:
+      label: Board and interface
+      placeholder: e.g. ESP32-S3 + L9637D
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything else worth knowing (quirks, timing tweaks, logs).

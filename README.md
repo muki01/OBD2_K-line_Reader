@@ -1,183 +1,416 @@
+<a id="readme-top"></a>
+
 <div align="center">
 
-# 🚗 OBD2 K-Line Reader — Car Diagnostics <br>(ISO 9141 / ISO 14230)
+<a href="#-quick-start">
+  <img src="assets/banner.png" alt="OBD2 K-Line Reader – open-source ESP32 and Arduino car diagnostic scanner for ISO 9141-2 and KWP2000 (ISO 14230)" width="100%">
+</a>
 
-**Read live sensor data, read & clear trouble codes (DTCs), view freeze-frame data, vehicle info (VIN) and battery voltage from older K-Line vehicles — supporting ISO 9141-2 and ISO 14230 / KWP2000 (slow & fast init) on Arduino, ESP32, ESP8266, STM32 and Raspberry Pi Pico. Comes with multiple hardware interface schematics and an optional WiFi web dashboard with OTA updates.**
+<h1>OBD2 K-Line Reader</h1>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat)
-![GitHub forks](https://img.shields.io/github/forks/muki01/OBD2_K-line_Reader?style=flat)
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/muki01/OBD2_K-line_Reader?style=flat)
-![GitHub License](https://img.shields.io/github/license/muki01/OBD2_K-line_Reader?style=flat)
-![GitHub last commit](https://img.shields.io/github/last-commit/muki01/OBD2_K-line_Reader)
-![ESP32](https://img.shields.io/badge/ESP32-000000?logo=espressif&logoColor=red)
-![Arduino](https://img.shields.io/badge/Arduino-00979D?logo=arduino&logoColor=white)
-[![Sponsor](https://img.shields.io/badge/Sponsor-PCBWay-blue)](https://www.pcbway.com/)
+<p><b>Open-source car diagnostic tool for ESP32, ESP8266 &amp; Arduino.</b><br>
+Read live sensor data, read &amp; clear trouble codes (DTCs), freeze-frame data and VIN from any <b>K-Line</b> vehicle<br>
+over <b>ISO 9141-2</b> and <b>KWP2000 (ISO 14230)</b>, straight from a web dashboard in your phone's browser.</p>
+
+[![Stars](https://img.shields.io/github/stars/muki01/OBD2-K-Line-Reader?style=for-the-badge&logo=github&color=f5b301)](https://github.com/muki01/OBD2-K-Line-Reader/stargazers)
+[![Forks](https://img.shields.io/github/forks/muki01/OBD2-K-Line-Reader?style=for-the-badge&logo=github&color=0a84ff)](https://github.com/muki01/OBD2-K-Line-Reader/network/members)
+[![License: MIT](https://img.shields.io/github/license/muki01/OBD2-K-Line-Reader?style=for-the-badge&color=34c759)](LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/muki01/OBD2-K-Line-Reader?style=for-the-badge&color=af52de)](https://github.com/muki01/OBD2-K-Line-Reader/commits)
+
+![ESP32](https://img.shields.io/badge/ESP32-E7352C?style=flat-square&logo=espressif&logoColor=white)
+![ESP8266](https://img.shields.io/badge/ESP8266-E7352C?style=flat-square&logo=espressif&logoColor=white)
+![Arduino](https://img.shields.io/badge/Arduino-00979D?style=flat-square&logo=arduino&logoColor=white)
+![STM32](https://img.shields.io/badge/STM32-03234B?style=flat-square&logo=stmicroelectronics&logoColor=white)
+![Raspberry Pi Pico](https://img.shields.io/badge/RP2040-A22846?style=flat-square&logo=raspberrypi&logoColor=white)
+![ISO 9141-2](https://img.shields.io/badge/ISO_9141--2-supported-0a84ff?style=flat-square)
+![KWP2000](https://img.shields.io/badge/KWP2000_(ISO_14230)-supported-0a84ff?style=flat-square)
+[![PCBWay](https://img.shields.io/badge/Sponsored_by-PCBWay-2a9d3e?style=flat-square)](https://pcbway.com/g/SD5aQu)
+
+**[Features](#-features)** · **[Demo](#-see-it-in-action)** · **[Screenshots](#-web-dashboard-screenshots)** · **[How It Works](#-how-it-works)** · **[Hardware](#-hardware)** · **[Quick Start](#-quick-start)** · **[FAQ](#-faq)** · **[Hire Me](#-custom-development--hire-me)**
 
 </div>
 
 ---
 
-## 📌 Overview
+## 📖 About
 
-**OBD2 K-Line Reader** is a complete diagnostic firmware for communicating with a vehicle's ECU over the **K-Line** interface. Through the standard OBD-II connector it can read **live sensor data**, read and **clear diagnostic trouble codes (DTCs)**, capture **freeze-frame** snapshots, retrieve **vehicle info (VIN & ECU IDs)**, run an **acceleration/speed test**, and measure **battery voltage** — no dedicated scan tool required.
+**OBD2 K-Line Reader** is complete, ready-to-flash firmware that turns a cheap microcontroller into a **DIY OBD-II scan tool** for vehicles that use the **K-Line** diagnostic bus. That covers most European and Asian cars built between roughly **2000 and 2010**, before CAN became mandatory.
 
-It supports the **ISO 9141-2** and **ISO 14230 (KWP2000, slow & fast init)** protocols used by most European and Asian vehicles built roughly between **2000 and 2010**, with runtime protocol switching and auto-detection. Tested on **Arduino** and **ESP32**, it also runs on STM32, ESP8266, Raspberry Pi Pico and similar microcontrollers.
+Plug it into the car's OBD-II port and you get **real-time engine data**, **diagnostic trouble codes** (read and clear), **freeze-frame snapshots**, **VIN and ECU calibration IDs**, a **0–100 km/h acceleration timer** and **battery voltage**, all without an ELM327 adapter, PC software or a paid app.
 
-Two builds are included: a lightweight **Serial Monitor** version (`Basic_Code`) for quick testing, and a **WebServer** version (`WebServer_Code`) that turns an ESP32 / ESP8266 into a standalone WiFi diagnostic tool — running as a **Station or Access Point**, updatable **over-the-air (OTA)**, and served through a browser-based dashboard. Full hardware schematics are included so you can build the interface yourself.
+It comes in two builds:
 
-This project is part of a larger **OBD2 diagnostics toolkit** — libraries, a CAN-bus reader and a web dashboard. See [Related Projects](#-related-projects).
+| Build | Best for | Output | Boards |
+|---|---|---|---|
+| 🌐 **[`WebServer_Code`](WebServer_Code/README.md)** | A standalone WiFi scan tool | Mobile-friendly web dashboard (WebSocket), OTA updates | ESP32 (incl. S3 / C3 / C6), ESP8266 |
+| 🖥️ **[`Basic_Code`](Basic_Code/README.md)** | Quick tests, learning, porting | Serial Monitor | Arduino Uno / Nano / Pro Mini, ESP32 |
 
-🔗 **Looking for the Web UI?** See the dedicated front-end: [OBD2 Diagnostic UI](https://github.com/muki01/OBD2-Diagnostic-UI).
+The project also includes **six interface schematics**, from a two-transistor circuit to dedicated automotive transceivers (L9637D, MC33290, Si9241, SN65HVDA195), so you can build the hardware for a few dollars.
 
-## 💼 Hire Me
+> [!TIP]
+> If this project saves you a trip to the mechanic or helps you learn how cars talk, **please give it a ⭐**. It helps other makers find it.
 
-I design custom automotive diagnostic tools, firmware and apps — this is what I do professionally. Whether you need a full product or just the communication layer, I can help.
+## 🎬 See It in Action
 
-- **Custom protocol implementation** — K-Line (ISO 9141-2 / KWP2000), CAN bus, and manufacturer-specific protocols (BMW I/K-Bus, VAG KW1281, and more)
-- **Custom bus & protocol communication code** — low-level drivers and communication routines for any automotive bus or proprietary/custom protocol you need
-- **ECU security access** — seed-key (security access) algorithms and unlock routines for KWP2000 / UDS ECUs
-- **Custom mobile & desktop apps** — Android / iOS / web companion apps to visualize, log and control your device
-- **Bespoke hardware** — diagnostic shields & PCBs designed around your requirements
-- **ECU communication & reverse engineering** — PID logging, DTC handling, freeze-frame, VIN, undocumented buses
-- **Embedded firmware** — Arduino, ESP32, ESP8266, STM32, Raspberry Pi Pico
+<table>
+<tr>
+<td width="45%" align="center">
+<img src="assets/demo.gif" alt="Animated demo of the OBD2 K-Line Reader web dashboard: live data, trouble codes, freeze frame, 0-100 km/h speed test, vehicle info, settings and dark mode" width="100%">
+</td>
+<td width="55%">
 
-Need something else related to **automotive communication or electronics**? Just reach out — if it involves cars, buses or embedded hardware, I can most likely help.
+### A full scan tool in your pocket
 
-**Have a project in this space?** → 📧 **[muksin.muksin04@gmail.com](mailto:muksin.muksin04@gmail.com)**
+The ESP32 hosts its own WiFi network. Connect your phone, open **`192.168.4.1`**, and every diagnostic function is one tap away:
+
+- 📊 **Live Data**: real-time PIDs streamed over WebSocket
+- ⚠️ **Trouble Codes**: read and clear DTCs, with ~1,000 built-in descriptions
+- ❄️ **Freeze Frame**: the sensor snapshot taken when the fault was logged
+- 🏁 **0–100 km/h Test**: starts and stops on its own, driven by the vehicle speed PID
+- 🚗 **Vehicle Info**: VIN, calibration ID and supported PID maps
+- ⚙️ **Settings**: protocol, PID picker, WiFi and OTA firmware update
+- 🌙 **Dark Mode**, remembered on each device
+
+No app to install and no cloud. Works on Android, iOS and desktop browsers.
+
+</td>
+</tr>
+</table>
 
 ## ✨ Features
 
-**Diagnostics**
-- 📊 **Live sensor data** — read real-time PIDs from the ECU.
-- ⚠️ **Trouble codes** — read **and clear** DTCs.
-- ❄️ **Freeze-frame data** — snapshot of sensor values captured when a fault occurred.
-- 🚗 **Vehicle info** — read VIN and ECU identification data.
-- 🚦 **Acceleration test** — measure vehicle performance (speed test).
-- 🔋 **Battery voltage** — read directly from the OBD-II connector.
+<table>
+<tr>
+<td valign="top" width="33%">
 
-**Connectivity & Firmware**
-- 🔀 **Selectable protocols** — ISO 9141-2 and ISO 14230 (KWP2000 slow & fast init), switchable at runtime.
-- 📶 **WiFi — STA or AP mode** — connect to your network or host its own access point *(WebServer build)*.
-- 🔄 **OTA updates** — update the firmware over the air, no cable needed *(WebServer build)*.
-- 🔌 **Multi-platform** — Arduino, ESP32, ESP8266, STM32, Raspberry Pi Pico and more.
-- 🌐 **Two builds** — Serial-monitor `Basic_Code` and browser-based `WebServer_Code`.
-- 🛠️ **Multiple schematics** — transistor, comparator and dedicated automotive-IC options.
+#### 🩺 Diagnostics
+- Live sensor data (**OBD-II Mode 01**)
+- Freeze-frame data (**Mode 02**)
+- Stored DTCs (**Mode 03**)
+- Clear DTCs / reset MIL (**Mode 04**)
+- Pending DTCs (**Mode 07**)
+- VIN and calibration IDs (**Mode 09**)
+- ~1,000 DTC descriptions (P, C, B, U)
+- Battery voltage monitor
 
-## 📱Pictures of the application I made
+</td>
+<td valign="top" width="33%">
 
-<a href="https://github.com/muki01/OBD2-Diagnostic-UI" target="_blank">
-  <img width="90%" src="https://github.com/user-attachments/assets/9b3aebe5-998d-4731-85bc-a0d7666fd116" />
-</a>
-<a href="https://github.com/muki01/OBD2-Diagnostic-UI" target="_blank">
-  <img width="90%" src="https://github.com/user-attachments/assets/8544df16-cf62-4a80-8f19-cbd0daadfb51" />
-</a>
+#### 📡 Protocols
+- **ISO 9141-2** (5-baud init)
+- **ISO 14230-4 KWP2000** slow init
+- **ISO 14230-4 KWP2000** fast init
+- **Automatic protocol detection**
+- Protocol switchable at runtime
+- Auto-reconnect when the link drops
+- Correct 10.4 kbaud timing, echo cancellation and checksums
 
-📂 *The UI for this application has been moved to a separate repository. You can check out the source code and details here:* **[Explore the Web UI Repository](https://github.com/muki01/OBD2-Diagnostic-UI)**
+</td>
+<td valign="top" width="33%">
 
-## 📡 Supported Protocols
+#### 🛠️ Platform
+- ESP32 / S3 / C3 / C6, ESP8266
+- Arduino Uno, Nano, Pro Mini
+- Portable to STM32 and RP2040
+- WiFi **Access Point or Station** mode
+- **OTA firmware updates** (ESP32)
+- Settings stored in SPIFFS
+- Buzzer and LED status feedback
+- Six hardware interface options
 
-| Protocol | Standard | Initialization | Status |
-|----------|----------|----------------|--------|
-| ISO 9141-2 | ISO 9141-2 | 5-baud slow init | ✅ Tested |
-| KWP2000 (slow init) | ISO 14230-4 | 5-baud slow init | ✅ Tested |
-| KWP2000 (fast init) | ISO 14230-4 | Fast init | ✅ Tested |
-| Auto-detect | — | Tries all of the above | ✅ Default |
+</td>
+</tr>
+</table>
 
-## 🚀 Quick Start
+## 📱 Web Dashboard Screenshots
 
-First, build a hardware interface from one of the [Schematics](#-schematics-for-communication) below. Then choose the build that fits your goal — each has its own step-by-step setup guide:
+<div align="center">
+<sub>Screenshots switch between light and dark to match your GitHub theme.</sub>
+</div>
 
-### 🖥️ Just testing? → `Basic_Code`
-Serial-monitor version for Arduino & ESP32 — wire it up, upload, and read live data in the Serial Monitor.
+<table>
+<tr>
+<td align="center" width="25%">
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/main-menu.png"><img src="assets/screenshots/light/main-menu.png" alt="OBD2 dashboard main menu with battery voltage" width="100%"></picture>
+<br><b>Main Menu</b><br><sub>Battery voltage and quick access</sub>
+</td>
+<td align="center" width="25%">
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/live-data.png"><img src="assets/screenshots/light/live-data.png" alt="Live OBD2 sensor data: RPM, coolant temperature, engine load, fuel trims, MAF" width="100%"></picture>
+<br><b>Live Data</b><br><sub>Real-time sensor PIDs</sub>
+</td>
+<td align="center" width="25%">
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/error-codes.png"><img src="assets/screenshots/light/error-codes.png" alt="Read and clear OBD2 diagnostic trouble codes (DTC) such as P0171 and P0420" width="100%"></picture>
+<br><b>Trouble Codes</b><br><sub>Read and clear DTCs</sub>
+</td>
+<td align="center" width="25%">
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/freeze-frame.png"><img src="assets/screenshots/light/freeze-frame.png" alt="OBD2 freeze frame data captured when a fault code was stored" width="100%"></picture>
+<br><b>Freeze Frame</b><br><sub>Snapshot at fault time</sub>
+</td>
+</tr>
+<tr>
+<td align="center">
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/speed-test.png"><img src="assets/screenshots/light/speed-test.png" alt="0-100 km/h acceleration timer using the OBD2 vehicle speed PID" width="100%"></picture>
+<br><b>0–100 km/h Test</b><br><sub>Automatic acceleration timer</sub>
+</td>
+<td align="center">
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/vehicle-info.png"><img src="assets/screenshots/light/vehicle-info.png" alt="Vehicle info page showing VIN, calibration ID and supported PIDs" width="100%"></picture>
+<br><b>Vehicle Info</b><br><sub>VIN, CAL ID, supported PIDs</sub>
+</td>
+<td align="center">
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/settings.png"><img src="assets/screenshots/light/settings.png" alt="Settings page: dark mode, communication protocol selection and PID picker" width="100%"></picture>
+<br><b>Settings</b><br><sub>Protocol, PIDs, WiFi, OTA</sub>
+</td>
+<td align="center">
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/splash-screen.png"><img src="assets/screenshots/light/splash-screen.png" alt="OBD2 Master splash screen" width="100%"></picture>
+<br><b>Splash Screen</b><br><sub>Branded boot animation</sub>
+</td>
+</tr>
+</table>
 
-👉 **Setup guide:** [Basic_Code README](Basic_Code/README.md)
+> [!NOTE]
+> The dashboard front-end is developed in its own repository: **[OBD2 Diagnostic UI](https://github.com/muki01/OBD2-Diagnostic-UI)**. A pre-built, gzipped copy ships in [`WebServer_Code/data`](WebServer_Code/data).
 
-### 🌐 Want the web dashboard? → `WebServer_Code`
-For ESP32 / ESP8266 — turns the board into a standalone WiFi diagnostic tool with a browser dashboard (STA/AP) and OTA updates.
+## 🧭 How It Works
 
-👉 **Setup guide:** [WebServer_Code README](WebServer_Code/README.md)
+```mermaid
+flowchart LR
+    ECU["🚗 Vehicle ECU"] <-->|"K-Line · OBD-II pin 7<br/>12 V · 10.4 kbaud"| IF["🔌 K-Line interface<br/>L9637D · MC33290 · LM393 · transistors"]
+    IF <-->|"UART RX / TX<br/>3.3 V or 5 V logic"| MCU["🧠 Microcontroller<br/>ESP32 · ESP8266 · Arduino"]
+    MCU -->|"USB serial"| PC["💻 Serial Monitor<br/>Basic_Code"]
+    MCU -->|"WiFi · WebSocket"| WEB["📱 Browser dashboard<br/>WebServer_Code"]
+```
 
-> ⚠️ **Disclaimer:** This is a hobby / development project. I am not responsible for any issues or damage that may occur during testing. Never use it while the vehicle is in motion — proceed at your own risk.
+1. **Wake-up.** The firmware wakes the ECU with a **5-baud init** (address `0x33`) or a **fast init** (25 ms low / 25 ms high pulse followed by `StartCommunication`: `C1 33 F1 81 66`).
+2. **Detect.** In `Automatic` mode it tries ISO 9141-2, then KWP2000 slow and fast init, and remembers whichever protocol the ECU answers on.
+3. **Request.** Standard OBD-II service requests (Modes 01, 02, 03, 04, 07 and 09) are framed with the right header (`68 6A F1` for ISO 9141 or `Cx 33 F1` for KWP2000) plus a checksum.
+4. **Decode.** Responses are validated, the K-Line echo is removed, and the values are converted to engineering units using the SAE J1979 formulas.
+5. **Publish.** Values go to the Serial Monitor, or to the web dashboard as JSON over a WebSocket about every 100 ms.
 
-## 🔗 Related Projects
+### 📡 Supported Protocols
 
-Part of a full OBD2 / automotive diagnostics ecosystem:
+| Protocol | Standard | Initialization | Header | Status |
+|---|---|---|---|:---:|
+| ISO 9141-2 | ISO 9141-2 | 5-baud slow init | `68 6A F1` | ✅ Tested |
+| KWP2000 (slow init) | ISO 14230-4 | 5-baud slow init | `Cx 33 F1` | ✅ Tested |
+| KWP2000 (fast init) | ISO 14230-4 | 25 ms wake-up pattern | `Cx 33 F1` | ✅ Tested |
+| Auto-detect | none | Tries all of the above | none | ✅ Default |
 
-| Firmware & Readers | Libraries | Manufacturer Protocols | UI |
-|--------------------|-----------|------------------------|-----|
-| [OBD2 K-line Reader](https://github.com/muki01/OBD2_K-line_Reader) | [OBD2 K-Line Library](https://github.com/muki01/OBD2_KLine_Library) | [BMW I/K Bus](https://github.com/muki01/I-K_Bus) | [OBD2 Diagnostic UI](https://github.com/muki01/OBD2-Diagnostic-UI) |
-| [OBD2 CAN Bus Reader](https://github.com/muki01/OBD2_CAN_Bus_Reader) | [OBD2 CAN Bus Library](https://github.com/muki01/OBD2_CAN_Bus_Library) | [VAG KW1281](https://github.com/muki01/VAG_KW1281) | |
+> [!IMPORTANT]
+> **Does my car use K-Line?** Look at your OBD-II socket. If **pin 7** has a metal contact, the car very likely speaks ISO 9141-2 or KWP2000. Cars that only have pins 6 and 14 use **CAN (ISO 15765-4)**; for those, see **[OBD2 CAN Bus Reader](https://github.com/muki01/OBD2_CAN_Bus_Reader)**.
 
-## 🛠️ Schematics for Communication
+## 🔧 Hardware
 
-K-Line communication operates at different voltage and signal levels than microcontroller pins. These circuits provide the required level shifting and protection for safe, stable operation. Pick the approach that suits your project:
+### What you need
 
-### 🔹 Transistor-based
-<img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/Transistor%20Schematic.png" width="70%">
+| Part | Notes |
+|---|---|
+| Microcontroller | ESP32 / ESP32-S3 / C3 / C6 or ESP8266 for the web dashboard; Arduino Uno / Nano / Pro Mini or ESP32 for `Basic_Code` |
+| K-Line interface | Any circuit from the [schematics](#-interface-schematics) below |
+| OBD-II male connector | Or a cut OBD-II extension cable |
+| 12 V → 5 V / 3.3 V regulator | A small buck converter to power the board from OBD-II pin 16 |
+| *Optional* | Buzzer and LED for status feedback, 47 kΩ / 10 kΩ divider for battery voltage |
 
-A simple, low-cost discrete-transistor interface, ideal for basic implementations and prototyping. The **R6** resistor is sized for **3.3V** microcontrollers — for a **5V** MCU, change **R6** to **5.3 kΩ**.
+### OBD-II connector pinout (K-Line)
 
-### 🔹 Comparator-based
-<img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/Comparator.png" width="70%">
+| OBD-II pin | Signal | Connect to |
+|:---:|---|---|
+| **7** | K-Line (ISO 9141-2 / ISO 14230) | K pin of the interface |
+| **16** | Battery +12 V (permanent) | Interface VBAT + regulator input |
+| **4** / **5** | Chassis / signal ground | Common GND |
 
-Uses a cheap comparator IC (e.g. **LM393**) to produce a clean digital level. Better noise immunity and well-defined logic thresholds than the transistor design, at a slightly higher component count — a great balance of cost and reliability.
+### 🔌 Interface Schematics
 
-### 🔹 Dedicated automotive IC
-<p align="start">
-  <img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/L9637D.png" width="45%" />
-  <img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/MC33290.png" width="42%" />
+K-Line is a single-wire, 12 V, open-collector bus, so it can't be wired straight to a 3.3 V or 5 V UART. Each circuit below does the level shifting and protection. Pick one:
+
+<details open>
+<summary><b>🔹 Transistor-based</b>: cheapest, great for prototyping</summary>
+<br>
+<img src="Schematics/Transistor%20Schematic.png" alt="K-Line to UART interface schematic using discrete transistors" width="70%">
+
+Built from discrete transistors, so it costs almost nothing. **R6** is sized for **3.3 V** microcontrollers; for a **5 V** MCU, change **R6** to **5.3 kΩ**.
+</details>
+
+<details>
+<summary><b>🔹 Comparator-based (LM393)</b>: better noise immunity</summary>
+<br>
+<img src="Schematics/Comparator.png" alt="K-Line interface schematic using an LM393 comparator" width="70%">
+
+A cheap comparator such as the **LM393** gives a clean digital level with well-defined thresholds. It needs a few more parts than the transistor version but is noticeably more robust.
+</details>
+
+<details>
+<summary><b>🔹 Dedicated automotive transceivers</b>: L9637D, MC33290, Si9241, SN65HVDA195</summary>
+<br>
+<p>
+  <img src="Schematics/L9637D.png" alt="L9637D K-Line transceiver schematic" width="45%">
+  <img src="Schematics/MC33290.png" alt="MC33290 ISO 9141 K-Line transceiver schematic" width="42%">
 </p>
-<p align="start">
-  <img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/Si9241.png" width="43%" />
-  <img src="https://raw.githubusercontent.com/muki01/OBD2_K-line_Reader/main/Schematics/SN65HVDA195.png" width="45%" />
+<p>
+  <img src="Schematics/Si9241.png" alt="Si9241 K-Line transceiver schematic" width="43%">
+  <img src="Schematics/SN65HVDA195.png" alt="SN65HVDA195 LIN / K-Line transceiver schematic" width="45%">
 </p>
 
-Uses purpose-built K-Line / ISO 9141 transceiver ICs (**L9637D, MC33290, Si9241, SN65HVDA195**, etc.) with built-in level shifting and protection. Fully standards-compliant with the highest reliability — recommended for production-grade, long-term designs.
+Purpose-built ISO 9141 transceivers with built-in level shifting and protection. They are standards-compliant and the most reliable choice, which makes them the right pick for permanent and production designs.
+</details>
 
-## 🧩 PCB Design & Sponsorship
+### 🧩 Custom PCBs
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/652a4279-050c-4eef-b22d-18bf29ebbbac" alt="MUKITECH OBD2 Diagnostic Tool v1.0 K-Line board with ESP32-C3 module and OBD-II enclosure" width="32%">
+  <img src="https://github.com/user-attachments/assets/935a801a-722a-49b1-afa2-417eeee0fc73" alt="ESP32 K-Line diagnostic board with buzzer, USB-C and 3D-printed enclosure" width="32%">
+  <img src="https://github.com/user-attachments/assets/f2bfb41b-f75f-4a12-8223-ec67dbc38678" alt="MUKITECH OBD2 diagnostic dongle PCB with ESP32-S3 and orange enclosure" width="32%">
+</p>
 
 <table>
   <tr>
     <td width="20%" valign="middle">
-      <a href="https://pcbway.com/g/SD5aQu">
-        <img src="https://github.com/user-attachments/assets/793d8b14-11d8-4dde-9778-d24fd80c78ea" alt="PCBWay" width="100%" />
-      </a>
+      <a href="https://pcbway.com/g/SD5aQu"><img src="https://github.com/user-attachments/assets/793d8b14-11d8-4dde-9778-d24fd80c78ea" alt="PCBWay logo" width="100%"></a>
     </td>
     <td width="80%" valign="middle">
-      <strong>The custom-designed PCBs used in this project were manufactured with sponsorship from <a href="https://www.pcbway.com/" target="_blank">PCBWay</a>.</strong>
-      PCBWay provides high-quality, reliable PCB manufacturing services to electronics developers worldwide. I was thoroughly satisfied with the board quality and support, and I'd like to thank them for the excellent manufacturing, fast delivery and affordable pricing that truly added value to this project.
+      The custom PCBs in this project were manufactured with sponsorship from <a href="https://pcbway.com/g/SD5aQu"><b>PCBWay</b></a>. Board quality, fast delivery and support were excellent, and I'm grateful for their help. Need boards for your own project? <a href="https://pcbway.com/g/SD5aQu"><b>Check out PCBWay →</b></a>
     </td>
   </tr>
 </table>
 
-### 📷 PCBs manufactured for this project:
+## 🚀 Quick Start
 
-<img width="32%" src="https://github.com/user-attachments/assets/652a4279-050c-4eef-b22d-18bf29ebbbac" />
-<img width="32%" src="https://github.com/user-attachments/assets/935a801a-722a-49b1-afa2-417eeee0fc73" />
-<img width="32%" src="https://github.com/user-attachments/assets/f2bfb41b-f75f-4a12-8223-ec67dbc38678" />
+```bash
+git clone https://github.com/muki01/OBD2-K-Line-Reader.git
+```
 
-👉 Need professional PCB manufacturing for your own projects? 🔗 [Check out PCBWay](https://pcbway.com/g/SD5aQu)
+1. **Build the interface** using one of the [schematics](#-interface-schematics) and wire it to your board's UART.
+2. **Choose a build** and follow its step-by-step guide:
+   - 🌐 **[WebServer_Code: setup guide](WebServer_Code/README.md)** (ESP32 / ESP8266 web dashboard)
+   - 🖥️ **[Basic_Code: setup guide](Basic_Code/README.md)** (Arduino / ESP32 Serial Monitor)
+3. **Plug into the OBD-II port**, turn the ignition **on**, and wait a few seconds for the handshake.
+4. **Web build:** join the WiFi network **`OBD2 Master`** (password `12345678`) and open **http://192.168.4.1**.
 
-## ☕ Support My Work
+### Default pins
 
-If you enjoy my projects and want to support me, you can do so through the links below:
+| Board | K-Line RX | K-Line TX | UART | LED | Buzzer | Battery ADC |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| ESP32 / ESP32-S3 (WebServer & Basic) | GPIO 10 | GPIO 11 | `Serial1` | GPIO 6 | GPIO 8 *(web)* | GPIO 1 *(web)* |
+| ESP8266 (WebServer) | GPIO 3 | GPIO 1 | `Serial` (UART0) | GPIO 2 | GPIO 4 | GPIO 5 |
+| Arduino Uno / Nano / Pro Mini (Basic) | D8 | D9 | AltSoftSerial | D13 | none | none |
 
-[![Buy Me A Coffee](https://img.shields.io/badge/-Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/muki01)
-[![PayPal](https://img.shields.io/badge/-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?hosted_button_id=SAAH5GHAH6T72)
-[![GitHub Sponsors](https://img.shields.io/badge/-Sponsor%20Me%20on%20GitHub-181717?style=for-the-badge&logo=github)](https://github.com/sponsors/muki01)
+> [!NOTE]
+> GPIO 10 / 11 fit ESP32-S3 / C3 / C6 boards. On a classic ESP32-WROOM they are connected to the SPI flash, so pick other free pins there (for example GPIO 16 / 17) by editing the `#define`s at the top of the sketch.
 
----
+## 🗂️ Repository Structure
 
-## 📬 Contact
+```text
+OBD2-K-Line-Reader/
+├── WebServer_Code/        # ESP32 / ESP8266 firmware with WiFi web dashboard + OTA
+│   ├── data/              # Gzipped web UI (upload to SPIFFS)
+│   └── README.md          # Setup guide
+├── Basic_Code/            # Serial Monitor firmware for Arduino & ESP32
+│   └── README.md          # Setup guide
+├── Schematics/            # K-Line interface circuits (transistor, LM393, L9637D, MC33290, ...)
+└── assets/                # README images, demo GIF, screenshots
+```
 
-For custom development, job offers, collaboration, sponsorship, or purchasing my devices, feel free to reach out.
+## ❓ FAQ
 
-📧 **Email:** [muksin.muksin04@gmail.com](mailto:muksin.muksin04@gmail.com)
+<details>
+<summary><b>What is K-Line?</b></summary>
+<br>
+K-Line is a single-wire, bidirectional serial bus on <b>pin 7</b> of the OBD-II connector. It runs at 10.4 kbaud with 12 V logic levels and carries two diagnostic protocols: <b>ISO 9141-2</b> and <b>ISO 14230 (KWP2000)</b>. It was the dominant diagnostic bus on European and Asian vehicles until CAN (ISO 15765-4) replaced it.
+</details>
+
+<details>
+<summary><b>Which cars are supported?</b></summary>
+<br>
+Any vehicle whose engine ECU answers generic OBD-II requests over ISO 9141-2 or KWP2000. In practice that is most European and Asian petrol cars from about 2000 to 2010, plus many diesels. Check that pin 7 of your OBD-II socket is populated. Manufacturer-specific protocols such as VAG KW1281 or BMW I/K-Bus are handled in <a href="#-related-projects">related projects</a>.
+</details>
+
+<details>
+<summary><b>Is this an ELM327 replacement? Does it work with Torque or Car Scanner?</b></summary>
+<br>
+It replaces the ELM327 <i>for K-Line vehicles</i>, but it does not emulate the ELM327 AT command set, so third-party ELM327 apps won't connect to it. It comes with its own web dashboard (no app needed) and a Serial Monitor build that you can easily extend or integrate.
+</details>
+
+<details>
+<summary><b>What is the difference between ISO 9141-2 and KWP2000?</b></summary>
+<br>
+Both run on the same physical K-Line at 10.4 kbaud. ISO 9141-2 always starts with a slow 5-baud init and uses the <code>68 6A F1</code> header. KWP2000 (ISO 14230) supports both slow and <b>fast init</b>, uses length-encoded headers (<code>Cx 33 F1</code>) and adds richer services. Leave the firmware on <code>Automatic</code> and it figures this out for you.
+</details>
+
+<details>
+<summary><b>Can I clear the check-engine light (MIL)?</b></summary>
+<br>
+Yes. <b>Clear Error Codes</b> sends OBD-II Mode 04, which clears stored DTCs, freeze-frame data and the MIL. Fix the underlying fault first, or the code will come back.
+</details>
+
+<details>
+<summary><b>Can I use it with my CAN-bus car?</b></summary>
+<br>
+Not with this firmware. Use the sister project <a href="https://github.com/muki01/OBD2_CAN_Bus_Reader"><b>OBD2 CAN Bus Reader</b></a>, which shares the same web dashboard.
+</details>
+
+## 🔗 Related Projects
+
+Part of a complete open-source **OBD2 / automotive diagnostics** ecosystem:
+
+| Firmware & Readers | Libraries | Manufacturer Protocols | UI |
+|---|---|---|---|
+| [OBD2 K-Line Reader](https://github.com/muki01/OBD2-K-Line-Reader) | [OBD2 K-Line Library](https://github.com/muki01/OBD2_KLine_Library) | [BMW I/K Bus](https://github.com/muki01/I-K_Bus) | [OBD2 Diagnostic UI](https://github.com/muki01/OBD2-Diagnostic-UI) |
+| [OBD2 CAN Bus Reader](https://github.com/muki01/OBD2_CAN_Bus_Reader) | [OBD2 CAN Bus Library](https://github.com/muki01/OBD2_CAN_Bus_Library) | [VAG KW1281](https://github.com/muki01/VAG_KW1281) | |
+
+> 💡 **Building your own firmware?** The **[OBD2 K-Line Library](https://github.com/muki01/OBD2_KLine_Library)** wraps the K-Line protocol in a clean Arduino API.
+
+## 💼 Custom Development & Hire Me
+
+I design custom **automotive diagnostic tools, firmware and apps** professionally. Whether you need a finished product or just the communication layer, I can help:
+
+- **Protocol implementation**: K-Line (ISO 9141-2 / KWP2000), CAN / UDS, BMW I/K-Bus, VAG KW1281 and proprietary buses
+- **ECU security access**: seed-key algorithms and unlock routines for KWP2000 / UDS
+- **Reverse engineering**: PID logging, DTC handling, undocumented ECUs and buses
+- **Hardware**: diagnostic dongles, shields and custom PCBs
+- **Apps**: Android / iOS / web companions for logging, visualization and control
+- **Embedded firmware**: Arduino, ESP32, ESP8266, STM32, Raspberry Pi Pico
+
+📧 **[muksin.muksin04@gmail.com](mailto:muksin.muksin04@gmail.com)**: custom development, collaborations, sponsorship or buying ready-made devices.
+
+## 🤝 Contributing
+
+Contributions are welcome: bug reports, new PIDs, tested vehicle reports, new board ports and documentation fixes. Please read the **[Contributing Guide](CONTRIBUTING.md)** and our **[Code of Conduct](CODE_OF_CONDUCT.md)**.
+
+**Tested it on your car?** Open an issue with the make, model, year and detected protocol. Real-world compatibility reports help everyone.
+
+## ☕ Support the Project
+
+If this project helped you, consider supporting its development:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/muki01)
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?hosted_button_id=SAAH5GHAH6T72)
+[![GitHub Sponsors](https://img.shields.io/badge/GitHub_Sponsors-181717?style=for-the-badge&logo=githubsponsors&logoColor=EA4AAA)](https://github.com/sponsors/muki01)
+
+## 📈 Star History
+
+<a href="https://star-history.com/#muki01/OBD2-K-Line-Reader&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=muki01/OBD2-K-Line-Reader&type=Date&theme=dark">
+    <img alt="Star history chart for OBD2 K-Line Reader" src="https://api.star-history.com/svg?repos=muki01/OBD2-K-Line-Reader&type=Date" width="100%">
+  </picture>
+</a>
+
+## ⚠️ Disclaimer
+
+> [!WARNING]
+> This is a hobby and educational project provided **as is**, without warranty. Connecting custom hardware to a vehicle carries risk. The author is not responsible for any damage to vehicles, ECUs or equipment. **Never operate the device or look at the dashboard while driving.** Run the acceleration test only on closed roads or private property, in line with local law.
+
+## 📄 License
+
+Released under the **[MIT License](LICENSE)**. You're free to use, modify and distribute it, including commercially.
 
 ---
 
 <div align="center">
 
-Created by [**Muki**](https://github.com/muki01) · If you find this useful, consider giving it a ⭐
+Made with ❤️ by **[Muki01](https://github.com/muki01)**
+
+<sub>OBD2 · OBD-II · K-Line · KWP2000 · ISO 9141-2 · ISO 14230 · ESP32 · ESP8266 · Arduino · car diagnostics · DTC reader · scan tool</sub>
+
+**[⬆ Back to top](#readme-top)**
 
 </div>

@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🎨 Web dashboard (UI) issues
+    url: https://github.com/muki01/OBD2-Diagnostic-UI/issues
+    about: Problems or ideas related to the web interface itself.
+  - name: 🚙 CAN-bus vehicles
+    url: https://github.com/muki01/OBD2_CAN_Bus_Reader
+    about: Cars without a K-Line (pin 7) use CAN. Try the OBD2 CAN Bus Reader.
+  - name: 💼 Custom development
+    url: mailto:muksin.muksin04@gmail.com
+    about: Need a custom diagnostic tool, protocol or PCB? Get in touch.
