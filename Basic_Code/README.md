@@ -46,7 +46,7 @@ Connect the interface to **OBD-II pin 7** (K-Line), **pin 16** (+12 V) and **pin
 
 ### Option 2: Pre-built firmware
 
-When pre-compiled binaries are published on the **[Releases](https://github.com/muki01/OBD2-K-Line-Reader/releases)** page, you can flash them directly with [esptool](https://docs.espressif.com/projects/esptool/) or the [ESP Web Flasher](https://espressif.github.io/esptool-js/).
+When pre-compiled binaries are published on the **[Releases](https://github.com/muki01/OBD2_K-line_Reader/releases)** page, you can flash them directly with [esptool](https://docs.espressif.com/projects/esptool/) or the [ESP Web Flasher](https://espressif.github.io/esptool-js/).
 
 ## 🔧 Configuration
 

@@ -16,7 +16,7 @@ By participating, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Reporting Bugs
 
-Before opening an issue, please search [existing issues](https://github.com/muki01/OBD2-K-Line-Reader/issues). A good report includes:
+Before opening an issue, please search [existing issues](https://github.com/muki01/OBD2_K-line_Reader/issues). A good report includes:
 
 - Build (`Basic_Code` or `WebServer_Code`) and commit / release version
 - Board (e.g. ESP32-S3 DevKitC-1, Arduino Nano) and Arduino core version

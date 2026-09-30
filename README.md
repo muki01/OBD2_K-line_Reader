@@ -12,19 +12,24 @@
 Read live sensor data, read &amp; clear trouble codes (DTCs), freeze-frame data and VIN from any <b>K-Line</b> vehicle<br>
 over <b>ISO 9141-2</b> and <b>KWP2000 (ISO 14230)</b>, straight from a web dashboard in your phone's browser.</p>
 
-[![Stars](https://img.shields.io/github/stars/muki01/OBD2-K-Line-Reader?style=for-the-badge&logo=github&color=f5b301)](https://github.com/muki01/OBD2-K-Line-Reader/stargazers)
-[![Forks](https://img.shields.io/github/forks/muki01/OBD2-K-Line-Reader?style=for-the-badge&logo=github&color=0a84ff)](https://github.com/muki01/OBD2-K-Line-Reader/network/members)
-[![License: MIT](https://img.shields.io/github/license/muki01/OBD2-K-Line-Reader?style=for-the-badge&color=34c759)](LICENSE)
-[![Last commit](https://img.shields.io/github/last-commit/muki01/OBD2-K-Line-Reader?style=for-the-badge&color=af52de)](https://github.com/muki01/OBD2-K-Line-Reader/commits)
+<p>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/stargazers"><img alt="GitHub stars" height="28" src="https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=f5b301"></a>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/network/members"><img alt="GitHub forks" height="28" src="https://img.shields.io/github/forks/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Forks&labelColor=1f2328&color=0a84ff"></a>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/issues"><img alt="GitHub issues" height="28" src="https://img.shields.io/github/issues/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Issues&labelColor=1f2328&color=ff9500"></a>
+  <a href="LICENSE"><img alt="MIT license" height="28" src="https://img.shields.io/github/license/muki01/OBD2_K-line_Reader?style=flat&logo=opensourceinitiative&logoColor=white&label=License&labelColor=1f2328&color=34c759"></a>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/commits/main"><img alt="Last commit" height="28" src="https://img.shields.io/github/last-commit/muki01/OBD2_K-line_Reader?style=flat&logo=git&logoColor=white&label=Last%20commit&labelColor=1f2328&color=af52de"></a>
+</p>
 
-![ESP32](https://img.shields.io/badge/ESP32-E7352C?style=flat-square&logo=espressif&logoColor=white)
-![ESP8266](https://img.shields.io/badge/ESP8266-E7352C?style=flat-square&logo=espressif&logoColor=white)
-![Arduino](https://img.shields.io/badge/Arduino-00979D?style=flat-square&logo=arduino&logoColor=white)
-![STM32](https://img.shields.io/badge/STM32-03234B?style=flat-square&logo=stmicroelectronics&logoColor=white)
-![Raspberry Pi Pico](https://img.shields.io/badge/RP2040-A22846?style=flat-square&logo=raspberrypi&logoColor=white)
-![ISO 9141-2](https://img.shields.io/badge/ISO_9141--2-supported-0a84ff?style=flat-square)
-![KWP2000](https://img.shields.io/badge/KWP2000_(ISO_14230)-supported-0a84ff?style=flat-square)
-[![PCBWay](https://img.shields.io/badge/Sponsored_by-PCBWay-2a9d3e?style=flat-square)](https://pcbway.com/g/SD5aQu)
+<p>
+  <a href="#default-pins"><img alt="ESP32" height="24" src="https://img.shields.io/badge/ESP32-E7352C?style=flat&logo=espressif&logoColor=white"></a>
+  <a href="#default-pins"><img alt="ESP8266" height="24" src="https://img.shields.io/badge/ESP8266-E7352C?style=flat&logo=espressif&logoColor=white"></a>
+  <a href="#default-pins"><img alt="Arduino" height="24" src="https://img.shields.io/badge/Arduino-00979D?style=flat&logo=arduino&logoColor=white"></a>
+  <a href="#default-pins"><img alt="STM32" height="24" src="https://img.shields.io/badge/STM32-03234B?style=flat&logo=stmicroelectronics&logoColor=white"></a>
+  <a href="#default-pins"><img alt="Raspberry Pi Pico RP2040" height="24" src="https://img.shields.io/badge/RP2040-A22846?style=flat&logo=raspberrypi&logoColor=white"></a>
+  <a href="#-supported-protocols"><img alt="ISO 9141-2" height="24" src="https://img.shields.io/badge/ISO%209141--2-supported-0a84ff?style=flat&labelColor=1f2328"></a>
+  <a href="#-supported-protocols"><img alt="KWP2000 ISO 14230" height="24" src="https://img.shields.io/badge/KWP2000%20%C2%B7%20ISO%2014230-supported-0a84ff?style=flat&labelColor=1f2328"></a>
+  <a href="https://pcbway.com/g/SD5aQu"><img alt="Sponsored by PCBWay" height="24" src="https://img.shields.io/badge/Sponsored%20by-PCBWay-2a9d3e?style=flat&labelColor=1f2328"></a>
+</p>
 
 **[Features](#-features)** · **[Demo](#-see-it-in-action)** · **[Screenshots](#-web-dashboard-screenshots)** · **[How It Works](#-how-it-works)** · **[Hardware](#-hardware)** · **[Quick Start](#-quick-start)** · **[FAQ](#-faq)** · **[Hire Me](#-custom-development--hire-me)**
 
@@ -275,7 +280,7 @@ Purpose-built ISO 9141 transceivers with built-in level shifting and protection.
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/muki01/OBD2-K-Line-Reader.git
+git clone https://github.com/muki01/OBD2_K-line_Reader.git
 ```
 
 1. **Build the interface** using one of the [schematics](#-interface-schematics) and wire it to your board's UART.
@@ -299,7 +304,7 @@ git clone https://github.com/muki01/OBD2-K-Line-Reader.git
 ## 🗂️ Repository Structure
 
 ```text
-OBD2-K-Line-Reader/
+OBD2_K-line_Reader/
 ├── WebServer_Code/        # ESP32 / ESP8266 firmware with WiFi web dashboard + OTA
 │   ├── data/              # Gzipped web UI (upload to SPIFFS)
 │   └── README.md          # Setup guide
@@ -353,7 +358,7 @@ Part of a complete open-source **OBD2 / automotive diagnostics** ecosystem:
 
 | Firmware & Readers | Libraries | Manufacturer Protocols | UI |
 |---|---|---|---|
-| [OBD2 K-Line Reader](https://github.com/muki01/OBD2-K-Line-Reader) | [OBD2 K-Line Library](https://github.com/muki01/OBD2_KLine_Library) | [BMW I/K Bus](https://github.com/muki01/I-K_Bus) | [OBD2 Diagnostic UI](https://github.com/muki01/OBD2-Diagnostic-UI) |
+| [OBD2 K-Line Reader](https://github.com/muki01/OBD2_K-line_Reader) | [OBD2 K-Line Library](https://github.com/muki01/OBD2_KLine_Library) | [BMW I/K Bus](https://github.com/muki01/I-K_Bus) | [OBD2 Diagnostic UI](https://github.com/muki01/OBD2-Diagnostic-UI) |
 | [OBD2 CAN Bus Reader](https://github.com/muki01/OBD2_CAN_Bus_Reader) | [OBD2 CAN Bus Library](https://github.com/muki01/OBD2_CAN_Bus_Library) | [VAG KW1281](https://github.com/muki01/VAG_KW1281) | |
 
 > 💡 **Building your own firmware?** The **[OBD2 K-Line Library](https://github.com/muki01/OBD2_KLine_Library)** wraps the K-Line protocol in a clean Arduino API.
@@ -381,16 +386,18 @@ Contributions are welcome: bug reports, new PIDs, tested vehicle reports, new bo
 
 If this project helped you, consider supporting its development:
 
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/muki01)
-[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?hosted_button_id=SAAH5GHAH6T72)
-[![GitHub Sponsors](https://img.shields.io/badge/GitHub_Sponsors-181717?style=for-the-badge&logo=githubsponsors&logoColor=EA4AAA)](https://github.com/sponsors/muki01)
+<p>
+  <a href="https://www.buymeacoffee.com/muki01"><img alt="Buy Me a Coffee" height="32" src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=flat&logo=buymeacoffee&logoColor=black"></a>
+  <a href="https://www.paypal.com/donate/?hosted_button_id=SAAH5GHAH6T72"><img alt="Donate with PayPal" height="32" src="https://img.shields.io/badge/PayPal-00457C?style=flat&logo=paypal&logoColor=white"></a>
+  <a href="https://github.com/sponsors/muki01"><img alt="GitHub Sponsors" height="32" src="https://img.shields.io/badge/GitHub%20Sponsors-1f2328?style=flat&logo=githubsponsors&logoColor=EA4AAA"></a>
+</p>
 
 ## 📈 Star History
 
-<a href="https://star-history.com/#muki01/OBD2-K-Line-Reader&Date">
+<a href="https://star-history.com/#muki01/OBD2_K-line_Reader&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=muki01/OBD2-K-Line-Reader&type=Date&theme=dark">
-    <img alt="Star history chart for OBD2 K-Line Reader" src="https://api.star-history.com/svg?repos=muki01/OBD2-K-Line-Reader&type=Date" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=muki01/OBD2_K-line_Reader&type=Date&theme=dark">
+    <img alt="Star history chart for OBD2 K-Line Reader" src="https://api.star-history.com/svg?repos=muki01/OBD2_K-line_Reader&type=Date" width="100%">
   </picture>
 </a>
 

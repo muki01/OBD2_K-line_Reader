@@ -81,7 +81,7 @@ The dashboard lives in [`data/`](data) (pre-gzipped HTML, CSS, JS and fonts). Up
 
 ### 3. Pre-built firmware *(optional)*
 
-When pre-compiled binaries are published on the **[Releases](https://github.com/muki01/OBD2-K-Line-Reader/releases)** page, flash them with [esptool](https://docs.espressif.com/projects/esptool/) or the [ESP Web Flasher](https://espressif.github.io/esptool-js/).
+When pre-compiled binaries are published on the **[Releases](https://github.com/muki01/OBD2_K-line_Reader/releases)** page, flash them with [esptool](https://docs.espressif.com/projects/esptool/) or the [ESP Web Flasher](https://espressif.github.io/esptool-js/).
 
 ## 📱 First Connection
 
