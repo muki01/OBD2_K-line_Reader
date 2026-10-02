@@ -51,4 +51,4 @@ The web UI source lives in **[OBD2 Diagnostic UI](https://github.com/muki01/OBD2
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the [MIT License](LICENSE).
+By contributing, you agree that your contributions are licensed under the [GNU General Public License v3.0](LICENSE), and that the author may also offer them under a commercial license.

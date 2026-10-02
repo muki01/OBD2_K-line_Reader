@@ -3,7 +3,7 @@
 <div align="center">
 
 <a href="#-quick-start">
-  <img src="assets/banner.png" alt="OBD2 K-Line Reader – open-source ESP32 and Arduino car diagnostic scanner for ISO 9141-2 and KWP2000 (ISO 14230)" width="100%">
+  <img src="assets/banner.svg" alt="OBD2 K-Line Reader – open-source ESP32 and Arduino car diagnostic scanner for ISO 9141-2 and KWP2000 (ISO 14230)" width="100%">
 </a>
 
 <h1>OBD2 K-Line Reader</h1>
@@ -13,10 +13,10 @@ Read live sensor data, read &amp; clear trouble codes (DTCs), freeze-frame data 
 over <b>ISO 9141-2</b> and <b>KWP2000 (ISO 14230)</b>, straight from a web dashboard in your phone's browser.</p>
 
 <p>
-  <a href="https://github.com/muki01/OBD2_K-line_Reader/stargazers"><img alt="GitHub stars" height="28" src="https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=f5b301"></a>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/stargazers"><img alt="GitHub stars" height="28" src="https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=22d3ee"></a>
   <a href="https://github.com/muki01/OBD2_K-line_Reader/network/members"><img alt="GitHub forks" height="28" src="https://img.shields.io/github/forks/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Forks&labelColor=1f2328&color=0a84ff"></a>
-  <a href="https://github.com/muki01/OBD2_K-line_Reader/issues"><img alt="GitHub issues" height="28" src="https://img.shields.io/github/issues/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Issues&labelColor=1f2328&color=ff9500"></a>
-  <a href="LICENSE"><img alt="MIT license" height="28" src="https://img.shields.io/github/license/muki01/OBD2_K-line_Reader?style=flat&logo=opensourceinitiative&logoColor=white&label=License&labelColor=1f2328&color=34c759"></a>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/issues"><img alt="GitHub issues" height="28" src="https://img.shields.io/github/issues/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Issues&labelColor=1f2328&color=818cf8"></a>
+  <a href="LICENSE"><img alt="GPL-3.0 license" height="28" src="https://img.shields.io/badge/License-GPL--3.0-34c759?style=flat&logo=opensourceinitiative&logoColor=white&labelColor=1f2328"></a>
   <a href="https://github.com/muki01/OBD2_K-line_Reader/commits/main"><img alt="Last commit" height="28" src="https://img.shields.io/github/last-commit/muki01/OBD2_K-line_Reader?style=flat&logo=git&logoColor=white&label=Last%20commit&labelColor=1f2328&color=af52de"></a>
 </p>
 
@@ -31,7 +31,7 @@ over <b>ISO 9141-2</b> and <b>KWP2000 (ISO 14230)</b>, straight from a web dashb
   <a href="https://pcbway.com/g/SD5aQu"><img alt="Sponsored by PCBWay" height="24" src="https://img.shields.io/badge/Sponsored%20by-PCBWay-2a9d3e?style=flat&labelColor=1f2328"></a>
 </p>
 
-**[Features](#-features)** · **[Demo](#-see-it-in-action)** · **[Screenshots](#-web-dashboard-screenshots)** · **[How It Works](#-how-it-works)** · **[Hardware](#-hardware)** · **[Quick Start](#-quick-start)** · **[FAQ](#-faq)** · **[Hire Me](#-custom-development--hire-me)**
+**[Features](#-features)** · **[Demo](#-see-it-in-action)** · **[Screenshots](#-web-dashboard-screenshots)** · **[How It Works](#-how-it-works)** · **[Hardware](#-hardware)** · **[Quick Start](#-quick-start)** · **[FAQ](#-faq)** · **[Custom Development](#-custom-development)**
 
 </div>
 
@@ -354,27 +354,86 @@ Not with this firmware. Use the sister project <a href="https://github.com/muki0
 
 ## 🔗 Related Projects
 
-Part of a complete open-source **OBD2 / automotive diagnostics** ecosystem:
+This firmware is part of a family of open-source automotive projects. They share the same hardware approach, so what you build for one carries over to the others.
 
-| Firmware & Readers | Libraries | Manufacturer Protocols | UI |
-|---|---|---|---|
-| [OBD2 K-Line Reader](https://github.com/muki01/OBD2_K-line_Reader) | [OBD2 K-Line Library](https://github.com/muki01/OBD2_KLine_Library) | [BMW I/K Bus](https://github.com/muki01/I-K_Bus) | [OBD2 Diagnostic UI](https://github.com/muki01/OBD2-Diagnostic-UI) |
-| [OBD2 CAN Bus Reader](https://github.com/muki01/OBD2_CAN_Bus_Reader) | [OBD2 CAN Bus Library](https://github.com/muki01/OBD2_CAN_Bus_Library) | [VAG KW1281](https://github.com/muki01/VAG_KW1281) | |
+<table>
+  <tr>
+    <th colspan="3" align="left">Firmware — flash it and use it</th>
+  </tr>
+  <tr>
+    <td width="30%"><a href="https://github.com/muki01/BMW_IBus_KBus"><b>BMW I-Bus / K-Bus Firmware</b></a></td>
+    <td>Phone control and key-fob light functions for the BMW E46, on the ESP32 and Arduino.</td>
+    <td width="96" align="center"><a href="https://github.com/muki01/BMW_IBus_KBus/stargazers"><img src="https://img.shields.io/github/stars/muki01/BMW_IBus_KBus?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of BMW_IBus_KBus"></a></td>
+  </tr>
+  <tr>
+    <td width="30%"><b>OBD2 K-Line Reader</b><br><sub>you are here</sub></td>
+    <td>Scan tool for K-Line cars (ISO 9141-2, KWP2000) with a web dashboard, for the ESP32, ESP8266 and Arduino.</td>
+    <td width="96" align="center"><a href="https://github.com/muki01/OBD2_K-line_Reader/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2_K-line_Reader"></a></td>
+  </tr>
+  <tr>
+    <td width="30%"><a href="https://github.com/muki01/OBD2_CAN_Bus_Reader"><b>OBD2 CAN Bus Reader</b></a></td>
+    <td>Scan tool for CAN bus cars (ISO 15765-4) with the same web dashboard, for the ESP32.</td>
+    <td width="96" align="center"><a href="https://github.com/muki01/OBD2_CAN_Bus_Reader/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2_CAN_Bus_Reader?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2_CAN_Bus_Reader"></a></td>
+  </tr>
+  <tr>
+    <td width="30%"><a href="https://github.com/muki01/VAG_KW1281"><b>VAG KW1281</b></a></td>
+    <td>KW1281 diagnostics for VW, Audi, Škoda and SEAT: ECU information, measuring groups and fault codes.</td>
+    <td width="96" align="center"><a href="https://github.com/muki01/VAG_KW1281/stargazers"><img src="https://img.shields.io/github/stars/muki01/VAG_KW1281?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of VAG_KW1281"></a></td>
+  </tr>
+  <tr>
+    <th colspan="3" align="left">Libraries — build your own firmware</th>
+  </tr>
+  <tr>
+    <td width="30%"><a href="https://github.com/muki01/BMW_IBus_KBus_Library"><b>BMW IBus KBus Library</b></a></td>
+    <td>Receives, checks and sends BMW I-Bus and K-Bus messages; the library behind the BMW firmware.</td>
+    <td width="96" align="center"><a href="https://github.com/muki01/BMW_IBus_KBus_Library/stargazers"><img src="https://img.shields.io/github/stars/muki01/BMW_IBus_KBus_Library?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of BMW_IBus_KBus_Library"></a></td>
+  </tr>
+  <tr>
+    <td width="30%"><a href="https://github.com/muki01/OBD2_KLine_Library"><b>OBD2 K-Line Library</b></a></td>
+    <td>K-Line diagnostics behind one API: ISO 9141-2, KWP2000, KW1281, DS2 and KW82.</td>
+    <td width="96" align="center"><a href="https://github.com/muki01/OBD2_KLine_Library/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2_KLine_Library?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2_KLine_Library"></a></td>
+  </tr>
+  <tr>
+    <td width="30%"><a href="https://github.com/muki01/OBD2_CAN_Bus_Library"><b>OBD2 CAN Bus Library</b></a></td>
+    <td>OBD-II diagnostics over ISO 15765-4 with the ESP32's built-in CAN controller.</td>
+    <td width="96" align="center"><a href="https://github.com/muki01/OBD2_CAN_Bus_Library/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2_CAN_Bus_Library?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2_CAN_Bus_Library"></a></td>
+  </tr>
+  <tr>
+    <th colspan="3" align="left">Interface</th>
+  </tr>
+  <tr>
+    <td width="30%"><a href="https://github.com/muki01/OBD2-Diagnostic-UI"><b>OBD2 Diagnostic UI</b></a></td>
+    <td>The web dashboard used by the two OBD2 readers.</td>
+    <td width="96" align="center"><a href="https://github.com/muki01/OBD2-Diagnostic-UI/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2-Diagnostic-UI?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2-Diagnostic-UI"></a></td>
+  </tr>
+</table>
 
 > 💡 **Building your own firmware?** The **[OBD2 K-Line Library](https://github.com/muki01/OBD2_KLine_Library)** wraps the K-Line protocol in a clean Arduino API.
 
-## 💼 Custom Development & Hire Me
+## 💼 Custom Development
 
-I design custom **automotive diagnostic tools, firmware and apps** professionally. Whether you need a finished product or just the communication layer, I can help:
+I design automotive diagnostic tools, firmware and hardware professionally. Whether you need a complete product or only the communication layer, I can help.
 
-- **Protocol implementation**: K-Line (ISO 9141-2 / KWP2000), CAN / UDS, BMW I/K-Bus, VAG KW1281 and proprietary buses
-- **ECU security access**: seed-key algorithms and unlock routines for KWP2000 / UDS
-- **Reverse engineering**: PID logging, DTC handling, undocumented ECUs and buses
-- **Hardware**: diagnostic dongles, shields and custom PCBs
-- **Apps**: Android / iOS / web companions for logging, visualization and control
-- **Embedded firmware**: Arduino, ESP32, ESP8266, STM32, Raspberry Pi Pico
+| Service | Details |
+| :-- | :-- |
+| **Protocol implementation** | BMW I/K-Bus, K-Line (ISO 9141-2 / KWP2000), CAN / UDS, VAG KW1281 and other manufacturer-specific protocols |
+| **ECU communication & reverse engineering** | Bus sniffing, packet decoding, module control, undocumented ECUs and buses |
+| **ECU security access** | Seed-key algorithms and unlock routines for KWP2000 / UDS |
+| **Embedded firmware** | Arduino, ESP32, ESP8266, STM32, Raspberry Pi Pico |
+| **Custom hardware** | Diagnostic dongles, shields and PCBs designed to your requirements |
+| **Companion apps** | Android, iOS and web apps to visualise, log and control your device |
 
-📧 **[muksin.muksin04@gmail.com](mailto:muksin.muksin04@gmail.com)**: custom development, collaborations, sponsorship or buying ready-made devices.
+Have a project in mind? Reach out through the [Contact](#-contact) section below.
+
+## 📬 Contact
+
+For custom development, collaboration, sponsorship or ready-made devices:
+
+| Channel | Address |
+| :-- | :-- |
+| 📧 **Email** | [muksin.muksin04@gmail.com](mailto:muksin.muksin04@gmail.com) |
+| 💼 **LinkedIn** | [linkedin.com/in/muksin-muksin](https://www.linkedin.com/in/muksin-muksin/) |
+| 🐙 **GitHub** | [@muki01](https://github.com/muki01) |
 
 ## 🤝 Contributing
 
@@ -408,7 +467,14 @@ If this project helped you, consider supporting its development:
 
 ## 📄 License
 
-Released under the **[MIT License](LICENSE)**. You're free to use, modify and distribute it, including commercially.
+Released under the **[GNU General Public License v3.0](LICENSE)**.
+
+- You are free to use, study, modify and share this firmware.
+- If you distribute it — on its own or as part of a product or firmware — you must make the complete source available under the same license.
+
+**Closed-source or commercial product?** A separate commercial license is available. Get in touch through the [Contact](#-contact) section.
+
+Copyright © 2023–2026 Muksin Muksin.
 
 ---
 
