@@ -3,7 +3,7 @@
 <div align="center">
 
 <a href="#-quick-start">
-  <img src="assets/banner.svg" alt="OBD2 K-Line Reader – open-source ESP32 and Arduino car diagnostic scanner for ISO 9141-2 and KWP2000 (ISO 14230)" width="100%">
+  <img src="images/obd2-kline-reader-banner.svg" alt="OBD2 K-Line Reader – open-source ESP32 and Arduino car diagnostic scanner for ISO 9141-2 and KWP2000 (ISO 14230)" width="100%">
 </a>
 
 <h1>OBD2 K-Line Reader</h1>
@@ -13,11 +13,11 @@ Read live sensor data, read &amp; clear trouble codes (DTCs), freeze-frame data 
 over <b>ISO 9141-2</b> and <b>KWP2000 (ISO 14230)</b>, straight from a web dashboard in your phone's browser.</p>
 
 <p>
-  <a href="https://github.com/muki01/OBD2_K-line_Reader/stargazers"><img alt="GitHub stars" height="28" src="https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=22d3ee"></a>
-  <a href="https://github.com/muki01/OBD2_K-line_Reader/network/members"><img alt="GitHub forks" height="28" src="https://img.shields.io/github/forks/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Forks&labelColor=1f2328&color=0a84ff"></a>
-  <a href="https://github.com/muki01/OBD2_K-line_Reader/issues"><img alt="GitHub issues" height="28" src="https://img.shields.io/github/issues/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Issues&labelColor=1f2328&color=818cf8"></a>
-  <a href="LICENSE"><img alt="GPL-3.0 license" height="28" src="https://img.shields.io/badge/License-GPL--3.0-34c759?style=flat&logo=opensourceinitiative&logoColor=white&labelColor=1f2328"></a>
-  <a href="https://github.com/muki01/OBD2_K-line_Reader/commits/main"><img alt="Last commit" height="28" src="https://img.shields.io/github/last-commit/muki01/OBD2_K-line_Reader?style=flat&logo=git&logoColor=white&label=Last%20commit&labelColor=1f2328&color=af52de"></a>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/stargazers"><img alt="GitHub stars" height="28" src="https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=0891b2"></a>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/network/members"><img alt="GitHub forks" height="28" src="https://img.shields.io/github/forks/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Forks&labelColor=1f2328&color=2563eb"></a>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/issues"><img alt="GitHub issues" height="28" src="https://img.shields.io/github/issues/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Issues&labelColor=1f2328&color=6366f1"></a>
+  <a href="LICENSE"><img alt="GPL-3.0 license" height="28" src="https://img.shields.io/badge/License-GPL--3.0-16a34a?style=flat&logo=opensourceinitiative&logoColor=white&labelColor=1f2328"></a>
+  <a href="https://github.com/muki01/OBD2_K-line_Reader/commits/main"><img alt="Last commit" height="28" src="https://img.shields.io/github/last-commit/muki01/OBD2_K-line_Reader?style=flat&logo=git&logoColor=white&label=Last%20commit&labelColor=1f2328&color=9333ea"></a>
 </p>
 
 <p>
@@ -26,8 +26,8 @@ over <b>ISO 9141-2</b> and <b>KWP2000 (ISO 14230)</b>, straight from a web dashb
   <a href="#default-pins"><img alt="Arduino" height="24" src="https://img.shields.io/badge/Arduino-00979D?style=flat&logo=arduino&logoColor=white"></a>
   <a href="#default-pins"><img alt="STM32" height="24" src="https://img.shields.io/badge/STM32-03234B?style=flat&logo=stmicroelectronics&logoColor=white"></a>
   <a href="#default-pins"><img alt="Raspberry Pi Pico RP2040" height="24" src="https://img.shields.io/badge/RP2040-A22846?style=flat&logo=raspberrypi&logoColor=white"></a>
-  <a href="#-supported-protocols"><img alt="ISO 9141-2" height="24" src="https://img.shields.io/badge/ISO%209141--2-supported-0a84ff?style=flat&labelColor=1f2328"></a>
-  <a href="#-supported-protocols"><img alt="KWP2000 ISO 14230" height="24" src="https://img.shields.io/badge/KWP2000%20%C2%B7%20ISO%2014230-supported-0a84ff?style=flat&labelColor=1f2328"></a>
+  <a href="#-supported-protocols"><img alt="ISO 9141-2" height="24" src="https://img.shields.io/badge/ISO%209141--2-supported-2563eb?style=flat&labelColor=1f2328"></a>
+  <a href="#-supported-protocols"><img alt="KWP2000 ISO 14230" height="24" src="https://img.shields.io/badge/KWP2000%20%C2%B7%20ISO%2014230-supported-2563eb?style=flat&labelColor=1f2328"></a>
   <a href="https://pcbway.com/g/SD5aQu"><img alt="Sponsored by PCBWay" height="24" src="https://img.shields.io/badge/Sponsored%20by-PCBWay-2a9d3e?style=flat&labelColor=1f2328"></a>
 </p>
 
@@ -60,7 +60,7 @@ The project also includes **six interface schematics**, from a two-transistor ci
 <table>
 <tr>
 <td width="45%" align="center">
-<img src="assets/demo.gif" alt="Animated demo of the OBD2 K-Line Reader web dashboard: live data, trouble codes, freeze frame, 0-100 km/h speed test, vehicle info, settings and dark mode" width="100%">
+<img src="images/demo.gif" alt="Animated demo of the OBD2 K-Line Reader web dashboard: live data, trouble codes, freeze frame, 0-100 km/h speed test, vehicle info, settings and dark mode" width="100%">
 </td>
 <td width="55%">
 
@@ -136,37 +136,37 @@ No app to install and no cloud. Works on Android, iOS and desktop browsers.
 <table>
 <tr>
 <td align="center" width="25%">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/main-menu.png"><img src="assets/screenshots/light/main-menu.png" alt="OBD2 dashboard main menu with battery voltage" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/screenshots/dark/main-menu.png"><img src="images/screenshots/light/main-menu.png" alt="OBD2 dashboard main menu with battery voltage" width="100%"></picture>
 <br><b>Main Menu</b><br><sub>Battery voltage and quick access</sub>
 </td>
 <td align="center" width="25%">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/live-data.png"><img src="assets/screenshots/light/live-data.png" alt="Live OBD2 sensor data: RPM, coolant temperature, engine load, fuel trims, MAF" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/screenshots/dark/live-data.png"><img src="images/screenshots/light/live-data.png" alt="Live OBD2 sensor data: RPM, coolant temperature, engine load, fuel trims, MAF" width="100%"></picture>
 <br><b>Live Data</b><br><sub>Real-time sensor PIDs</sub>
 </td>
 <td align="center" width="25%">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/error-codes.png"><img src="assets/screenshots/light/error-codes.png" alt="Read and clear OBD2 diagnostic trouble codes (DTC) such as P0171 and P0420" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/screenshots/dark/error-codes.png"><img src="images/screenshots/light/error-codes.png" alt="Read and clear OBD2 diagnostic trouble codes (DTC) such as P0171 and P0420" width="100%"></picture>
 <br><b>Trouble Codes</b><br><sub>Read and clear DTCs</sub>
 </td>
 <td align="center" width="25%">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/freeze-frame.png"><img src="assets/screenshots/light/freeze-frame.png" alt="OBD2 freeze frame data captured when a fault code was stored" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/screenshots/dark/freeze-frame.png"><img src="images/screenshots/light/freeze-frame.png" alt="OBD2 freeze frame data captured when a fault code was stored" width="100%"></picture>
 <br><b>Freeze Frame</b><br><sub>Snapshot at fault time</sub>
 </td>
 </tr>
 <tr>
 <td align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/speed-test.png"><img src="assets/screenshots/light/speed-test.png" alt="0-100 km/h acceleration timer using the OBD2 vehicle speed PID" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/screenshots/dark/speed-test.png"><img src="images/screenshots/light/speed-test.png" alt="0-100 km/h acceleration timer using the OBD2 vehicle speed PID" width="100%"></picture>
 <br><b>0–100 km/h Test</b><br><sub>Automatic acceleration timer</sub>
 </td>
 <td align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/vehicle-info.png"><img src="assets/screenshots/light/vehicle-info.png" alt="Vehicle info page showing VIN, calibration ID and supported PIDs" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/screenshots/dark/vehicle-info.png"><img src="images/screenshots/light/vehicle-info.png" alt="Vehicle info page showing VIN, calibration ID and supported PIDs" width="100%"></picture>
 <br><b>Vehicle Info</b><br><sub>VIN, CAL ID, supported PIDs</sub>
 </td>
 <td align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/settings.png"><img src="assets/screenshots/light/settings.png" alt="Settings page: dark mode, communication protocol selection and PID picker" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/screenshots/dark/settings.png"><img src="images/screenshots/light/settings.png" alt="Settings page: dark mode, communication protocol selection and PID picker" width="100%"></picture>
 <br><b>Settings</b><br><sub>Protocol, PIDs, WiFi, OTA</sub>
 </td>
 <td align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/dark/splash-screen.png"><img src="assets/screenshots/light/splash-screen.png" alt="OBD2 Master splash screen" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/screenshots/dark/splash-screen.png"><img src="images/screenshots/light/splash-screen.png" alt="OBD2 Master splash screen" width="100%"></picture>
 <br><b>Splash Screen</b><br><sub>Branded boot animation</sub>
 </td>
 </tr>
@@ -225,27 +225,22 @@ flowchart LR
 
 ### 🔌 Interface Schematics
 
-K-Line is a single-wire, 12 V, open-collector bus, so it can't be wired straight to a 3.3 V or 5 V UART. Each circuit below does the level shifting and protection. Pick one:
+K-Line is a single-wire, 12 V, open-collector bus, so it can't be wired straight to a 3.3 V or 5 V UART. Each circuit below does the level shifting and protection. Pick one.
 
-<details open>
-<summary><b>🔹 Transistor-based</b>: cheapest, great for prototyping</summary>
-<br>
+#### Transistor-based — cheapest, great for prototyping
+
 <img src="Schematics/Transistor%20Schematic.png" alt="K-Line to UART interface schematic using discrete transistors" width="70%">
 
 Built from discrete transistors, so it costs almost nothing. **R6** is sized for **3.3 V** microcontrollers; for a **5 V** MCU, change **R6** to **5.3 kΩ**.
-</details>
 
-<details>
-<summary><b>🔹 Comparator-based (LM393)</b>: better noise immunity</summary>
-<br>
+#### Comparator-based (LM393) — better noise immunity
+
 <img src="Schematics/Comparator.png" alt="K-Line interface schematic using an LM393 comparator" width="70%">
 
 A cheap comparator such as the **LM393** gives a clean digital level with well-defined thresholds. It needs a few more parts than the transistor version but is noticeably more robust.
-</details>
 
-<details>
-<summary><b>🔹 Dedicated automotive transceivers</b>: L9637D, MC33290, Si9241, SN65HVDA195</summary>
-<br>
+#### Dedicated automotive transceivers — L9637D, MC33290, Si9241, SN65HVDA195
+
 <p>
   <img src="Schematics/L9637D.png" alt="L9637D K-Line transceiver schematic" width="45%">
   <img src="Schematics/MC33290.png" alt="MC33290 ISO 9141 K-Line transceiver schematic" width="42%">
@@ -256,7 +251,6 @@ A cheap comparator such as the **LM393** gives a clean digital level with well-d
 </p>
 
 Purpose-built ISO 9141 transceivers with built-in level shifting and protection. They are standards-compliant and the most reliable choice, which makes them the right pick for permanent and production designs.
-</details>
 
 ### 🧩 Custom PCBs
 
@@ -311,7 +305,7 @@ OBD2_K-line_Reader/
 ├── Basic_Code/            # Serial Monitor firmware for Arduino & ESP32
 │   └── README.md          # Setup guide
 ├── Schematics/            # K-Line interface circuits (transistor, LM393, L9637D, MC33290, ...)
-└── assets/                # README images, demo GIF, screenshots
+└── images/                # Banner, demo GIF and screenshots
 ```
 
 ## ❓ FAQ
@@ -352,6 +346,12 @@ Yes. <b>Clear Error Codes</b> sends OBD-II Mode 04, which clears stored DTCs, fr
 Not with this firmware. Use the sister project <a href="https://github.com/muki01/OBD2_CAN_Bus_Reader"><b>OBD2 CAN Bus Reader</b></a>, which shares the same web dashboard.
 </details>
 
+## 🤝 Contributing
+
+Contributions are welcome: bug reports, new PIDs, tested vehicle reports, new board ports and documentation fixes. Please read the **[Contributing Guide](CONTRIBUTING.md)** and our **[Code of Conduct](CODE_OF_CONDUCT.md)**.
+
+**Tested it on your car?** Open an issue with the make, model, year and detected protocol. Real-world compatibility reports help everyone.
+
 ## 🔗 Related Projects
 
 This firmware is part of a family of open-source automotive projects. They share the same hardware approach, so what you build for one carries over to the others.
@@ -363,22 +363,22 @@ This firmware is part of a family of open-source automotive projects. They share
   <tr>
     <td width="30%"><a href="https://github.com/muki01/BMW_IBus_KBus"><b>BMW I-Bus / K-Bus Firmware</b></a></td>
     <td>Phone control and key-fob light functions for the BMW E46, on the ESP32 and Arduino.</td>
-    <td width="96" align="center"><a href="https://github.com/muki01/BMW_IBus_KBus/stargazers"><img src="https://img.shields.io/github/stars/muki01/BMW_IBus_KBus?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of BMW_IBus_KBus"></a></td>
+    <td width="118" align="center"><a href="https://github.com/muki01/BMW_IBus_KBus/stargazers"><img height="22" src="https://img.shields.io/github/stars/muki01/BMW_IBus_KBus?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=0891b2" alt="GitHub stars of BMW_IBus_KBus"></a></td>
   </tr>
   <tr>
     <td width="30%"><b>OBD2 K-Line Reader</b><br><sub>you are here</sub></td>
     <td>Scan tool for K-Line cars (ISO 9141-2, KWP2000) with a web dashboard, for the ESP32, ESP8266 and Arduino.</td>
-    <td width="96" align="center"><a href="https://github.com/muki01/OBD2_K-line_Reader/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2_K-line_Reader"></a></td>
+    <td width="118" align="center"><a href="https://github.com/muki01/OBD2_K-line_Reader/stargazers"><img height="22" src="https://img.shields.io/github/stars/muki01/OBD2_K-line_Reader?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=0891b2" alt="GitHub stars of OBD2_K-line_Reader"></a></td>
   </tr>
   <tr>
     <td width="30%"><a href="https://github.com/muki01/OBD2_CAN_Bus_Reader"><b>OBD2 CAN Bus Reader</b></a></td>
     <td>Scan tool for CAN bus cars (ISO 15765-4) with the same web dashboard, for the ESP32.</td>
-    <td width="96" align="center"><a href="https://github.com/muki01/OBD2_CAN_Bus_Reader/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2_CAN_Bus_Reader?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2_CAN_Bus_Reader"></a></td>
+    <td width="118" align="center"><a href="https://github.com/muki01/OBD2_CAN_Bus_Reader/stargazers"><img height="22" src="https://img.shields.io/github/stars/muki01/OBD2_CAN_Bus_Reader?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=0891b2" alt="GitHub stars of OBD2_CAN_Bus_Reader"></a></td>
   </tr>
   <tr>
     <td width="30%"><a href="https://github.com/muki01/VAG_KW1281"><b>VAG KW1281</b></a></td>
     <td>KW1281 diagnostics for VW, Audi, Škoda and SEAT: ECU information, measuring groups and fault codes.</td>
-    <td width="96" align="center"><a href="https://github.com/muki01/VAG_KW1281/stargazers"><img src="https://img.shields.io/github/stars/muki01/VAG_KW1281?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of VAG_KW1281"></a></td>
+    <td width="118" align="center"><a href="https://github.com/muki01/VAG_KW1281/stargazers"><img height="22" src="https://img.shields.io/github/stars/muki01/VAG_KW1281?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=0891b2" alt="GitHub stars of VAG_KW1281"></a></td>
   </tr>
   <tr>
     <th colspan="3" align="left">Libraries — build your own firmware</th>
@@ -386,17 +386,17 @@ This firmware is part of a family of open-source automotive projects. They share
   <tr>
     <td width="30%"><a href="https://github.com/muki01/BMW_IBus_KBus_Library"><b>BMW IBus KBus Library</b></a></td>
     <td>Receives, checks and sends BMW I-Bus and K-Bus messages; the library behind the BMW firmware.</td>
-    <td width="96" align="center"><a href="https://github.com/muki01/BMW_IBus_KBus_Library/stargazers"><img src="https://img.shields.io/github/stars/muki01/BMW_IBus_KBus_Library?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of BMW_IBus_KBus_Library"></a></td>
+    <td width="118" align="center"><a href="https://github.com/muki01/BMW_IBus_KBus_Library/stargazers"><img height="22" src="https://img.shields.io/github/stars/muki01/BMW_IBus_KBus_Library?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=0891b2" alt="GitHub stars of BMW_IBus_KBus_Library"></a></td>
   </tr>
   <tr>
     <td width="30%"><a href="https://github.com/muki01/OBD2_KLine_Library"><b>OBD2 K-Line Library</b></a></td>
     <td>K-Line diagnostics behind one API: ISO 9141-2, KWP2000, KW1281, DS2 and KW82.</td>
-    <td width="96" align="center"><a href="https://github.com/muki01/OBD2_KLine_Library/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2_KLine_Library?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2_KLine_Library"></a></td>
+    <td width="118" align="center"><a href="https://github.com/muki01/OBD2_KLine_Library/stargazers"><img height="22" src="https://img.shields.io/github/stars/muki01/OBD2_KLine_Library?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=0891b2" alt="GitHub stars of OBD2_KLine_Library"></a></td>
   </tr>
   <tr>
     <td width="30%"><a href="https://github.com/muki01/OBD2_CAN_Bus_Library"><b>OBD2 CAN Bus Library</b></a></td>
     <td>OBD-II diagnostics over ISO 15765-4 with the ESP32's built-in CAN controller.</td>
-    <td width="96" align="center"><a href="https://github.com/muki01/OBD2_CAN_Bus_Library/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2_CAN_Bus_Library?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2_CAN_Bus_Library"></a></td>
+    <td width="118" align="center"><a href="https://github.com/muki01/OBD2_CAN_Bus_Library/stargazers"><img height="22" src="https://img.shields.io/github/stars/muki01/OBD2_CAN_Bus_Library?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=0891b2" alt="GitHub stars of OBD2_CAN_Bus_Library"></a></td>
   </tr>
   <tr>
     <th colspan="3" align="left">Interface</th>
@@ -404,7 +404,7 @@ This firmware is part of a family of open-source automotive projects. They share
   <tr>
     <td width="30%"><a href="https://github.com/muki01/OBD2-Diagnostic-UI"><b>OBD2 Diagnostic UI</b></a></td>
     <td>The web dashboard used by the two OBD2 readers.</td>
-    <td width="96" align="center"><a href="https://github.com/muki01/OBD2-Diagnostic-UI/stargazers"><img src="https://img.shields.io/github/stars/muki01/OBD2-Diagnostic-UI?style=flat-square&label=stars&color=22d3ee" alt="GitHub stars of OBD2-Diagnostic-UI"></a></td>
+    <td width="118" align="center"><a href="https://github.com/muki01/OBD2-Diagnostic-UI/stargazers"><img height="22" src="https://img.shields.io/github/stars/muki01/OBD2-Diagnostic-UI?style=flat&logo=github&logoColor=white&label=Stars&labelColor=1f2328&color=0891b2" alt="GitHub stars of OBD2-Diagnostic-UI"></a></td>
   </tr>
 </table>
 
@@ -434,12 +434,6 @@ For custom development, collaboration, sponsorship or ready-made devices:
 | 📧 **Email** | [muksin.muksin04@gmail.com](mailto:muksin.muksin04@gmail.com) |
 | 💼 **LinkedIn** | [linkedin.com/in/muksin-muksin](https://www.linkedin.com/in/muksin-muksin/) |
 | 🐙 **GitHub** | [@muki01](https://github.com/muki01) |
-
-## 🤝 Contributing
-
-Contributions are welcome: bug reports, new PIDs, tested vehicle reports, new board ports and documentation fixes. Please read the **[Contributing Guide](CONTRIBUTING.md)** and our **[Code of Conduct](CODE_OF_CONDUCT.md)**.
-
-**Tested it on your car?** Open an issue with the make, model, year and detected protocol. Real-world compatibility reports help everyone.
 
 ## ☕ Support the Project
 
@@ -480,7 +474,7 @@ Copyright © 2023–2026 Muksin Muksin.
 
 <div align="center">
 
-Made with ❤️ by **[Muki01](https://github.com/muki01)**
+Created by [**Muki**](https://github.com/muki01) · If this project helped you, please give it a ⭐
 
 <sub>OBD2 · OBD-II · K-Line · KWP2000 · ISO 9141-2 · ISO 14230 · ESP32 · ESP8266 · Arduino · car diagnostics · DTC reader · scan tool</sub>
 

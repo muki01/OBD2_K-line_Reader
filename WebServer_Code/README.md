@@ -5,7 +5,7 @@ This firmware turns an **ESP32** or **ESP8266** into a standalone **WiFi OBD-II 
 ← [Back to the main README](../README.md)
 
 <p align="center">
-  <img src="../assets/demo.gif" alt="ESP32 OBD2 web dashboard demo" width="340">
+  <img src="../images/demo.gif" alt="ESP32 OBD2 web dashboard demo" width="340">
 </p>
 
 ---
